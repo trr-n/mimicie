@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mimic
 {
-    public static class constant
+    public static class cst
     {
         public enum SceneIndex
         {

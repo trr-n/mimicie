@@ -21,10 +21,9 @@ namespace Mimic
 
         void Start()
         {
-            Physics2D.gravity = new Vector3(0, 0, -9.81f);
             rigidbody = GetComponent<Rigidbody2D>();
 
-            StartCoroutine(tf());
+            Physics2D.gravity = new Vector3(0, 0, -9.81f);
         }
 
         void Update()
@@ -39,25 +38,32 @@ namespace Mimic
 
         void Move0()
         {
-            float h = Input.GetAxis(constant.Horizontal), v = Input.GetAxis(constant.Vertical);
+            float h = Input.GetAxis(cst.Horizontal), v = Input.GetAxis(cst.Vertical);
             Vector2 hv = h * Vector2.right + v * Vector2.up;
             transform.Translate(hv * speed * Time.deltaTime);
-            hv.show();
+            // rigidbody.velocity = hv * speed * Time.deltaTime;
 
             // if (hv.magnitude <= 0f)
             // {
             //     return;
             // }
-            transform.rotation = Quaternion.FromToRotation(hv, Vector2.up);
+            // transform.rotation = Quaternion.FromToRotation(hv, Vector2.up);
         }
 
-        IEnumerator tf()
+        void GetMovingCursorDirection(int click = 0)
         {
-            while (true)
+            Vector2 preCursorPos = new();
+            Vector2 currentCursorPos = Input.mousePosition;
+            Vector2 direction;
+
+            if (input.down(click))
             {
-                testf();
-                "a".show();
-                yield return new WaitForSeconds(1);
+                preCursorPos = Input.mousePosition;
+            }
+
+            if (input.up(click))
+            {
+                direction = preCursorPos - currentCursorPos;
             }
         }
 
