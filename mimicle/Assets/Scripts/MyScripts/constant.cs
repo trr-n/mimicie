@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mimic
+namespace Mimical
 {
     public static class cst
     {
-        public enum SceneIndex
+        public enum sindex
         {
             Title = 0,
         }

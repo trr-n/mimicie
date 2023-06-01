@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class asyncio
     {

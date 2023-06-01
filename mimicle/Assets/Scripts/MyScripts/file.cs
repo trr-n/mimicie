@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class file
     {

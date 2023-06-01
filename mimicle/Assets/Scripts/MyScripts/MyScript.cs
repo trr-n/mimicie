@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     /// <summary>
     /// related 2 coordinate

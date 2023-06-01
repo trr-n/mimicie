@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     [Serializable]
     public class NanmoHaittehenwaException : Exception

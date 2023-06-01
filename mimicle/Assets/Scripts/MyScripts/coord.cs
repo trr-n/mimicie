@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class coord
     {

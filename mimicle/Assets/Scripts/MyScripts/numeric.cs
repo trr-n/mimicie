@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class numeric
     {

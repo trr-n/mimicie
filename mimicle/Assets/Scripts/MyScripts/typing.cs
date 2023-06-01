@@ -1,6 +1,6 @@
 using System;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class typing
     {

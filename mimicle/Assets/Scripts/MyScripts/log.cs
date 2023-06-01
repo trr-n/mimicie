@@ -1,4 +1,4 @@
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public static class log
     {

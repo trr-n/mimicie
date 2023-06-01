@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mimic.Extend
+namespace Mimical.Extend
 {
     public enum c { hide, show }
     public enum v { inscene = CursorLockMode.Confined, locked = CursorLockMode.Locked, unlocked = CursorLockMode.None }
