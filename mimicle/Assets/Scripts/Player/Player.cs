@@ -15,6 +15,8 @@ namespace Mimical
         [SerializeField]
         Fire gun;
 
+        HP hp;
+
         // [SerializeField]
         [Tooltip("移動速度")]
         float movingSpeed = 5;
@@ -27,15 +29,40 @@ namespace Mimical
         Vector2 movingDirection;
         Vector2 currentCursorPos;
 
-        void Start()
+        [System.Serializable]
+        struct Damage
+        {
+            public int tackle;
+            public int shooting;
+        }
+        [SerializeField]
+        Damage damage;
+
+        void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            hp = GetComponent<HP>();
+        }
 
+        void Start()
+        {
             Physics2D.gravity = new Vector3(0, 0, -9.81f);
             ammo.Reload();
         }
 
         void FixedUpdate()
+        {
+            Trigger();
+        }
+
+        void Update()
+        {
+            Move();
+            Reload();
+            Dead();
+        }
+
+        void Trigger()
         {
             rapid += Time.deltaTime;
             if (!ammo.IsZero() && input.Pressed(cst.Fire) && rapid > 0.5f)
@@ -45,17 +72,25 @@ namespace Mimical
             }
         }
 
-        void Update()
+        void Reload()
         {
-            // reloading
             if (input.Down(cst.Reload))
             {
                 ammo.Reload();
             }
-            Move(movingSpeed);
         }
 
-        void Move(float speed)
+        void Dead()
+        {
+            //* ok pass
+            if (!hp.IsZero)
+            {
+                return;
+            }
+            scene.Load();
+        }
+
+        void Move()
         {
             Vector2 position = transform.position;
             position.x = Mathf.Clamp(transform.position.x, -8.5f, 8.5f);
@@ -64,7 +99,20 @@ namespace Mimical
             float h = Input.GetAxis(cst.Horizontal),
                 v = Input.GetAxis(cst.Vertical);
             Vector2 hv = new(h, v);
-            transform.Translate(hv * speed * Time.deltaTime);
+            transform.Translate(hv * movingSpeed * Time.deltaTime);
+        }
+
+        public void Tackle()
+        {
+            hp.Damage(damage.tackle);
+        }
+
+        void OnCollisionEnter(Collision info)
+        {
+            if (info.Try<HP>(out var hp))
+            {
+                hp.Now.show();
+            }
         }
     }
 }

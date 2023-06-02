@@ -27,7 +27,7 @@ namespace Mimical
         void Update()
         {
             t.text = visual.timer(1);
-            waveT.text = wave.Current.ToString();
+            waveT.text = wave.Now.ToString();
             ammoT.text = ammo.Remain.ToString();
         }
     }

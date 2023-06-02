@@ -24,19 +24,26 @@ namespace Mimical
         Horizontal = "Horizontal",
         Vertical = "Vertical",
         Fire = "Fire",
+        Reload = "Reload",
         Jump = "Jump",
         MouseX = "Mouse X",
         MouseY = "Mouse Y",
         Volume = "Volume";
 
-        public static readonly KeyCode
-        Reload = KeyCode.R;
+        // public static readonly KeyCode
+        // Reload = KeyCode.LeftShift;
 
         //------------------------------------------------------------------------------
         // TAG NAME
         //------------------------------------------------------------------------------
         public static readonly string
-        Player = "Player";
+        Player = "Player",
+        Enemy = "Enemy",
+        Safety = "LifeZone";
 
     }
 }
+
+// Space || A = Fire,
+// LShift || B = Reload,
+// WASD || LStick = Moving

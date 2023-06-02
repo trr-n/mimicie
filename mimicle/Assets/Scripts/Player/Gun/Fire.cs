@@ -12,29 +12,30 @@ namespace Mimical
         GameObject bullet;
 
         [SerializeField]
-        AudioClip[] ses;
+        AudioClip se;
 
         [SerializeField]
         float power;
 
         Ammo ammo;
-
-        new AudioSource audio;
+        AudioSource speaker;
         float rapid;
 
         void Start()
         {
-            audio = GetComponent<AudioSource>();
+            speaker = GetComponent<AudioSource>();
             ammo = GetComponent<Ammo>();
         }
 
         public void Shot()
         {
-            var b = bullet.ins(transform.position, Quaternion.Euler(0, 0, 180));
+            var b = bullet.Instance(transform.position, Quaternion.Euler(0, 0, 180));
+            speaker.PlayOneShot(se);
             ammo.Red();
-            audio.PlayOneShot(ses[0]);
             var brig = b.GetComponent<Rigidbody2D>();
             brig.velocity += Vector2.right * power * Time.deltaTime;
+            if (b.transform.position.x >= 10)
+                b.Remove();
         }
 
         IEnumerator TestFire()
