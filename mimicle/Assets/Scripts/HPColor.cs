@@ -8,15 +8,6 @@ namespace Mimical
 {
     public class HPColor : MonoBehaviour
     {
-        [System.Serializable]
-        struct Colors
-        {
-            public float remain;
-            public Color color;
-        }
-        [SerializeField]
-        Colors[] colors;
-
         [SerializeField]
         Image hpBar;
 
@@ -26,18 +17,6 @@ namespace Mimical
         void Update()
         {
             hpBar.fillAmount = playerHp.Ratio;
-            Changing();
-        }
-
-        void Changing()
-        {
-            foreach (var _ in colors)
-            {
-                if (_.remain >= playerHp.Ratio)
-                {
-                    hpBar.color = _.color;
-                }
-            }
         }
     }
 }

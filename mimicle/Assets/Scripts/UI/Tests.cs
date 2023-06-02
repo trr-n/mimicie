@@ -10,7 +10,7 @@ namespace Mimical
     public class Tests : MonoBehaviour
     {
         [SerializeField]
-        Text t;
+        Text timeT;
 
         [SerializeField]
         Text waveT;
@@ -24,11 +24,22 @@ namespace Mimical
         [SerializeField]
         Ammo ammo;
 
+        [SerializeField]
+        Image hpImage;
+
+        [SerializeField]
+        HP playerHp;
+
+        [SerializeField]
+        Text fpsT;
+
         void Update()
         {
-            t.text = visual.timer(1);
+            timeT.text = visual.timer();
             waveT.text = wave.Now.ToString();
             ammoT.text = ammo.Remain.ToString();
+            hpImage.fillAmount = playerHp.Ratio;
+            fpsT.text = visual.fps().ToString();
         }
     }
 }

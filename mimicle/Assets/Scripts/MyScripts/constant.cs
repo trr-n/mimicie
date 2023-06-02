@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mimical
 {
-    public static class cst
+    public static class Const
     {
         public enum sindex
         {
@@ -39,7 +39,9 @@ namespace Mimical
         public static readonly string
         Player = "Player",
         Enemy = "Enemy",
-        Safety = "LifeZone";
+        Safety = "LifeZone",
+        Dark = "Dark",
+        Manager = "Manager";
 
     }
 }

@@ -23,7 +23,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(cst.Enemy))
+            if (info.Compare(Const.Enemy))
             {
                 info.gameObject.GetComponent<HP>().Damage(100);
                 audio.PlayOneShot(se);
@@ -34,7 +34,7 @@ namespace Mimical
 
         void OnTriggerExit2D(Collider2D info)
         {
-            if (info.Compare(cst.Safety))
+            if (info.Compare(Const.Safety))
             {
                 gameObject.Remove();
             }

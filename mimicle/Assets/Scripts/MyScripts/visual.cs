@@ -8,7 +8,7 @@ namespace Mimical.Extend
     {
         public static float fps() => Mathf.Floor(1 / Time.deltaTime);
 
-        public static string timer(int digits) => Time.time.ToString("F" + digits);
+        public static string timer(int digits = 0) => Time.time.ToString("F" + digits);
 
         public static void cursor(c status, v clock = v.inscene)
         {

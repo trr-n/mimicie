@@ -15,15 +15,16 @@ namespace Mimical
         [SerializeField]
         Fire gun;
 
+        GameManager manager;
         HP hp;
+        Rigidbody2D rb;
 
         // [SerializeField]
         [Tooltip("移動速度")]
         float movingSpeed = 5;
-
         float rapid;
 
-        Rigidbody2D rb;
+        bool shootable = true;
 
         Vector2 preCursorPos;
         Vector2 movingDirection;
@@ -42,6 +43,7 @@ namespace Mimical
         {
             rb = GetComponent<Rigidbody2D>();
             hp = GetComponent<HP>();
+            manager = gobject.Find(Const.Manager).GetComponent<GameManager>();
         }
 
         void Start()
@@ -65,7 +67,8 @@ namespace Mimical
         void Trigger()
         {
             rapid += Time.deltaTime;
-            if (!ammo.IsZero() && input.Pressed(cst.Fire) && rapid > 0.5f)
+            shootable = rapid > 0.5f;
+            if (input.Pressed(manager.Fire) && !ammo.IsZero() && shootable)
             {
                 gun.Shot();
                 rapid = 0;
@@ -74,7 +77,7 @@ namespace Mimical
 
         void Reload()
         {
-            if (input.Down(cst.Reload))
+            if (input.Down(manager.Reload))
             {
                 ammo.Reload();
             }
@@ -82,36 +85,29 @@ namespace Mimical
 
         void Dead()
         {
-            //* ok pass
             if (!hp.IsZero)
             {
                 return;
             }
+            // 仮
             scene.Load();
         }
 
         void Move()
         {
-            Vector2 position = transform.position;
-            position.x = Mathf.Clamp(transform.position.x, -8.5f, 8.5f);
-            position.y = Mathf.Clamp(transform.position.y, -4.6f, 4.6f);
-            transform.position = position;
-            float h = Input.GetAxis(cst.Horizontal),
-                v = Input.GetAxis(cst.Vertical);
+            transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
+            float h = Input.GetAxis(Const.Horizontal),
+                v = Input.GetAxis(Const.Vertical);
             Vector2 hv = new(h, v);
-            transform.Translate(hv * movingSpeed * Time.deltaTime);
-        }
-
-        public void Tackle()
-        {
-            hp.Damage(damage.tackle);
+            if (manager.PlayerCtrlable)
+                transform.Translate(hv * movingSpeed * Time.deltaTime);
         }
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.Try<HP>(out var hp))
+            if (info.Compare(Const.Enemy))
             {
-                hp.Now.show();
+                hp.Damage(damage.tackle);
             }
         }
     }

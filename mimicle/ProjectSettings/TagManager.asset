@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Missile
   - LifeZone
+  - Manager
   layers:
   - Default
   - TransparentFX

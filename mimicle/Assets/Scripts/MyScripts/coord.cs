@@ -27,16 +27,6 @@ namespace Mimical.Extend
         public static void setp(this Transform transform, Vector2 position)
         => transform.position = position;
 
-        public static void setpc(this Transform transform,
-            float? x = null, float? y = null, float? z = null)
-        {
-            transform.position = new(
-                Mathf.Clamp(transform.position.x, -x.ToSingle(), x.ToSingle()),
-                Mathf.Clamp(transform.position.y, -y.ToSingle(), y.ToSingle()),
-                Mathf.Clamp(transform.position.z, -z.ToSingle(), z.ToSingle())
-            );
-        }
-
         public static void sestpc22(this Transform transform,
             float? minX = null, float? maxX = null,
             float? minY = null, float? maxY = null,
@@ -55,22 +45,28 @@ namespace Mimical.Extend
         }
 
         public static void setpc2(this Transform transform,
-            float? minX = null, float? minY = null,
-            float? maxX = null, float? maxY = null
-        )
+            float? minX = null, float? maxX = null, float? minY = null, float? maxY = null)
         {
-            if (minX is null && minY is null && maxX is null && maxY is null)
+            if (minX is null && maxX is null && minY is null && maxY is null)
             {
                 throw new NanmoHaittehenwaException();
             }
-            Vector2 position = transform.position;
-            position.x = minX is not null && maxX is not null ?
-                Mathf.Clamp(transform.position.x, minX.ToSingle(), minX.ToSingle()) :
-                transform.position.x;
-            position.y = minY is not null && maxY is not null ?
-                Mathf.Clamp(transform.position.y, minY.ToSingle(), minY.ToSingle()) :
-                transform.position.y;
-            transform.position = position;
+            transform.position = new(
+                Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
+                Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle())
+            );
+        }
+
+        public static void setpc2(this Transform transform, float? x = null, float? y = null)
+        {
+            if (x is null && y is null)
+            {
+                throw new NanmoHaittehenwaException();
+            }
+            transform.position = new(
+                Mathf.Clamp(transform.position.x, x.ToSingle(), -x.ToSingle()),
+                Mathf.Clamp(transform.position.y, y.ToSingle(), -y.ToSingle())
+            );
         }
 
         // public static void setr(this Transform transform,
