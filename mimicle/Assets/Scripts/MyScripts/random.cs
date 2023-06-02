@@ -24,7 +24,7 @@ namespace Mimical.Extend
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
             char[] charaArr = count != null ?
-                new char[count.inte()] : new char[randint(2, 16)];
+                new char[count.ToInt()] : new char[randint(2, 16)];
             System.Random random = new();
             for (int i = 0; i < charaArr.Length; i++)
             {

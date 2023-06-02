@@ -6,6 +6,6 @@ namespace Mimical.Extend
     {
         // public static async Task<int> counting(int kankaku) => await 1;
 
-        public static async Task sleep(int s) => await Task.Delay(s);
+        public static async Task Sleep(int s) => await Task.Delay(s);
     }
 }

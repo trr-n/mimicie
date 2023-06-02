@@ -15,24 +15,62 @@ namespace Mimical.Extend
                 throw new NanmoHaittehenwaException();
             }
             transform.position = new(
-                x is null ? transform.position.x : x.single(),
-                y is null ? transform.position.y : y.single(),
-                z is null ? transform.position.z : z.single()
+                x is null ? transform.position.x : x.ToSingle(),
+                y is null ? transform.position.y : y.ToSingle(),
+                z is null ? transform.position.z : z.ToSingle()
             );
         }
 
         public static void setp(this Transform transform, Vector3 position)
         => transform.position = position;
 
+        public static void setp(this Transform transform, Vector2 position)
+        => transform.position = position;
+
+        public static void setpc(this Transform transform,
+            float? x = null, float? y = null, float? z = null)
+        {
+            transform.position = new(
+                Mathf.Clamp(transform.position.x, -x.ToSingle(), x.ToSingle()),
+                Mathf.Clamp(transform.position.y, -y.ToSingle(), y.ToSingle()),
+                Mathf.Clamp(transform.position.z, -z.ToSingle(), z.ToSingle())
+            );
+        }
+
+        public static void sestpc22(this Transform transform,
+            float? minX = null, float? maxX = null,
+            float? minY = null, float? maxY = null,
+            float? minZ = null, float? maxZ = null
+        )
+        {
+            if (minX is not null && maxX is not null && minY is not null && maxY is not null && minZ is not null && maxZ is not null)
+            {
+                throw new NanmoHaittehenwaException();
+            }
+            transform.position = new Vector3(
+                minX is null ? transform.position.x : Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
+                minY is null ? transform.position.y : Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle()),
+                minZ is null ? transform.position.z : Mathf.Clamp(transform.position.z, minZ.ToSingle(), maxZ.ToSingle())
+            );
+        }
+
         public static void setpc2(this Transform transform,
             float? minX = null, float? minY = null,
             float? maxX = null, float? maxY = null
         )
         {
-            transform.position = new(
-                x: Mathf.Clamp(transform.position.x, minX.single(), minX.single()),
-                y: Mathf.Clamp(transform.position.y, minY.single(), minY.single())
-            );
+            if (minX is null && minY is null && maxX is null && maxY is null)
+            {
+                throw new NanmoHaittehenwaException();
+            }
+            Vector2 position = transform.position;
+            position.x = minX is not null && maxX is not null ?
+                Mathf.Clamp(transform.position.x, minX.ToSingle(), minX.ToSingle()) :
+                transform.position.x;
+            position.y = minY is not null && maxY is not null ?
+                Mathf.Clamp(transform.position.y, minY.ToSingle(), minY.ToSingle()) :
+                transform.position.y;
+            transform.position = position;
         }
 
         // public static void setr(this Transform transform,
@@ -59,9 +97,9 @@ namespace Mimical.Extend
                 throw new NanmoHaittehenwaException();
             }
             transform.rotation = Quaternion.Euler(
-                x is null ? transform.localScale.x : x.single(),
-                y is null ? transform.localScale.y : y.single(),
-                z is null ? transform.localScale.z : z.single()
+                x is null ? transform.localScale.x : x.ToSingle(),
+                y is null ? transform.localScale.y : y.ToSingle(),
+                z is null ? transform.localScale.z : z.ToSingle()
             );
         }
 
@@ -76,9 +114,9 @@ namespace Mimical.Extend
                 throw new NanmoHaittehenwaException();
             }
             transform.localScale = new Vector3(
-                x is null ? transform.localScale.x : x.single(),
-                y is null ? transform.localScale.y : y.single(),
-                z is null ? transform.localScale.z : z.single()
+                x is null ? transform.localScale.x : x.ToSingle(),
+                y is null ? transform.localScale.y : y.ToSingle(),
+                z is null ? transform.localScale.z : z.ToSingle()
             );
         }
 

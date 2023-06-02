@@ -15,8 +15,7 @@ namespace Mimical
         //------------------------------------------------------------------------------
         // SCENE NAME
         //------------------------------------------------------------------------------
-        Main = "Main"
-        ;
+        Main = "Main";
 
         //------------------------------------------------------------------------------
         // KEY NAME?
@@ -24,18 +23,20 @@ namespace Mimical
         public static readonly string
         Horizontal = "Horizontal",
         Vertical = "Vertical",
+        Fire = "Fire",
         Jump = "Jump",
         MouseX = "Mouse X",
         MouseY = "Mouse Y",
-        Volume = "Volume"
-        ;
+        Volume = "Volume";
+
+        public static readonly KeyCode
+        Reload = KeyCode.R;
 
         //------------------------------------------------------------------------------
         // TAG NAME
         //------------------------------------------------------------------------------
         public static readonly string
-        Player = "Player"
-        ;
+        Player = "Player";
 
     }
 }
