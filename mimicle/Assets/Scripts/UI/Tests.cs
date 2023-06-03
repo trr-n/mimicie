@@ -35,10 +35,15 @@ namespace Mimical
 
         void Update()
         {
-            timeT.text = visual.timer();
+            // 経過時間
+            timeT.text = time.r().ToString();
+            // ウェーブ数
             waveT.text = wave.Now.ToString();
+            // 残弾数
             ammoT.text = ammo.Remain.ToString();
+            // 残りHP
             hpImage.fillAmount = playerHp.Ratio;
+            // FPS
             fpsT.text = visual.fps().ToString();
         }
     }

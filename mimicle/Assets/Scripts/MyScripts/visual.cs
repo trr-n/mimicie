@@ -8,12 +8,10 @@ namespace Mimical.Extend
     {
         public static float fps() => Mathf.Floor(1 / Time.deltaTime);
 
-        public static string timer(int digits = 0) => Time.time.ToString("F" + digits);
-
-        public static void cursor(c status, v clock = v.inscene)
+        public static void cursor(c status = c.hide, v clock = v.inscene)
         {
-            Cursor.visible = status != c.hide;
-            Cursor.lockState = (CursorLockMode)clock;
+            UnityEngine.Cursor.visible = status != c.hide;
+            UnityEngine.Cursor.lockState = (CursorLockMode)clock;
         }
 
         public static bool timer(this float timer, float limit) => timer < limit;

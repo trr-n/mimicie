@@ -36,8 +36,20 @@ namespace Mimical
 
         /// <summary>プレイヤーのコントロール(移動など)</summary>
         public bool PlayerCtrlable { get; set; }
+
         /// <summary>背景のスクロール</summary>
         public bool BGScrollable { get; set; }
+
+        /// <summary>
+        /// Escメニューを開いている間 True
+        /// </summary>
+        public bool IsOpenMenu { get; set; }
+
+        bool isSpent = true;
+        /// <summary>
+        /// 時間が止まっていなかったら True
+        /// </summary>
+        public bool IsSpent => isSpent;
 
         void Start()
         {
@@ -47,23 +59,42 @@ namespace Mimical
 
         void Update()
         {
+            isSpent = Time.timeScale == 1;
             debugT.text =
                 "Scrollable: " + BGScrollable.newline() +
-                "Controllable: " + PlayerCtrlable;
+                "Controllable: " + PlayerCtrlable.newline() +
+                "isOpenMenu: " + IsOpenMenu.newline() +
+                "isSpent: " + isSpent.newline();
 
             if (input.Pressed(STOP))
             {
                 // Time.timeScale で全部止めれるから他のフラグいらんかも
-                // Time.timeScale = 0;
+                Time.timeScale = 0;
                 PlayerCtrlable = false;
                 BGScrollable = false;
             }
             else if (input.Up(STOP))
             {
-                // Time.timeScale = 1;
+                Time.timeScale = 1;
                 PlayerCtrlable = true;
                 BGScrollable = true;
             }
+        }
+
+        public void Pause()
+        {
+            PlayerCtrlable = false;
+            BGScrollable = false;
+            IsOpenMenu = true;
+            Time.timeScale = 0;
+        }
+
+        public void Restart()
+        {
+            PlayerCtrlable = true;
+            BGScrollable = true;
+            IsOpenMenu = false;
+            Time.timeScale = 1;
         }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Mimical.Extend
 {
+    public enum Active { Self, Hierarchy }
     public static class gobject
     {
         public static GameObject Instance(
@@ -16,7 +17,7 @@ namespace Mimical.Extend
         public static GameObject Instance(this GameObject gob)
         => UnityEngine.MonoBehaviour.Instantiate(gob);
 
-        public static bool Exist(this GameObject gobject) => gobject;
+        // public static bool Exist(this GameObject gobject) => gobject;
 
         public static bool Compare(this Collision info, string tag)
         => info.gameObject.CompareTag(tag);
@@ -50,5 +51,22 @@ namespace Mimical.Extend
 
         public static void Remove(this Collision info, float lifetime = 0)
         => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+
+        public static bool IsActiveSelf(this GameObject gob) => gob.activeSelf;
+
+        public static bool IsActive(this GameObject gob) => gob.activeInHierarchy;
+
+        public static bool isActive(this GameObject gob, Active active = Active.Hierarchy)
+        {
+            switch (active)
+            {
+                case Active.Self:
+                    return gob.activeSelf;
+                case Active.Hierarchy:
+                    return gob.activeInHierarchy;
+                default:
+                    throw new System.Exception();
+            }
+        }
     }
 }

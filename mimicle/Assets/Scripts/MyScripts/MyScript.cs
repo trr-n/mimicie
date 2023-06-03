@@ -55,26 +55,15 @@ namespace Mimical.Extend
             }
         }
 
-        public static string CurrentTime()
-        {
-            var now = DateTime.Now;
-            var current = $"{now.Hour}:{now.Minute}:{now.Second}";
-            return current.ToString();
-        }
-
         public static IEnumerator Animation(
-            Sprite[] sprites,
-            SpriteRenderer sr,
-            float? animeTime = null
-        )
+            Sprite[] sprites, SpriteRenderer sr, float animeSpan = 0.5f)
         {
             int i = 0;
             while (true)
             {
                 i = i >= sprites.Length - 1 ? 0 : i + 1;
                 sr.sprite = sprites[i];
-                animeTime = animeTime != null ? animeTime : .05f;
-                yield return new WaitForSeconds((float)animeTime);
+                yield return new WaitForSeconds(animeSpan);
             }
         }
     }

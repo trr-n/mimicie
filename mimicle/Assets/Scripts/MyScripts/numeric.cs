@@ -5,7 +5,7 @@ namespace Mimical.Extend
     public static class numeric
     {
         public static float clamping(this float target, float min, float max)
-        => UnityEngine.Mathf.Clamp(target, min, max);
+        => Mathf.Clamp(target, min, max);
 
         public static int clamping(this int target, int min, int max)
         => UnityEngine.Mathf.Clamp(target, min, max);

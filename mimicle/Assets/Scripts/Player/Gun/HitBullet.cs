@@ -14,11 +14,11 @@ namespace Mimical
         [SerializeField]
         AudioClip se;
 
-        new AudioSource audio;
+        AudioSource spk;
 
         void Start()
         {
-            audio = GetComponent<AudioSource>();
+            spk = GetComponent<AudioSource>();
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -26,7 +26,7 @@ namespace Mimical
             if (info.Compare(Const.Enemy))
             {
                 info.gameObject.GetComponent<HP>().Damage(100);
-                audio.PlayOneShot(se);
+                spk.PlayOneShot(se);
                 fx.Instance(transform.position, Quaternion.identity);
                 gameObject.Remove();
             }

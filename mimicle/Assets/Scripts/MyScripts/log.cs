@@ -21,5 +21,6 @@ namespace Mimical.Extend
         public static void error(this object msg) => UnityEngine.Debug.LogError($"<color=red>{msg}</color>");
 
         public static string newline(this object msg) => msg + "\r\n";
+        public static string space(this object msg) => msg + " ";
     }
 }
