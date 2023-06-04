@@ -15,12 +15,15 @@ namespace Mimical
         [SerializeField]
         Fire gun;
 
+        float reloading = 2;
+        float reloadingTimer = 0;
+        bool isReloading = false;
+        public float ReloadProgress => reloadingTimer / reloading;
+
         GameManager manager;
         HP hp;
         Rigidbody2D rb;
 
-        // [SerializeField]
-        [Tooltip("移動速度")]
         float movingSpeed = 5;
         float rapid;
 
@@ -48,7 +51,6 @@ namespace Mimical
 
         void Start()
         {
-            Physics2D.gravity = new Vector3(0, 0, -9.81f);
             ammo.Reload();
         }
 
@@ -60,15 +62,16 @@ namespace Mimical
         void Update()
         {
             Move();
-            Reload();
             Dead();
+            Reload();
         }
 
         void Trigger()
         {
             rapid += Time.deltaTime;
             shootable = rapid > 0.5f;
-            if (input.Pressed(manager.Fire) && !ammo.IsZero() && shootable)
+            if (input.Pressed(manager.Fire) &&
+                !ammo.IsZero() && shootable && !isReloading)
             {
                 gun.Shot();
                 rapid = 0;
@@ -80,15 +83,22 @@ namespace Mimical
             if (input.Down(manager.Reload))
             {
                 ammo.Reload();
+                isReloading = true;
+            }
+            if (!isReloading)
+                return;
+            reloadingTimer += Time.deltaTime;
+            if (reloadingTimer >= reloading)
+            {
+                isReloading = false;
+                reloadingTimer = 0;
             }
         }
 
         void Dead()
         {
             if (!hp.IsZero)
-            {
                 return;
-            }
             // 仮
             scene.Load();
         }

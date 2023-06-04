@@ -13,7 +13,10 @@ namespace Mimical
         Text timeT;
 
         [SerializeField]
-        Text waveT;
+        Text nowWaveT;
+
+        [SerializeField]
+        Text maxWaveT;
 
         [SerializeField]
         Wave wave;
@@ -33,16 +36,36 @@ namespace Mimical
         [SerializeField]
         Text fpsT;
 
+        [SerializeField]
+        Image reloadImage;
+
+        [SerializeField]
+        Player player;
+
         void Update()
+        {
+            Text();
+            Image();
+        }
+
+        void Image()
+        {
+            // 残りHP
+            hpImage.fillAmount = playerHp.Ratio;
+            // リロード
+            reloadImage.fillAmount = player.ReloadProgress;
+        }
+
+        void Text()
         {
             // 経過時間
             timeT.text = time.r().ToString();
-            // ウェーブ数
-            waveT.text = wave.Now.ToString();
+            // 今のウェーブ数
+            nowWaveT.text = wave.Now.ToString();
+            // 最大ウェーブ数
+            maxWaveT.text = wave.Max.ToString();
             // 残弾数
             ammoT.text = ammo.Remain.ToString();
-            // 残りHP
-            hpImage.fillAmount = playerHp.Ratio;
             // FPS
             fpsT.text = visual.fps().ToString();
         }

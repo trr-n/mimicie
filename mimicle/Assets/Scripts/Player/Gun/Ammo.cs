@@ -8,47 +8,30 @@ namespace Mimical
     {
         [SerializeField]
         [Tooltip("最大装弾数")]
-        int Max = 10;
+        int max = 10;
+        public int Max => max;
 
+        float timer = 0;
         int remain;
 
-        /// <summary>
-        /// 残弾数
-        /// </summary>
         public int Remain => remain;
 
-        /// <summary>
-        /// 残弾数が0以下で True
-        /// </summary>
         public bool IsZero() => remain <= 0;
 
-        /// <summary>
-        /// 残弾数が最大値だったら True
-        /// </summary>
-        public bool IsMax() => remain >= Max;
+        public bool IsMax() => remain >= max;
 
-        /// <summary>
-        /// リロード処理
-        /// </summary>
         public void Reload()
         {
             if (IsMax())
-            {
                 return;
-            }
-            for (int i = 0; i <= Max; i++)
+            for (int i = 0; i <= max; i++)
             {
                 remain++;
-                if (remain > Max)
-                {
-                    remain = Max;
-                }
+                if (remain > max)
+                    remain = max;
             }
         }
 
-        /// <summary>
-        /// 残弾数を減らす処理
-        /// </summary>
         public void Red(int amount = 1) => remain -= amount;
     }
 }

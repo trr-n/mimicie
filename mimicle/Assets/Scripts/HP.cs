@@ -10,8 +10,7 @@ public class HP : MonoBehaviour
     public int Max => max;
 
     [SerializeField]
-    [Range(0, 100)]
-    int now = 100;
+    int now;
     public int Now => now;
 
     public bool IsZero => now <= 0;

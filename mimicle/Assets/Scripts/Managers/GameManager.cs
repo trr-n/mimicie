@@ -55,6 +55,7 @@ namespace Mimical
         {
             PlayerCtrlable = true;
             BGScrollable = true;
+            Physics2D.gravity = Vector3.forward * 9.81f;
         }
 
         void Update()

@@ -1,34 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
 
 namespace Mimical
 {
     public class Wave : MonoBehaviour
     {
+        [SerializeField]
+        int max;
+        public int Max => max;
+
+        [SerializeField]
         int now = 0;
         public int Now => now;
 
-        [SerializeField]
-        List<GameObject> slainObjs;
+        public float Progress => now / max;
 
-        void Update()
+        void Start()
         {
-            if (input.Down(KeyCode.Space))
-            {
-                Next();
-            }
+            Reset();
         }
 
-        public void Next()
+        void Starting(int wave)
         {
-            now++;
+            // ウェーブスタート
         }
+
+        void Next() => now++;
+
+        void Reset() => now = 0;
     }
 }
-
-/*
-一定量雑魚を倒したらボスウェーブ突入
-→敵倒したらリストに入れて指定数以上倒したら次のウェーブ(仮)
-*/
