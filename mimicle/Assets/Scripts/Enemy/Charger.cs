@@ -11,19 +11,32 @@ namespace Mimical
 
         HP hp;
 
-        void Awake()
+        void Start()
         {
             hp = GetComponent<HP>();
-            hp.SetMax();
+            base.Start(hp);
         }
 
         void Update()
         {
-            Move(Vector2.left, speed);
-            // Leave(this.gameObject, hp);
+            Move();
+            Leave(gameObject);
 
             if (hp.IsZero)
+                AddSlainCountAndRemove(gameObject);
+        }
+
+        protected override void Move()
+        {
+            transform.Translate(Vector2.left * speed * Time.deltaTime);
+        }
+
+        void OnCollisionEnter2D(Collision2D info)
+        {
+            if (info.Compare(Const.Player))
             {
+                info.Get<HP>().Damage(Damage.Charger);
+
                 gameObject.Remove();
             }
         }

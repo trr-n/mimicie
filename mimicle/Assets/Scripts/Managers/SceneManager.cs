@@ -8,5 +8,7 @@ namespace Mimical
     public class SceneManager : MonoBehaviour
     {
         public void sMain() => scene.Load(Const.Main);
+
+        public void sTitle() => scene.Load(Const.Title);
     }
 }

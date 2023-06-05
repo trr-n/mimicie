@@ -25,11 +25,11 @@ namespace Mimical
 
         void Update()
         {
-            // enable = !input.Pressed();
             if (manager.BGScrollable)
                 foreach (var i in cores)
                 {
                     i.transform.Translate(Vector2.left * scrolling * Time.deltaTime);
+
                     if (i.transform.position.x <= -left)
                         i.transform.position = new(left, 0);
                 }

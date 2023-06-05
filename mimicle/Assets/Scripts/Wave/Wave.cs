@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mimical.Extend;
 
 namespace Mimical
 {
     public class Wave : MonoBehaviour
     {
-        [SerializeField]
-        int max;
+        int max = 3;
         public int Max => max;
 
         [SerializeField]
@@ -16,18 +16,10 @@ namespace Mimical
 
         public float Progress => now / max;
 
-        void Start()
-        {
-            Reset();
-        }
-
-        void Starting(int wave)
-        {
-            // ウェーブスタート
-        }
-
-        void Next() => now++;
+        public void Next() => now++;
 
         void Reset() => now = 0;
+
+        public void Set(int wave) => now = wave;
     }
 }

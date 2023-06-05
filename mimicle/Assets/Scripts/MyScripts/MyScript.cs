@@ -5,23 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Mimical.Extend
 {
-    /// <summary>
-    /// related 2 coordinate
-    /// </summary>
-    public static class coords
-    {
-        public static void clamped(Transform transform, float x, float y, float? z)
-        {
-            var tp = transform.position;
-            Vector3 coordinate = new(
-                x: Mathf.Clamp(tp.x, -x, x), y: Mathf.Clamp(tp.y, -y, y),
-                z: Mathf.Clamp(tp.z, -z.ToSingle(), z.ToSingle())
-            );
-            transform.position = coordinate;
-        }
-    }
-
-    public class Script //: MonoBehaviour
+    public class Script
     {
         public static void print(object msg) => UnityEngine.Debug.Log(msg);
 
@@ -67,9 +51,4 @@ namespace Mimical.Extend
             }
         }
     }
-
-    // public class TestException : System.Exception
-    // {
-    //     public TestException(string exceptMsg = null) : base(exceptMsg) { }
-    // }
 }

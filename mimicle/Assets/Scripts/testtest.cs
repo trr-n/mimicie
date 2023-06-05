@@ -11,7 +11,7 @@ namespace Mimical.Test
         // void _Update()
         void Start()
         {
-            ("now: " + time.Date().space() + time.Time()).show();
+            // ("now: " + time.Date().space() + time.Time()).show();
             // ("self: " + this.gameObject.isActive(Active.Self).space() +
             // "hie: " + gameObject.isActive(Active.Hierarchy)).show();
         }

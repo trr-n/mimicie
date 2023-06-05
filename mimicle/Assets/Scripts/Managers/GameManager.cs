@@ -11,6 +11,8 @@ namespace Mimical
         [SerializeField]
         Text debugT;
 
+        public GameObject menuPanel;
+
         [SerializeField]
         /// <summary>
         /// ゲーム内の時間を止める
@@ -45,56 +47,77 @@ namespace Mimical
         /// </summary>
         public bool IsOpenMenu { get; set; }
 
-        bool isSpent = true;
+        bool passing = true;
         /// <summary>
         /// 時間が止まっていなかったら True
         /// </summary>
-        public bool IsSpent => isSpent;
+        public bool IsSpent => passing;
+
+        Speaker speaker;
 
         void Start()
         {
             PlayerCtrlable = true;
+
             BGScrollable = true;
+
             Physics2D.gravity = Vector3.forward * 9.81f;
+
+            speaker = GetComponent<Speaker>();
         }
 
         void Update()
         {
-            isSpent = Time.timeScale == 1;
+            passing = Time.timeScale == 1;
+
             debugT.text =
                 "Scrollable: " + BGScrollable.newline() +
                 "Controllable: " + PlayerCtrlable.newline() +
                 "isOpenMenu: " + IsOpenMenu.newline() +
-                "isSpent: " + isSpent.newline();
+                "isSpent: " + passing.newline();
 
             if (input.Pressed(STOP))
             {
-                // Time.timeScale で全部止めれるから他のフラグいらんかも
                 Time.timeScale = 0;
+
                 PlayerCtrlable = false;
+
                 BGScrollable = false;
             }
+
             else if (input.Up(STOP))
             {
                 Time.timeScale = 1;
+
                 PlayerCtrlable = true;
+
                 BGScrollable = true;
             }
         }
 
         public void Pause()
         {
+            menuPanel.SetActive(true);
+
             PlayerCtrlable = false;
+
             BGScrollable = false;
+
             IsOpenMenu = true;
+
             Time.timeScale = 0;
         }
 
         public void Restart()
         {
+            menuPanel.SetActive(false);
+
             PlayerCtrlable = true;
+
             BGScrollable = true;
+
             IsOpenMenu = false;
+
             Time.timeScale = 1;
         }
     }

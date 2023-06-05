@@ -9,13 +9,15 @@ namespace Mimical
         public enum sindex
         {
             Title = 0,
+            Main = 1
         }
 
         public static readonly string
         //------------------------------------------------------------------------------
         // SCENE NAME
         //------------------------------------------------------------------------------
-        Main = "Main";
+        Main = "Main",
+        Title = "Title";
 
         //------------------------------------------------------------------------------
         // KEY NAME?
@@ -41,7 +43,9 @@ namespace Mimical
         Enemy = "Enemy",
         Safety = "LifeZone",
         Dark = "Dark",
-        Manager = "Manager";
+        Manager = "Manager",
+        Charger = "Charger",
+        LilC = "LilC";
 
     }
 }

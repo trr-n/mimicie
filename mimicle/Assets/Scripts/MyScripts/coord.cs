@@ -11,9 +11,8 @@ namespace Mimical.Extend
         {
             // 全部空で なんもはいってへんわエクセプション 発動
             if (x is null && y is null && z is null)
-            {
                 throw new NanmoHaittehenwaException();
-            }
+
             transform.position = new(
                 x is null ? transform.position.x : x.ToSingle(),
                 y is null ? transform.position.y : y.ToSingle(),
@@ -34,13 +33,15 @@ namespace Mimical.Extend
         )
         {
             if (minX is not null && maxX is not null && minY is not null && maxY is not null && minZ is not null && maxZ is not null)
-            {
                 throw new NanmoHaittehenwaException();
-            }
+
             transform.position = new Vector3(
-                minX is null ? transform.position.x : Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
-                minY is null ? transform.position.y : Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle()),
-                minZ is null ? transform.position.z : Mathf.Clamp(transform.position.z, minZ.ToSingle(), maxZ.ToSingle())
+                minX is null ? transform.position.x :
+                    Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
+                minY is null ? transform.position.y :
+                    Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle()),
+                minZ is null ? transform.position.z :
+                    Mathf.Clamp(transform.position.z, minZ.ToSingle(), maxZ.ToSingle())
             );
         }
 
@@ -48,9 +49,8 @@ namespace Mimical.Extend
             float? minX = null, float? maxX = null, float? minY = null, float? maxY = null)
         {
             if (minX is null && maxX is null && minY is null && maxY is null)
-            {
                 throw new NanmoHaittehenwaException();
-            }
+
             transform.position = new(
                 Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
                 Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle())
@@ -60,9 +60,8 @@ namespace Mimical.Extend
         public static void setpc2(this Transform transform, float? x = null, float? y = null)
         {
             if (x is null && y is null)
-            {
                 throw new NanmoHaittehenwaException();
-            }
+
             transform.position = new(
                 Mathf.Clamp(transform.position.x, x.ToSingle(), -x.ToSingle()),
                 Mathf.Clamp(transform.position.y, y.ToSingle(), -y.ToSingle())

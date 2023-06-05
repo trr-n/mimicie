@@ -67,7 +67,7 @@ namespace Mimical
             // 残弾数
             ammoT.text = ammo.Remain.ToString();
             // FPS
-            fpsT.text = visual.fps().ToString();
+            fpsT.text = visual.Fps().ToString();
         }
     }
 }

@@ -1,27 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mimical.Extend;
 
 namespace Mimical
 {
-    public class Enemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour
     {
-        protected virtual void Move(Vector2 movingDir, float speed)
+        protected void Start(HP hp)
         {
-            transform.Translate(movingDir * speed * Time.deltaTime);
+            hp.SetMax();
         }
 
-        protected virtual void Leave(GameObject obj, HP hp)
+        protected abstract void Move();
+
+        protected void Leave(GameObject obj, int deadLine = -20)
         {
-            if (obj.transform.position.x <= -20 || obj.transform.position.x >= 20 ||
-                hp.IsZero)
-            {
-                Destroy(obj);
-            }
+            if (obj.transform.position.x <= deadLine)
+                obj.Remove();
         }
 
-        // protected abstract void Attack(int dmgAmount);
+        protected void Dead(GameObject gob, HP hp)
+        {
+            if (hp.IsZero)
+                gob.Remove();
+        }
 
-        // protected void Attack();
+        protected void AddSlainCountAndRemove(GameObject gob)
+        {
+            var slain = GameObject.Find("Wave").GetComponent<Slain>();
+            slain.AddCount();
+
+            gob.Remove();
+        }
+
+        // protected abstract void Attack();
     }
 }

@@ -14,9 +14,6 @@ namespace Mimical
         [SerializeField]
         HP playerHp;
 
-        void Update()
-        {
-            hpBar.fillAmount = playerHp.Ratio;
-        }
+        void Update() => hpBar.fillAmount = playerHp.Ratio;
     }
 }

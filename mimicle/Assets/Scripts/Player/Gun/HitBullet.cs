@@ -26,8 +26,11 @@ namespace Mimical
             if (info.Compare(Const.Enemy))
             {
                 info.gameObject.GetComponent<HP>().Damage(100);
+
                 spk.PlayOneShot(se);
+
                 fx.Instance(transform.position, Quaternion.identity);
+
                 gameObject.Remove();
             }
         }
@@ -35,9 +38,7 @@ namespace Mimical
         void OnTriggerExit2D(Collider2D info)
         {
             if (info.Compare(Const.Safety))
-            {
                 gameObject.Remove();
-            }
         }
     }
 }

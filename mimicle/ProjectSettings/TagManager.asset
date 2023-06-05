@@ -9,6 +9,8 @@ TagManager:
   - Missile
   - LifeZone
   - Manager
+  - Charger
+  - LilC
   layers:
   - Default
   - TransparentFX

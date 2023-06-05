@@ -11,7 +11,6 @@ namespace Mimical
         int max = 10;
         public int Max => max;
 
-        float timer = 0;
         int remain;
 
         public int Remain => remain;
