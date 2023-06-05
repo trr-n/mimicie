@@ -839,7 +839,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ebde6f529e77b104293982104cbf5d8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee695082bd488b1428d95b860c0ff0f6, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2207,7 +2207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgm: {fileID: 8300000, guid: 505e0f5f6c165324d98ed0e5724f2c9c, type: 3}
-  amount: 0
 --- !u!82 &1895085142
 AudioSource:
   m_ObjectHideFlags: 0
