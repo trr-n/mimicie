@@ -10,12 +10,6 @@ namespace Mimical
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField]
-        List<GameObject> spawnedChargers;
-
-        [SerializeField]
-        List<GameObject> spawnedLilCs;
-
-        [SerializeField]
         Slain slain;
 
         [SerializeField]
@@ -52,6 +46,8 @@ namespace Mimical
         float spawnY = -3f;
 
         int spawnCount = 0;
+
+        List<GameObject> spawnedChargers;
 
         void Start()
         {
@@ -100,14 +96,10 @@ namespace Mimical
                 qset[FirstWave].timer = 0;
             }
 
+            // Chargerが存在してたら return
             foreach (var i in spawnedChargers)
-            {
-                if (!i.gameObject)
-                    "chargers is not exist".show();
-
-                else
+                if (i.gameObject)
                     return;
-            }
 
             // TODO リストの中身が全部 null で且つノルマ以上倒したら次のウェーブへ
             if (slain.Count >= qset[FirstWave].quota)
@@ -139,9 +131,7 @@ namespace Mimical
             // 0123 = 4
             if (qset[SecondWave].timer >= qset[SecondWave].span && spawnCount <= 3)
             {
-                var lilc = enemies[SecondWave].Instance(new(X, spawnY), Quaternion.identity);
-
-                spawnedLilCs.Add(lilc);
+                enemies[SecondWave].Instance(new(X, spawnY), Quaternion.identity);
 
                 qset[SecondWave].timer = 0;
 
