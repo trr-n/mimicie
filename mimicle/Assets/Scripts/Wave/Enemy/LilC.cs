@@ -12,58 +12,80 @@ namespace Mimical
 
         HP hp;
 
-        float speed = 1;
+        float speed = 0.5f;
 
         Vector2 direction;
+
         Vector2 position;
-        Vector2 firstPosition = new(5, 0);
 
-        bool isEndAttack = false;
+        Vector2 firstPosition;
 
-        int fireCount = 0;
         float timer = 0;
+
         float rapid = 2;
+
+        int counter = 0;
+
+        bool attack = true;
 
         void Start()
         {
             hp = GetComponent<HP>();
+
             base.Start(hp);
 
+            firstPosition = new(5, transform.position.y);
+
             position = transform.position;
+
             direction = firstPosition - position;
         }
 
         void Update()
         {
             Move();
-            Dead(gameObject, hp);
+
+            Left(gameObject);
+
+            if (hp.IsZero)
+            {
+                AddSlainCountAndRemove(gameObject);
+
+                Score.Add(GameManager.Point.LilC);
+            }
         }
 
         protected override void Move()
         {
-            // 5, 0 に移動
             if (transform.position.x >= firstPosition.x)
                 transform.Translate(direction * speed * Time.deltaTime);
 
-            // プレイヤーに向かって2発発砲
             timer += Time.deltaTime;
 
-            if (!isEndAttack && timer <= rapid)
+            if (timer >= rapid && attack)
             {
-                "lil was fired".show();
+                // var fireDirection = gobject.Find(Const.Player).transform.position;
 
-                var fireDirection = gobject.Find(Const.Player).transform.position;
                 bullet.Instance(transform.position + new Vector3(0.75f, 0), Quaternion.identity);
 
-                fireCount++;
+                // ++counter;
+
                 timer = 0;
             }
 
-            // 2発撃ったら発砲終了
-            // TODO 左に突進、画面外に出たら破壊
-            if (fireCount >= 2)
+            // if (attack && counter >= 3)
+            // {
+            //     attack = false;
+
+            //     "start moving".show();
+            // }
+        }
+
+        void OnCollisionExit2D(Collision2D info)
+        {
+            if (info.Compare(Const.Safety))
             {
-                isEndAttack = true;
+                gameObject.Remove();
             }
         }
     }

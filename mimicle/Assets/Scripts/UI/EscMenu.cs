@@ -27,23 +27,14 @@ namespace Mimical
 
         string[] info;
 
-        void Update()
-        {
-            Show();
-        }
+        void Update() => Show();
 
-        void Start()
-        {
-            info = new string[] {
-                OS(),
-                CPU(),
-                GPU(),
-                RAM().ToString()
-            };
-        }
+        void Start() => info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
 
         void Show()
         {
+            speaker.VMute(volumeT);
+
             if (input.Down(KeyCode.Escape))
             {
                 if (!manager.menuPanel.IsActive())
@@ -64,11 +55,7 @@ namespace Mimical
             }
 
             if (volumeT.IsActive())
-            {
-                speaker.VChange();
-
-                volumeT.text = $"おんりょう{numeric.Round(speaker.V, 2)}";
-            }
+                speaker.VChange(volumeT);
         }
     }
 }

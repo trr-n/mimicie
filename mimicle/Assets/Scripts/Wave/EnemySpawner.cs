@@ -18,8 +18,6 @@ namespace Mimical
         [Tooltip("0: Charger, 1: LilC, 2: Boss")]
         GameObject[] enemies;
 
-        public bool Spawnable { get; set; }
-
         [Serializable]
         struct Quota
         {
@@ -28,17 +26,27 @@ namespace Mimical
             public bool inProgress;
             public float timer;
         }
+
         [SerializeField]
         [Header("0: Wave1, 1: Wave2, 2: Wave3")]
         Quota[] qset = new Quota[3];
 
-        bool once2 = false, once3 = false;
+        public bool Spawnable { get; set; }
+
+        static class WAVE
+        {
+            public static int FIRST = 0;
+
+            public static int SECOND = 1;
+
+            public static int THIRD = 2;
+        }
 
         void Start()
         {
-            ActivateWave(1);
+            ActivateWave(0);
 
-            wave.Set(1);
+            wave.Set(0);
 
             Spawnable = true;
 
@@ -47,8 +55,6 @@ namespace Mimical
 
         void Update()
         {
-            transform.position = new(15, Mathf.Sin(Time.time));
-
             Waves();
         }
 
@@ -59,105 +65,81 @@ namespace Mimical
             Wave3();
         }
 
-        IEnumerator TestWave1()
-        {
-            wave.Set(1);
-
-            while (inProgress(1))
-            {
-                yield return new WaitForSeconds(qset[0].span);
-
-                enemies[0].Instance(transform.position, Quaternion.identity);
-
-                if (slain.Count >= qset[0].quota)
-                {
-                    ActivateWave(2);
-                    // wave.Next();
-
-                    slain.ResetCount();
-
-                    yield break;
-                }
-            }
-        }
-
         /// <summary>
         /// チャージャーを一定間隔で出す
         /// </summary>
         void Wave1()
         {
-            qset[0].timer += Time.deltaTime;
+            qset[WAVE.FIRST].timer += Time.deltaTime;
 
-            if (!inProgress(1))
+            if (!inProgress(WAVE.FIRST))
                 return;
 
-            wave.Set(1);
+            transform.position = new(15, Mathf.Sin(Time.time));
 
-            if (qset[0].timer >= qset[0].span)
+            wave.Set(WAVE.FIRST);
+
+            if (qset[WAVE.FIRST].timer >= qset[WAVE.FIRST].span)
             {
-                enemies[0].Instance(transform.position, Quaternion.identity);
+                enemies[WAVE.FIRST].Instance(transform.position, Quaternion.identity);
 
-                qset[0].timer = 0;
+                qset[WAVE.FIRST].timer = 0;
             }
 
-            if (slain.Count >= qset[0].quota)
+            if (slain.Count >= qset[WAVE.FIRST].quota)
             {
-                ActivateWave(2);
-                // wave.Next();
+                ActivateWave(WAVE.SECOND);
 
                 slain.ResetCount();
             }
         }
 
         /// <summary>
-        /// ちょっと賢いヤツ(Lil Clever)を2匹出す
+        /// ちょっと賢いヤツ(Lil Clever)を出す
         /// </summary>
         void Wave2()
         {
-            qset[1].timer += Time.deltaTime;
+            qset[WAVE.SECOND].timer += Time.deltaTime;
 
-            if (!inProgress(2))
+            if (!inProgress(WAVE.SECOND))
                 return;
 
-            if (qset[1].timer >= qset[1].span)
+            wave.Set(WAVE.SECOND);
+
+            if (qset[WAVE.SECOND].timer >= qset[WAVE.SECOND].span)
             {
-                wave.Set(2);
+                enemies[WAVE.SECOND].Instance(transform.position, Quaternion.identity);
 
-                "in wave2".show();
-
-                qset[1].timer = 0;
+                qset[WAVE.SECOND].timer = 0;
             }
 
-            if (slain.Count >= qset[1].quota && !once2)
+            if (slain.Count >= qset[WAVE.SECOND].quota)
             {
-                once2 = true;
-
-                ActivateWave(3);
-                // wave.Next();
+                ActivateWave(WAVE.THIRD);
 
                 slain.ResetCount();
-
-                // "2nd wave is done".show();
             }
         }
 
-        /// <summary>
-        /// 体力が多いボスを1体、LilC, Chargerを出し続ける
-        /// </summary>
         void Wave3()
         {
-            if (!inProgress(3))
+            qset[WAVE.THIRD].timer += Time.deltaTime;
+
+            if (!inProgress(WAVE.THIRD))
                 return;
 
-            wave.Set(3);
+            wave.Set(WAVE.THIRD);
 
-            "wave3 active".show();
-
-            if (slain.Count >= qset[2].quota)
+            if (qset[WAVE.THIRD].timer >= qset[WAVE.THIRD].quota)
             {
-                "wave3 is done".show();
+                // ボス、LilC, Chargerを出す
 
-                // scene.Load();
+                qset[WAVE.THIRD].timer = WAVE.FIRST;
+            }
+
+            if (slain.Count >= qset[WAVE.THIRD].quota)
+            {
+                // ボス討伐後
             }
         }
 
@@ -165,12 +147,15 @@ namespace Mimical
         {
             switch (wave)
             {
+                case 0:
+                    return qset[WAVE.FIRST].inProgress && !qset[WAVE.SECOND].inProgress && !qset[WAVE.THIRD].inProgress;
+
                 case 1:
-                    return qset[0].inProgress && !qset[1].inProgress && !qset[2].inProgress;
+                    return !qset[WAVE.FIRST].inProgress && qset[WAVE.SECOND].inProgress && !qset[WAVE.THIRD].inProgress;
+
                 case 2:
-                    return !qset[0].inProgress && qset[1].inProgress && !qset[2].inProgress;
-                case 3:
-                    return !qset[0].inProgress && !qset[1].inProgress && qset[2].inProgress;
+                    return !qset[WAVE.FIRST].inProgress && !qset[WAVE.SECOND].inProgress && qset[WAVE.THIRD].inProgress;
+
                 default:
                     throw new System.Exception();
             }
@@ -180,26 +165,57 @@ namespace Mimical
         {
             switch (wave)
             {
+                case 0:
+                    // "Wv.secondst active".show();
+                    qset[WAVE.FIRST].inProgress = true;
+
+                    qset[WAVE.SECOND].inProgress = false;
+
+                    qset[WAVE.THIRD].inProgress = false;
+
+                    break;
+
                 case 1:
-                    // "1st active".show();
-                    qset[0].inProgress = true;
-                    qset[1].inProgress = false;
-                    qset[2].inProgress = false;
+                    // "2nd active".show();
+                    qset[WAVE.FIRST].inProgress = false;
+
+                    qset[WAVE.SECOND].inProgress = true;
+
+                    qset[WAVE.THIRD].inProgress = false;
+
                     break;
 
                 case 2:
-                    // "2nd active".show();
-                    qset[0].inProgress = false;
-                    qset[1].inProgress = true;
-                    qset[2].inProgress = false;
-                    break;
-
-                case 3:
                     // "3rd active".show();
-                    qset[0].inProgress = false;
-                    qset[1].inProgress = false;
-                    qset[2].inProgress = true;
+                    qset[WAVE.FIRST].inProgress = false;
+
+                    qset[WAVE.SECOND].inProgress = false;
+
+                    qset[WAVE.THIRD].inProgress = true;
+
                     break;
+            }
+        }
+
+        [System.Obsolete]
+        IEnumerator Test00()
+        {
+            wave.Set(WAVE.SECOND);
+
+            while (inProgress(WAVE.FIRST))
+            {
+                yield return new WaitForSeconds(qset[WAVE.FIRST].span);
+
+                enemies[WAVE.FIRST].Instance(transform.position, Quaternion.identity);
+
+                if (slain.Count >= qset[WAVE.FIRST].quota)
+                {
+                    ActivateWave(WAVE.SECOND);
+
+                    slain.ResetCount();
+
+                    yield break;
+                }
             }
         }
     }

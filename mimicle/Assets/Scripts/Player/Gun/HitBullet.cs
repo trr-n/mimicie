@@ -27,7 +27,7 @@ namespace Mimical
             {
                 info.gameObject.GetComponent<HP>().Damage(100);
 
-                spk.PlayOneShot(se);
+                // spk.PlayOneShot(se);
 
                 fx.Instance(transform.position, Quaternion.identity);
 

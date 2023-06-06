@@ -42,6 +42,12 @@ namespace Mimical
         [SerializeField]
         Player player;
 
+        [SerializeField]
+        Text scoreT;
+
+        [SerializeField]
+        Score score;
+
         void Update()
         {
             Text();
@@ -50,24 +56,24 @@ namespace Mimical
 
         void Image()
         {
-            // 残りHP
             hpImage.fillAmount = playerHp.Ratio;
-            // リロード
+
             reloadImage.fillAmount = player.ReloadProgress;
         }
 
         void Text()
         {
-            // 経過時間
             timeT.text = time.r().ToString();
-            // 今のウェーブ数
+
             nowWaveT.text = wave.Now.ToString();
-            // 最大ウェーブ数
+
             maxWaveT.text = wave.Max.ToString();
-            // 残弾数
+
             ammoT.text = ammo.Remain.ToString();
-            // FPS
+
             fpsT.text = visual.Fps().ToString();
+
+            scoreT.text = score.Now.ToString();
         }
     }
 }

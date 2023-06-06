@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
+using static Mimical.GameManager.Key;
+
 namespace Mimical
 {
     [RequireComponent(typeof(Rigidbody2D))]
@@ -10,25 +12,22 @@ namespace Mimical
     public class Player : MonoBehaviour
     {
         [SerializeField]
-        int tackleDamage;
-
-        [SerializeField]
-        int shootingDamage;
-
-        [SerializeField]
         Ammo ammo;
 
         [SerializeField]
         Fire gun;
 
+        [SerializeField]
+        GameManager manager;
+
         // Gun
         float rapid;
+
         float reloading = 2;
         float reloadingTimer = 0;
         bool isReloading = false;
-        public float ReloadProgress => reloadingTimer / reloading;
 
-        GameManager manager;
+        public float ReloadProgress => reloadingTimer / reloading;
 
         HP hp;
 
@@ -39,8 +38,10 @@ namespace Mimical
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+
             hp = GetComponent<HP>();
-            manager = gobject.Find(Const.Manager).GetComponent<GameManager>();
+
+            manager ??= gobject.Find(Const.Manager).GetComponent<GameManager>();
         }
 
         void Start()
@@ -64,21 +65,21 @@ namespace Mimical
         {
             rapid += Time.deltaTime;
 
-            var trigger = input.Pressed(manager.Fire) &&
-                !ammo.IsZero() && rapid > 0.5f && !isReloading;
-
-            if (trigger)
+            if (input.Pressed(GameManager.Key.Fire) && !ammo.IsZero() && rapid > 0.5f &&
+                !isReloading)
             {
                 gun.Shot();
+
                 rapid = 0;
             }
         }
 
         void Reload()
         {
-            if (input.Down(manager.Reload))
+            if (input.Down(GameManager.Key.Reload))
             {
                 ammo.Reload();
+
                 isReloading = true;
             }
 
@@ -89,11 +90,13 @@ namespace Mimical
                 if (reloadingTimer >= reloading)
                 {
                     isReloading = false;
+
                     reloadingTimer = 0;
                 }
             }
         }
 
+        // TODO 死んだときの処理
         void Dead()
         {
             if (hp.IsZero)
@@ -106,10 +109,13 @@ namespace Mimical
 
             float h = Input.GetAxis(Const.Horizontal);
             float v = Input.GetAxis(Const.Vertical);
+
             Vector2 moving = new(h, v);
 
-            if (manager.PlayerCtrlable)
-                transform.Translate(moving * movingSpeed * Time.deltaTime);
+            if (!manager.PlayerCtrlable)
+                return;
+
+            transform.Translate(moving * movingSpeed * Time.deltaTime);
         }
     }
 }

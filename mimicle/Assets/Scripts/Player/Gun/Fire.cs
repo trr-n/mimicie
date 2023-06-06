@@ -31,7 +31,7 @@ namespace Mimical
         {
             var b = bullet.Instance(transform.position, Quaternion.Euler(0, 0, 180));
             speaker.PlayOneShot(se);
-            ammo.Red();
+            ammo.Reduce();
             var brig = b.GetComponent<Rigidbody2D>();
             brig.velocity += Vector2.right * power * Time.deltaTime;
             if (b.transform.position.x >= 10)

@@ -20,22 +20,27 @@ namespace Mimical
         void Update()
         {
             Move();
-            Leave(gameObject);
+
+            Left(gameObject);
 
             if (hp.IsZero)
+            {
                 AddSlainCountAndRemove(gameObject);
+
+                Score.Add(GameManager.Point.Charger);
+            }
         }
 
         protected override void Move()
-        {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
-        }
+        => transform.Translate(Vector2.left * speed * Time.deltaTime);
 
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(Const.Player))
             {
-                info.Get<HP>().Damage(Damage.Charger);
+                info.Get<HP>().Damage(GameManager.Dmg.Charger);
+
+                Score.Add(GameManager.Point.RedCharger);
 
                 gameObject.Remove();
             }

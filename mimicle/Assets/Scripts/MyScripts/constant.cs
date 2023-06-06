@@ -32,9 +32,6 @@ namespace Mimical
         MouseY = "Mouse Y",
         Volume = "Volume";
 
-        // public static readonly KeyCode
-        // Reload = KeyCode.LeftShift;
-
         //------------------------------------------------------------------------------
         // TAG NAME
         //------------------------------------------------------------------------------
@@ -45,7 +42,8 @@ namespace Mimical
         Dark = "Dark",
         Manager = "Manager",
         Charger = "Charger",
-        LilC = "LilC";
+        LilC = "LilC",
+        Bullet = "Bullet";
 
     }
 }

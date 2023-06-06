@@ -25,7 +25,7 @@ namespace Mimical
 
         void Update()
         {
-            if (manager.BGScrollable)
+            if (manager.BackGroundScrollable)
                 foreach (var i in cores)
                 {
                     i.transform.Translate(Vector2.left * scrolling * Time.deltaTime);

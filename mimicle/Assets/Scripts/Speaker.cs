@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mimical.Extend;
+using static Mimical.GameManager.Key;
 
 namespace Mimical
 {
@@ -12,8 +14,11 @@ namespace Mimical
 
         float amount = 0.02f;
 
-        float v = 0;
-        public float V => v;
+        float _volume = 0.4f;
+
+        float preVolume = 0f;
+
+        int pressCounter = 0;
 
         AudioSource speaker;
 
@@ -28,18 +33,45 @@ namespace Mimical
             speaker.Play();
         }
 
-        void Update()
-        {
-            speaker.volume = v;
-        }
+        void Update() => speaker.volume = _volume;
 
-        public void VChange()
+        string VText(float _percentage) => $"おんりょう{_percentage}%";
+
+        public void VChange(Text text)
         {
             if (input.Down(KeyCode.UpArrow))
-                v += amount;
+                _volume += amount;
 
-            if (input.Down(KeyCode.DownArrow))
-                v -= amount;
+            else if (input.Down(KeyCode.DownArrow))
+                _volume -= amount;
+
+            text.text = VText(numeric.Percent(_volume));
+        }
+
+        public void VMute(Text text)
+        {
+            pressCounter.show();
+
+            if (input.Down(Mute))
+            {
+                if (pressCounter == 0)
+                {
+                    pressCounter++;
+
+                    preVolume = _volume;
+
+                    _volume = 0;
+                }
+
+                else if (pressCounter == 1)
+                {
+                    pressCounter = 0;
+
+                    _volume = preVolume;
+                }
+
+                text.text = VText(numeric.Percent(_volume));
+            }
         }
     }
 }

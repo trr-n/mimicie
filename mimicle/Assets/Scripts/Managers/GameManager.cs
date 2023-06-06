@@ -6,92 +6,100 @@ using Mimical.Extend;
 
 namespace Mimical
 {
-    public class GameManager : MonoBehaviour
+    public sealed class GameManager : MonoBehaviour
     {
-        [SerializeField]
-        Text debugT;
+        public static class Key
+        {
+            public static KeyCode Reload = KeyCode.LeftShift;
+
+            public static KeyCode Fire = KeyCode.Space;
+
+            public static KeyCode Mute = KeyCode.M;
+
+            public static KeyCode Stop = KeyCode.Backspace;
+        }
+
+        public static class Dmg
+        {
+            public static int Charger = 5;
+
+            public static int LilC = 10;
+        }
+
+        public static class Point
+        {
+            public static int Charger = 100;
+
+            public static int LilC = 500;
+
+            public static int Boss = 10000;
+
+
+            public static int RedCharger = -10;
+
+            public static int RedLilC = -100;
+
+            public static int RedLilCBullet = -10;
+
+        }
 
         public GameObject menuPanel;
 
         [SerializeField]
-        /// <summary>
-        /// ゲーム内の時間を止める
-        /// </summary>
-        KeyCode STOP = KeyCode.Backspace;
-
-        [SerializeField]
-        KeyCode reload = KeyCode.LeftShift;
-        /// <summary>
-        /// リロードキー@Player
-        /// </summary>
-        public KeyCode Reload => reload;
-
-        [SerializeField]
-        KeyCode fire = KeyCode.Space;
-        /// <summary>
-        /// 発砲キー@Player
-        /// </summary>
-        public KeyCode Fire => fire;
+        Text debugT;
 
         [SerializeField]
         Scroll scroll;
 
-        /// <summary>プレイヤーのコントロール(移動など)</summary>
+        [SerializeField]
+        Slain slain;
+
         public bool PlayerCtrlable { get; set; }
 
-        /// <summary>背景のスクロール</summary>
-        public bool BGScrollable { get; set; }
+        public bool BackGroundScrollable { get; set; }
 
-        /// <summary>
-        /// Escメニューを開いている間 True
-        /// </summary>
-        public bool IsOpenMenu { get; set; }
+        public bool IsOpeningMenu { get; set; }
 
-        bool passing = true;
-        /// <summary>
-        /// 時間が止まっていなかったら True
-        /// </summary>
-        public bool IsSpent => passing;
-
-        Speaker speaker;
+        bool isPassing = true;
+        public bool IsPassing => isPassing;
 
         void Start()
         {
             PlayerCtrlable = true;
 
-            BGScrollable = true;
+            BackGroundScrollable = true;
 
             Physics2D.gravity = Vector3.forward * 9.81f;
-
-            speaker = GetComponent<Speaker>();
         }
 
         void Update()
         {
-            passing = Time.timeScale == 1;
+            isPassing = Time.timeScale == 1;
 
-            debugT.text =
-                "Scrollable: " + BGScrollable.newline() +
-                "Controllable: " + PlayerCtrlable.newline() +
-                "isOpenMenu: " + IsOpenMenu.newline() +
-                "isSpent: " + passing.newline();
+            // debugT.text =
+            //     "Scrollable: " + BackGroundScrollable.newline() +
+            //     "Controllable: " + PlayerCtrlable.newline() +
+            //     "isOpenMenu: " + IsOpeningMenu.newline() +
+            //     "isSpent: " + isPassing.newline();
 
-            if (input.Pressed(STOP))
+            debugT.text = "slain count: " + slain.Count;
+
+            if (input.Pressed(Key.Stop))
             {
                 Time.timeScale = 0;
 
                 PlayerCtrlable = false;
 
-                BGScrollable = false;
+                BackGroundScrollable = false;
             }
 
-            else if (input.Up(STOP))
+            else if (input.Up(Key.Stop))
             {
                 Time.timeScale = 1;
 
                 PlayerCtrlable = true;
 
-                BGScrollable = true;
+                BackGroundScrollable = true;
             }
         }
 
@@ -101,9 +109,9 @@ namespace Mimical
 
             PlayerCtrlable = false;
 
-            BGScrollable = false;
+            BackGroundScrollable = false;
 
-            IsOpenMenu = true;
+            IsOpeningMenu = true;
 
             Time.timeScale = 0;
         }
@@ -114,9 +122,9 @@ namespace Mimical
 
             PlayerCtrlable = true;
 
-            BGScrollable = true;
+            BackGroundScrollable = true;
 
-            IsOpenMenu = false;
+            IsOpeningMenu = false;
 
             Time.timeScale = 1;
         }

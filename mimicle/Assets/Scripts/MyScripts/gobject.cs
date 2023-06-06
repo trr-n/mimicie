@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Mimical.Extend
 {
@@ -84,5 +85,7 @@ namespace Mimical.Extend
                     throw new System.Exception();
             }
         }
+
+        public static bool isActive(this Text text) => text.IsActive();
     }
 }

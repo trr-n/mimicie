@@ -20,6 +20,6 @@ namespace Mimical
 
         void Reset() => now = 0;
 
-        public void Set(int wave) => now = wave;
+        public void Set(int wave) => now = wave + 1;
     }
 }

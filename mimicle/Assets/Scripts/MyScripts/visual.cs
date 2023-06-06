@@ -16,7 +16,5 @@ namespace Mimical.Extend
 
             UnityEngine.Cursor.lockState = (CursorLockMode)clock;
         }
-
-        // public static bool timer(this float timer, float limit) => timer < limit;
     }
 }

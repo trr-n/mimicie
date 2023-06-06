@@ -20,17 +20,21 @@ namespace Mimical
             direction = playerTransform.position - transform.position;
         }
 
-        void Update()
-        {
-            transform.Translate(direction * speed * Time.deltaTime);
-        }
+        void Update() => transform.Translate(direction * speed * Time.deltaTime);
 
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(Const.Player))
             {
-                info.Get<HP>().Damage(Damage.LilC);
+                info.Get<HP>().Damage(GameManager.Dmg.LilC);
 
+                Score.Add(GameManager.Point.RedLilCBullet);
+
+                gameObject.Remove();
+            }
+
+            if (info.Compare(Const.Bullet))
+            {
                 gameObject.Remove();
             }
         }
