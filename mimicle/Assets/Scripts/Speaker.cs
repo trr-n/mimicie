@@ -50,8 +50,6 @@ namespace Mimical
 
         public void VMute(Text text)
         {
-            pressCounter.show();
-
             if (input.Down(Mute))
             {
                 if (pressCounter == 0)

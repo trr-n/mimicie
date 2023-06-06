@@ -37,7 +37,7 @@ namespace Mimical
 
             if (input.Down(KeyCode.Escape))
             {
-                if (!manager.menuPanel.IsActive())
+                if (!manager.menuPanel.isActive(Active.Hierarchy))
                 {
                     todayT.text = "きょうは" + time.Date();
 

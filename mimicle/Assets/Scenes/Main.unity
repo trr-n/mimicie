@@ -1445,7 +1445,7 @@ MonoBehaviour:
     span: 1
     inProgress: 0
     timer: 0
-  - quota: 3
+  - quota: 4
     span: 1
     inProgress: 0
     timer: 0
@@ -1453,6 +1453,7 @@ MonoBehaviour:
     span: 1
     inProgress: 0
     timer: 0
+  lilcs: []
 --- !u!1 &1415599952
 GameObject:
   m_ObjectHideFlags: 0

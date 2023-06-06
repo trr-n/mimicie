@@ -6,6 +6,18 @@ namespace Mimical.Extend
 {
     public static class coord
     {
+        public static void setpx(this Transform transform, double x)
+        => transform.position = new(
+            x.ToSingle(), transform.position.y, transform.position.z);
+
+        public static void setpy(this Transform transform, double y)
+        => transform.position = new(
+            transform.position.x, y.ToSingle(), transform.position.z);
+
+        public static void setpz(this Transform transform, double z)
+        => transform.position = new(
+            transform.position.x, transform.position.y, z.ToSingle());
+
         public static void setp(this Transform transform,
             double? x = null, double? y = null, double? z = null)
         {

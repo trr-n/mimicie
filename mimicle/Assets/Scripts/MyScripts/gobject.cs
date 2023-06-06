@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,10 +69,6 @@ namespace Mimical.Extend
         public static void Remove(this Collision info, float lifetime = 0)
         => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
 
-
-        public static bool IsActiveSelf(this GameObject gob) => gob.activeSelf;
-
-        public static bool IsActive(this GameObject gob) => gob.activeInHierarchy;
 
         public static bool isActive(this GameObject gob, Active active = Active.Hierarchy)
         {
