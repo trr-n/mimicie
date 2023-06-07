@@ -51,6 +51,7 @@ namespace Mimical
         void Update()
         {
             Text();
+
             Image();
         }
 
@@ -63,7 +64,7 @@ namespace Mimical
 
         void Text()
         {
-            timeT.text = time.r().ToString();
+            timeT.text = Score.Time().ToString();
 
             nowWaveT.text = wave.Now.ToString();
 

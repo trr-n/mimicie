@@ -34,7 +34,7 @@ namespace Mimical.Extend
 
             // var charasArr = new char[(int)count];
             char[] charaArr = count != null ?
-                new char[count.ToInt()] : new char[randint(2, 16)];
+                new char[count.Int()] : new char[randint(2, 16)];
 
             System.Random random = new();
 

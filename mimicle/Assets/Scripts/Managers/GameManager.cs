@@ -49,6 +49,12 @@ namespace Mimical
 
         }
 
+        [SerializeField]
+        int startWave = 0;
+
+        [SerializeField]
+        EnemySpawner spawner;
+
         public GameObject menuPanel;
 
         [SerializeField]
@@ -71,6 +77,8 @@ namespace Mimical
 
         void Start()
         {
+            spawner.ActivateWave(startWave);
+
             PlayerCtrlable = true;
 
             BackGroundScrollable = true;

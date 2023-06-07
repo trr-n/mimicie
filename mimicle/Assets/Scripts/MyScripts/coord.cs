@@ -16,9 +16,9 @@ namespace Mimical.Extend
             }
 
             transform.position = new(
-                x is null ? transform.position.x : x.ToSingle(),
-                y is null ? transform.position.y : y.ToSingle(),
-                z is null ? transform.position.z : z.ToSingle()
+                x is null ? transform.position.x : x.Single(),
+                y is null ? transform.position.y : y.Single(),
+                z is null ? transform.position.z : z.Single()
             );
         }
 
@@ -42,11 +42,11 @@ namespace Mimical.Extend
 
             transform.position = new Vector3(
                 minX is null ? transform.position.x :
-                    Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
+                    Mathf.Clamp(transform.position.x, minX.Single(), maxX.Single()),
                 minY is null ? transform.position.y :
-                    Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle()),
+                    Mathf.Clamp(transform.position.y, minY.Single(), maxY.Single()),
                 minZ is null ? transform.position.z :
-                    Mathf.Clamp(transform.position.z, minZ.ToSingle(), maxZ.ToSingle())
+                    Mathf.Clamp(transform.position.z, minZ.Single(), maxZ.Single())
             );
         }
 
@@ -59,8 +59,8 @@ namespace Mimical.Extend
             }
 
             transform.position = new(
-                Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
-                Mathf.Clamp(transform.position.y, minY.ToSingle(), maxY.ToSingle())
+                Mathf.Clamp(transform.position.x, minX.Single(), maxX.Single()),
+                Mathf.Clamp(transform.position.y, minY.Single(), maxY.Single())
             );
         }
 
@@ -70,8 +70,8 @@ namespace Mimical.Extend
                 throw new NanmoHaittehenwaException();
 
             transform.position = new(
-                Mathf.Clamp(transform.position.x, x.ToSingle(), -x.ToSingle()),
-                Mathf.Clamp(transform.position.y, y.ToSingle(), -y.ToSingle())
+                Mathf.Clamp(transform.position.x, x.Single(), -x.Single()),
+                Mathf.Clamp(transform.position.y, y.Single(), -y.Single())
             );
         }
 
@@ -100,9 +100,9 @@ namespace Mimical.Extend
             }
 
             transform.rotation = Quaternion.Euler(
-                x is null ? transform.localScale.x : x.ToSingle(),
-                y is null ? transform.localScale.y : y.ToSingle(),
-                z is null ? transform.localScale.z : z.ToSingle()
+                x is null ? transform.localScale.x : x.Single(),
+                y is null ? transform.localScale.y : y.Single(),
+                z is null ? transform.localScale.z : z.Single()
             );
         }
 
@@ -118,9 +118,9 @@ namespace Mimical.Extend
             }
 
             transform.localScale = new Vector3(
-                x is null ? transform.localScale.x : x.ToSingle(),
-                y is null ? transform.localScale.y : y.ToSingle(),
-                z is null ? transform.localScale.z : z.ToSingle()
+                x is null ? transform.localScale.x : x.Single(),
+                y is null ? transform.localScale.y : y.Single(),
+                z is null ? transform.localScale.z : z.Single()
             );
         }
 

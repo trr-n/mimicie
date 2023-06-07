@@ -1534,7 +1534,6 @@ MonoBehaviour:
     span: 1
     inProgress: 0
     timer: 0
-  spawnedChargers: []
 --- !u!1 &1415599952
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf3bd9281d3aae44b4c73fa29911ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max: 3
   now: 0
 --- !u!4 &1754731047
 Transform:
@@ -2422,6 +2422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d0863aa01deac48bc8f9c6bca56d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWave: 1
+  spawner: {fileID: 1250337218}
   menuPanel: {fileID: 649628731}
   debugT: {fileID: 1826704110}
   scroll: {fileID: 960394795}
@@ -2454,7 +2456,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musics:
-  - {fileID: 8300000, guid: 505e0f5f6c165324d98ed0e5724f2c9c, type: 3}
   - {fileID: 8300000, guid: d11d704ed14a7e24096092527ec7a795, type: 3}
 --- !u!82 &1895085142
 AudioSource:
