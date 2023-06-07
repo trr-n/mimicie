@@ -41,12 +41,18 @@ namespace Mimical
 
         Transform playerTransform;
 
-        const int BreakTime = 3;
+        // 次のウェーブが始まるまでの時間
+        // TODO ウェーブスタートのアニメーションとか追加できれば
+        const int BreakingTime = 3;
+
+        float breakingTimer = 0;
 
         float spawnY = -3f;
 
         int spawnCount = 0;
 
+        // シリアライズしないとぬる
+        [SerializeField]
         List<GameObject> spawnedChargers;
 
         void Start()
@@ -65,10 +71,10 @@ namespace Mimical
         void Update()
         {
             Wave1();
-
             Wave2();
-
             Wave3();
+
+            breakingTimer.show();
         }
 
         /// <summary>
@@ -79,7 +85,9 @@ namespace Mimical
             qset[FirstWave].timer += Time.deltaTime;
 
             if (!inProgress(FirstWave))
+            {
                 return;
+            }
 
             "Wave1".show();
 
@@ -89,26 +97,35 @@ namespace Mimical
 
             if (qset[FirstWave].timer >= qset[FirstWave].span && slain.Count <= qset[FirstWave].quota)
             {
-                var charger = enemies[FirstWave].Instance(transform.position, Quaternion.identity);
+                // var charger = enemies[FirstWave].Instance(transform.position, Quaternion.identity);
 
-                spawnedChargers.Add(charger);
+                spawnedChargers.Add(enemies[FirstWave].Instance(transform.position, Quaternion.identity));
 
                 qset[FirstWave].timer = 0;
             }
 
-            // Chargerが存在してたら return
             foreach (var i in spawnedChargers)
+            {
                 if (i.gameObject)
+                {
                     return;
+                }
+            }
 
-            // TODO リストの中身が全部 null で且つノルマ以上倒したら次のウェーブへ
             if (slain.Count >= qset[FirstWave].quota)
             {
-                "active 2".show();
+                breakingTimer += Time.deltaTime;
 
-                ActivateWave(SecondWave);
+                if (breakingTimer >= BreakingTime)
+                {
+                    "active 2".show();
 
-                slain.ResetCount();
+                    ActivateWave(SecondWave);
+
+                    slain.ResetCount();
+
+                    breakingTimer = 0;
+                }
             }
         }
 
@@ -118,7 +135,9 @@ namespace Mimical
         void Wave2()
         {
             if (!inProgress(SecondWave))
+            {
                 return;
+            }
 
             qset[SecondWave].timer += Time.deltaTime;
 
@@ -142,9 +161,14 @@ namespace Mimical
 
             if (slain.Count >= qset[SecondWave].quota)
             {
-                ActivateWave(ThirdWave);
+                breakingTimer += Time.deltaTime;
 
-                slain.ResetCount();
+                if (breakingTimer >= BreakingTime)
+                {
+                    ActivateWave(ThirdWave);
+
+                    slain.ResetCount();
+                }
             }
         }
 
@@ -153,7 +177,9 @@ namespace Mimical
             qset[ThirdWave].timer += Time.deltaTime;
 
             if (!inProgress(ThirdWave))
+            {
                 return;
+            }
 
             "Wave3".show();
 

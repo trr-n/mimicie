@@ -22,7 +22,9 @@ public class HP : MonoBehaviour
         now += amount;
 
         if (now >= max)
+        {
             SetMax();
+        }
     }
 
     public void Damage(int amount)
@@ -30,7 +32,9 @@ public class HP : MonoBehaviour
         now -= amount;
 
         if (now < 0)
+        {
             now = 0;
+        }
     }
 
     public void SetMax() => now = max;

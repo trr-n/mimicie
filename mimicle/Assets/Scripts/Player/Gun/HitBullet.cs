@@ -16,10 +16,7 @@ namespace Mimical
 
         AudioSource spk;
 
-        void Start()
-        {
-            spk = GetComponent<AudioSource>();
-        }
+        void Start() => spk = GetComponent<AudioSource>();
 
         void OnCollisionEnter2D(Collision2D info)
         {
@@ -38,7 +35,9 @@ namespace Mimical
         void OnTriggerExit2D(Collider2D info)
         {
             if (info.Compare(Const.Safety))
+            {
                 gameObject.Remove();
+            }
         }
     }
 }

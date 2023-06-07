@@ -24,9 +24,9 @@ namespace Mimical
 
         float rapid = 2;
 
-        int counter = 0;
+        // bool attack = true;
 
-        bool attack = true;
+        // int counter = 0;
 
         void Start()
         {
@@ -34,7 +34,7 @@ namespace Mimical
 
             base.Start(hp);
 
-            firstPosition = new(5, transform.position.y);
+            firstPosition = new(random.randfloat(3, 6), transform.position.y);
 
             position = transform.position;
 
@@ -58,15 +58,15 @@ namespace Mimical
         protected override void Move()
         {
             if (transform.position.x >= firstPosition.x)
+            {
                 transform.Translate(direction * speed * Time.deltaTime);
+            }
 
             timer += Time.deltaTime;
 
-            if (timer >= rapid && attack)
+            if (timer >= rapid) // && attack)
             {
-                // var fireDirection = gobject.Find(Const.Player).transform.position;
-
-                bullet.Instance(transform.position + new Vector3(0.75f, 0), Quaternion.identity);
+                bullet.Instance(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
 
                 // ++counter;
 

@@ -100,7 +100,9 @@ namespace Mimical
         void Dead()
         {
             if (hp.IsZero)
+            {
                 scene.Load();
+            }
         }
 
         void Move()
@@ -113,7 +115,9 @@ namespace Mimical
             Vector2 moving = new(h, v);
 
             if (!manager.PlayerCtrlable)
+            {
                 return;
+            }
 
             transform.Translate(moving * movingSpeed * Time.deltaTime);
         }

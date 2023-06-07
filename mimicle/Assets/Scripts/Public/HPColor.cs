@@ -6,7 +6,7 @@ using Mimical.Extend;
 
 namespace Mimical
 {
-    public class HPColor : MonoBehaviour
+    public class _HPColor : MonoBehaviour
     {
         [SerializeField]
         Image hpBar;

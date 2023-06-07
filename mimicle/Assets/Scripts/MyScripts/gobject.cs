@@ -5,12 +5,13 @@ using UnityEngine.UI;
 namespace Mimical.Extend
 {
     public enum Active { Self, Hierarchy }
+
     public static class gobject
     {
         public static GameObject Instance(
             this GameObject[] gobjects, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(
-            gobjects[random.ice(gobjects.Length)], position, rotation);
+            gobjects[random.ice(gobjects)], position, rotation);
 
         public static GameObject Instance(
             this GameObject gobject, Vector3 position, Quaternion rotation)
@@ -76,8 +77,10 @@ namespace Mimical.Extend
             {
                 case Active.Self:
                     return gob.activeSelf;
+
                 case Active.Hierarchy:
                     return gob.activeInHierarchy;
+
                 default:
                     throw new System.Exception();
             }

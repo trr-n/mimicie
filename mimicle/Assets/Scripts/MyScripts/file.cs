@@ -11,7 +11,8 @@ namespace Mimical.Extend
         => line;
 
         public static string Caller(
-            [CallerFilePath] string path = "", [CallerLineNumber] int line = 0
+            [CallerFilePath] string path = "",
+            [CallerLineNumber] int line = 0
         ) => $"{path}: {line}";
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Mimical.Extend;
+
 using static Mimical.Extend.system;
+using static Mimical.GameManager.Key;
 
 namespace Mimical
 {
@@ -20,6 +22,9 @@ namespace Mimical
         Text volumeT;
 
         [SerializeField]
+        Text songT;
+
+        [SerializeField]
         Speaker speaker;
 
         [SerializeField]
@@ -27,13 +32,23 @@ namespace Mimical
 
         string[] info;
 
-        void Update() => Show();
-
         void Start() => info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
+
+        void Update() => Show();
 
         void Show()
         {
-            speaker.VMute(volumeT);
+            speaker.VCtrl(volumeT);
+
+            if (input.Down(Mute))
+            {
+                speaker.VMute(volumeT);
+            }
+
+            if (input.Down(ChangeSong))
+            {
+                speaker.Change(songT);
+            }
 
             if (input.Down(KeyCode.Escape))
             {
@@ -51,11 +66,11 @@ namespace Mimical
                     manager.Pause();
                 }
 
-                else manager.Restart();
+                else
+                {
+                    manager.Restart();
+                }
             }
-
-            if (volumeT.IsActive())
-                speaker.VChange(volumeT);
         }
     }
 }

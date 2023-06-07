@@ -6,24 +6,14 @@ namespace Mimical.Extend
 {
     public static class coord
     {
-        public static void setpx(this Transform transform, double x)
-        => transform.position = new(
-            x.ToSingle(), transform.position.y, transform.position.z);
-
-        public static void setpy(this Transform transform, double y)
-        => transform.position = new(
-            transform.position.x, y.ToSingle(), transform.position.z);
-
-        public static void setpz(this Transform transform, double z)
-        => transform.position = new(
-            transform.position.x, transform.position.y, z.ToSingle());
-
         public static void setp(this Transform transform,
             double? x = null, double? y = null, double? z = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
             if (x is null && y is null && z is null)
+            {
                 throw new NanmoHaittehenwaException();
+            }
 
             transform.position = new(
                 x is null ? transform.position.x : x.ToSingle(),
@@ -38,14 +28,17 @@ namespace Mimical.Extend
         public static void setp(this Transform transform, Vector2 position)
         => transform.position = position;
 
-        public static void sestpc22(this Transform transform,
+        public static void setpc22(this Transform transform,
             float? minX = null, float? maxX = null,
             float? minY = null, float? maxY = null,
             float? minZ = null, float? maxZ = null
         )
         {
-            if (minX is not null && maxX is not null && minY is not null && maxY is not null && minZ is not null && maxZ is not null)
+            if (minX is not null && maxX is not null && minY is not null &&
+                maxY is not null && minZ is not null && maxZ is not null)
+            {
                 throw new NanmoHaittehenwaException();
+            }
 
             transform.position = new Vector3(
                 minX is null ? transform.position.x :
@@ -61,7 +54,9 @@ namespace Mimical.Extend
             float? minX = null, float? maxX = null, float? minY = null, float? maxY = null)
         {
             if (minX is null && maxX is null && minY is null && maxY is null)
+            {
                 throw new NanmoHaittehenwaException();
+            }
 
             transform.position = new(
                 Mathf.Clamp(transform.position.x, minX.ToSingle(), maxX.ToSingle()),
@@ -103,6 +98,7 @@ namespace Mimical.Extend
             {
                 throw new NanmoHaittehenwaException();
             }
+
             transform.rotation = Quaternion.Euler(
                 x is null ? transform.localScale.x : x.ToSingle(),
                 y is null ? transform.localScale.y : y.ToSingle(),
@@ -120,6 +116,7 @@ namespace Mimical.Extend
             {
                 throw new NanmoHaittehenwaException();
             }
+
             transform.localScale = new Vector3(
                 x is null ? transform.localScale.x : x.ToSingle(),
                 y is null ? transform.localScale.y : y.ToSingle(),
@@ -128,14 +125,17 @@ namespace Mimical.Extend
         }
 
         public static void sets(this Transform transform, Vector3 scale)
-            => transform.localScale = scale;
+        => transform.localScale = scale;
 
         public static void move2d(this Transform transform,
                 float speed, bool multiplyTime = true, string axish = "Horizontal", string axisv = "Vertical")
         {
             float h = Input.GetAxis(axish), v = Input.GetAxis(axisv);
+
             Vector3 move = new(h, v);
+
             Vector3 move2 = move * speed;
+
             transform.Translate(multiplyTime ? move2 * Time.deltaTime : move2);
         }
     }

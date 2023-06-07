@@ -9,10 +9,7 @@ namespace Mimical
         int count = 0;
         public int Count => count;
 
-        void Awake()
-        {
-            ResetCount();
-        }
+        void Awake() => ResetCount();
 
         public void ResetCount() => count = 0;
 

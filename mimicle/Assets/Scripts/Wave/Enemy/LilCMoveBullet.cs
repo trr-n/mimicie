@@ -42,7 +42,9 @@ namespace Mimical
         void OnCollisionExit2D(Collision2D info)
         {
             if (info.Compare(Const.Safety))
+            {
                 gameObject.Remove();
+            }
         }
     }
 }

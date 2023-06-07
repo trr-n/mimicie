@@ -21,8 +21,11 @@ namespace Mimical.Extend
         public static float range(float max)
         => randfloat(max: max);
 
-        public static int ice(int length)
-        => randint(max: length - 1);
+        public static int ice(object[] arr)
+        => randint(max: arr.Length - 1);
+
+        public static int ice2(this object[] arr)
+        => randint(max: arr.Length - 1);
 
         [Obsolete]
         public static string str(int? count)

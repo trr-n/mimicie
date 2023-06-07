@@ -14,7 +14,9 @@ namespace Mimical
         protected virtual void Left(GameObject gob, int deadLine = -20)
         {
             if (gob.transform.position.x <= deadLine)
+            {
                 gob.Remove();
+            }
         }
 
         protected void AddSlainCountAndRemove(GameObject gob)

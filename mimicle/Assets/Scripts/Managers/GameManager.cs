@@ -17,6 +17,12 @@ namespace Mimical
             public static KeyCode Mute = KeyCode.M;
 
             public static KeyCode Stop = KeyCode.Backspace;
+
+            public static KeyCode VUp = KeyCode.UpArrow;
+
+            public static KeyCode VDown = KeyCode.DownArrow;
+
+            public static KeyCode ChangeSong = KeyCode.LeftArrow;
         }
 
         public static class Dmg
