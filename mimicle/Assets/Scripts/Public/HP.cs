@@ -17,8 +17,12 @@ public class HP : MonoBehaviour
 
     public float Ratio => (float)now / max;
 
+    public void SetMax() => now = max;
+
     public void Healing(int amount)
     {
+        now = now.Clamping(0, max);
+
         now += amount;
 
         if (now >= max)
@@ -29,6 +33,8 @@ public class HP : MonoBehaviour
 
     public void Damage(int amount)
     {
+        now = now.Clamping(0, max);
+
         now -= amount;
 
         if (now < 0)
@@ -36,6 +42,4 @@ public class HP : MonoBehaviour
             now = 0;
         }
     }
-
-    public void SetMax() => now = max;
 }

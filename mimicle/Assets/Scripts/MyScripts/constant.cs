@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mimical
 {
-    public static class Const
+    public static class constant
     {
         public enum sindex
         {
@@ -43,7 +43,8 @@ namespace Mimical
         Manager = "Manager",
         Charger = "Charger",
         LilC = "LilC",
-        Bullet = "Bullet";
+        Bullet = "Bullet",
+        Logo = "Logo";
 
     }
 }

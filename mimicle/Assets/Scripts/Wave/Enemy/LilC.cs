@@ -12,8 +12,6 @@ namespace Mimical
 
         HP hp;
 
-        float speed = 0.5f;
-
         Vector2 direction;
 
         Vector2 position;
@@ -23,6 +21,8 @@ namespace Mimical
         float timer = 0;
 
         float rapid = 2;
+
+        float speed = 0.5f;
 
         // bool attack = true;
 
@@ -83,7 +83,7 @@ namespace Mimical
 
         void OnCollisionExit2D(Collision2D info)
         {
-            if (info.Compare(Const.Safety))
+            if (info.Compare(constant.Safety))
             {
                 gameObject.Remove();
             }

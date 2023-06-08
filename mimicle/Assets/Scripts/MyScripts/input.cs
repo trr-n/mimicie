@@ -2,10 +2,6 @@
 
 namespace Mimical.Extend
 {
-    public enum Key
-    {
-        Space = KeyCode.Space
-    }
     public static class input
     {
         public static bool Down() => Input.anyKeyDown;
@@ -15,8 +11,6 @@ namespace Mimical.Extend
         public static bool Down(KeyCode key) => Input.GetKeyDown(key);
 
         public static bool Down(string name) => Input.GetButtonDown(name);
-
-        public static bool Down(Key key) => Input.GetKeyDown((KeyCode)key);
 
 
         public static bool Pressed() => Input.anyKey;
@@ -28,10 +22,12 @@ namespace Mimical.Extend
         public static bool Pressed(string name) => Input.GetButton(name);
 
 
-        public static bool Up(int mouse) => Input.GetMouseButtonUp(mouse);
+        // public static bool Released() => Input.anyKeyUp;
 
-        public static bool Up(KeyCode key) => Input.GetKeyUp(key);
+        public static bool Released(int mouse) => Input.GetMouseButtonUp(mouse);
 
-        public static bool Up(string name) => Input.GetButtonUp(name);
+        public static bool Released(KeyCode key) => Input.GetKeyUp(key);
+
+        public static bool Released(string name) => Input.GetButtonUp(name);
     }
 }

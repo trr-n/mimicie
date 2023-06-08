@@ -8,6 +8,7 @@ namespace Mimical
     {
         [SerializeField]
         int max = 10;
+
         public int Max => max;
 
         int remain;

@@ -31,17 +31,13 @@ namespace Mimical
 
         HP hp;
 
-        Rigidbody2D rb;
-
         float movingSpeed = 5;
 
         void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
-
             hp = GetComponent<HP>();
 
-            manager ??= gobject.Find(Const.Manager).GetComponent<GameManager>();
+            manager ??= gobject.Find(constant.Manager).GetComponent<GameManager>();
         }
 
         void Start()
@@ -109,8 +105,8 @@ namespace Mimical
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
 
-            float h = Input.GetAxis(Const.Horizontal);
-            float v = Input.GetAxis(Const.Vertical);
+            float h = Input.GetAxis(constant.Horizontal);
+            float v = Input.GetAxis(constant.Vertical);
 
             Vector2 moving = new(h, v);
 

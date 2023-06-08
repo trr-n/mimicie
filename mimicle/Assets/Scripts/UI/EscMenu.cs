@@ -45,7 +45,7 @@ namespace Mimical
                 speaker.VMute(volumeT);
             }
 
-            if (input.Down(ChangeSong))
+            if (input.Down(MChange))
             {
                 speaker.Change(songT);
             }

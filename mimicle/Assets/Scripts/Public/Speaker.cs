@@ -20,8 +20,6 @@ namespace Mimical
 
         int pressCounter = 0;
 
-        string nowTitle = "";
-
         int nowIndex = 0;
 
         AudioSource speaker;
@@ -39,9 +37,7 @@ namespace Mimical
             speaker.Play();
         }
 
-        void _Update()
-        {
-        }
+        void _Update() {; }
 
         string VText(float _percentage) => $"おんりょう{_percentage}%";
 

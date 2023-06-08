@@ -13,26 +13,34 @@ namespace Mimical
         GameManager manager;
 
         [SerializeField]
-        Sprite background;
-
-        [SerializeField]
         GameObject[] cores;
 
         [SerializeField]
         float scrolling = 3;
 
-        float left = 20.48f;
+        public static float Left = 20.48f;
 
         void Update()
         {
-            if (manager.BackGroundScrollable)
-                foreach (var i in cores)
-                {
-                    i.transform.Translate(Vector2.left * scrolling * Time.deltaTime);
+            ScrollBackground();
+        }
 
-                    if (i.transform.position.x <= -left)
-                        i.transform.position = new(left, 0);
+        void ScrollBackground()
+        {
+            if (!manager.BackGroundScrollable)
+            {
+                return;
+            }
+
+            foreach (var i in cores)
+            {
+                i.transform.Translate(Vector2.left * scrolling * Time.deltaTime);
+
+                if (i.transform.position.x <= -Left)
+                {
+                    i.transform.position = new(Left, 0);
                 }
+            }
         }
     }
 }

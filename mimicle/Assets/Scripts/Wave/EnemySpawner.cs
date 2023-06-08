@@ -35,23 +35,23 @@ namespace Mimical
 
         // public bool Spawnable { get; set; }
 
-        const int X = 15;
-
         Transform playerTransform;
 
+        List<GameObject> spawnedChargers = new List<GameObject>();
+
+        const int X = 15;
+
         const int BreakingTime = 3;
+
+        int spawnCount = 0;
 
         float breakingTimer = 0;
 
         float lilcSpawnY = -3.8f;
 
-        int spawnCount = 0;
-
-        List<GameObject> spawnedChargers = new List<GameObject>();
+        float finalTime = 0, finalScore = 0;
 
         bool finals = false;
-
-        float finalTime = 0, finalScore = 0;
 
         void Start()
         {
@@ -63,7 +63,7 @@ namespace Mimical
 
             // StartCoroutine(TestWave1());
 
-            playerTransform = gobject.Find(Const.Player).transform;
+            playerTransform = gobject.Find(constant.Player).transform;
         }
 
         void Update()

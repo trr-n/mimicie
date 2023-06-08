@@ -36,7 +36,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Const.Player))
+            if (info.Compare(constant.Player))
             {
                 info.Get<HP>().Damage(GameManager.Dmg.Charger);
 

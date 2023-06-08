@@ -11,6 +11,7 @@ TagManager:
   - Manager
   - Charger
   - LilC
+  - Logo
   layers:
   - Default
   - TransparentFX

@@ -15,7 +15,7 @@ namespace Mimical
 
         void Start()
         {
-            playerTransform = gobject.Find(Const.Player).transform;
+            playerTransform = gobject.Find(constant.Player).transform;
 
             direction = playerTransform.position - transform.position;
         }
@@ -24,7 +24,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Const.Player))
+            if (info.Compare(constant.Player))
             {
                 info.Get<HP>().Damage(GameManager.Dmg.LilC);
 
@@ -33,7 +33,7 @@ namespace Mimical
                 gameObject.Remove();
             }
 
-            if (info.Compare(Const.Bullet))
+            if (info.Compare(constant.Bullet))
             {
                 gameObject.Remove();
             }
@@ -41,7 +41,7 @@ namespace Mimical
 
         void OnCollisionExit2D(Collision2D info)
         {
-            if (info.Compare(Const.Safety))
+            if (info.Compare(constant.Safety))
             {
                 gameObject.Remove();
             }

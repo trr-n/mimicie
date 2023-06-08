@@ -20,7 +20,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Const.Enemy))
+            if (info.Compare(constant.Enemy))
             {
                 info.gameObject.GetComponent<HP>().Damage(100);
 
@@ -34,7 +34,7 @@ namespace Mimical
 
         void OnTriggerExit2D(Collider2D info)
         {
-            if (info.Compare(Const.Safety))
+            if (info.Compare(constant.Safety))
             {
                 gameObject.Remove();
             }

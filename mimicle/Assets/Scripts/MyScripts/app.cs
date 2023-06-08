@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public static class app
+namespace Mimical.Extend
 {
-    public static void SetFps(int fps = -1)
-    => Application.targetFrameRate = fps;
+    public static class app
+    {
+        public static void SetFps(int fps = -1)
+        => Application.targetFrameRate = fps;
+    }
 }

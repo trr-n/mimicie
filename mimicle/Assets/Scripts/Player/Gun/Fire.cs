@@ -21,8 +21,6 @@ namespace Mimical
 
         AudioSource speaker;
 
-        float rapid;
-
         void Start()
         {
             speaker = GetComponent<AudioSource>();
