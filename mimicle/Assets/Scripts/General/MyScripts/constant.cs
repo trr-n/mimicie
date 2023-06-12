@@ -45,7 +45,8 @@ namespace Mimical
         LilC = "LilC",
         Bullet = "Bullet",
         Logo = "Logo",
-        Boss = "Boss";
+        Boss = "Boss",
+        TriggerZone = "TriggerArea";
     }
 }
 

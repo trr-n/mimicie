@@ -12,6 +12,7 @@ namespace Mimical
         GameObject bullet;
 
         HP hp;
+        BoxCollider2D col;
 
         Vector2 position;
         Vector2 firstPosition;
@@ -30,6 +31,8 @@ namespace Mimical
         {
             hp = GetComponent<HP>();
             base.Start(hp);
+
+            col = GetComponent<BoxCollider2D>();
 
             firstPosition = new(random.randint(3, 6), transform.position.y);
             position = transform.position;
@@ -75,12 +78,22 @@ namespace Mimical
             // }
         }
 
-        void OnCollisionExit2D(Collision2D info)
+        protected void OnBecameInvisible()
         {
-            if (info.Compare(constant.Safety))
-            {
-                gameObject.Remove();
-            }
+            col.isTrigger = true;
         }
+
+        protected void OnBecameVisible()
+        {
+            col.isTrigger = false;
+        }
+
+        // void OnCollisionExit2D(Collision2D info)
+        // {
+        //     if (info.Compare(constant.Safety))
+        //     {
+        //         gameObject.Remove();
+        //     }
+        // }
     }
 }

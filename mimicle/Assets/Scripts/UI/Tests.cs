@@ -48,33 +48,33 @@ namespace Mimical
         [SerializeField]
         Score score;
 
+        [SerializeField]
+        WaveData waveData;
+
+        [SerializeField]
+        Text waveT;
+
         void Update()
         {
             Text();
-
             Image();
         }
 
         void Image()
         {
             hpImage.fillAmount = playerHp.Ratio;
-
             reloadImage.fillAmount = player.ReloadProgress;
         }
 
         void Text()
         {
             timeT.text = Score.Time().ToString();
-
             nowWaveT.text = wave.Now.ToString();
-
             maxWaveT.text = wave.Max.ToString();
-
             ammoT.text = ammo.Remain.ToString();
-
             fpsT.text = visual.Fps().ToString();
-
             scoreT.text = score.Now.ToString();
+            waveT.text = waveData.Now.ToString();
         }
     }
 }

@@ -7,14 +7,20 @@ namespace Mimical
 {
     public class Charger : Enemy
     {
-        float speed = 2;
-
         HP hp;
+
+        BoxCollider2D col;
+
+        float xx = 8.9f, yy = 5f;
+
+        float speed = 2;
 
         void Start()
         {
             hp = GetComponent<HP>();
             base.Start(hp);
+
+            col = GetComponent<BoxCollider2D>();
         }
 
         void Update()
@@ -50,6 +56,16 @@ namespace Mimical
                 gameObject.Remove();
                 Score.Add(-100);
             }
+        }
+
+        protected override void OnBecameInvisible()
+        {
+            col.isTrigger = true;
+        }
+
+        protected override void OnBecameVisible()
+        {
+            col.isTrigger = false;
         }
     }
 }

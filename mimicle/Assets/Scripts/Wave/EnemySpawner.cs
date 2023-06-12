@@ -10,19 +10,22 @@ namespace Mimical
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField]
-        Slain slain;
+        GameObject[] waveObjs;
 
         [SerializeField]
-        Wave wave;
+        protected Slain slain;
 
         [SerializeField]
-        Boss boss;
+        protected Wave wave;
+
+        [SerializeField]
+        protected Boss boss;
 
         [SerializeField]
         GameObject[] enemies;
 
         [Serializable]
-        struct Quota
+        protected struct Quota
         {
             public int quota;
             public int span;
@@ -37,12 +40,12 @@ namespace Mimical
 
         Transform playerTransform;
 
-        List<GameObject> spawnedChargers = new List<GameObject>();
+        List<GameObject> spawnedEnemies = new List<GameObject>();
 
-        const int X = 15;
+        protected const int X = 15;
 
         float breakingTimer = 0;
-        const int BreakingTime = 3;
+        protected const int BreakingTime = 3;
 
         int spawnCount = 0;
 
@@ -70,16 +73,11 @@ namespace Mimical
             Wave1();
             Wave2();
             Wave3();
-
-            // breakingTimer.show();
         }
 
-        /// <summary>
-        /// チャージャーを一定間隔で出す
-        /// </summary>
         void Wave1()
         {
-            if (!inProgress(Wave.First))// && !Spawnable)
+            if (!inProgress(Wave.First))
             {
                 return;
             }
@@ -95,13 +93,13 @@ namespace Mimical
             if (qset[Wave.First].timer >= qset[Wave.First].span &&
                 slain.Count <= qset[Wave.First].quota)
             {
-                spawnedChargers.Add(
+                spawnedEnemies.Add(
                     enemies[Wave.First].Instance(transform.position, Quaternion.identity));
 
                 qset[Wave.First].timer = 0;
             }
 
-            foreach (var i in spawnedChargers)
+            foreach (var i in spawnedEnemies)
             {
                 if (i.IsExist())
                 {
@@ -201,7 +199,7 @@ namespace Mimical
             }
         }
 
-        bool inProgress(int wave)
+        public bool inProgress(int wave)
         {
             switch (wave)
             {

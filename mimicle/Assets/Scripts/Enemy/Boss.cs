@@ -54,8 +54,6 @@ namespace Mimical
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
 
-        float timer = 0f;
-
         void Start()
         {
             collider = GetComponent<PolygonCollider2D>();

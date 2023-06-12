@@ -11,21 +11,24 @@ namespace Mimical
 
         protected abstract void Move();
 
-        protected virtual void Left(GameObject gob, int deadLine = -20)
+        protected virtual void Left(GameObject obj, int deadLine = -20)
         {
-            if (gob.transform.position.x <= deadLine)
+            if (obj.transform.position.x <= deadLine)
             {
-                gob.Remove();
+                obj.Remove();
             }
         }
 
         protected void AddSlainCountAndRemove(GameObject gob)
         {
             var slain = GameObject.Find("Wave").GetComponent<Slain>();
-
             slain.AddCount();
 
             gob.Remove();
         }
+
+        protected virtual void OnBecameVisible() {; }
+
+        protected virtual void OnBecameInvisible() {; }
     }
 }
