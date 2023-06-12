@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
+using DG.Tweening;
 
 namespace Mimical
 {
@@ -12,14 +13,11 @@ namespace Mimical
 
         HP hp;
 
+        Vector2 position;
+        Vector2 firstPosition;
         Vector2 direction;
 
-        Vector2 position;
-
-        Vector2 firstPosition;
-
         float timer = 0;
-
         float rapid = 2;
 
         float speed = 0.5f;
@@ -31,27 +29,23 @@ namespace Mimical
         void Start()
         {
             hp = GetComponent<HP>();
-
             base.Start(hp);
 
-            firstPosition = new(random.randfloat(3, 6), transform.position.y);
-
+            firstPosition = new(random.randint(3, 6), transform.position.y);
             position = transform.position;
-
             direction = firstPosition - position;
+            transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);
         }
 
         void Update()
         {
             Move();
-
             Left(gameObject);
 
             if (hp.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
-
-                Score.Add(GameManager.Point.LilC);
+                Score.Add(Values.Point.LilC);
             }
         }
 
@@ -59,7 +53,7 @@ namespace Mimical
         {
             if (transform.position.x >= firstPosition.x)
             {
-                transform.Translate(direction * speed * Time.deltaTime);
+                // transform.Translate(direction * speed * Time.deltaTime);
             }
 
             timer += Time.deltaTime;

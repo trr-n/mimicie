@@ -8,46 +8,6 @@ namespace Mimical
 {
     public sealed class GameManager : MonoBehaviour
     {
-        public static class Key
-        {
-            public static KeyCode Reload = KeyCode.LeftShift;
-
-            public static KeyCode Fire = KeyCode.Space;
-
-            public static KeyCode Mute = KeyCode.M;
-
-            public static KeyCode Stop = KeyCode.Backspace;
-
-            public static KeyCode VUp = KeyCode.UpArrow;
-
-            public static KeyCode VDown = KeyCode.DownArrow;
-
-            public static KeyCode MChange = KeyCode.LeftArrow;
-        }
-
-        public static class Dmg
-        {
-            public static int Charger = 5;
-
-            public static int LilC = 10;
-        }
-
-        public static class Point
-        {
-            public static int Charger = 100;
-
-            public static int LilC = 500;
-
-            public static int Boss = 10000;
-
-
-            public static int RedCharger = -10;
-
-            public static int RedLilC = -100;
-
-            public static int RedLilCBullet = -10;
-        }
-
         [SerializeField]
         int startWave = 0;
 
@@ -65,22 +25,20 @@ namespace Mimical
         [SerializeField]
         Slain slain;
 
+        Boss boss;
+
+        bool bossGetable = false;
+        public bool BossGetable => bossGetable;
+
         public bool PlayerCtrlable { get; set; }
-
         public bool BackGroundScrollable { get; set; }
-
         public bool IsOpeningMenu { get; set; }
-
-        // bool isPassing = true;
-
-        // public bool IsPassing => isPassing;
 
         void Start()
         {
             spawner.ActivateWave(startWave);
 
             PlayerCtrlable = true;
-
             BackGroundScrollable = true;
 
             Physics2D.gravity = Vector3.forward * 9.81f;
@@ -88,33 +46,19 @@ namespace Mimical
 
         void Update()
         {
-            // debugT.text =
-            //     "Scrollable: " + BackGroundScrollable.newline() +
-            //     "Controllable: " + PlayerCtrlable.newline() +
-            //     "isOpenMenu: " + IsOpeningMenu.newline() +
-            //     "isSpent: " + isPassing.newline();
-
             debugT.text = "slain count: " + slain.Count;
 
-            if (input.Pressed(Key.Stop))
+            if (input.Pressed(Values.Key.Stop))
             {
-                // isPassing = false;
-
                 Time.timeScale = 0;
-
                 PlayerCtrlable = false;
-
                 BackGroundScrollable = false;
             }
 
-            else if (input.Released(Key.Stop))
+            else if (input.Released(Values.Key.Stop))
             {
-                // isPassing = true;
-
                 Time.timeScale = 1;
-
                 PlayerCtrlable = true;
-
                 BackGroundScrollable = true;
             }
         }
@@ -122,26 +66,18 @@ namespace Mimical
         public void Pause()
         {
             menuPanel.SetActive(true);
-
             PlayerCtrlable = false;
-
             BackGroundScrollable = false;
-
             IsOpeningMenu = true;
-
             Time.timeScale = 0;
         }
 
         public void Restart()
         {
             menuPanel.SetActive(false);
-
             PlayerCtrlable = true;
-
             BackGroundScrollable = true;
-
             IsOpeningMenu = false;
-
             Time.timeScale = 1;
         }
     }

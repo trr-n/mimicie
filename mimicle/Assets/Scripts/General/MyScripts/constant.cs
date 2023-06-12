@@ -44,8 +44,8 @@ namespace Mimical
         Charger = "Charger",
         LilC = "LilC",
         Bullet = "Bullet",
-        Logo = "Logo";
-
+        Logo = "Logo",
+        Boss = "Boss";
     }
 }
 

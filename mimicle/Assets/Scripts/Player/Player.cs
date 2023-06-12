@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
-using static Mimical.GameManager.Key;
-
 namespace Mimical
 {
     [RequireComponent(typeof(Rigidbody2D))]
@@ -57,11 +55,18 @@ namespace Mimical
             Reload();
         }
 
+#if UNITY_EDITOR
+        void OnDrawGizmos()
+        {
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+        }
+#endif
+
         void Trigger()
         {
             rapid += Time.deltaTime;
 
-            if (input.Pressed(GameManager.Key.Fire) && !ammo.IsZero() && rapid > 0.5f &&
+            if (input.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f &&
                 !isReloading)
             {
                 gun.Shot();
@@ -72,10 +77,9 @@ namespace Mimical
 
         void Reload()
         {
-            if (input.Down(GameManager.Key.Reload))
+            if (input.Down(Values.Key.Reload))
             {
                 ammo.Reload();
-
                 isReloading = true;
             }
 
@@ -86,7 +90,6 @@ namespace Mimical
                 if (reloadingTimer >= reloading)
                 {
                     isReloading = false;
-
                     reloadingTimer = 0;
                 }
             }
@@ -105,8 +108,8 @@ namespace Mimical
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
 
-            float h = Input.GetAxis(constant.Horizontal);
-            float v = Input.GetAxis(constant.Vertical);
+            float h = Input.GetAxisRaw(constant.Horizontal);
+            float v = Input.GetAxisRaw(constant.Vertical);
 
             Vector2 moving = new(h, v);
 

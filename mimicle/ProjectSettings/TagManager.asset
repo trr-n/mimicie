@@ -12,6 +12,7 @@ TagManager:
   - Charger
   - LilC
   - Logo
+  - Boss
   layers:
   - Default
   - TransparentFX

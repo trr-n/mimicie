@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using Mimical.Extend;
 
 using static Mimical.Extend.system;
-using static Mimical.GameManager.Key;
 
 namespace Mimical
 {
@@ -40,12 +39,12 @@ namespace Mimical
         {
             speaker.VCtrl(volumeT);
 
-            if (input.Down(Mute))
+            if (input.Down(Values.Key.Mute))
             {
                 speaker.VMute(volumeT);
             }
 
-            if (input.Down(MChange))
+            if (input.Down(Values.Key.MChange))
             {
                 speaker.Change(songT);
             }

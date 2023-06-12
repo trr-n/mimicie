@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!96 &8507010373485937365
 TrailRenderer:
   serializedVersion: 2
@@ -248,7 +248,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fx: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
-  se: {fileID: 8300000, guid: b7a210df23bd255428bdf4def67109f2, type: 3}
+  se:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!82 &5121292954223747016
 AudioSource:
   m_ObjectHideFlags: 0

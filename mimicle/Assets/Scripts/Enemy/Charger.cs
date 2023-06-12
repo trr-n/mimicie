@@ -20,14 +20,12 @@ namespace Mimical
         void Update()
         {
             Move();
-
             Left(gameObject);
 
             if (hp.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
-
-                Score.Add(GameManager.Point.Charger);
+                Score.Add(Values.Point.Charger);
             }
         }
 
@@ -38,11 +36,19 @@ namespace Mimical
         {
             if (info.Compare(constant.Player))
             {
-                info.Get<HP>().Damage(GameManager.Dmg.Charger);
-
-                Score.Add(GameManager.Point.RedCharger);
+                info.Get<HP>().Damage(Values.Damage.Charger);
+                Score.Add(Values.Point.RedCharger);
 
                 gameObject.Remove();
+            }
+        }
+
+        void OnCollisionExit2D(Collision2D info)
+        {
+            if (info.Compare(constant.Safety))
+            {
+                gameObject.Remove();
+                Score.Add(-100);
             }
         }
     }

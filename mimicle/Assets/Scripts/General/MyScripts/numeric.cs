@@ -22,8 +22,8 @@ namespace Mimical.Extend
         public static float Round(float n, int digit)
         => MathF.Round(n, digit);
 
-        public static float Percent(float n, int digit = 0)
-        => MathF.Round(n * 100, digit);
+        public static int Percent(float n, int digit = 0)
+        => ((int)MathF.Round(n * 100, digit));
 
         // public static void sample(out int n) => n = 5;
 
@@ -33,5 +33,15 @@ namespace Mimical.Extend
 
         // public static float Min(this float n, float a)
         // => Math.Min(n, a);
+
+        public static bool AlmostSame(this float n1, float n2)
+        => Mathf.Approximately(n1, n2);
+
+        public static bool AlmostSame(this Vector3 n1, Vector3 n2)
+        {
+            return Mathf.Approximately(n1.x, n2.x) &&
+                Mathf.Approximately(n1.y, n2.y) &&
+                Mathf.Approximately(n1.z, n2.z);
+        }
     }
 }

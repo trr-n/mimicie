@@ -87,5 +87,8 @@ namespace Mimical.Extend
         }
 
         public static bool isActive(this Text text) => text.IsActive();
+
+
+        public static bool IsExist(this GameObject obj) => obj.gameObject;
     }
 }

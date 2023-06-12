@@ -12,20 +12,25 @@ namespace Mimical
         GameObject fx;
 
         [SerializeField]
-        AudioClip se;
+        AudioClip[] se;
 
         AudioSource spk;
+        // Rigidbody2D rb;
 
-        void Start() => spk = GetComponent<AudioSource>();
+        void Start()
+        {
+            // rb = GetComponent<Rigidbody2D>();
+            // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            spk = GetComponent<AudioSource>();
+        }
 
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(constant.Enemy))
             {
-                info.gameObject.GetComponent<HP>().Damage(100);
-
-                // spk.PlayOneShot(se);
-
+                info.gameObject.GetComponent<HP>().Damage(Values.Damage.Player);
+                // spk.PlayOneShot(se[0]);
                 fx.Instance(transform.position, Quaternion.identity);
 
                 gameObject.Remove();
@@ -36,6 +41,7 @@ namespace Mimical
         {
             if (info.Compare(constant.Safety))
             {
+                // spk.PlayOneShot(se[1]);
                 gameObject.Remove();
             }
         }
