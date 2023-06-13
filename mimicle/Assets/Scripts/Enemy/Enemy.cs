@@ -27,8 +27,8 @@ namespace Mimical
             gob.Remove();
         }
 
-        protected virtual void OnBecameVisible() {; }
+        protected abstract void OnBecameVisible();
 
-        protected virtual void OnBecameInvisible() {; }
+        protected abstract void OnBecameInvisible();
     }
 }

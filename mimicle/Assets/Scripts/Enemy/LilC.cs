@@ -6,7 +6,7 @@ using DG.Tweening;
 
 namespace Mimical
 {
-    public class LilC : Enemy
+    public sealed class LilC : Enemy
     {
         [SerializeField]
         GameObject bullet;
@@ -78,12 +78,12 @@ namespace Mimical
             // }
         }
 
-        protected void OnBecameInvisible()
+        protected override void OnBecameInvisible()
         {
             col.isTrigger = true;
         }
 
-        protected void OnBecameVisible()
+        protected override void OnBecameVisible()
         {
             col.isTrigger = false;
         }

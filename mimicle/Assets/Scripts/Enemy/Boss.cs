@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Mimical
 {
-    public class Boss : Enemy
+    public class Boss : MonoBehaviour//Enemy
     {
         [SerializeField]
         GameObject[] bullets;
@@ -88,17 +88,12 @@ namespace Mimical
         }
 
         /*
-        ?残り体力によって攻撃を変える
-        75 ~ 100, 青:
-            n%ダメージの弾, 毎秒発射
-        50 ~ 75, 緑:
-            5ダメージホーミング弾
-        30 ~ 50, 黄色:
-            7ダメージホーミング弾
-        10 ~ 30, オレンジ:
-            9ダメージホーミング弾
-        00 ~ 10, 赤:
-            11ダメージホーミング弾
+        TODO 残り体力によって攻撃を変える
+        75 ~ 100, 青: 5%弾, 毎秒発射
+        50 ~ 75, 緑:  7%ホーミング弾
+        30 ~ 50, 黄:  9%ホーミング弾
+        10 ~ 30, 橙:  13%ホーミング弾
+        00 ~ 10, 赤:  13%ホーミング弾
         */
         void Both()
         {
@@ -124,7 +119,7 @@ namespace Mimical
             Lv4();
             Lv5();
 
-            // $"boss: {selfRemain}, player: {playerRemain}".show();
+            print($"boss: {selfRemain}%, player: {playerRemain}%");
         }
 
         bool l1 = false;
@@ -235,7 +230,5 @@ namespace Mimical
                 selfHp.Damage(Values.Damage.Player / 2);
             }
         }
-
-        protected override void Move() {; }
     }
 }

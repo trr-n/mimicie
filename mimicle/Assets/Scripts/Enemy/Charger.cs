@@ -5,7 +5,7 @@ using Mimical.Extend;
 
 namespace Mimical
 {
-    public class Charger : Enemy
+    public sealed class Charger : Enemy
     {
         HP hp;
 
@@ -36,7 +36,9 @@ namespace Mimical
         }
 
         protected override void Move()
-        => transform.Translate(Vector2.left * speed * Time.deltaTime);
+        {
+            transform.Translate(Vector2.left * speed * Time.deltaTime);
+        }
 
         void OnCollisionEnter2D(Collision2D info)
         {

@@ -108,8 +108,8 @@ namespace Mimical
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
 
-            float h = Input.GetAxisRaw(constant.Horizontal);
-            float v = Input.GetAxisRaw(constant.Vertical);
+            float h = Input.GetAxis(constant.Horizontal);
+            float v = Input.GetAxis(constant.Vertical);
 
             Vector2 moving = new(h, v);
 

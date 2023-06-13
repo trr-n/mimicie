@@ -5,23 +5,36 @@ using Mimical.Extend;
 
 namespace Mimical
 {
-    public class Wave1 : WaveData
+    public sealed class Wave1 : MonoBehaviour//WaveData
     {
+        [SerializeField]
+        WaveData data;
+
+        [SerializeField]
+        int quota = 10;
+
         [SerializeField]
         GameObject[] enemies;
 
         [SerializeField]
         float spawnSpan = 1f;
 
+        [SerializeField]
+        Slain slain;
+
         Transform playerTransform;
 
-        float breakingTimer = 0;
+        List<GameObject> spawned = new List<GameObject>();
 
+        float spawnTimer = 0f;
+        const float BreakTime = 2f;
+        float breakTimer = 0f;
+
+        const int X = 15;
         int y = 0;
 
         void OnEnable()
         {
-            print("wave1 start method passed");
             playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
         }
 
@@ -32,7 +45,7 @@ namespace Mimical
 
         void Spawn()
         {
-            if (waves != 0)
+            if (data.Now != 1)
             {
                 return;
             }
@@ -40,12 +53,11 @@ namespace Mimical
             y = random.randint();
             transform.position = new(X, y);
 
-            SpawnTimer += Time.deltaTime;
-            if (SpawnTimer >= spawnSpan)
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= spawnSpan && !IsDone())
             {
-                SpawnTimer = 0;
-
-                enemies.Instance(transform.position, Quaternion.identity);
+                spawnTimer = 0;
+                spawned.Add(enemies.Instance(transform.position, Quaternion.identity));
                 print("wave1 spawn");
             }
 
@@ -57,7 +69,19 @@ namespace Mimical
                     return;
                 }
             }
+
+            if (IsDone())
+            {
+                breakTimer += Time.deltaTime;
+                if (breakTimer >= BreakTime)
+                {
+                    print("clear this wave");
+                    data.ActivateWave(((int)Activate.Second));
+                }
+            }
         }
+
+        bool IsDone() => slain.Count >= quota;
     }
 }
 

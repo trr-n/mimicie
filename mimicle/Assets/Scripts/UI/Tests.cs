@@ -54,6 +54,16 @@ namespace Mimical
         [SerializeField]
         Text waveT;
 
+        Transform playerTransform;
+
+        RectTransform parentTransform;
+
+        void Start()
+        {
+            playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
+            parentTransform = reloadImage.transform.parent.GetComponent<RectTransform>();
+        }
+
         void Update()
         {
             Text();
@@ -63,7 +73,11 @@ namespace Mimical
         void Image()
         {
             hpImage.fillAmount = playerHp.Ratio;
+
             reloadImage.fillAmount = player.ReloadProgress;
+            // var playerScreenPos = Camera.main.WorldToScreenPoint(playerTransform.position);
+            // RectTransformUtility.ScreenPointToLocalPointInRectangle(parentTransform, playerScreenPos, null, out var uiLocalPos);
+            // reloadImage.transform.localPosition = uiLocalPos;
         }
 
         void Text()

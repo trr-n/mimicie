@@ -4,11 +4,19 @@ using UnityEngine;
 
 namespace Mimical
 {
-    public class Wave2 : WaveData
+    public sealed class Wave2 : MonoBehaviour//WaveData
     {
+        [SerializeField]
+        WaveData data;
+
+        [SerializeField]
+        GameObject[] enemies;
+
+        Transform playerTransform;
+
         void OnEnable()
         {
-            print("wave2 start method passed");
+            playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
         }
 
         void Update()
@@ -18,12 +26,11 @@ namespace Mimical
 
         void Spawn()
         {
-            if (waves != 0)
+            if (data.Now != 2)
             {
                 return;
             }
-            SpawnTimer += Time.deltaTime;
-            print("wave2: " + SpawnTimer);
+            print("wave2");
         }
     }
 }

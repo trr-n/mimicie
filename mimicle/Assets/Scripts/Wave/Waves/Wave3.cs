@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Mimical
 {
-    public class Wave3 : WaveData
+    public class Wave3 : MonoBehaviour
     {
+        [SerializeField]
+        WaveData data;
+
         void OnEnable()
         {
-            print("wave3 start method passed");
         }
 
         void Update()
@@ -18,12 +20,11 @@ namespace Mimical
 
         void Spawn()
         {
-            if (waves != 0)
+            if (data.Now != 3)
             {
                 return;
             }
-            SpawnTimer += Time.deltaTime;
-            print("wave3: " + SpawnTimer);
+            print("wave3");
         }
     }
 }
