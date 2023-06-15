@@ -21,7 +21,7 @@ namespace Mimical
         float timer = 0;
         float rapid = 2;
 
-        float speed = 0.5f;
+        // float speed = 0.5f;
 
         // bool attack = true;
 
