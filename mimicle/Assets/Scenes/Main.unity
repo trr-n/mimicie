@@ -2424,6 +2424,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 1186485608}
   bossObj: {fileID: 1993262158}
+  mobs:
+  - {fileID: 2435298199578689330, guid: 81f121ae8bf57444bb8a30010d268bbd, type: 3}
+  - {fileID: 4201622935332774085, guid: 25f9ebaf4f533c2448654925de0fcbce, type: 3}
+  - {fileID: 6749372276752705822, guid: baeeefad58b82a44cad21441ea245fcd, type: 3}
+  - {fileID: 5678156588087776592, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
 --- !u!1 &1601746598
 GameObject:
   m_ObjectHideFlags: 0

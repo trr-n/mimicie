@@ -9,12 +9,12 @@ namespace Mimical
     {
         [SerializeField]
         WaveData data;
-
         [SerializeField]
         GameObject bossObj;
+        [SerializeField, Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
+        GameObject[] mobs;
 
         Boss boss;
-
         Transform playerTransform;
 
         void Start()
@@ -32,6 +32,7 @@ namespace Mimical
             Spawn();
         }
 
+        bool once = true;
         void Spawn()
         {
             if (data.Now != 3)
@@ -40,7 +41,11 @@ namespace Mimical
             }
             print("wave3");
             transform.position = new();
-            bossObj.SetActive(true);
+            if (once)
+            {
+                bossObj.SetActive(true);
+                once = false;
+            }
         }
     }
 }
