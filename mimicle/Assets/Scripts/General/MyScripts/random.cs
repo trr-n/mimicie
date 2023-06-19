@@ -27,7 +27,7 @@ namespace Mimical.Extend
         public static int ice2(this object[] arr)
         => randint(max: arr.Length - 1);
 
-        [Obsolete]
+        [Obsolete("動かない")]
         public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

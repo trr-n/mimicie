@@ -22,12 +22,6 @@ namespace Mimical
         Wave wave;
 
         [SerializeField]
-        Text ammoT;
-
-        [SerializeField]
-        Ammo ammo;
-
-        [SerializeField]
         Image hpImage;
 
         [SerializeField]
@@ -85,7 +79,6 @@ namespace Mimical
             timeT.text = Score.Time().ToString();
             nowWaveT.text = wave.Now.ToString();
             maxWaveT.text = wave.Max.ToString();
-            ammoT.text = ammo.Remain.ToString();
             fpsT.text = visual.Fps().ToString();
             scoreT.text = score.Now.ToString();
             waveT.text = waveData.Now.ToString();

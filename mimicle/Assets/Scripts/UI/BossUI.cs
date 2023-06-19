@@ -15,6 +15,9 @@ namespace Mimical
         Image gauge;
 
         [SerializeField]
+        Text text;
+
+        [SerializeField]
         HP bossHp;
 
         [SerializeField]
@@ -34,6 +37,7 @@ namespace Mimical
         public void UpdateBossUI()
         {
             gauge.fillAmount = bossHp.Ratio;
+            text.text = bossHp.Now.ToString();
         }
     }
 }

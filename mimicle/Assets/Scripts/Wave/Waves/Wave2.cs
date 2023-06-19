@@ -31,6 +31,8 @@ namespace Mimical
         const float BreakTime = 2f;
         float breakTimer = 0f;
 
+        List<GameObject> spawned = new List<GameObject>();
+
         void OnEnable()
         {
             playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
@@ -44,16 +46,14 @@ namespace Mimical
         void Spawn()
         {
             if (data.Now != 2)
-            {
                 return;
-            }
             print("wave2");
 
             transform.position = new(X, transform.position.y);
             timer += Time.deltaTime;
 
             // 0123 = 4
-            if (timer >= span && !IsDone() && spawnCount < quota)
+            if (timer >= span && spawnCount < quota)
             {
                 enemies[Wave.Second].Instance(new(X, lilcSpawnY), Quaternion.identity);
                 timer = 0;

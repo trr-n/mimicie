@@ -56,12 +56,8 @@ namespace Mimical
             now4ui = ((int)waves) + 1;
             waveObjs[now4ui - 1].SetActive(true);
             for (int i = 0; i < waveObjs.Length; i++)
-            {
                 if (now4ui - 1 != i)
-                {
                     waveObjs[i].SetActive(false);
-                }
-            }
         }
 
         public void ActivateWave(int index)
@@ -71,12 +67,8 @@ namespace Mimical
             now4ui = index + 1;
 
             for (var i = 0; i < waveObjs.Length; i++)
-            {
                 if (i != index)
-                {
                     waveObjs[i].SetActive(false);
-                }
-            }
         }
     }
 }

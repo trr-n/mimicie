@@ -13,39 +13,39 @@ namespace Mimical
         Vector3 direction;
         Transform player;
 
+        float accelRatio = 1.001f;
+
         void Start()
         {
             player = gobject.Find(constant.Player).transform;
-            direction = transform.position - player.position;
+            direction = player.position - transform.position;
         }
 
         void FixedUpdate()
         {
             if (gameObject.IsExist())
-            {
-                speed *= 1.2f;
-            }
+                speed *= accelRatio;
             Move(speed);
         }
         void Update()
         {
             var distance = Vector3.Distance(player.transform.position, this.transform.position);
-            if (distance <= 10)
-            {
-                // 近づいたら爆発して被爆
-            }
+            if (distance <= 10) {; }
+            if (transform.position.x <= -20.48f)
+                Destroy(this.gameObject);
         }
 
         protected override void Move(float speed)
         {
-            transform.Translate(-direction * speed * Time.deltaTime);
+            if (this.gameObject is not null)
+                transform.Translate(direction * speed * Time.deltaTime);
+            else Destroy(this);
         }
 
         protected override void Attack(Collision2D info)
         {
             var hp = info.Get<HP>();
             var dmgAmount = ((int)numeric.Round(hp.Now / 50, 0));
-            $"dmg: {dmgAmount}".show();
             hp.Damage(dmgAmount);
 
             gameObject.Remove();
@@ -54,21 +54,9 @@ namespace Mimical
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(constant.Player))
-            // if (info.gameObject.TryGetComponent<HP>(out var hp))
             {
-                // "hit bullet0".show();
-                // var hp = info.Get<HP>();
-                // var dmgAmount = ((int)numeric.Round(hp.Ratio / 10, 0));
-                // hp.Damage(dmgAmount);
-
-                // gameObject.Remove();
                 Attack(info);
             }
-
-            // if (info.Compare(constant.Bullet))
-            // {
-            //     }
-            // }
         }
 
         void OnTriggerExit2D(Collider2D info)

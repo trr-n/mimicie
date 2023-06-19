@@ -159,10 +159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa1f93fbeb8f6443b591f59c89c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullets: []
-  point: {fileID: 0}
+  bullets:
+  - {fileID: 874576930141197848, guid: cafdc69428e53334ba2e2551c1cf4272, type: 3}
+  point: {fileID: 1268664604746198039}
   bossUI: {fileID: 0}
-  spawner: {fileID: 0}
   colour:
   - remainHp: 75
     color: {r: 0.39999998, g: 0.97720826, b: 1, a: 1}

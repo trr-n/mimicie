@@ -17,9 +17,7 @@ namespace Mimical
 
         float speed = 1f;
 
-        int[] rots = {
-            50, 90, 200
-        };
+        int[] rots = { 50, 90, 120 };
 
         void Start()
         {

@@ -29,11 +29,14 @@ namespace Mimical
         {
             if (info.Compare(constant.Enemy))
             {
-                info.gameObject.GetComponent<HP>().Damage(Values.Damage.Player);
+                info.gameObject.TryGetComponent<HP>(out var hp);
+                if (hp.Max <= 2000)
+                    hp.Damage(Values.Damage.Player);
+                else
+                    hp.Damage(Values.Damage.Player / 5);
                 // spk.PlayOneShot(se[0]);
                 fx.Instance(transform.position, Quaternion.identity);
-
-                gameObject.Remove();
+                Destroy(gameObject);
             }
         }
 
@@ -42,7 +45,7 @@ namespace Mimical
             if (info.Compare(constant.Safety))
             {
                 // spk.PlayOneShot(se[1]);
-                gameObject.Remove();
+                Destroy(gameObject);
             }
         }
     }

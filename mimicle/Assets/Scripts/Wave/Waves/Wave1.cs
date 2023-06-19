@@ -74,6 +74,7 @@ namespace Mimical
                 if (breakTimer >= BreakTime)
                 {
                     print("clear this wave");
+                    slain.ResetCount();
                     data.ActivateWave(((int)Activate.Second));
                 }
             }
@@ -82,55 +83,3 @@ namespace Mimical
         bool IsDone() => slain.Count >= quota;
     }
 }
-
-/* 残骸
-        public void First()
-        {
-            if (!inProgress(Wave.First))
-            {
-                return;
-            }
-
-            quota.timer += Time.deltaTime;
-
-            "Wave1".show();
-
-            transform.position = new(X, playerTransform.position.y);
-
-            wave.Set(Wave.First);
-
-            if (quota.timer >= quota.span &&
-                slain.Count <= quota.quota)
-            {
-                spawnedEnemies.Add(
-                    enemy.Instance(transform.position, Quaternion.identity));
-
-                quota.timer = 0;
-            }
-
-            foreach (var i in spawnedEnemies)
-            {
-                if (i.IsExist())
-                {
-                    return;
-                }
-            }
-
-            if (slain.Count >= quota.quota)
-            {
-                breakingTimer += Time.deltaTime;
-
-                if (breakingTimer >= BreakingTime)
-                {
-                    "active 2".show();
-
-                    ActivateWave(Wave.Second);
-                    slain.ResetCount();
-
-                    breakingTimer = 0;
-                }
-            }
-        }
-    }
-}
-*/

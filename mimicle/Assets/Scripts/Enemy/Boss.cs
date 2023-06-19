@@ -21,8 +21,8 @@ namespace Mimical
         [SerializeField]
         BossUI bossUI;
 
-        [SerializeField]
-        EnemySpawner spawner;
+        // [SerializeField]
+        // EnemySpawner spawner;
 
         [System.Serializable]
         struct Colour
@@ -59,8 +59,8 @@ namespace Mimical
 
         SpriteRenderer sr;
 
-        HP selfHp, playerHp;
-        int selfRemain = 0, playerRemain = 0;
+        HP bossHp, playerHp;
+        int bossRemain = 0, playerRemain = 0;
 
         int activeLevel = 0;
         public int ActiveLevel => activeLevel;
@@ -71,6 +71,8 @@ namespace Mimical
 
         void Start()
         {
+            bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
+
             collider = GetComponent<PolygonCollider2D>();
             collider.isTrigger = true;
 
@@ -78,8 +80,8 @@ namespace Mimical
             sr.color = colour[((int)Level.First)].color;
 
             playerHp = gobject.Find(constant.Player).GetComponent<HP>();
-            selfHp = GetComponent<HP>();
-            selfHp.SetMax();
+            bossHp = GetComponent<HP>();
+            bossHp.SetMax();
             // base.Start(selfHp);
 
             transform.setr(Init.rotation);
@@ -89,14 +91,16 @@ namespace Mimical
         bool a = false;
         void Update()
         {
-            if (spawner.StartWave3 && !a)
+            // print("active level: " + activeLevel);
+
+            if (/*spawner.StartWave3 && */!a)
             {
                 transform.DOMove(Init.position, posLerpSpeed).SetEase(Ease.OutCubic);
                 a = true;
             }
             Both();
 
-            if (selfHp.IsZero)
+            if (bossHp.IsZero)
             {
                 scene.Load("Final");
             }
@@ -125,7 +129,7 @@ namespace Mimical
                 onceCollider = false;
             }
 
-            selfRemain = numeric.Percent(selfHp.Ratio);
+            bossRemain = numeric.Percent(bossHp.Ratio);
             playerRemain = numeric.Percent(playerHp.Ratio);
 
             Lv1();
@@ -134,7 +138,7 @@ namespace Mimical
             Lv4();
             Lv5();
 
-            print($"boss: {selfRemain}%, player: {playerRemain}%");
+            // print($"boss: {selfRemain}%, player: {playerRemain}%");
         }
 
         bool l1 = false;
@@ -144,7 +148,6 @@ namespace Mimical
             {
                 return;
             }
-            "0".show();
             activeLevel = 0;
 
             if (!l1)
@@ -171,7 +174,6 @@ namespace Mimical
             {
                 return;
             }
-            "1".show();
             activeLevel = 1;
         }
 
@@ -181,7 +183,6 @@ namespace Mimical
             {
                 return;
             }
-            "2".show();
             activeLevel = 2;
         }
 
@@ -191,7 +192,6 @@ namespace Mimical
             {
                 return;
             }
-            "3".show();
             activeLevel = 3;
         }
 
@@ -201,7 +201,6 @@ namespace Mimical
             {
                 return;
             }
-            "4".show();
             activeLevel = 4;
         }
 
@@ -209,7 +208,7 @@ namespace Mimical
         {
             foreach (var i in colour)
             {
-                if (selfRemain >= i.remainHp)
+                if (bossRemain >= i.remainHp)
                 {
                     sr.color = i.color;
                     break;
@@ -222,24 +221,19 @@ namespace Mimical
             switch (_level)
             {
                 case 0:
-                    activeLevel = ((int)Level.First);
-                    return selfRemain >= colour[((int)Level.First)].remainHp;
+                    return bossRemain >= colour[((int)Level.First)].remainHp;
 
                 case 1:
-                    activeLevel = ((int)Level.Second);
-                    return selfRemain >= colour[((int)Level.Second)].remainHp && selfRemain < colour[((int)Level.First)].remainHp;
+                    return bossRemain >= colour[((int)Level.Second)].remainHp && bossRemain < colour[((int)Level.First)].remainHp;
 
                 case 2:
-                    activeLevel = ((int)Level.Third);
-                    return selfRemain >= colour[((int)Level.Third)].remainHp && selfRemain < colour[((int)Level.Second)].remainHp;
+                    return bossRemain >= colour[((int)Level.Third)].remainHp && bossRemain < colour[((int)Level.Second)].remainHp;
 
                 case 3:
-                    activeLevel = ((int)Level.Fourth);
-                    return selfRemain >= colour[((int)Level.Fourth)].remainHp && selfRemain < colour[((int)Level.Third)].remainHp;
+                    return bossRemain >= colour[((int)Level.Fourth)].remainHp && bossRemain < colour[((int)Level.Third)].remainHp;
 
                 case 4:
-                    activeLevel = ((int)Level.Fifth);
-                    return selfRemain >= colour[((int)Level.Fifth)].remainHp && selfRemain < colour[((int)Level.Fourth)].remainHp;
+                    return bossRemain >= colour[((int)Level.Fifth)].remainHp && bossRemain < colour[((int)Level.Fourth)].remainHp;
 
                 default:
                     throw new System.Exception();
@@ -252,7 +246,6 @@ namespace Mimical
             {
                 ChangeColor();
                 bossUI.UpdateBossUI();
-                selfHp.Damage(Values.Damage.Player / 2);
             }
         }
     }

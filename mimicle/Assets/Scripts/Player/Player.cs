@@ -20,28 +20,23 @@ namespace Mimical
 
         // Gun
         float rapid;
-
         float reloading = 2;
         float reloadingTimer = 0;
         bool isReloading = false;
-
         public float ReloadProgress => reloadingTimer / reloading;
-
+        float movingSpeed = 5;
         HP hp;
 
-        float movingSpeed = 5;
+        RaycastHit2D hit;
+        public RaycastHit2D Hit => hit;
 
         void Awake()
         {
             hp = GetComponent<HP>();
-
             manager ??= gobject.Find(constant.Manager).GetComponent<GameManager>();
         }
 
-        void Start()
-        {
-            ammo.Reload();
-        }
+        void Start() => ammo.Reload();
 
         void FixedUpdate()
         {
@@ -53,6 +48,16 @@ namespace Mimical
             Move();
             Dead();
             Reload();
+            DrawRaid();
+        }
+
+        void DrawRaid()
+        {
+            var r = new Ray(transform.position, Vector2.right);
+            // Debug.DrawRay(ray.origin, ray.direction);
+            hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9);
+            if (!hit.collider)
+                return;
         }
 
 #if UNITY_EDITOR
