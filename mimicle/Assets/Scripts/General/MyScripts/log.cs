@@ -18,8 +18,8 @@ namespace Mimical.Extend
         // => UnityEngine.Debug.LogError(
         //        $"<color=red>{msg}</color> <size=10>{file.caller_path()}: {file.caller_line_number()}</size>");
 
-        [System.Obsolete]
-        public static void print(object msg)
+        // [System.Obsolete]
+        public static void print(this object msg)
         => Debug.Log($"<color=white>{msg}</color>");
 
         static void show(this object msg)

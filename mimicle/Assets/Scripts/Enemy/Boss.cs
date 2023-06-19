@@ -12,6 +12,9 @@ namespace Mimical
         [SerializeField]
         GameObject[] bullets;
 
+        // [SerializeField]
+        // GameObject[] mobs;
+
         [SerializeField]
         GameObject point;
 
@@ -40,6 +43,15 @@ namespace Mimical
             // public static Color color = new(0.4f, 0.9764706f, 1);
         }
 
+        enum Level
+        {
+            First = 0,
+            Second,
+            Third,
+            Fourth,
+            Fifth
+        }
+
         float posLerpSpeed = 5;
 
         new PolygonCollider2D collider;
@@ -49,6 +61,9 @@ namespace Mimical
 
         HP selfHp, playerHp;
         int selfRemain = 0, playerRemain = 0;
+
+        int activeLevel = 0;
+        public int ActiveLevel => activeLevel;
 
         bool setPos = false;
         bool startBossBattle = false;
@@ -60,7 +75,7 @@ namespace Mimical
             collider.isTrigger = true;
 
             sr = GetComponent<SpriteRenderer>();
-            sr.color = colour[0].color;
+            sr.color = colour[((int)Level.First)].color;
 
             playerHp = gobject.Find(constant.Player).GetComponent<HP>();
             selfHp = GetComponent<HP>();
@@ -125,11 +140,12 @@ namespace Mimical
         bool l1 = false;
         void Lv1()
         {
-            if (!isActiveLevel(0))
+            if (!isActiveLevel(((int)Level.First)))
             {
                 return;
             }
             "0".show();
+            activeLevel = 0;
 
             if (!l1)
             {
@@ -156,6 +172,7 @@ namespace Mimical
                 return;
             }
             "1".show();
+            activeLevel = 1;
         }
 
         void Lv3()
@@ -165,6 +182,7 @@ namespace Mimical
                 return;
             }
             "2".show();
+            activeLevel = 2;
         }
 
         void Lv4()
@@ -174,6 +192,7 @@ namespace Mimical
                 return;
             }
             "3".show();
+            activeLevel = 3;
         }
 
         void Lv5()
@@ -183,6 +202,7 @@ namespace Mimical
                 return;
             }
             "4".show();
+            activeLevel = 4;
         }
 
         public void ChangeColor()
@@ -197,24 +217,29 @@ namespace Mimical
             }
         }
 
-        bool isActiveLevel(int level)
+        bool isActiveLevel(int _level)
         {
-            switch (level)
+            switch (_level)
             {
                 case 0:
-                    return selfRemain >= colour[0].remainHp;
+                    activeLevel = ((int)Level.First);
+                    return selfRemain >= colour[((int)Level.First)].remainHp;
 
                 case 1:
-                    return selfRemain >= colour[1].remainHp && selfRemain < colour[0].remainHp;
+                    activeLevel = ((int)Level.Second);
+                    return selfRemain >= colour[((int)Level.Second)].remainHp && selfRemain < colour[((int)Level.First)].remainHp;
 
                 case 2:
-                    return selfRemain >= colour[2].remainHp && selfRemain < colour[1].remainHp;
+                    activeLevel = ((int)Level.Third);
+                    return selfRemain >= colour[((int)Level.Third)].remainHp && selfRemain < colour[((int)Level.Second)].remainHp;
 
                 case 3:
-                    return selfRemain >= colour[3].remainHp && selfRemain < colour[2].remainHp;
+                    activeLevel = ((int)Level.Fourth);
+                    return selfRemain >= colour[((int)Level.Fourth)].remainHp && selfRemain < colour[((int)Level.Third)].remainHp;
 
                 case 4:
-                    return selfRemain >= colour[4].remainHp && selfRemain < colour[3].remainHp;
+                    activeLevel = ((int)Level.Fifth);
+                    return selfRemain >= colour[((int)Level.Fifth)].remainHp && selfRemain < colour[((int)Level.Fourth)].remainHp;
 
                 default:
                     throw new System.Exception();

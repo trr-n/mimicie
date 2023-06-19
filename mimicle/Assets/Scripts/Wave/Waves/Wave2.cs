@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mimical.Extend;
 
 namespace Mimical
 {
@@ -12,7 +13,23 @@ namespace Mimical
         [SerializeField]
         GameObject[] enemies;
 
+        [SerializeField]
+        Slain slain;
+
+        int quota = 4;
+
         Transform playerTransform;
+
+        float lilcSpawnY = -3.5f;
+        int spawnCount = 0;
+        float timer = 0f;
+        float span = 0.5f;
+
+        const int X = 15;
+
+        float spawnTimer = 0f;
+        const float BreakTime = 2f;
+        float breakTimer = 0f;
 
         void OnEnable()
         {
@@ -31,6 +48,34 @@ namespace Mimical
                 return;
             }
             print("wave2");
+
+            transform.position = new(X, transform.position.y);
+            timer += Time.deltaTime;
+
+            // 0123 = 4
+            if (timer >= span && !IsDone() && spawnCount < quota)
+            {
+                enemies[Wave.Second].Instance(new(X, lilcSpawnY), Quaternion.identity);
+                timer = 0;
+
+                spawnCount++;
+                lilcSpawnY += 8 / 3.4f; //04255319148936f;
+            }
+
+            if (IsDone())
+            {
+                breakTimer += Time.deltaTime;
+
+                if (breakTimer >= BreakTime)
+                {
+                    data.ActivateWave(((int)Activate.Third));
+                    slain.ResetCount();
+
+                    breakTimer = 0;
+                }
+            }
+
+            bool IsDone() => slain.Count >= quota;
         }
     }
 }

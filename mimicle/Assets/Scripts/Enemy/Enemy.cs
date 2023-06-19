@@ -11,6 +11,8 @@ namespace Mimical
 
         protected abstract void Move();
 
+        // protected abstract void Attack();
+
         protected virtual void Left(GameObject obj, int deadLine = -20)
         {
             if (obj.transform.position.x <= deadLine)

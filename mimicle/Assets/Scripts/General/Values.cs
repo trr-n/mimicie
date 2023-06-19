@@ -11,6 +11,8 @@ namespace Mimical
             public static int Player = 100;
             public static int Charger = 5;
             public static int LilC = 10;
+            public static int SLilC = 5;
+            public static int Spide = 24;
         }
 
         public static class Point
@@ -22,6 +24,7 @@ namespace Mimical
             public static int RedCharger = -10;
             public static int RedLilC = -100;
             public static int RedLilCBullet = -10;
+            public static int RedSLilCBullet = -1;
         }
 
         public static class Key

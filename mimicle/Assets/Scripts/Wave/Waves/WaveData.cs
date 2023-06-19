@@ -66,7 +66,7 @@ namespace Mimical
 
         public void ActivateWave(int index)
         {
-            print($"index: {index}, length: {waveObjs.Length}, waves: {((int)waves)}");
+            // print($"index: {index}, length: {waveObjs.Length}, waves: {((int)waves)}");
             waveObjs[index].SetActive(true);
             now4ui = index + 1;
 

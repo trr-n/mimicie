@@ -50,14 +50,13 @@ namespace Mimical
                 return;
             }
 
-            y = random.randint();
-            transform.position = new(X, y);
-
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnSpan && !IsDone())
             {
                 spawnTimer = 0;
-                spawned.Add(enemies.Instance(transform.position, Quaternion.identity));
+                spawned.Add(enemies.Instance(
+                    new(X, random.randint(-4, 4), transform.position.z),
+                    Quaternion.identity));
                 print("wave1 spawn");
             }
 
@@ -65,7 +64,6 @@ namespace Mimical
             {
                 if (i.IsExist())
                 {
-                    print("yet next wave");
                     return;
                 }
             }
