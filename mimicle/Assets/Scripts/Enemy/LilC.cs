@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,7 @@ namespace Mimical
             transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);
         }
 
+        bool boolean = true;
         void Update()
         {
             Move();
@@ -49,6 +51,14 @@ namespace Mimical
             {
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.LilC);
+                if (boolean)
+                {
+                    boolean = false;
+                    GameObject.FindGameObjectWithTag(constant.Player)
+                        .TryGetComponent<HP>(out var hp);
+                    //TODO 回復量要調節 ////////////////////////////////////////////////
+                    hp.Healing(((int)MathF.Round((hp.Max - hp.Now) / 2, 0)));
+                }
             }
         }
 
@@ -69,13 +79,6 @@ namespace Mimical
 
                 timer = 0;
             }
-
-            // if (attack && counter >= 3)
-            // {
-            //     attack = false;
-
-            //     "start moving".show();
-            // }
         }
 
         protected override void OnBecameInvisible()
@@ -87,13 +90,5 @@ namespace Mimical
         {
             col.isTrigger = false;
         }
-
-        // void OnCollisionExit2D(Collision2D info)
-        // {
-        //     if (info.Compare(constant.Safety))
-        //     {
-        //         gameObject.Remove();
-        //     }
-        // }
     }
 }

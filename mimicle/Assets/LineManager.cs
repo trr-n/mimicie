@@ -36,7 +36,6 @@ namespace Mimical
             // hitting[1] = hit.point;
             hitting[1] = new(hit.point.x, point.transform.position.y);
             line.SetPositions(hit.collider ? hitting : notHit);
-            print(Mathf.DeltaAngle(notHit[1].y, hitting[1].y));
         }
     }
 }

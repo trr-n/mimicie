@@ -9,17 +9,23 @@ namespace Mimical
     {
         [SerializeField]
         WaveData data;
-        [SerializeField]
-        GameObject bossObj;
+        // [SerializeField]
+        // GameObject bossObj;
         [SerializeField, Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
         GameObject[] mobs;
+        // [SerializeField]
+        // GameObject uis;
+        [SerializeField]
+        GameObject[] bossRelated;
 
-        Boss boss;
         Transform playerTransform;
 
         void Start()
         {
-            bossObj.SetActive(false);
+            foreach (var i in bossRelated)
+                i.SetActive(false);
+            // bossObj.SetActive(false);
+            // uis.SetActive(false);
         }
 
         void OnEnable()
@@ -43,7 +49,10 @@ namespace Mimical
             transform.position = new();
             if (once)
             {
-                bossObj.SetActive(true);
+                foreach (var i in bossRelated)
+                    i.SetActive(true);
+                // bossObj.SetActive(true);
+                // uis.SetActive(true);
                 once = false;
             }
         }

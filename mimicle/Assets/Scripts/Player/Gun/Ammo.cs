@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mimical.Extend;
 
 namespace Mimical
 {
@@ -14,9 +15,8 @@ namespace Mimical
         int remain;
 
         public int Remain => remain;
-
+        public float Ratio => (float)remain / max;
         public bool IsZero() => remain <= 0;
-
         public bool IsMax() => remain >= max;
 
         public void Reload()

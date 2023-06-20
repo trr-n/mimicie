@@ -9,7 +9,7 @@ namespace Mimical
 {
     public class Boss : MonoBehaviour//Enemy
     {
-        [SerializeField]
+        [SerializeField, Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
         GameObject[] bullets;
 
         // [SerializeField]
@@ -69,6 +69,9 @@ namespace Mimical
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
 
+        delegate void Waves();
+        Waves waves;
+
         void Start()
         {
             bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
@@ -101,26 +104,13 @@ namespace Mimical
             Both();
 
             if (bossHp.IsZero)
-            {
                 scene.Load("Final");
-            }
         }
 
-        /*
-        TODO 残り体力によって攻撃を変える
-        75 ~ 100, 青: 5%弾, 毎秒発射
-        50 ~ 75, 緑:  7%ホーミング弾
-        30 ~ 50, 黄:  9%ホーミング弾
-        10 ~ 30, 橙:  13%ホーミング弾
-        00 ~ 10, 赤:  13%ホーミング弾
-        */
         void Both()
         {
-            if (!setPos)
-            {
-                setPos = transform.position.AlmostSame(Init.position);
+            if (!numeric.AlmostSame(transform.position, Init.position))
                 return;
-            }
             startBossBattle = true;
 
             if (onceCollider)
@@ -131,80 +121,82 @@ namespace Mimical
 
             bossRemain = numeric.Percent(bossHp.Ratio);
             playerRemain = numeric.Percent(playerHp.Ratio);
-
             Lv1();
             Lv2();
             Lv3();
             Lv4();
             Lv5();
-
             // print($"boss: {selfRemain}%, player: {playerRemain}%");
         }
 
         bool l1 = false;
+        bool during = true;
+        /// <summary>
+        /// 75 ~ 100, 青: 5%弾, 毎秒発射
+        /// </summary>
         void Lv1()
         {
             if (!isActiveLevel(((int)Level.First)))
-            {
                 return;
-            }
             activeLevel = 0;
 
             if (!l1)
             {
-                StartCoroutine(Lv01(1f));
+                StartCoroutine(Lv01());
                 l1 = true;
             }
         }
 
-        IEnumerator Lv01(float span)
+        IEnumerator Lv01()
         {
-            bool during = true;
-            while (during)
+            while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(span);
-
+                yield return new WaitForSeconds(random.randint(1, 10));
                 bullets[0].Instance(point.transform.position, Quaternion.identity);
             }
         }
 
+        /// <summary>
+        /// 50 ~ 75, 緑:  7%ホーミング弾
+        /// </summary>
         void Lv2()
         {
-            if (!isActiveLevel(1))
-            {
+            if (!isActiveLevel(((int)Level.Second)))
                 return;
-            }
             activeLevel = 1;
         }
 
+        /// <summary>
+        /// 30 ~ 50, 黄:  9%ホーミング弾
+        /// </summary>
         void Lv3()
         {
-            if (!isActiveLevel(2))
-            {
+            if (!isActiveLevel(((int)Level.Third)))
                 return;
-            }
             activeLevel = 2;
         }
 
+        /// <summary>
+        /// 10 ~ 30, 橙:  13%ホーミング弾
+        /// </summary>
         void Lv4()
         {
-            if (!isActiveLevel(3))
-            {
+            if (!isActiveLevel(((int)Level.Fourth)))
                 return;
-            }
             activeLevel = 3;
         }
 
+        /// <summary>
+        /// 00 ~ 10, 赤:  15%ホーミング弾
+        /// </summary>
         void Lv5()
         {
-            if (!isActiveLevel(4))
-            {
+            if (!isActiveLevel(((int)Level.Fifth)))
                 return;
-            }
             activeLevel = 4;
         }
 
-        public void ChangeColor()
+        public void ChangeBodyColor()
         {
             foreach (var i in colour)
             {
@@ -244,7 +236,7 @@ namespace Mimical
         {
             if (info.Compare(constant.Bullet))
             {
-                ChangeColor();
+                ChangeBodyColor();
                 bossUI.UpdateBossUI();
             }
         }

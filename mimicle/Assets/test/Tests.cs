@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,14 @@ namespace Mimical.Test
 {
     public class Tests : MonoBehaviour
     {
-        void Start()
+        void _Start()
         {
-            EnemySpawner.Finals[0].show();
-            EnemySpawner.Finals[1].show();
+            print("start lerping: " + Mathf.Lerp(0, 1, 1 * Time.deltaTime));
+        }
+
+        void _Update()
+        {
+            print("update lerping: " + Mathf.Lerp(0, 1, 1 * Time.deltaTime));
         }
     }
 }

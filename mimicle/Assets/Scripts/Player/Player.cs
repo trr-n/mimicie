@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
+using UnityEngine.UI;
 
 namespace Mimical
 {
@@ -18,12 +19,17 @@ namespace Mimical
         [SerializeField]
         GameManager manager;
 
+        [SerializeField]
+        Text reloadingT;
+
         // Gun
         float rapid;
-        float reloading = 2;
+        float timeToReload = 0f;
+        public float Reloading => timeToReload;
         float reloadingTimer = 0;
         bool isReloading = false;
-        public float ReloadProgress => reloadingTimer / reloading;
+        public bool IsReloading => isReloading;
+        public float ReloadProgress => reloadingTimer / timeToReload;
         float movingSpeed = 5;
         HP hp;
 
@@ -82,6 +88,11 @@ namespace Mimical
 
         void Reload()
         {
+            //! Fix: リロード中値が変わらないように
+            if (!isReloading)
+                timeToReload = (1 - ammo.Ratio) * 2;
+            // reloading = 1;
+            reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadingTimer}";
             if (input.Down(Values.Key.Reload))
             {
                 ammo.Reload();
@@ -91,8 +102,8 @@ namespace Mimical
             if (isReloading)
             {
                 reloadingTimer += Time.deltaTime;
-
-                if (reloadingTimer >= reloading)
+                print(reloadingTimer);
+                if (reloadingTimer >= timeToReload)
                 {
                     isReloading = false;
                     reloadingTimer = 0;
@@ -100,29 +111,21 @@ namespace Mimical
             }
         }
 
-        // TODO 死んだときの処理
+        // TODO
         void Dead()
         {
             if (hp.IsZero)
-            {
                 scene.Load();
-            }
         }
 
         void Move()
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-
-            float h = Input.GetAxis(constant.Horizontal);
-            float v = Input.GetAxis(constant.Vertical);
-
+            float h = Input.GetAxis(constant.Horizontal),
+                v = Input.GetAxis(constant.Vertical);
             Vector2 moving = new(h, v);
-
             if (!manager.PlayerCtrlable)
-            {
                 return;
-            }
-
             transform.Translate(moving * movingSpeed * Time.deltaTime);
         }
     }
