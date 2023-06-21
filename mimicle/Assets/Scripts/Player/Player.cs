@@ -26,6 +26,7 @@ namespace Mimical
         float rapid;
         float timeToReload = 0f;
         public float Time2Reload => timeToReload;
+        float rtime = 2f;
         float reloadingTimer = 0;
         bool isReloading = false;
         public bool IsReloading => isReloading;
@@ -86,7 +87,7 @@ namespace Mimical
         {
             //* Fix: リロード中値が変わらないように
             if (!isReloading)
-                timeToReload = (1 - ammo.Ratio) * 2;
+                timeToReload = (1 - ammo.Ratio) * rtime; // リロード時間=残弾数の割合*2秒
             reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadingTimer}";
             if (input.Down(Values.Key.Reload))
             {

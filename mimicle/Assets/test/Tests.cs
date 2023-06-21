@@ -6,7 +6,7 @@ using Mimical.Extend;
 
 namespace Mimical.Test
 {
-    public class Tests : MonoBehaviour
+    public class _Tests : MonoBehaviour
     {
         void Start()
         {

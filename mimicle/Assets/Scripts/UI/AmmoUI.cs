@@ -19,6 +19,8 @@ namespace Mimical
         [SerializeField]
         Player player;
 
+        bool boolean = false;
+
         void Start()
         {
             player ??= GameObject.FindGameObjectWithTag(constant.Player).GetComponent<Player>();
@@ -30,9 +32,10 @@ namespace Mimical
             debugT.text = $"fillamount:{ammoI.fillAmount.newline()}remain:{ammo.Remain.newline()}max:{ammo.Max}";
             if (player.IsReloading)
             {
+                boolean = true;
                 StartCoroutine(reload(player.Time2Reload));
             }
-            else
+            else if (!(player.IsReloading && boolean))
             {
                 ammoI.fillAmount = ammo.Ratio;
                 ammoT.text = ammo.Ratio.ToString();
@@ -45,8 +48,10 @@ namespace Mimical
             while (timer < time)
             {
                 yield return null;
-                ammoI.fillAmount = Mathf.Lerp(ammo.Remain, ammo.Max, timer / time);
+                ammoI.fillAmount = numeric.Round(Mathf.Lerp(ammo.Remain / 10, 1, timer / time), 1);
                 timer += Time.deltaTime;
+                if (ammoI.fillAmount >= 1)
+                    boolean = false;
             }
         }
     }

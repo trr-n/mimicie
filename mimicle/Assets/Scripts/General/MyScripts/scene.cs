@@ -9,5 +9,7 @@ namespace Mimical.Extend
         public static void Load(int index) => UnityEngine.SceneManagement.SceneManager.LoadScene(index);
         public static void Load() => UnityEngine.SceneManagement.SceneManager.LoadScene(scene.Active());
         public static string Active() => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        public static UnityEngine.AsyncOperation LoadAsync(string name) => UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(name);
+        public static UnityEngine.AsyncOperation LoadAsync(int index) => UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(index);
     }
 }

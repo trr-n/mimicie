@@ -12,7 +12,7 @@ namespace Mimical.Extend
         public static float Clamp(float n, float min, float max) => Mathf.Clamp(n, min, max);
         public static int Clamp(int n, int min, int max) => Mathf.Clamp(n, min, max);
 
-        public static float Round(float n, int digit) => MathF.Round(n, digit);
+        public static float Round(float n, int digit = 0) => MathF.Round(n, digit);
         public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
         public static int Percent(float n, int digit = 0) => ((int)MathF.Round(n * 100, digit));
         public static float Ratio(float w, float t) => (float)w / t;
