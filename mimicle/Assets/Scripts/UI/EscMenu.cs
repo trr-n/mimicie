@@ -38,37 +38,25 @@ namespace Mimical
         void Show()
         {
             speaker.VCtrl(volumeT);
-
             if (input.Down(Values.Key.Mute))
-            {
                 speaker.VMute(volumeT);
-            }
-
             if (input.Down(Values.Key.MChange))
-            {
                 speaker.Change(songT);
-            }
-
             if (input.Down(KeyCode.Escape))
             {
-                if (!manager.menuPanel.isActive(Active.Hierarchy))
+                if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {
                     todayT.text = "きょうは" + time.Date();
-
                     systemT.text =
                         "すぺっく".newline() +
                         "OS: " + info[0].newline() +
                         "CPU: " + info[1].newline() +
                         "GPU: " + info[2].newline() +
                         "RAM: " + info[3] + "GB";
-
                     manager.Pause();
+                    return;
                 }
-
-                else
-                {
-                    manager.Restart();
-                }
+                manager.Restart();
             }
         }
     }

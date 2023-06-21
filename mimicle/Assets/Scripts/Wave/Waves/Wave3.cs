@@ -42,9 +42,7 @@ namespace Mimical
         void Spawn()
         {
             if (data.Now != 3)
-            {
                 return;
-            }
             print("wave3");
             transform.position = new();
             if (once)

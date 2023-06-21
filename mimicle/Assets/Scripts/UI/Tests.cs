@@ -31,9 +31,6 @@ namespace Mimical
         Text fpsT;
 
         [SerializeField]
-        Image reloadImage;
-
-        [SerializeField]
         Player player;
 
         [SerializeField]
@@ -50,18 +47,7 @@ namespace Mimical
 
         void Update()
         {
-            Text();
-            Image();
-        }
-
-        void Image()
-        {
             hpImage.fillAmount = playerHp.Ratio;
-            reloadImage.fillAmount = player.ReloadProgress;
-        }
-
-        void Text()
-        {
             timeT.text = Score.Time().ToString();
             nowWaveT.text = wave.Now.ToString();
             maxWaveT.text = wave.Max.ToString();

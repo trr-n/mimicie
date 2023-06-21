@@ -25,7 +25,7 @@ namespace Mimical
         // Gun
         float rapid;
         float timeToReload = 0f;
-        public float Reloading => timeToReload;
+        public float Time2Reload => timeToReload;
         float reloadingTimer = 0;
         bool isReloading = false;
         public bool IsReloading => isReloading;
@@ -76,22 +76,17 @@ namespace Mimical
         void Trigger()
         {
             rapid += Time.deltaTime;
-
-            if (input.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f &&
-                !isReloading)
-            {
-                gun.Shot();
-
-                rapid = 0;
-            }
+            if (!(input.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
+                return;
+            gun.Shot();
+            rapid = 0;
         }
 
         void Reload()
         {
-            //! Fix: リロード中値が変わらないように
+            //* Fix: リロード中値が変わらないように
             if (!isReloading)
                 timeToReload = (1 - ammo.Ratio) * 2;
-            // reloading = 1;
             reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadingTimer}";
             if (input.Down(Values.Key.Reload))
             {
@@ -102,7 +97,7 @@ namespace Mimical
             if (isReloading)
             {
                 reloadingTimer += Time.deltaTime;
-                print(reloadingTimer);
+                // print(reloadingTimer);
                 if (reloadingTimer >= timeToReload)
                 {
                     isReloading = false;
@@ -115,7 +110,9 @@ namespace Mimical
         void Dead()
         {
             if (hp.IsZero)
+            {
                 scene.Load();
+            }
         }
 
         void Move()

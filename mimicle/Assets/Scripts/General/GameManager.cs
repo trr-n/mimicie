@@ -37,17 +37,14 @@ namespace Mimical
         void Start()
         {
             spawner.ActivateWave(startWave);
-
             PlayerCtrlable = true;
             BackGroundScrollable = true;
-
             Physics2D.gravity = Vector3.forward * 9.81f;
         }
 
         void Update()
         {
             debugT.text = "slain count: " + slain.Count;
-
             if (input.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;

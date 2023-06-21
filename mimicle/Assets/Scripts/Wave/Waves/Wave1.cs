@@ -23,15 +23,12 @@ namespace Mimical
         Slain slain;
 
         Transform playerTransform;
-
         List<GameObject> spawned = new List<GameObject>();
 
         float spawnTimer = 0f;
         const float BreakTime = 2f;
         float breakTimer = 0f;
-
         const int X = 15;
-        int y = 0;
 
         void OnEnable()
         {
@@ -46,34 +43,26 @@ namespace Mimical
         void Spawn()
         {
             if (data.Now != 1)
-            {
                 return;
-            }
-
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnSpan && !IsDone())
             {
                 spawnTimer = 0;
-                spawned.Add(enemies.Instance(
-                    new(X, random.randint(-4, 4), transform.position.z),
-                    Quaternion.identity));
+                spawned.Add(
+                    enemies.Instance(
+                        new(X, random.randint(-4, 4), transform.position.z), Quaternion.identity));
                 print("wave1 spawn");
             }
 
             foreach (var i in spawned)
-            {
                 if (i.IsExist())
-                {
                     return;
-                }
-            }
 
             if (IsDone())
             {
                 breakTimer += Time.deltaTime;
                 if (breakTimer >= BreakTime)
                 {
-                    print("clear this wave");
                     slain.ResetCount();
                     data.ActivateWave(((int)Activate.Second));
                 }

@@ -20,7 +20,6 @@ namespace Mimical
 
         int max = 0;
         public int Max => max;
-
         int now4ui = 0;
         public int Now => now4ui;
 
@@ -62,10 +61,8 @@ namespace Mimical
 
         public void ActivateWave(int index)
         {
-            // print($"index: {index}, length: {waveObjs.Length}, waves: {((int)waves)}");
             waveObjs[index].SetActive(true);
             now4ui = index + 1;
-
             for (var i = 0; i < waveObjs.Length; i++)
                 if (i != index)
                     waveObjs[i].SetActive(false);

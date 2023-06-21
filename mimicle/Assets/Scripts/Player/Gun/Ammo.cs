@@ -22,18 +22,12 @@ namespace Mimical
         public void Reload()
         {
             if (IsMax())
-            {
                 return;
-            }
 
             for (int i = 0; i <= max; i++)
             {
                 remain++;
-
-                if (remain > max)
-                {
-                    remain = max;
-                }
+                if (remain > max) remain = max;
             }
         }
 

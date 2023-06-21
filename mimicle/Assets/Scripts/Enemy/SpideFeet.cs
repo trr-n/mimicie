@@ -7,9 +7,9 @@ namespace Mimical
 {
     public class SpideFeet : MonoBehaviour
     {
-        int hitCounter = 0;
         void OnCollisionEnter2D(Collision2D info)
         {
+            // TODO
             if (info.Compare(constant.Player))
             {
                 info.Get<HP>().Damage(Values.Damage.Spide);

@@ -12,12 +12,10 @@ namespace Mimical
         AudioClip[] musics;
 
         AudioSource speaker;
-
         float amount = 0.02f;
         float _volume = 0.4f;
         float preVolume = 0f;
         int nowIndex = 0;
-
         int pressCounter = 0;
 
         void Start()
@@ -36,14 +34,9 @@ namespace Mimical
         public void VCtrl(Text volumeT)
         {
             if (input.Down(Values.Key.VUp))
-            {
                 _volume += amount;
-            }
-
             else if (input.Down(Values.Key.VDown))
-            {
                 _volume -= amount;
-            }
 
             speaker.volume = _volume;
             volumeT.text = VText(numeric.Percent(_volume));
@@ -63,23 +56,16 @@ namespace Mimical
                 pressCounter = 0;
                 _volume = preVolume;
             }
-
             volumeT.text = VText(numeric.Percent(_volume));
         }
 
         public void Change(Text songT)
         {
             nowIndex++;
-
             if (nowIndex >= musics.Length)
-            {
                 nowIndex = 0;
-            }
-
             speaker.clip = musics[nowIndex];
-
             speaker.Play();
-
             songT.text = musics[nowIndex].name;
         }
     }

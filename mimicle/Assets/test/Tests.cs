@@ -8,14 +8,36 @@ namespace Mimical.Test
 {
     public class Tests : MonoBehaviour
     {
-        void _Start()
+        void Start()
         {
-            print("start lerping: " + Mathf.Lerp(0, 1, 1 * Time.deltaTime));
+            for (int i = 0; i < 12; i++)
+            {
+                print(i + ":" + IsPrime(i));
+                print(i + ":" + numeric.IsPrime(i) + " by numeric");
+            }
         }
-
-        void _Update()
+        void Update()
         {
-            print("update lerping: " + Mathf.Lerp(0, 1, 1 * Time.deltaTime));
+
+        }
+        public static bool IsPrime(int num)
+        {
+            if (num < 2) return false;
+            else if (num == 2) return true;
+            else if (num % 2 == 0) return false;
+
+            double sqrtNum = Math.Sqrt(num);
+            for (int i = 3; i <= sqrtNum; i += 2)
+            {
+                if (num % i == 0)
+                {
+                    // 素数ではない
+                    return false;
+                }
+            }
+
+            // 素数である
+            return true;
         }
     }
 }

@@ -24,39 +24,30 @@ namespace Mimical
         void Update()
         {
             Move(speed);
+            OutOfScreen(gameObject);
         }
 
         void removal() => gameObject.Remove();
-
-        protected override void Attack()
-        {
-            ;
-        }
 
         protected override void Move(float speed)
         {
             transform.Translate(transform.up * speed * Time.deltaTime);
         }
 
-        protected override void Attack(Collision2D info)
+        protected override void TakeDamage(Collision2D info)
         {
             info.Get<HP>().Damage(Values.Damage.SLilC);
             Score.Add(Values.Point.RedSLilCBullet);
-
             gameObject.Remove();
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(constant.Player))
-            {
-                Attack(info);
-            }
+                TakeDamage(info);
 
             if (info.Compare(constant.Bullet))
-            {
                 gameObject.Remove();
-            }
         }
     }
 }

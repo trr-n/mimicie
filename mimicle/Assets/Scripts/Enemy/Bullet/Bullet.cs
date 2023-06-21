@@ -7,13 +7,14 @@ namespace Mimical
 {
     public abstract class Bullet : MonoBehaviour
     {
-        // [SerializeField]
-        // GameObject bullet;
-
         protected abstract void Move(float speed);
-
-        protected abstract void Attack(Collision2D info);
-
-        protected abstract void Attack();
+        protected abstract void TakeDamage(Collision2D info);
+        protected void OutOfScreen(GameObject g)
+        {
+            (float x, float y) borders = (12, 7);
+            if (g.transform.position.x > borders.x || g.transform.position.x < -borders.x ||
+                g.transform.position.y > borders.y || g.transform.position.y < -borders.y)
+                g.Remove();
+        }
     }
 }

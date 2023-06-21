@@ -6,7 +6,6 @@ namespace Mimical.Extend
     public class NanmoHaittehenwaException : Exception
     {
         public NanmoHaittehenwaException() : base("1つはいれろやエクセプション") {; }
-
         public NanmoHaittehenwaException(string msg) : base(msg) {; }
     }
 
@@ -14,7 +13,6 @@ namespace Mimical.Extend
     public class KanshakumotiException : Exception
     {
         public KanshakumotiException() : base("癇癪餅") {; }
-
         public KanshakumotiException(string msg) : base(msg) {; }
     }
 }

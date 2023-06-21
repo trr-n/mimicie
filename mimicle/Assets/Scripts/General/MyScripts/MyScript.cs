@@ -7,8 +7,6 @@ namespace Mimical.Extend
 {
     public class Script
     {
-        public static void print(object msg) => UnityEngine.Debug.Log(msg);
-
         public static GameObject Ins(GameObject obj, Vector3 v3, Quaternion quaternion)
         => MonoBehaviour.Instantiate(obj, v3, quaternion);
 

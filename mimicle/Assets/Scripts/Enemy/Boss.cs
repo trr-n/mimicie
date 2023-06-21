@@ -45,27 +45,18 @@ namespace Mimical
 
         enum Level
         {
-            First = 0,
-            Second,
-            Third,
-            Fourth,
-            Fifth
+            First = 0, Second, Third, Fourth, Fifth
         }
 
         float posLerpSpeed = 5;
 
         new PolygonCollider2D collider;
         bool onceCollider = true;
-
         SpriteRenderer sr;
-
         HP bossHp, playerHp;
         int bossRemain = 0, playerRemain = 0;
-
         int activeLevel = 0;
         public int ActiveLevel => activeLevel;
-
-        bool setPos = false;
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
 
@@ -126,11 +117,16 @@ namespace Mimical
             Lv3();
             Lv4();
             Lv5();
+            // waves += Lv1;
+            // waves += Lv2;
+            // waves += Lv3;
+            // waves += Lv4;
+            // waves += Lv5;
+            // waves();
             // print($"boss: {selfRemain}%, player: {playerRemain}%");
         }
 
-        bool l1 = false;
-        bool during = true;
+        bool once = false;
         /// <summary>
         /// 75 ~ 100, 青: 5%弾, 毎秒発射
         /// </summary>
@@ -140,10 +136,10 @@ namespace Mimical
                 return;
             activeLevel = 0;
 
-            if (!l1)
+            if (!once)
             {
                 StartCoroutine(Lv01());
-                l1 = true;
+                once = true;
             }
         }
 

@@ -11,13 +11,12 @@ namespace Mimical.Extend
     {
         public static string Date(Style style = Style.Standard)
         {
-            var now = DateTime.Now;
             switch (style)
             {
                 case Style.Standard:
-                    return $"{now.Year}/{now.Month}/{now.Day}";
+                    return $"{DateTime.Now.Year}/{DateTime.Now.Month}/{DateTime.Now.Day}";
                 case Style.Rebirth:
-                    return $"{now.Day}/{now.Month}/{now.Year}";
+                    return $"{DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}";
                 default:
                     throw new Exception();
             }
@@ -25,13 +24,12 @@ namespace Mimical.Extend
 
         public static string Time(Style style = Style.Standard)
         {
-            var now = DateTime.Now;
             switch (style)
             {
                 case Style.Standard:
-                    return $"{now.Hour}:{now.Minute}:{now.Second}";
+                    return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
                 case Style.Rebirth:
-                    return $"{now.Second}:{now.Minute}:{now.Hour}";
+                    return $"{DateTime.Now.Second}:{DateTime.Now.Minute}:{DateTime.Now.Hour}";
                 default:
                     throw new Exception();
             }
