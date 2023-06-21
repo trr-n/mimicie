@@ -17,6 +17,8 @@ namespace Mimical
         // GameObject uis;
         [SerializeField]
         GameObject[] bossRelated;
+        [SerializeField]
+        GameObject boss;
 
         Transform playerTransform;
 
@@ -49,10 +51,10 @@ namespace Mimical
             {
                 foreach (var i in bossRelated)
                     i.SetActive(true);
-                // bossObj.SetActive(true);
-                // uis.SetActive(true);
                 once = false;
             }
+            if (boss.GetComponent<HP>().IsZero)
+                data.IsDone = true;
         }
     }
 }

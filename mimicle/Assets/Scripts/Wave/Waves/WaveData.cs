@@ -22,6 +22,7 @@ namespace Mimical
         public int Max => max;
         int now4ui = 0;
         public int Now => now4ui;
+        public bool IsDone { get; set; }
 
         // protected const float X = 15f;
 
@@ -44,10 +45,7 @@ namespace Mimical
         {
             // now = ((int)waves) + 1;
             if (input.Down(KeyCode.Return))
-            {
-                print("next");
                 Next();
-            }
         }
 
         public void Next()

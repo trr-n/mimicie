@@ -2629,6 +2629,7 @@ MonoBehaviour:
   bossRelated:
   - {fileID: 1993262158}
   - {fileID: 1962170413}
+  boss: {fileID: 1993262158}
 --- !u!1 &1601746598
 GameObject:
   m_ObjectHideFlags: 0
@@ -3512,6 +3513,7 @@ MonoBehaviour:
   debugT: {fileID: 1826704110}
   scroll: {fileID: 960394795}
   slain: {fileID: 1754731048}
+  wdata: {fileID: 1186485608}
 --- !u!4 &1895085140
 Transform:
   m_ObjectHideFlags: 0

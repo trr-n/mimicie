@@ -18,14 +18,12 @@ namespace Mimical
 
         [SerializeField]
         Text debugT;
-
         [SerializeField]
         Scroll scroll;
-
         [SerializeField]
         Slain slain;
-
-        Boss boss;
+        [SerializeField]
+        WaveData wdata;
 
         bool bossGetable = false;
         public bool BossGetable => bossGetable;
@@ -42,6 +40,7 @@ namespace Mimical
             Physics2D.gravity = Vector3.forward * 9.81f;
         }
 
+        bool a = true;
         void Update()
         {
             debugT.text = "slain count: " + slain.Count;
@@ -58,6 +57,15 @@ namespace Mimical
                 PlayerCtrlable = true;
                 BackGroundScrollable = true;
             }
+
+            // if (wdata.IsDone && a)
+            // {
+            //     a = false;
+            //     SaveData data = new();
+            //     data.Score = new Score().Now;
+            //     data.Time = Score.Time();
+            //     data.Final = Score.Final();
+            // }
         }
 
         public void Pause()
