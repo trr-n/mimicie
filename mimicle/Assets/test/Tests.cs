@@ -13,7 +13,7 @@ namespace Mimical.Test
             for (int i = 0; i < 12; i++)
             {
                 print(i + ":" + IsPrime(i));
-                print(i + ":" + numeric.IsPrime(i) + " by numeric");
+                print(i + ":" + Numeric.IsPrime(i) + " by numeric");
             }
         }
         void Update()

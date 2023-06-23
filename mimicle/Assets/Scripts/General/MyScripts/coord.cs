@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mimical.Extend
 {
-    public static class coord
+    public static class Coord
     {
         public static void setp(this Transform t, double? x = null, double? y = null, double? z = null)
         {

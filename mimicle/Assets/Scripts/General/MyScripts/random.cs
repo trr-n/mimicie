@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Mimical.Extend
 {
-    public static class random
+    public static class AtRandom
     {
         public static float randfloat(float min = 0, float max = 0) => UnityEngine.Random.Range(min, max);
         public static int randint(int min = 0, int max = 0) => UnityEngine.Random.Range(min, max);

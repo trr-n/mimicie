@@ -44,14 +44,14 @@ namespace Mimical
         void Update()
         {
             debugT.text = "slain count: " + slain.Count;
-            if (input.Pressed(Values.Key.Stop))
+            if (SelfInput.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;
                 PlayerCtrlable = false;
                 BackGroundScrollable = false;
             }
 
-            else if (input.Released(Values.Key.Stop))
+            else if (SelfInput.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
                 PlayerCtrlable = true;

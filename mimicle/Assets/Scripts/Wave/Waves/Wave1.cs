@@ -25,33 +25,33 @@ namespace Mimical
         Transform playerTransform;
         List<GameObject> spawned = new List<GameObject>();
 
-        float spawnTimer = 0f;
         const float BreakTime = 2f;
-        float breakTimer = 0f;
         const int X = 15;
+        Stopwatch sw, spawnTimer;
 
         void OnEnable()
         {
-            playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
+            playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
+            sw = new();
+            spawnTimer = new();
+            spawnTimer.Start();
         }
 
         void Update()
         {
             Spawn();
+            print($"NestWave: {sw.SecondF()}, SpawnTimer: {spawnTimer.SecondF()}");
         }
 
         void Spawn()
         {
             if (data.Now != 1)
                 return;
-            spawnTimer += Time.deltaTime;
-            if (spawnTimer >= spawnSpan && !IsDone())
+            if (spawnTimer.SecondF() >= spawnSpan && !IsDone())
             {
-                spawnTimer = 0;
-                spawned.Add(
-                    enemies.Instance(
-                        new(X, random.randint(-4, 4), transform.position.z), Quaternion.identity));
-                print("wave1 spawn");
+                spawnTimer.Restart();
+                spawned.Add(enemies.Instance(
+                    new(X, AtRandom.randint(-4, 4), transform.position.z), Quaternion.identity));
             }
 
             foreach (var i in spawned)
@@ -60,11 +60,13 @@ namespace Mimical
 
             if (IsDone())
             {
-                breakTimer += Time.deltaTime;
-                if (breakTimer >= BreakTime)
+                sw.Start();
+                spawnTimer.Stop();
+                if (sw.SecondF() >= BreakTime)
                 {
                     slain.ResetCount();
                     data.ActivateWave(((int)Activate.Second));
+                    sw.Stop();
                 }
             }
         }

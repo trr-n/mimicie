@@ -44,7 +44,7 @@ namespace Mimical
         void Update()
         {
             // now = ((int)waves) + 1;
-            if (input.Down(KeyCode.Return))
+            if (SelfInput.Down(KeyCode.Return))
                 Next();
         }
 

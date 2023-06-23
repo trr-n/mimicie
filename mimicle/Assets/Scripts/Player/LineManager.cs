@@ -12,7 +12,7 @@ namespace Mimical
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<Player>();
+            player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
             line = GetComponent<LineRenderer>();
             point = GameObject.Find("gun");
             var thickness = 0.075f;

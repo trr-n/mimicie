@@ -23,7 +23,7 @@ namespace Mimical
 
         void Start()
         {
-            player ??= GameObject.FindGameObjectWithTag(constant.Player).GetComponent<Player>();
+            player ??= GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
         }
 
         void Update()
@@ -48,7 +48,7 @@ namespace Mimical
             while (timer < time)
             {
                 yield return null;
-                ammoI.fillAmount = numeric.Round(Mathf.Lerp(ammo.Remain / 10, 1, timer / time), 1);
+                ammoI.fillAmount = Numeric.Round(Mathf.Lerp(ammo.Remain / 10, 1, timer / time), 1);
                 timer += Time.deltaTime;
                 if (ammoI.fillAmount >= 1)
                     boolean = false;

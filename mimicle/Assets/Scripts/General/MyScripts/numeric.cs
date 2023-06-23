@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mimical.Extend
 {
-    public static class numeric
+    public static class Numeric
     {
         public static float Clamping(this float n, float min, float max) => Mathf.Clamp(n, min, max);
         public static int Clamping(this int n, int min, int max) => Mathf.Clamp(n, min, max);

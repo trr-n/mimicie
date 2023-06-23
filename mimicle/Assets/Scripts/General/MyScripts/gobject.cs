@@ -6,10 +6,10 @@ namespace Mimical.Extend
 {
     public enum Active { Self, Hierarchy }
 
-    public static class gobject
+    public static class Gobject
     {
         public static GameObject Instance(this GameObject[] gobjects, Vector3 position, Quaternion rotation)
-        => UnityEngine.MonoBehaviour.Instantiate(gobjects[random.ice(gobjects)], position, rotation);
+        => UnityEngine.MonoBehaviour.Instantiate(gobjects[AtRandom.ice(gobjects)], position, rotation);
         public static GameObject Instance(this GameObject gobject, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
         public static GameObject Instance(this GameObject gob) => UnityEngine.MonoBehaviour.Instantiate(gob);

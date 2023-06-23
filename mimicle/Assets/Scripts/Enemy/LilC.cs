@@ -35,7 +35,7 @@ namespace Mimical
 
             col = GetComponent<BoxCollider2D>();
 
-            firstPosition = new(random.randint(3, 6), transform.position.y);
+            firstPosition = new(AtRandom.randint(3, 6), transform.position.y);
             position = transform.position;
             direction = firstPosition - position;
             transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);
@@ -54,7 +54,7 @@ namespace Mimical
                 if (boolean)
                 {
                     boolean = false;
-                    GameObject.FindGameObjectWithTag(constant.Player)
+                    GameObject.FindGameObjectWithTag(Constant.Player)
                         .TryGetComponent<HP>(out var hp);
                     //TODO 回復量要調節 ////////////////////////////////////////////////
                     hp.Healing(((int)MathF.Round((hp.Max - hp.Now) / 2, 0)));

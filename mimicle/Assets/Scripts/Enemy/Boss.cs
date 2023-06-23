@@ -73,7 +73,7 @@ namespace Mimical
             sr = GetComponent<SpriteRenderer>();
             sr.color = colour[((int)Level.First)].color;
 
-            playerHp = gobject.Find(constant.Player).GetComponent<HP>();
+            playerHp = Gobject.Find(Constant.Player).GetComponent<HP>();
             bossHp = GetComponent<HP>();
             bossHp.SetMax();
             // base.Start(selfHp);
@@ -100,7 +100,7 @@ namespace Mimical
 
         void Both()
         {
-            if (!numeric.AlmostSame(transform.position, Init.position))
+            if (!Numeric.AlmostSame(transform.position, Init.position))
                 return;
             startBossBattle = true;
 
@@ -110,8 +110,8 @@ namespace Mimical
                 onceCollider = false;
             }
 
-            bossRemain = numeric.Percent(bossHp.Ratio);
-            playerRemain = numeric.Percent(playerHp.Ratio);
+            bossRemain = Numeric.Percent(bossHp.Ratio);
+            playerRemain = Numeric.Percent(playerHp.Ratio);
             Lv1();
             Lv2();
             Lv3();
@@ -147,7 +147,7 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(random.randint(1, 10));
+                yield return new WaitForSeconds(AtRandom.randint(1, 10));
                 bullets[0].Instance(point.transform.position, Quaternion.identity);
             }
         }
@@ -230,7 +230,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(constant.Bullet))
+            if (info.Compare(Constant.Bullet))
             {
                 ChangeBodyColor();
                 bossUI.UpdateBossUI();

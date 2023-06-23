@@ -40,7 +40,7 @@ namespace Mimical
         void Awake()
         {
             hp = GetComponent<HP>();
-            manager ??= gobject.Find(constant.Manager).GetComponent<GameManager>();
+            manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
         }
 
         void Start() => ammo.Reload();
@@ -77,7 +77,7 @@ namespace Mimical
         void Trigger()
         {
             rapid += Time.deltaTime;
-            if (!(input.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
+            if (!(SelfInput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
                 return;
             gun.Shot();
             rapid = 0;
@@ -89,7 +89,7 @@ namespace Mimical
             if (!isReloading)
                 timeToReload = (1 - ammo.Ratio) * rtime; // リロード時間=残弾数の割合*2秒
             reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadingTimer}";
-            if (input.Down(Values.Key.Reload))
+            if (SelfInput.Down(Values.Key.Reload))
             {
                 ammo.Reload();
                 isReloading = true;
@@ -119,8 +119,8 @@ namespace Mimical
         void Move()
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-            float h = Input.GetAxis(constant.Horizontal),
-                v = Input.GetAxis(constant.Vertical);
+            float h = Input.GetAxis(Constant.Horizontal),
+                v = Input.GetAxis(Constant.Vertical);
             Vector2 moving = new(h, v);
             if (!manager.PlayerCtrlable)
                 return;

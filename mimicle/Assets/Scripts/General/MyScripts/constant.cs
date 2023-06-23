@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mimical
 {
-    public static class constant
+    public static class Constant
     {
         public enum sindex
         {

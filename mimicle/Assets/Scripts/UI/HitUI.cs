@@ -14,7 +14,7 @@ namespace Mimical
 
         void Start()
         {
-            playerRay = GameObject.FindGameObjectWithTag(constant.Player)
+            playerRay = GameObject.FindGameObjectWithTag(Constant.Player)
                 .GetComponent<Player>();
         }
 

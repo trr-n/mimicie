@@ -43,10 +43,10 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(constant.Player))
+            if (info.Compare(Constant.Player))
                 TakeDamage(info);
 
-            if (info.Compare(constant.Bullet))
+            if (info.Compare(Constant.Bullet))
                 gameObject.Remove();
         }
     }

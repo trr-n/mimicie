@@ -42,7 +42,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(constant.Player))
+            if (info.Compare(Constant.Player))
             {
                 info.Get<HP>().Damage(Values.Damage.Charger);
                 Score.Add(Values.Point.RedCharger);
@@ -53,7 +53,7 @@ namespace Mimical
 
         void OnCollisionExit2D(Collision2D info)
         {
-            if (info.Compare(constant.Safety))
+            if (info.Compare(Constant.Safety))
             {
                 gameObject.Remove();
                 Score.Add(-100);

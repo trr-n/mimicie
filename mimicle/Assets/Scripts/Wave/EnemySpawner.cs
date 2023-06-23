@@ -65,7 +65,7 @@ namespace Mimical
 
             Spawnable = true;
 
-            playerTransform = gobject.Find(constant.Player).transform;
+            playerTransform = Gobject.Find(Constant.Player).transform;
         }
 
         void Update()

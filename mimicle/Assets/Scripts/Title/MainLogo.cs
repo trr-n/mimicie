@@ -96,7 +96,7 @@ namespace Mimical
 
             RaycastHit2D hit = Physics2D.Raycast(cursor, Vector2.up, 1);
 
-            if (hit && hit.collider.gameObject.name == constant.Logo)
+            if (hit && hit.collider.gameObject.name == Constant.Logo)
             {
                 isOver = true;
 
@@ -105,22 +105,22 @@ namespace Mimical
                 transform.localScale = Vector3.Lerp(
                     transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
 
-                if (input.Down(0))
+                if (SelfInput.Down(0))
                 {
-                    speaker.PlayOneShot(clicks[random.ice(clicks)]);
+                    speaker.PlayOneShot(clicks[AtRandom.ice(clicks)]);
 
                     Txt(clickT);
                 }
             }
 
-            else if (input.Down(KeyCode.Space))
+            else if (SelfInput.Down(KeyCode.Space))
             {
-                speaker.PlayOneShot(presses[random.ice(presses)]);
+                speaker.PlayOneShot(presses[AtRandom.ice(presses)]);
 
                 Txt(pressT);
             }
 
-            if (!(hit && hit.collider.gameObject.name == constant.Logo))
+            if (!(hit && hit.collider.gameObject.name == Constant.Logo))
             {
                 isOver = false;
 
@@ -144,7 +144,7 @@ namespace Mimical
 
             if (fadingPanel.color.a >= 1)
             {
-                scene.Load(constant.Main);
+                scene.Load(Constant.Main);
             }
         }
 

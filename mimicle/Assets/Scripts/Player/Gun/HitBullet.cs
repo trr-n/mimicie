@@ -27,11 +27,11 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(constant.Enemy))
+            if (info.Compare(Constant.Enemy))
             {
                 info.gameObject.TryGetComponent<HP>(out var hp);
                 hp.Damage(info.gameObject.name.Contains("boss") ?
-                    numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
+                    Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
                 //TODO 着弾時の効果音つける 
                 // spk.PlayOneShot(se[0]);
                 fx.Instance(transform.position, Quaternion.identity);
@@ -41,7 +41,7 @@ namespace Mimical
 
         void OnTriggerExit2D(Collider2D info)
         {
-            if (info.Compare(constant.Safety))
+            if (info.Compare(Constant.Safety))
             {
                 //TODO 
                 // spk.PlayOneShot(se[1]);

@@ -17,7 +17,7 @@ namespace Mimical
 
         void Start()
         {
-            player = gobject.Find(constant.Player).transform;
+            player = Gobject.Find(Constant.Player).transform;
             direction = player.position - transform.position;
         }
 
@@ -46,20 +46,20 @@ namespace Mimical
         protected override void TakeDamage(Collision2D info)
         {
             info.Try<HP>(out var hp);
-            var dmgAmount = ((int)numeric.Round(hp.Now / 50));
+            var dmgAmount = ((int)Numeric.Round(hp.Now / 50));
             hp.Damage(dmgAmount);
             gameObject.Remove();
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(constant.Player))
+            if (info.Compare(Constant.Player))
                 TakeDamage(info);
         }
 
         void OnTriggerExit2D(Collider2D info)
         {
-            if (info.Compare(constant.Safety))
+            if (info.Compare(Constant.Safety))
                 gameObject.Remove();
         }
     }

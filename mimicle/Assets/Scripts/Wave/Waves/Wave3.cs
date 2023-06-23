@@ -32,7 +32,7 @@ namespace Mimical
 
         void OnEnable()
         {
-            playerTransform = GameObject.FindGameObjectWithTag(constant.Player).transform;
+            playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
         }
 
         void Update()

@@ -2,7 +2,7 @@
 
 namespace Mimical.Extend
 {
-    public static class input
+    public static class SelfInput
     {
         public static bool Down() => Input.anyKeyDown;
         public static bool Down(int mouse) => Input.GetMouseButtonDown(mouse);

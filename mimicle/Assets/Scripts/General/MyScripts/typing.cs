@@ -2,7 +2,7 @@ using System;
 
 namespace Mimical.Extend
 {
-    public static class typing
+    public static class Typing
     {
         public static T Cast<T>(this object obj) => (T)obj;
         public static Type type(object obj) => obj.GetType();

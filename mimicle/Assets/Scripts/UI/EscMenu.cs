@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Mimical.Extend;
 
-using static Mimical.Extend.system;
+using static Mimical.Extend.Sys;
 
 namespace Mimical
 {
@@ -38,11 +38,11 @@ namespace Mimical
         void Show()
         {
             speaker.VCtrl(volumeT);
-            if (input.Down(Values.Key.Mute))
+            if (SelfInput.Down(Values.Key.Mute))
                 speaker.VMute(volumeT);
-            if (input.Down(Values.Key.MChange))
+            if (SelfInput.Down(Values.Key.MChange))
                 speaker.Change(songT);
-            if (input.Down(KeyCode.Escape))
+            if (SelfInput.Down(KeyCode.Escape))
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {

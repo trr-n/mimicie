@@ -21,7 +21,7 @@ namespace Mimical
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            nowIndex = random.ice(musics);
+            nowIndex = AtRandom.ice(musics);
             speaker.clip = musics[nowIndex];
             speaker.loop = true;
             speaker.Play();
@@ -33,13 +33,13 @@ namespace Mimical
 
         public void VCtrl(Text volumeT)
         {
-            if (input.Down(Values.Key.VUp))
+            if (SelfInput.Down(Values.Key.VUp))
                 _volume += amount;
-            else if (input.Down(Values.Key.VDown))
+            else if (SelfInput.Down(Values.Key.VDown))
                 _volume -= amount;
 
             speaker.volume = _volume;
-            volumeT.text = VText(numeric.Percent(_volume));
+            volumeT.text = VText(Numeric.Percent(_volume));
         }
 
         public void VMute(Text volumeT)
@@ -56,7 +56,7 @@ namespace Mimical
                 pressCounter = 0;
                 _volume = preVolume;
             }
-            volumeT.text = VText(numeric.Percent(_volume));
+            volumeT.text = VText(Numeric.Percent(_volume));
         }
 
         public void Change(Text songT)
