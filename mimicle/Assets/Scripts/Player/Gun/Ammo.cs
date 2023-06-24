@@ -20,7 +20,6 @@ namespace Mimical
         {
             if (IsMax())
                 return;
-
             for (int i = 0; i <= max; i++)
             {
                 remain++;

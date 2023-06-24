@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Mimical.Extend
 {
-    public static class Coord
+    public static class Coordinate
     {
         public static void setp(this Transform t, double? x = null, double? y = null, double? z = null)
         {

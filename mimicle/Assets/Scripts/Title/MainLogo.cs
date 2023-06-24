@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mimical.Extend;
@@ -17,7 +16,7 @@ namespace Mimical
 
         AudioSource speaker;
         Animator animator;
-        Color deactive = new(0.311f, 0.196f, 0.157f, 1), active = new(1, 1, 0, 1);
+        (Color deactive, Color active) colour = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
         bool isActivated = false;
         bool isMouseOverOnLogo = false;
         bool timerFlag = true;
@@ -27,15 +26,19 @@ namespace Mimical
         float logoRotateSpeed = 10;
         float txtColorChangeSpeed = 1;
         float rotationTolerance = 0.1f;
-        Stopwatch sw = new();
+        Stopwatch transitionTimer = new();
 
         void Start()
         {
             speaker ??= GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
             animator.enabled = false;
-            pressT.color = deactive;
-            clickT.color = deactive;
+            pressT.color = colour.deactive;
+            clickT.color = colour.deactive;
+
+            var a = (123).ToString();
+            var b = a.Cast<double>();
+            print(b.GetType());
         }
 
         void Update()
@@ -55,24 +58,21 @@ namespace Mimical
         void MouseOver()
         {
             var cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(cursor, Vector2.up, 1);
+            var hit = Physics2D.Raycast(cursor, Vector2.up, 1);
             if (hit && hit.collider.gameObject.name == Constant.Logo)
             {
                 isMouseOverOnLogo = true;
                 transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
                 if (SelfInput.Down(0))
                 {
-                    // speaker.PlayOneShot(clicks[Atrandom.ice(clicks)]);
                     speaker.PlayOneShot(clicks.ice3());
-                    Txt(clickT);
+                    ChangeTextsColor(clickT);
                 }
             }
             else if (SelfInput.Down(KeyCode.Space))
             {
-                // speaker.PlayOneShot(presses[Atrandom.ice(presses)]);
                 speaker.PlayOneShot(presses.ice3());
-                print("pass");
-                Txt(pressT);
+                ChangeTextsColor(pressT);
             }
 
             if (!(hit && hit.collider.gameObject.name == Constant.Logo))
@@ -83,10 +83,8 @@ namespace Mimical
 
             if (isActivated)
             {
-                sw.Start();
-                // timer += Time.deltaTime;
-                // if (timer >= 1 && timerFlag)
-                if (sw.SecondF() >= 1 && timerFlag)
+                transitionTimer.Start();
+                if (transitionTimer.SecondF() >= 1 && timerFlag)
                 {
                     StartCoroutine(FadingOutPanel());
                     timerFlag = false;
@@ -97,10 +95,10 @@ namespace Mimical
                 Section.Load(Constant.Main);
         }
 
-        void Txt(Text text)
+        void ChangeTextsColor(Text text)
         {
-            text.color = Color.Lerp(deactive, active, txtColorChangeSpeed);
-            if (text.color.r >= active.r)
+            text.color = Color.Lerp(colour.deactive, colour.active, txtColorChangeSpeed);
+            if (text.color.r >= colour.active.r)
                 isActivated = true;
         }
 
@@ -109,9 +107,8 @@ namespace Mimical
             while (fadingPanelAlpha <= 1)
             {
                 yield return null;
-                fadingPanelAlpha = fadingPanelAlpha.Clamping(0, 1);
-                fadingPanelAlpha += panelFadeSpeed;
-                fadingPanel.color = new(0, 0, 0, fadingPanelAlpha);
+                fadingPanelAlpha = Mathf.Clamp01(fadingPanelAlpha);
+                fadingPanel.color = new(0, 0, 0, fadingPanelAlpha += panelFadeSpeed);
             }
         }
     }
