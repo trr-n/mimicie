@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Mimical.Extend
 {
-    public static class AtRandom
+    public static class Atrandom
     {
         public static float randfloat(float min = 0, float max = 0) => UnityEngine.Random.Range(min, max);
         public static int randint(int min = 0, int max = 0) => UnityEngine.Random.Range(min, max);
@@ -13,6 +13,7 @@ namespace Mimical.Extend
         [Obsolete] public static float range(float max) => randfloat(max: max);
         public static int ice(object[] arr) => randint(max: arr.Length - 1);
         public static int ice2(this object[] arr) => randint(max: arr.Length - 1);
+        public static T ice3<T>(this T[] arr) => arr[randint(max: arr.Length - 1)];
         public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

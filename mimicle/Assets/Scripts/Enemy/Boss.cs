@@ -147,7 +147,7 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(AtRandom.randint(1, 10));
+                yield return new WaitForSeconds(Atrandom.randint(1, 10));
                 bullets[0].Instance(point.transform.position, Quaternion.identity);
             }
         }

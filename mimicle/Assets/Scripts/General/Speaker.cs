@@ -19,7 +19,7 @@ namespace Mimical
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            nowIndex = AtRandom.ice(musics);
+            nowIndex = Atrandom.ice(musics);
             speaker.clip = musics[nowIndex];
             speaker.loop = true;
             speaker.Play();

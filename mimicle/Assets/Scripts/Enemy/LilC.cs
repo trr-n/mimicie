@@ -35,7 +35,7 @@ namespace Mimical
 
             col = GetComponent<BoxCollider2D>();
 
-            firstPosition = new(AtRandom.randint(3, 6), transform.position.y);
+            firstPosition = new(Atrandom.randint(3, 6), transform.position.y);
             position = transform.position;
             direction = firstPosition - position;
             transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);

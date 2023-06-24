@@ -10,165 +10,108 @@ namespace Mimical
     {
         [SerializeField]
         Image fadingPanel;
-
         [SerializeField]
-        Text pressT;
-
+        Text pressT, clickT;
         [SerializeField]
-        Text clickT;
-
-        [SerializeField]
-        AudioClip[] presses;
-
-        [SerializeField]
-        AudioClip[] clicks;
+        AudioClip[] presses, clicks;
 
         AudioSource speaker;
-
         Animator animator;
-
-        Color deactive = new(0.311f, 0.196f, 0.157f, 1);
-
-        Color active = new(1, 1, 0, 1);
-
+        Color deactive = new(0.311f, 0.196f, 0.157f, 1), active = new(1, 1, 0, 1);
         bool isActivated = false;
-
-        bool isOver = false;
-
+        bool isMouseOverOnLogo = false;
         bool timerFlag = true;
-
-        float timer = 0;
-
-        float fadingSpeed = 0.008f;
-
-        float panelAlpha = 0;
-
-        float rotateSpeed = 10;
-
-        float speed = 1;
-
-        float torrence = 0.1f;
+        float clickToTransition = 0;
+        float panelFadeSpeed = 0.008f;
+        float fadingPanelAlpha = 0;
+        float logoRotateSpeed = 10;
+        float txtColorChangeSpeed = 1;
+        float rotationTolerance = 0.1f;
+        Stopwatch sw = new();
 
         void Start()
         {
             speaker ??= GetComponent<AudioSource>();
-
             animator = GetComponent<Animator>();
-
             animator.enabled = false;
-
             pressT.color = deactive;
-
             clickT.color = deactive;
         }
 
         void Update()
         {
             MouseOver();
-
             Rotation();
         }
 
         void Rotation()
         {
-            if (isOver)
-            {
-                var zDifference = 0 - transform.eulerAngles.z;
-
-                if (zDifference <= torrence && zDifference >= -torrence)
-                {
-                    ;
-                }
-
-                transform.rotation = Quaternion.Lerp(
-                    transform.rotation, Quaternion.Euler(0, 0, 0), 10 * Time.deltaTime);
-            }
-
+            if (isMouseOverOnLogo)
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), 10 * Time.deltaTime);
             else
-            {
-                transform.Rotate(new(0, 0, rotateSpeed * Time.deltaTime));
-            }
+                transform.Rotate(new(0, 0, logoRotateSpeed * Time.deltaTime));
         }
 
         void MouseOver()
         {
             var cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
             RaycastHit2D hit = Physics2D.Raycast(cursor, Vector2.up, 1);
-
             if (hit && hit.collider.gameObject.name == Constant.Logo)
             {
-                isOver = true;
-
-                // animator.enabled = false;
-
-                transform.localScale = Vector3.Lerp(
-                    transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
-
+                isMouseOverOnLogo = true;
+                transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
                 if (SelfInput.Down(0))
                 {
-                    speaker.PlayOneShot(clicks[AtRandom.ice(clicks)]);
-
+                    // speaker.PlayOneShot(clicks[Atrandom.ice(clicks)]);
+                    speaker.PlayOneShot(clicks.ice3());
                     Txt(clickT);
                 }
             }
-
             else if (SelfInput.Down(KeyCode.Space))
             {
-                speaker.PlayOneShot(presses[AtRandom.ice(presses)]);
-
+                // speaker.PlayOneShot(presses[Atrandom.ice(presses)]);
+                speaker.PlayOneShot(presses.ice3());
+                print("pass");
                 Txt(pressT);
             }
 
             if (!(hit && hit.collider.gameObject.name == Constant.Logo))
             {
-                isOver = false;
-
-                transform.localScale = Vector3.Lerp(
-                    transform.localScale, new Vector3(2, 2, 2), 30 * Time.deltaTime);
-
-                // animator.enabled = true;
+                isMouseOverOnLogo = false;
+                transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2, 2, 2), 30 * Time.deltaTime);
             }
 
             if (isActivated)
             {
-                timer += Time.deltaTime;
-
-                if (timer >= 1 && timerFlag)
+                sw.Start();
+                // timer += Time.deltaTime;
+                // if (timer >= 1 && timerFlag)
+                if (sw.SecondF() >= 1 && timerFlag)
                 {
                     StartCoroutine(FadingOutPanel());
-
                     timerFlag = false;
                 }
             }
 
             if (fadingPanel.color.a >= 1)
-            {
                 Section.Load(Constant.Main);
-            }
         }
 
         void Txt(Text text)
         {
-            text.color = Color.Lerp(deactive, active, speed);
-
+            text.color = Color.Lerp(deactive, active, txtColorChangeSpeed);
             if (text.color.r >= active.r)
-            {
                 isActivated = true;
-            }
         }
 
         IEnumerator FadingOutPanel()
         {
-            while (panelAlpha <= 1)
+            while (fadingPanelAlpha <= 1)
             {
                 yield return null;
-
-                panelAlpha = panelAlpha.Clamping(0, 1);
-
-                panelAlpha += fadingSpeed;
-
-                fadingPanel.color = new(0, 0, 0, panelAlpha);
+                fadingPanelAlpha = fadingPanelAlpha.Clamping(0, 1);
+                fadingPanelAlpha += panelFadeSpeed;
+                fadingPanel.color = new(0, 0, 0, fadingPanelAlpha);
             }
         }
     }

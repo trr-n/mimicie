@@ -7,7 +7,7 @@ namespace Mimical.Extend
     public static class Gobject
     {
         public static GameObject Instance(this GameObject[] gobjects, Vector3 position, Quaternion rotation)
-            => UnityEngine.MonoBehaviour.Instantiate(gobjects[AtRandom.ice(gobjects)], position, rotation);
+            => UnityEngine.MonoBehaviour.Instantiate(gobjects[Atrandom.ice(gobjects)], position, rotation);
         public static GameObject Instance(this GameObject gobject, Vector3 position, Quaternion rotation)
             => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
         public static GameObject Instance(this GameObject gob) => UnityEngine.MonoBehaviour.Instantiate(gob);

@@ -25,20 +25,20 @@ namespace Mimical
         float timeToReload = 0f;
         public float Time2Reload => timeToReload;
         float rtime = 2f;
-        float reloadingTimer = 0;
         bool isReloading = false;
         public bool IsReloading => isReloading;
-        public float ReloadProgress => reloadingTimer / timeToReload;
-        float movingSpeed = 5;
+        public float ReloadProgress; float movingSpeed = 5;
         HP hp;
 
         RaycastHit2D hit;
         public RaycastHit2D Hit => hit;
+        Stopwatch reloadsw;
 
         void Awake()
         {
             hp = GetComponent<HP>();
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
+            reloadsw = new();
         }
 
         void Start() => ammo.Reload();
@@ -59,18 +59,10 @@ namespace Mimical
         void DrawRaid()
         {
             var r = new Ray(transform.position, Vector2.right);
-            // Debug.DrawRay(ray.origin, ray.direction);
             hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9);
             if (!hit.collider)
                 return;
         }
-
-#if UNITY_EDITOR
-        void OnDrawGizmos()
-        {
-            Gizmos.DrawWireCube(transform.position, transform.localScale);
-        }
-#endif
 
         void Trigger()
         {
@@ -83,10 +75,11 @@ namespace Mimical
 
         void Reload()
         {
-            //* Fix: リロード中値が変わらないように
+            ReloadProgress = reloadsw.SecondF() / timeToReload;
+            //! fixed: リロード中値が変わらないように
             if (!isReloading)
                 timeToReload = (1 - ammo.Ratio) * rtime; // リロード時間=残弾数の割合*2秒
-            reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadingTimer}";
+            reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadsw.SecondF()}";
             if (SelfInput.Down(Values.Key.Reload))
             {
                 ammo.Reload();
@@ -95,12 +88,11 @@ namespace Mimical
 
             if (isReloading)
             {
-                reloadingTimer += Time.deltaTime;
-                // print(reloadingTimer);
-                if (reloadingTimer >= timeToReload)
+                reloadsw.Start();
+                if (reloadsw.SecondF() >= timeToReload)
                 {
                     isReloading = false;
-                    reloadingTimer = 0;
+                    reloadsw.Reset();
                 }
             }
         }
