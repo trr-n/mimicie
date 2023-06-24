@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mimical.Extend;
@@ -10,12 +8,9 @@ namespace Mimical
     {
         [SerializeField]
         int startWave = 0;
-
         [SerializeField]
         EnemySpawner spawner;
-
         public GameObject menuPanel;
-
         [SerializeField]
         Text debugT;
         [SerializeField]
@@ -27,7 +22,6 @@ namespace Mimical
 
         bool bossGetable = false;
         public bool BossGetable => bossGetable;
-
         public bool PlayerCtrlable { get; set; }
         public bool BackGroundScrollable { get; set; }
         public bool IsOpeningMenu { get; set; }
@@ -50,22 +44,12 @@ namespace Mimical
                 PlayerCtrlable = false;
                 BackGroundScrollable = false;
             }
-
             else if (SelfInput.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
                 PlayerCtrlable = true;
                 BackGroundScrollable = true;
             }
-
-            // if (wdata.IsDone && a)
-            // {
-            //     a = false;
-            //     SaveData data = new();
-            //     data.Score = new Score().Now;
-            //     data.Time = Score.Time();
-            //     data.Final = Score.Final();
-            // }
         }
 
         public void Pause()

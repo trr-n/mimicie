@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mimical.Extend;
@@ -27,8 +25,6 @@ namespace Mimical
             speaker.Play();
         }
 
-        void _Update() {; }
-
         string VText(float _percentage) => $"おんりょう{_percentage}%";
 
         public void VCtrl(Text volumeT)
@@ -50,7 +46,6 @@ namespace Mimical
                 preVolume = _volume;
                 _volume = 0;
             }
-
             else if (pressCounter == 1)
             {
                 pressCounter = 0;

@@ -144,7 +144,7 @@ namespace Mimical
 
             if (fadingPanel.color.a >= 1)
             {
-                scene.Load(Constant.Main);
+                Section.Load(Constant.Main);
             }
         }
 

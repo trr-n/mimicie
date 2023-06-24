@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mimical.Extend;
@@ -28,7 +27,6 @@ namespace Mimical
 
         void Update()
         {
-            // ammoT.text = $"Remain: {ammo.Remain.newline()}Max: {ammo.Max.newline()}Time: {player.Reloading * Time.deltaTime}";
             debugT.text = $"fillamount:{ammoI.fillAmount.newline()}remain:{ammo.Remain.newline()}max:{ammo.Max}";
             if (player.IsReloading)
             {
@@ -44,12 +42,11 @@ namespace Mimical
 
         IEnumerator reload(float time)
         {
-            var timer = 0f;
-            while (timer < time)
+            var sw = new Stopwatch(true);
+            while (sw.SecondF() < time)
             {
                 yield return null;
-                ammoI.fillAmount = Numeric.Round(Mathf.Lerp(ammo.Remain / 10, 1, timer / time), 1);
-                timer += Time.deltaTime;
+                ammoI.fillAmount = Mathf.Lerp(ammo.Remain / 10, 1, sw.SpentF(SWFormat.S) / time);
                 if (ammoI.fillAmount >= 1)
                     boolean = false;
             }

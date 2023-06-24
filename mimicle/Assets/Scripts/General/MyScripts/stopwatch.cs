@@ -1,13 +1,13 @@
-// using System;
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
 namespace Mimical.Extend
 {
-    public enum SW { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
+    public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public class Stopwatch
     {
         SystemStopwatch sw;
         public Stopwatch() => sw = new();
+        public Stopwatch(bool b) { sw = new(); sw.Start(); }
         public void Start() => sw.Start();
         public void Stop() => sw.Stop();
         public void Restart() => sw.Restart();
@@ -22,25 +22,25 @@ namespace Mimical.Extend
         public int MSecond() => sw.Elapsed.Milliseconds;
         public float MSecondF(int digit = 6) => Numeric.Round((float)sw.Elapsed.TotalMilliseconds, digit);
         public string Spent() => sw.Elapsed.ToString();
-        public int Spent(SW style)
+        public int Spent(SWFormat style)
         {
             switch (style)
             {
-                case SW.H: case SW.h: case SW.Hour: case SW.hour: return Hour();
-                case SW.M: case SW.m: case SW.Minute: case SW.minute: return Minute();
-                case SW.S: case SW.s: case SW.Second: case SW.second: return Second();
-                case SW.MS: case SW.ms: return MSecond();
+                case SWFormat.H: case SWFormat.h: case SWFormat.Hour: case SWFormat.hour: return Hour();
+                case SWFormat.M: case SWFormat.m: case SWFormat.Minute: case SWFormat.minute: return Minute();
+                case SWFormat.S: case SWFormat.s: case SWFormat.Second: case SWFormat.second: return Second();
+                case SWFormat.MS: case SWFormat.ms: return MSecond();
                 default: return 0;
             }
         }
-        public float SpentF(SW style)
+        public float SpentF(SWFormat style)
         {
             switch (style)
             {
-                case SW.H: case SW.h: case SW.Hour: case SW.hour: return HourF();
-                case SW.M: case SW.m: case SW.Minute: case SW.minute: return MinuteF();
-                case SW.S: case SW.s: case SW.Second: case SW.second: return SecondF();
-                case SW.MS: case SW.ms: return MSecondF();
+                case SWFormat.H: case SWFormat.h: case SWFormat.Hour: case SWFormat.hour: return HourF();
+                case SWFormat.M: case SWFormat.m: case SWFormat.Minute: case SWFormat.minute: return MinuteF();
+                case SWFormat.S: case SWFormat.s: case SWFormat.Second: case SWFormat.second: return SecondF();
+                case SWFormat.MS: case SWFormat.ms: return MSecondF();
                 default: return 0f;
             }
         }

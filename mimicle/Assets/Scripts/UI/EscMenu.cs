@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using Mimical.Extend;
 
 using static Mimical.Extend.Sys;
@@ -46,7 +43,7 @@ namespace Mimical
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {
-                    todayT.text = "きょうは" + time.Date();
+                    todayT.text = "きょうは" + Real.Date();
                     systemT.text =
                         "すぺっく".newline() +
                         "OS: " + info[0].newline() +

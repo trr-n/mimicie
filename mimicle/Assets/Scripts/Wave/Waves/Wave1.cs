@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
@@ -40,7 +39,7 @@ namespace Mimical
         void Update()
         {
             Spawn();
-            print($"NestWave: {sw.SecondF()}, SpawnTimer: {spawnTimer.SecondF()}");
+            // print($"NestWave: {sw.SecondF()}, SpawnTimer: {spawnTimer.SecondF()}");
         }
 
         void Spawn()

@@ -95,7 +95,7 @@ namespace Mimical
             Both();
 
             if (bossHp.IsZero)
-                scene.Load("Final");
+                Section.Load("Final");
         }
 
         void Both()

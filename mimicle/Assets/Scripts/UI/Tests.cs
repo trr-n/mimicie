@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using Mimical.Extend;
 
@@ -36,8 +33,8 @@ namespace Mimical
         [SerializeField]
         Text scoreT;
 
-        [SerializeField]
-        Score score;
+        // [SerializeField]
+        // Score score;
 
         [SerializeField]
         WaveData waveData;
@@ -52,7 +49,7 @@ namespace Mimical
             nowWaveT.text = wave.Now.ToString();
             maxWaveT.text = wave.Max.ToString();
             fpsT.text = Visual.Fps().ToString();
-            scoreT.text = score.Now.ToString();
+            scoreT.text = Score.Now.ToString();
             waveT.text = waveData.Now.ToString();
         }
     }

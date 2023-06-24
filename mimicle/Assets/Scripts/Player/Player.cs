@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 using UnityEngine.UI;
@@ -112,7 +110,7 @@ namespace Mimical
         {
             if (hp.IsZero)
             {
-                scene.Load();
+                Section.Load();
             }
         }
 

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
 
 namespace Mimical
 {
@@ -38,6 +35,8 @@ namespace Mimical
         void Update()
         {
             Spawn();
+            if (boss.GetComponent<HP>().IsZero)
+                data.IsDone = true;
         }
 
         bool once = true;
@@ -53,8 +52,6 @@ namespace Mimical
                     i.SetActive(true);
                 once = false;
             }
-            if (boss.GetComponent<HP>().IsZero)
-                data.IsDone = true;
         }
     }
 }

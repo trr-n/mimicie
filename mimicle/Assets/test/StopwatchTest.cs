@@ -19,7 +19,7 @@ namespace Mimical.Test
         {
             if (sw.Second() > 5)
                 sw.Restart();
-            t.text = sw.SpentF(SW.second).ToString();
+            t.text = sw.SpentF(SWFormat.second).ToString();
         }
     }
 }

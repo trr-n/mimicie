@@ -3,7 +3,7 @@
 namespace Mimical.Extend
 {
     public enum Style { Standard, Rebirth }
-    public static class time
+    public static class Real
     {
         public static string Date(Style style = Style.Standard)
         {

@@ -1,20 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
 namespace Mimical
 {
-    public enum Activate
-    {
-        First, Second, Third
-    }
-
+    public enum Activate { First, Second, Third }
     public class WaveData : MonoBehaviour
     {
         [SerializeField]
         public Activate waves = Activate.First;
-
         [SerializeField]
         GameObject[] waveObjs;
 
@@ -24,16 +17,6 @@ namespace Mimical
         public int Now => now4ui;
         public bool IsDone { get; set; }
 
-        // protected const float X = 15f;
-
-        // protected List<GameObject> spawned = new List<GameObject>();
-
-        // [SerializeField]
-        // [Tooltip("ウェーブ間の待機時間")]
-        // protected int BreakTime = 2;
-        // protected float BreakTimer = 0f;
-        // protected float SpawnTimer = 0f;
-
         void Start()
         {
             max = waveObjs.Length;
@@ -41,11 +24,23 @@ namespace Mimical
             ActivateWave(((int)waves));
         }
 
+        bool b = true;
         void Update()
         {
             // now = ((int)waves) + 1;
             if (SelfInput.Down(KeyCode.Return))
                 Next();
+            if (IsDone && b)
+            {
+                b = false;
+                // }
+                // if (SelfInput.Down(0))
+                // {
+                Score.StopTimer();
+                Score.finalScore = Score.Now;
+                Score.finalTime = Score.Time();
+            }
+            print("score: " + Score.finalScore + ", time: " + Score.finalTime);
         }
 
         public void Next()

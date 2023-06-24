@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 using UnityEngine;
 using Mimical.Extend;
 
@@ -11,19 +10,14 @@ namespace Mimical
     {
         [SerializeField]
         GameObject[] waveObjs;
-
         [SerializeField]
         protected Slain slain;
-
         [SerializeField]
         protected Wave wave;
-
         [SerializeField]
         protected Boss boss;
-
         [SerializeField]
         GameObject[] enemies;
-
         [Serializable]
         protected struct Quota
         {
@@ -32,30 +26,18 @@ namespace Mimical
             public bool inProgress;
             public float timer;
         }
-
         [SerializeField]
         Quota[] qset = new Quota[3];
-
         public bool Spawnable { get; set; }
 
         Transform playerTransform;
-
         List<GameObject> spawnedEnemies = new List<GameObject>();
-
         protected const int X = 15;
-
         float breakingTimer = 0;
         protected const int BreakingTime = 3;
-
         int spawnCount = 0;
-
         float lilcSpawnY = -3.5f;
-
-        static float finalTime = 0, finalScore = 0;
-        public static float[] Finals => new float[] { finalTime, finalScore };
-
         bool finals = false;
-
         public bool StartWave3 { get; set; }
 
         void Start()
@@ -170,33 +152,22 @@ namespace Mimical
             qset[Wave.Third].timer += Time.deltaTime;
 
             if (!inProgress(Wave.Third) && !boss.StartBossBattle) // && !Spawnable)
-            {
                 return;
-            }
 
             "Wave3".show();
             if (!StartWave3)
-            {
                 StartWave3 = true;
-            }
-
             wave.Set(Wave.Third);
 
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
-            {
                 qset[Wave.Third].timer = 0;
-            }
 
             if (slain.Count >= qset[Wave.Third].quota)
-            {
                 if (!finals)
                 {
-                    finalTime = Score.Time();
-                    finalScore = Score.Final();
-
                     finals = true;
+                    // Score.SetFinal();
                 }
-            }
         }
 
         public bool inProgress(int wave)
