@@ -11,47 +11,28 @@ namespace Mimical
     {
         [SerializeField, Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
         GameObject[] bullets;
-
-        // [SerializeField]
-        // GameObject[] mobs;
-
+        [SerializeField, Tooltip("0: charger\n1: lilc\n2: slilc\n3: spide")]
+        GameObject[] mobs;
+        enum Mobs { Charger, LilC, SLilC, Spide }
         [SerializeField]
         GameObject point;
-
         [SerializeField]
         BossUI bossUI;
-
-        // [SerializeField]
-        // EnemySpawner spawner;
-
         [System.Serializable]
         struct Colour
         {
             public int remainHp;
             public Color color;
         }
-
         [SerializeField]
         Colour[] colour = new Colour[5];
         // Colour2[] colour = new Colour2[5];
 
-        class Init
-        {
-            public static Quaternion rotation = Quaternion.Euler(0, 0, 90);
-            public static Vector3 position = new(7, 0, 1);
-            public static Vector3 scale = Vector3.one * 5;
-            // public static Color color = new(0.4f, 0.9764706f, 1);
-        }
-
-        enum Level
-        {
-            First = 0, Second, Third, Fourth, Fifth
-        }
-
+        readonly (Quaternion rot, Vector3 pos, Vector3 sc) init = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 5);
+        enum Level { First = 0, Second, Third, Fourth, Fifth }
         float posLerpSpeed = 5;
-
         new PolygonCollider2D collider;
-        bool onceCollider = true;
+        bool collide = true;
         SpriteRenderer sr;
         HP bossHp, playerHp;
         int bossRemain = 0, playerRemain = 0;
@@ -59,6 +40,8 @@ namespace Mimical
         public int ActiveLevel => activeLevel;
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
+        Stopwatch spideSW = new();
+        const float SpawnSpideSpan = 30;
 
         delegate void Waves();
         Waves waves;
@@ -66,52 +49,44 @@ namespace Mimical
         void Start()
         {
             bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
-
             collider = GetComponent<PolygonCollider2D>();
             collider.isTrigger = true;
-
             sr = GetComponent<SpriteRenderer>();
             sr.color = colour[((int)Level.First)].color;
-
             playerHp = Gobject.Find(Constant.Player).GetComponent<HP>();
             bossHp = GetComponent<HP>();
             bossHp.SetMax();
-            // base.Start(selfHp);
-
-            transform.setr(Init.rotation);
-            transform.sets(Init.scale);
+            transform.setr(init.rot);
+            transform.sets(init.sc);
+            spideSW.Start();
         }
 
-        bool a = false;
+        bool moveFrag = false;
         void Update()
         {
-            // print("active level: " + activeLevel);
-
-            if (/*spawner.StartWave3 && */!a)
+            if (!moveFrag)
             {
-                transform.DOMove(Init.position, posLerpSpeed).SetEase(Ease.OutCubic);
-                a = true;
+                transform.DOMove(init.pos, posLerpSpeed).SetEase(Ease.OutCubic);
+                moveFrag = true;
             }
             Both();
-
             if (bossHp.IsZero)
-                Section.Load("Final");
+                Section.Load(Constant.Final);
         }
 
         void Both()
         {
-            if (!Numeric.AlmostSame(transform.position, Init.position))
+            if (!Numeric.Twins(transform.position, init.pos))
                 return;
             startBossBattle = true;
-
-            if (onceCollider)
+            if (collide)
             {
                 collider.isTrigger = false;
-                onceCollider = false;
+                collide = false;
             }
-
             bossRemain = Numeric.Percent(bossHp.Ratio);
             playerRemain = Numeric.Percent(playerHp.Ratio);
+            SpawnSpide();
             Lv1();
             Lv2();
             Lv3();
@@ -147,7 +122,7 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(Atrandom.randint(1, 10));
+                yield return new WaitForSeconds(Rnd.randint(1, 10));
                 bullets[0].Instance(point.transform.position, Quaternion.identity);
             }
         }
@@ -192,39 +167,46 @@ namespace Mimical
             activeLevel = 4;
         }
 
+        IEnumerator MakeSpide()
+        {
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(1);
+                // SpawnSpide();
+            }
+        }
+
+        void SpawnSpide()
+        {
+            var spide = new GameObject();
+            if (!(spideSW.SecondF() >= SpawnSpideSpan))
+                return;
+            spide = mobs[((int)Mobs.Spide)].Instance();
+            if (spide.TryGetComponent<Spide>(out var _spide))
+                _spide.SetLevel(Rnd.randint(0, 2));
+            spideSW.Restart();
+        }
+
         public void ChangeBodyColor()
         {
             foreach (var i in colour)
-            {
                 if (bossRemain >= i.remainHp)
                 {
                     sr.color = i.color;
                     break;
                 }
-            }
         }
 
         bool isActiveLevel(int _level)
         {
             switch (_level)
             {
-                case 0:
-                    return bossRemain >= colour[((int)Level.First)].remainHp;
-
-                case 1:
-                    return bossRemain >= colour[((int)Level.Second)].remainHp && bossRemain < colour[((int)Level.First)].remainHp;
-
-                case 2:
-                    return bossRemain >= colour[((int)Level.Third)].remainHp && bossRemain < colour[((int)Level.Second)].remainHp;
-
-                case 3:
-                    return bossRemain >= colour[((int)Level.Fourth)].remainHp && bossRemain < colour[((int)Level.Third)].remainHp;
-
-                case 4:
-                    return bossRemain >= colour[((int)Level.Fifth)].remainHp && bossRemain < colour[((int)Level.Fourth)].remainHp;
-
-                default:
-                    throw new System.Exception();
+                case 0: return bossRemain >= colour[((int)Level.First)].remainHp;
+                case 1: return bossRemain >= colour[((int)Level.Second)].remainHp && bossRemain < colour[((int)Level.First)].remainHp;
+                case 2: return bossRemain >= colour[((int)Level.Third)].remainHp && bossRemain < colour[((int)Level.Second)].remainHp;
+                case 3: return bossRemain >= colour[((int)Level.Fourth)].remainHp && bossRemain < colour[((int)Level.Third)].remainHp;
+                case 4: return bossRemain >= colour[((int)Level.Fifth)].remainHp && bossRemain < colour[((int)Level.Fourth)].remainHp;
+                default: throw new System.Exception();
             }
         }
 

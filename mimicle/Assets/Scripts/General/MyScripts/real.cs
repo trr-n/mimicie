@@ -14,7 +14,6 @@ namespace Mimical.Extend
                 default: throw null;
             }
         }
-
         public static string Time(Style style = Style.Standard)
         {
             switch (style)
@@ -24,7 +23,6 @@ namespace Mimical.Extend
                 default: throw null;
             }
         }
-
         public static float r(int digits = 0) => MathF.Round(UnityEngine.Time.time, digits);
     }
 }

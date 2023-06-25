@@ -13,15 +13,10 @@ namespace Mimical
         }
 
         public static readonly string
-        //------------------------------------------------------------------------------
-        // SCENE NAME
-        //------------------------------------------------------------------------------
         Main = "Main",
-        Title = "Title";
+        Title = "Title",
+        Final = "Final";
 
-        //------------------------------------------------------------------------------
-        // KEY NAME?
-        //------------------------------------------------------------------------------
         public static readonly string
         Horizontal = "Horizontal",
         Vertical = "Vertical",
@@ -32,9 +27,6 @@ namespace Mimical
         MouseY = "Mouse Y",
         Volume = "Volume";
 
-        //------------------------------------------------------------------------------
-        // TAG NAME
-        //------------------------------------------------------------------------------
         public static readonly string
         Player = "Player",
         Enemy = "Enemy",
@@ -49,7 +41,3 @@ namespace Mimical
         TriggerZone = "TriggerArea";
     }
 }
-
-// Space || A = Fire,
-// LShift || B = Reload,
-// WASD || LStick = Moving

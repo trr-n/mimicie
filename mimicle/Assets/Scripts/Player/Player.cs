@@ -67,7 +67,7 @@ namespace Mimical
         void Trigger()
         {
             rapid += Time.deltaTime;
-            if (!(SelfInput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
+            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
                 return;
             gun.Shot();
             rapid = 0;
@@ -80,7 +80,7 @@ namespace Mimical
             if (!isReloading)
                 timeToReload = (1 - ammo.Ratio) * rtime; // リロード時間=残弾数の割合*2秒
             reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadsw.SecondF()}";
-            if (SelfInput.Down(Values.Key.Reload))
+            if (Mynput.Down(Values.Key.Reload))
             {
                 ammo.Reload();
                 isReloading = true;

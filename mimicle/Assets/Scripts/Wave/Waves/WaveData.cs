@@ -28,15 +28,11 @@ namespace Mimical
         void Update()
         {
             // now = ((int)waves) + 1;
-            if (SelfInput.Down(KeyCode.Return))
+            if (Mynput.Down(KeyCode.Return))
                 Next();
             if (IsDone && b)
             {
                 b = false;
-                // }
-                // if (SelfInput.Down(0))
-                // {
-                Score.StopTimer();
                 Score.finalScore = Score.Now;
                 Score.finalTime = Score.Time();
             }

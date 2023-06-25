@@ -6,12 +6,8 @@ namespace Mimical
     {
         [SerializeField]
         WaveData data;
-        // [SerializeField]
-        // GameObject bossObj;
         [SerializeField, Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
         GameObject[] mobs;
-        // [SerializeField]
-        // GameObject uis;
         [SerializeField]
         GameObject[] bossRelated;
         [SerializeField]
@@ -23,8 +19,6 @@ namespace Mimical
         {
             foreach (var i in bossRelated)
                 i.SetActive(false);
-            // bossObj.SetActive(false);
-            // uis.SetActive(false);
         }
 
         void OnEnable()
@@ -36,7 +30,10 @@ namespace Mimical
         {
             Spawn();
             if (boss.GetComponent<HP>().IsZero)
+            {
                 data.IsDone = true;
+                Score.StopTimer();
+            }
         }
 
         bool once = true;

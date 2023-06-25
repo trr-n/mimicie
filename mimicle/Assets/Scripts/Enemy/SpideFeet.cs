@@ -9,10 +9,14 @@ namespace Mimical
     {
         void OnCollisionEnter2D(Collision2D info)
         {
-            // TODO
             if (info.Compare(Constant.Player))
             {
                 info.Get<HP>().Damage(Values.Damage.Spide);
+                gameObject.Remove();
+            }
+            if (info.Compare(Constant.Bullet))
+            {
+                info.gameObject.Remove();
                 gameObject.Remove();
             }
         }

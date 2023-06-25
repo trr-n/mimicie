@@ -50,11 +50,11 @@ namespace Mimical
             {
                 spawnTimer.Restart();
                 spawned.Add(enemies.Instance(
-                    new(X, Atrandom.randint(-4, 4), transform.position.z), Quaternion.identity));
+                    new(X, Rnd.randint(-4, 4), transform.position.z), Quaternion.identity));
             }
 
             foreach (var i in spawned)
-                if (i.IsExist())
+                if (i.Exist())
                     return;
 
             if (IsDone())

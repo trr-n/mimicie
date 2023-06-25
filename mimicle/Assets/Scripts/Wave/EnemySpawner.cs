@@ -83,7 +83,7 @@ namespace Mimical
 
             foreach (var i in spawnedEnemies)
             {
-                if (i.IsExist())
+                if (i.Exist())
                 {
                     return;
                 }

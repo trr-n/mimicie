@@ -7,7 +7,7 @@ namespace Mimical.Extend
     public static class Gobject
     {
         public static GameObject Instance(this GameObject[] gobjects, Vector3 position, Quaternion rotation)
-            => UnityEngine.MonoBehaviour.Instantiate(gobjects[Atrandom.ice(gobjects)], position, rotation);
+            => UnityEngine.MonoBehaviour.Instantiate(gobjects[Rnd.ice(gobjects)], position, rotation);
         public static GameObject Instance(this GameObject gobject, Vector3 position, Quaternion rotation)
             => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
         public static GameObject Instance(this GameObject gob) => UnityEngine.MonoBehaviour.Instantiate(gob);
@@ -31,6 +31,6 @@ namespace Mimical.Extend
         public static void Remove(this Collision info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
         public static bool IsActive(this GameObject gob, Active? active = null) => active == Active.Self || active is null ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
-        public static bool IsExist(this GameObject obj) => obj.gameObject;
+        public static bool Exist(this GameObject obj) => obj.gameObject;
     }
 }

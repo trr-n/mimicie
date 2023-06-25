@@ -63,13 +63,13 @@ namespace Mimical
             {
                 isMouseOverOnLogo = true;
                 transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
-                if (SelfInput.Down(0))
+                if (Mynput.Down(0))
                 {
                     speaker.PlayOneShot(clicks.ice3());
                     ChangeTextsColor(clickT);
                 }
             }
-            else if (SelfInput.Down(KeyCode.Space))
+            else if (Mynput.Down(KeyCode.Space))
             {
                 speaker.PlayOneShot(presses.ice3());
                 ChangeTextsColor(pressT);

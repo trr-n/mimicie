@@ -23,7 +23,7 @@ namespace Mimical
 
         void FixedUpdate()
         {
-            if (gameObject.IsExist())
+            if (gameObject.Exist())
                 speed *= accelRatio;
             Move(speed);
         }

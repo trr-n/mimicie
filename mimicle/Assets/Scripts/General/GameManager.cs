@@ -38,13 +38,13 @@ namespace Mimical
         void Update()
         {
             debugT.text = "slain count: " + slain.Count;
-            if (SelfInput.Pressed(Values.Key.Stop))
+            if (Mynput.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;
                 PlayerCtrlable = false;
                 BackGroundScrollable = false;
             }
-            else if (SelfInput.Released(Values.Key.Stop))
+            else if (Mynput.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
                 PlayerCtrlable = true;

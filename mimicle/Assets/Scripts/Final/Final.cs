@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Mimical
 {
-    public class FinalScores : MonoBehaviour
+    public class Final : MonoBehaviour
     {
         [SerializeField] Text scores;
         void Update()

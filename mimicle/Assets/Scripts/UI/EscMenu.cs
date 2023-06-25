@@ -35,11 +35,11 @@ namespace Mimical
         void Show()
         {
             speaker.VCtrl(volumeT);
-            if (SelfInput.Down(Values.Key.Mute))
+            if (Mynput.Down(Values.Key.Mute))
                 speaker.VMute(volumeT);
-            if (SelfInput.Down(Values.Key.MChange))
+            if (Mynput.Down(Values.Key.MChange))
                 speaker.Change(songT);
-            if (SelfInput.Down(KeyCode.Escape))
+            if (Mynput.Down(KeyCode.Escape))
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {

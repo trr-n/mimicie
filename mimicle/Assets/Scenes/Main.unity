@@ -1029,6 +1029,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &572669146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5678156587872216932, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776589, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: initLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776590, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678156588087776592, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
+      propertyPath: m_Name
+      value: Spide
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
 --- !u!1 &633385830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,7 +2833,6 @@ MonoBehaviour:
   fpsT: {fileID: 1994695453}
   player: {fileID: 2067048223}
   scoreT: {fileID: 43410234}
-  score: {fileID: 1895085143}
   waveData: {fileID: 1186485608}
   waveT: {fileID: 335844856}
 --- !u!114 &1601746604
@@ -2834,6 +2898,26 @@ PrefabInstance:
       propertyPath: bossUI
       value: 
       objectReference: {fileID: 1601746605}
+    - target: {fileID: 7090090225156688497, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: mobs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090090225156688497, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: mobs.Array.data[0]
+      value: 
+      objectReference: {fileID: 2435298199578689330, guid: 81f121ae8bf57444bb8a30010d268bbd, type: 3}
+    - target: {fileID: 7090090225156688497, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: mobs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4201622935332774085, guid: 25f9ebaf4f533c2448654925de0fcbce, type: 3}
+    - target: {fileID: 7090090225156688497, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: mobs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6749372276752705822, guid: baeeefad58b82a44cad21441ea245fcd, type: 3}
+    - target: {fileID: 7090090225156688497, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: mobs.Array.data[3]
+      value: 
+      objectReference: {fileID: 5678156588087776592, guid: 4fb4fb4ee8ff11e46b29dbd9f18c0613, type: 3}
     - target: {fileID: 7090090225156688501, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
       propertyPath: m_Name
       value: boss 1

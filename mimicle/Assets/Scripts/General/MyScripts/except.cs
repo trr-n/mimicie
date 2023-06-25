@@ -3,10 +3,10 @@
 namespace Mimical.Extend
 {
     [Serializable]
-    public class NanmoHaittehenwaException : Exception
+    public class Karappoyanke : Exception
     {
-        public NanmoHaittehenwaException() : base("1つはいれろやエクセプション") {; }
-        public NanmoHaittehenwaException(string msg) : base(msg) {; }
+        public Karappoyanke() : base("1つはいれろやエクセプション") {; }
+        public Karappoyanke(string msg) : base(msg) {; }
     }
 
     [Serializable]
