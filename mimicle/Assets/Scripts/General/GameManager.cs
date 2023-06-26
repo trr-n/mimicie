@@ -20,8 +20,6 @@ namespace Mimical
         [SerializeField]
         WaveData wdata;
 
-        bool bossGetable = false;
-        public bool BossGetable => bossGetable;
         public bool PlayerCtrlable { get; set; }
         public bool BackGroundScrollable { get; set; }
         public bool IsOpeningMenu { get; set; }
@@ -34,7 +32,6 @@ namespace Mimical
             Physics2D.gravity = Vector3.forward * 9.81f;
         }
 
-        bool a = true;
         void Update()
         {
             debugT.text = "slain count: " + slain.Count;

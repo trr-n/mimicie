@@ -10,13 +10,10 @@ namespace Mimical
     {
         [SerializeField]
         Ammo ammo;
-
         [SerializeField]
         Fire gun;
-
         [SerializeField]
         GameManager manager;
-
         [SerializeField]
         Text reloadingT;
 
@@ -29,7 +26,6 @@ namespace Mimical
         public bool IsReloading => isReloading;
         public float ReloadProgress; float movingSpeed = 5;
         HP hp;
-
         RaycastHit2D hit;
         public RaycastHit2D Hit => hit;
         Stopwatch reloadsw;

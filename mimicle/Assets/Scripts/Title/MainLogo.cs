@@ -20,12 +20,12 @@ namespace Mimical
         bool isActivated = false;
         bool isMouseOverOnLogo = false;
         bool timerFlag = true;
-        float clickToTransition = 0;
-        float panelFadeSpeed = 0.008f;
+        float clickToTransition = 1;
+        const float panelFadeSpeed = 0.008f;
         float fadingPanelAlpha = 0;
-        float logoRotateSpeed = 10;
-        float txtColorChangeSpeed = 1;
-        float rotationTolerance = 0.1f;
+        const float logoRotateSpeed = 10;
+        const float txtColorChangeSpeed = 1;
+        const float rotationTolerance = 0.1f;
         Stopwatch transitionTimer = new();
 
         void Start()
@@ -35,10 +35,6 @@ namespace Mimical
             animator.enabled = false;
             pressT.color = colour.deactive;
             clickT.color = colour.deactive;
-
-            var a = (123).ToString();
-            var b = a.Cast<double>();
-            print(b.GetType());
         }
 
         void Update()
@@ -78,20 +74,20 @@ namespace Mimical
             if (!(hit && hit.collider.gameObject.name == Constant.Logo))
             {
                 isMouseOverOnLogo = false;
-                transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2, 2, 2), 30 * Time.deltaTime);
+                transform.localScale = Vector3.Lerp(transform.localScale, new(2, 2, 2), 30 * Time.deltaTime);
             }
 
             if (isActivated)
             {
                 transitionTimer.Start();
-                if (transitionTimer.SecondF() >= 1 && timerFlag)
+                if (transitionTimer.SecondF() >= clickToTransition && timerFlag)
                 {
                     StartCoroutine(FadingOutPanel());
                     timerFlag = false;
                 }
             }
 
-            if (fadingPanel.color.a >= 1)
+            if (fadingPanel.color.a >= clickToTransition)
                 Section.Load(Constant.Main);
         }
 

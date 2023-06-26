@@ -23,6 +23,7 @@ namespace Mimical
             public static int RedLilC = -100;
             public static int RedLilCBullet = -10;
             public static int RedSLilCBullet = -1;
+            public static int RedHoming = -10;
         }
 
         public static class Key

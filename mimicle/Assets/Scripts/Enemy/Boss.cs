@@ -28,7 +28,7 @@ namespace Mimical
         Colour[] colour = new Colour[5];
         // Colour2[] colour = new Colour2[5];
 
-        readonly (Quaternion rot, Vector3 pos, Vector3 sc) init = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 5);
+        readonly (Quaternion rot, Vector3 pos, Vector3 sc) init = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 3);
         enum Level { First = 0, Second, Third, Fourth, Fifth }
         float posLerpSpeed = 5;
         new PolygonCollider2D collider;
@@ -42,6 +42,7 @@ namespace Mimical
         public bool StartBossBattle => startBossBattle;
         Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
         const float SpawnSpideSpan = 30;
+        const float barrageRapid = 0.2f;
 
         delegate void Waves();
         Waves waves;
@@ -128,14 +129,32 @@ namespace Mimical
             }
         }
 
+        bool l2 = true;
         /// <summary>
-        /// 50 ~ 75, 緑:  7%ホーミング弾
+        //// / 50 ~ 75, 緑:  7%ホーミング弾
+        /// danmaku
         /// </summary>
         void Lv2()
         {
             if (!isActiveLevel(((int)Level.Second)))
                 return;
             activeLevel = 1;
+            point.transform.Rotate(new(0, 0, Mathf.Sin(Time.time)));
+            if (l2)
+            {
+                StartCoroutine(Barrage());
+                l2 = false;
+            }
+        }
+        IEnumerator Barrage()
+        {
+            int i = 0;
+            while (i <= 100)
+            {
+                yield return new WaitForSecondsRealtime(barrageRapid);
+                i++;
+                bullets[1].Instance(point.transform.position, point.transform.rotation);
+            }
         }
 
         /// <summary>
@@ -179,7 +198,7 @@ namespace Mimical
             while (isActiveLevel(((int)Level.Fifth)))
             {
                 yield return new WaitForSecondsRealtime(5);
-                bullets[1].Instance(point.transform.position, Quaternion.identity);
+                bullets[4].Instance(point.transform.position, Quaternion.identity);
             }
         }
 

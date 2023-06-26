@@ -29,17 +29,14 @@ namespace Mimical
             if (transform.position.x <= -14)
                 gameObject.Remove();
 
-            if (transform.GetChild(activeLevel).childCount > 0)
-            {
-            }
-            else
+            if (!(transform.GetChild(activeLevel).childCount > 0))
             {
                 if (bb)
                 {
                     bb = false;
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
-                    if (sr.color.a <= 0) //TODO fx
+                    if (sr.color.a <= 0 && speed <= 0) //TODO fx
                         Destroy(gameObject);
                 }
             }
@@ -53,6 +50,7 @@ namespace Mimical
                 yield return null;
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
                 alpha -= 0.02f;
+                speed -= 0.02f;
             }
         }
 
