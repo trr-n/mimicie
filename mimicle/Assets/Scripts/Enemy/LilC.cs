@@ -14,27 +14,17 @@ namespace Mimical
 
         HP hp;
         BoxCollider2D col;
-
         Vector2 position;
         Vector2 firstPosition;
         Vector2 direction;
-
         float timer = 0;
         float rapid = 2;
-
-        // float speed = 0.5f;
-
-        // bool attack = true;
-
-        // int counter = 0;
 
         void Start()
         {
             hp = GetComponent<HP>();
             base.Start(hp);
-
             col = GetComponent<BoxCollider2D>();
-
             firstPosition = new(Rnd.randint(3, 6), transform.position.y);
             position = transform.position;
             direction = firstPosition - position;
@@ -54,10 +44,9 @@ namespace Mimical
                 if (boolean)
                 {
                     boolean = false;
-                    GameObject.FindGameObjectWithTag(Constant.Player)
-                        .TryGetComponent<HP>(out var hp);
+                    GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
                     //TODO 回復量要調節 ////////////////////////////////////////////////
-                    hp.Healing(((int)MathF.Round((hp.Max - hp.Now) / 2, 0)));
+                    playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
                 }
             }
         }
@@ -68,15 +57,11 @@ namespace Mimical
             {
                 // transform.Translate(direction * speed * Time.deltaTime);
             }
-
             timer += Time.deltaTime;
-
             if (timer >= rapid) // && attack)
             {
                 bullet.Instance(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
-
                 // ++counter;
-
                 timer = 0;
             }
         }

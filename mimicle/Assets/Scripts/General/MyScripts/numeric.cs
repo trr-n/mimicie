@@ -12,6 +12,7 @@ namespace Mimical.Extend
         public static float Round(float n, int digit = 0) => MathF.Round(n, digit);
         public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
         public static int Percent(float n, int digit = 0) => ((int)MathF.Round(n * 100, digit));
+        public static int Percent(int target, int percentage) => Round(target * percentage / 100);
         public static float Ratio(float w, float t) => (float)w / t;
         public static bool Twins(this float n1, float n2) => Mathf.Approximately(n1, n2);
         public static bool Twins(Vector3 n1, Vector3 n2) => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);

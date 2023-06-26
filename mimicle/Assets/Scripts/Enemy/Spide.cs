@@ -13,10 +13,12 @@ namespace Mimical
 
         int activeLevel = 0;
         float speed = 1f;
-        int[] rots = { 50, 90, 120 };
+        int[] rotationSpeed = { 50, 90, 120 };
+        SpriteRenderer sr;
 
         void Start()
         {
+            sr = GetComponent<SpriteRenderer>();
             activeLevel = initLevel;
             SetLevel(initLevel);
         }
@@ -26,8 +28,32 @@ namespace Mimical
             Move();
             if (transform.position.x <= -14)
                 gameObject.Remove();
-            if (!(transform.GetChild(activeLevel).childCount > 0))
-                Destroy(gameObject);
+
+            if (transform.GetChild(activeLevel).childCount > 0)
+            {
+            }
+            else
+            {
+                if (bb)
+                {
+                    bb = false;
+                    Score.Add(Values.Point.Spide);
+                    StartCoroutine(Fade());
+                    if (sr.color.a <= 0) //TODO fx
+                        Destroy(gameObject);
+                }
+            }
+        }
+        bool bb = true;
+        float alpha = 1f;
+        IEnumerator Fade()
+        {
+            while (sr.color.a > 0)
+            {
+                yield return null;
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+                alpha -= 0.02f;
+            }
         }
 
         /// <param name="_level">0-2</param>
@@ -43,7 +69,7 @@ namespace Mimical
         protected override void Move()
         {
             transform.position += Vector3.left * speed * Time.deltaTime;
-            transform.Rotate(0, 0, rots[activeLevel] * Time.deltaTime);
+            transform.Rotate(0, 0, rotationSpeed[activeLevel] * Time.deltaTime);
         }
 
         protected override void OnBecameInvisible() {; }

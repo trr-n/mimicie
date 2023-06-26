@@ -18,6 +18,7 @@ namespace Mimical
             public static int Charger = 100;
             public static int LilC = 500;
             public static int Boss = 10000;
+            public static int Spide = 250;
             public static int RedCharger = -10;
             public static int RedLilC = -100;
             public static int RedLilCBullet = -10;

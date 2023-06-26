@@ -59,7 +59,7 @@ namespace Mimical
         void DrawRaid()
         {
             var r = new Ray(transform.position, Vector2.right);
-            hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9);
+            hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9 | 1 << 10);
             if (!hit.collider)
                 return;
         }

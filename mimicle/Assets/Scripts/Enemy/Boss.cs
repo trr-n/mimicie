@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Mimical
 {
-    public class Boss : MonoBehaviour//Enemy
+    public class Boss : MonoBehaviour
     {
         [SerializeField, Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
         GameObject[] bullets;
@@ -40,7 +40,7 @@ namespace Mimical
         public int ActiveLevel => activeLevel;
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
-        Stopwatch spideSW = new();
+        Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
         const float SpawnSpideSpan = 30;
 
         delegate void Waves();
@@ -102,6 +102,7 @@ namespace Mimical
         }
 
         bool once = false;
+        Stopwatch l1sw = new();
         /// <summary>
         /// 75 ~ 100, 青: 5%弾, 毎秒発射
         /// </summary>
@@ -157,6 +158,7 @@ namespace Mimical
             activeLevel = 3;
         }
 
+        bool bb = true;
         /// <summary>
         /// 00 ~ 10, 赤:  15%ホーミング弾
         /// </summary>
@@ -165,14 +167,19 @@ namespace Mimical
             if (!isActiveLevel(((int)Level.Fifth)))
                 return;
             activeLevel = 4;
+            if (bb)
+            {
+                bb = false;
+                StartCoroutine(Lv5s());
+            }
         }
 
-        IEnumerator MakeSpide()
+        IEnumerator Lv5s()
         {
-            while (true)
+            while (isActiveLevel(((int)Level.Fifth)))
             {
-                yield return new WaitForSecondsRealtime(1);
-                // SpawnSpide();
+                yield return new WaitForSecondsRealtime(5);
+                bullets[1].Instance(point.transform.position, Quaternion.identity);
             }
         }
 
@@ -197,7 +204,7 @@ namespace Mimical
                 }
         }
 
-        bool isActiveLevel(int _level)
+        public bool isActiveLevel(int _level)
         {
             switch (_level)
             {

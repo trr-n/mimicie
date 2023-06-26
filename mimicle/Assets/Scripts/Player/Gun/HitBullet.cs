@@ -8,18 +8,13 @@ namespace Mimical
     {
         [SerializeField]
         GameObject fx;
-
         // [SerializeField]
         // AudioClip[] se;
 
         // AudioSource spk;
-        // Rigidbody2D rb;
 
         void Start()
         {
-            // rb = GetComponent<Rigidbody2D>();
-            // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
             // spk = GetComponent<AudioSource>();
         }
 

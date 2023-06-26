@@ -19,7 +19,6 @@ namespace Mimical
         {
             hp = GetComponent<HP>();
             base.Start(hp);
-
             col = GetComponent<BoxCollider2D>();
         }
 
