@@ -41,6 +41,7 @@ namespace Mimical.Extend
         }
         public static void sets(this Transform t, Vector3 scale) => t.localScale = scale;
         public static void move2d(this Transform t, float speed, string axish = "Horizontal", string axisv = "Vertical")
-            => t.Translate(new Vector2(Input.GetAxis(axish), Input.GetAxis(axisv)) * speed * Time.deltaTime);
+        => t.Translate(new Vector2(Input.GetAxis(axish), Input.GetAxis(axisv)) * speed * Time.deltaTime);
+        public static bool Twins(Vector3 n1, Vector3 n2) => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);
     }
 }

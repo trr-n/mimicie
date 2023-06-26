@@ -28,7 +28,7 @@ namespace Mimical
         Colour[] colour = new Colour[5];
         // Colour2[] colour = new Colour2[5];
 
-        readonly (Quaternion rot, Vector3 pos, Vector3 sc) init = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 3);
+        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) Initial = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 3);
         enum Level { First = 0, Second, Third, Fourth, Fifth }
         float posLerpSpeed = 5;
         new PolygonCollider2D collider;
@@ -43,6 +43,7 @@ namespace Mimical
         Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
         const float SpawnSpideSpan = 30;
         const float barrageRapid = 0.2f;
+        (int bullets, float range) W1Rapid = (5, 1.25f);
 
         delegate void Waves();
         Waves waves;
@@ -57,19 +58,18 @@ namespace Mimical
             playerHp = Gobject.Find(Constant.Player).GetComponent<HP>();
             bossHp = GetComponent<HP>();
             bossHp.SetMax();
-            transform.setr(init.rot);
-            transform.sets(init.sc);
+            transform.setr(Initial.Rotation);
+            transform.sets(Initial.Scale);
             spideSW.Start();
         }
 
-        bool moveFrag = false;
+        void OnEnable()
+        {
+            transform.DOMove(Initial.Position, posLerpSpeed).SetEase(Ease.OutCubic);
+        }
+
         void Update()
         {
-            if (!moveFrag)
-            {
-                transform.DOMove(init.pos, posLerpSpeed).SetEase(Ease.OutCubic);
-                moveFrag = true;
-            }
             Both();
             if (bossHp.IsZero)
                 Section.Load(Constant.Final);
@@ -77,7 +77,7 @@ namespace Mimical
 
         void Both()
         {
-            if (!Numeric.Twins(transform.position, init.pos))
+            if (!Coordinate.Twins(transform.position, Initial.Position))
                 return;
             startBossBattle = true;
             if (collide)
@@ -112,7 +112,6 @@ namespace Mimical
             if (!isActiveLevel(((int)Level.First)))
                 return;
             activeLevel = 0;
-
             if (!once)
             {
                 StartCoroutine(Lv01());
@@ -125,7 +124,11 @@ namespace Mimical
             while (isActiveLevel(((int)Level.First)))
             {
                 yield return new WaitForSeconds(Rnd.randint(1, 10));
-                bullets[0].Instance(point.transform.position, Quaternion.identity);
+                for (var i = 0; i < W1Rapid.bullets; i++)
+                {
+                    bullets[0].Instance(point.transform.position, Quaternion.identity);
+                    yield return new WaitForSeconds(W1Rapid.range / W1Rapid.bullets);
+                }
             }
         }
 
@@ -204,12 +207,15 @@ namespace Mimical
 
         void SpawnSpide()
         {
-            var spide = new GameObject();
             if (!(spideSW.SecondF() >= SpawnSpideSpan))
                 return;
-            spide = mobs[((int)Mobs.Spide)].Instance();
+            var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
-                _spide.SetLevel(Rnd.randint(0, 2));
+            {
+                var levelDict = new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } };
+                _spide.SetLevel(Rnd.Pro(levelDict));
+            }
+            // _spide.SetLevel(Rnd.randint(0, 2));
             spideSW.Restart();
         }
 

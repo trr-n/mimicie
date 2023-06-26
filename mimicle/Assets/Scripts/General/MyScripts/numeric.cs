@@ -15,7 +15,6 @@ namespace Mimical.Extend
         public static int Percent(int whole, int percentage) => Round(whole * percentage / 100);
         public static float Ratio(float w, float t) => (float)w / t;
         public static bool Twins(this float n1, float n2) => Mathf.Approximately(n1, n2);
-        public static bool Twins(Vector3 n1, Vector3 n2) => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);
         public static bool IsPrime(int n)
         {
             if (n < 2 || (n % 2 == 0 && n != 2)) return false;

@@ -7,12 +7,9 @@ namespace Mimical
 {
     public class BossBullet0 : Bullet
     {
-        [SerializeField]
-        float speed = 2;
-
+        float speed = 10;
         Vector3 direction;
         Transform player;
-
         float accelRatio = 1.001f;
 
         void Start()
@@ -23,23 +20,18 @@ namespace Mimical
 
         void FixedUpdate()
         {
-            if (gameObject.Exist())
-                speed *= accelRatio;
             Move(speed);
         }
+
         void Update()
         {
-            // var distance = Vector3.Distance(player.transform.position, this.transform.position);
-            // if (distance <= 10) {; }
-            if (transform.position.x <= -20.48f)
-                Destroy(this.gameObject);
             OutOfScreen(gameObject);
         }
 
         protected override void Move(float speed)
         {
             if (this.gameObject is not null)
-                transform.Translate(direction * speed * Time.deltaTime);
+                transform.Translate(direction.normalized * speed * Time.deltaTime);
             else Destroy(this);
         }
 
