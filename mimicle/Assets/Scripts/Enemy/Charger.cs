@@ -8,12 +8,10 @@ namespace Mimical
     public sealed class Charger : Enemy
     {
         HP hp;
-
         BoxCollider2D col;
-
         // float xx = 8.9f, yy = 5f;
-
         float speed = 2;
+        float accelRatio = 1.0025f;
 
         void Start()
         {
@@ -24,9 +22,9 @@ namespace Mimical
 
         void Update()
         {
+            speed *= accelRatio;
             Move();
             Left(gameObject);
-
             if (hp.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
@@ -45,17 +43,7 @@ namespace Mimical
             {
                 info.Get<HP>().Damage(Values.Damage.Charger);
                 Score.Add(Values.Point.RedCharger);
-
                 gameObject.Remove();
-            }
-        }
-
-        void OnCollisionExit2D(Collision2D info)
-        {
-            if (info.Compare(Constant.Safety))
-            {
-                gameObject.Remove();
-                Score.Add(-100);
             }
         }
 

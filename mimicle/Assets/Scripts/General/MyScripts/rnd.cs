@@ -24,11 +24,11 @@ namespace Mimical.Extend
             for (int i = 0; i < charaArr.Length; i++) charaArr[i] = characters[r.Next(characters.Length)];
             return charaArr.ToString();
         }
-        public static T Pro<T>(Dictionary<T, int> dict) { return Pro(dict); }
         public static T Pro<T>(Dictionary<T, float> dict)
         {
-            float total = 0;
-            foreach (var per in dict) total += per.Value;
+            var total = 0f;
+            foreach (var per in dict)
+                total += per.Value;
             var r = Rnd.randfloat(max: total);
             foreach (var _ in dict)
             {
@@ -37,6 +37,7 @@ namespace Mimical.Extend
             }
             return new List<T>(dict.Keys)[0];
         }
+        public static T Pro<T>(Dictionary<T, int> dict) { return Pro(dict); }
         public static List<float> Pro2<T>(Dictionary<T, float> dict)
         // public static T Pro2<T>(Dictionary<T, double> dict)
         {

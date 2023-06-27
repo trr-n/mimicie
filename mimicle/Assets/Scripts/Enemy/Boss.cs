@@ -41,9 +41,11 @@ namespace Mimical
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
         Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
-        const float SpawnSpideSpan = 30;
+        float spawnSpideSpan = 30;
         const float barrageRapid = 0.2f;
         (int bullets, float range) W1Rapid = (5, 1.25f);
+        float speed = 1;
+        float baseSpeed = 30f;
 
         delegate void Waves();
         Waves waves;
@@ -132,36 +134,40 @@ namespace Mimical
             }
         }
 
-        bool l2 = true;
+        One o = new();
         /// <summary>
-        //// / 50 ~ 75, 緑:  7%ホーミング弾
-        /// danmaku
+        /// barrage
         /// </summary>
         void Lv2()
         {
             if (!isActiveLevel(((int)Level.Second)))
                 return;
             activeLevel = 1;
-            point.transform.Rotate(new(0, 0, Mathf.Sin(Time.time)));
-            if (l2)
+            o.Once(l2);
+            void l2()
             {
+                point.transform.eulerAngles = new(0, 0, 60);
                 StartCoroutine(Barrage());
-                l2 = false;
             }
+            (float Max, float Min) barrageRange = (120, 60);
+            if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
+                speed *= -1;
+            point.transform.Rotate(new Vector3(0, 0, baseSpeed * speed * Time.deltaTime));
         }
         IEnumerator Barrage()
         {
             int i = 0;
+            // fire 100 bullets
             while (i <= 100)
             {
                 yield return new WaitForSecondsRealtime(barrageRapid);
                 i++;
-                bullets[1].Instance(point.transform.position, point.transform.rotation);
+                bullets[1].Instance(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
             }
         }
 
         /// <summary>
-        /// 30 ~ 50, 黄:  9%ホーミング弾
+        ///TODO 30 ~ 50, yellow: 9% homing
         /// </summary>
         void Lv3()
         {
@@ -171,7 +177,7 @@ namespace Mimical
         }
 
         /// <summary>
-        /// 10 ~ 30, 橙:  13%ホーミング弾
+        ///TODO 10 ~ 30, orange: 13% homing
         /// </summary>
         void Lv4()
         {
@@ -182,7 +188,7 @@ namespace Mimical
 
         bool bb = true;
         /// <summary>
-        /// 00 ~ 10, 赤:  15%ホーミング弾
+        ///TODO 00 ~ 10, red: 15% homing
         /// </summary>
         void Lv5()
         {
@@ -207,7 +213,7 @@ namespace Mimical
 
         void SpawnSpide()
         {
-            if (!(spideSW.SecondF() >= SpawnSpideSpan))
+            if (!(spideSW.SecondF() >= spawnSpideSpan))
                 return;
             var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
@@ -215,8 +221,8 @@ namespace Mimical
                 var levelDict = new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } };
                 _spide.SetLevel(Rnd.Pro(levelDict));
             }
-            // _spide.SetLevel(Rnd.randint(0, 2));
             spideSW.Restart();
+            spawnSpideSpan = Rnd.randint(20, 30);
         }
 
         public void ChangeBodyColor()

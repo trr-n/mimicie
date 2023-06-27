@@ -51,17 +51,14 @@ namespace Mimical
             }
         }
 
+        //TODO ストップウォッチに変更
+        Stopwatch sw = new(true);
         protected override void Move()
         {
-            if (transform.position.x >= firstPosition.x)
-            {
-                // transform.Translate(direction * speed * Time.deltaTime);
-            }
             timer += Time.deltaTime;
             if (timer >= rapid) // && attack)
             {
                 bullet.Instance(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
-                // ++counter;
                 timer = 0;
             }
         }

@@ -15,6 +15,7 @@ namespace Mimical
         float speed = 1f;
         int[] rotationSpeed = { 50, 90, 120 };
         SpriteRenderer sr;
+        bool dead;
 
         void Start()
         {
@@ -23,17 +24,18 @@ namespace Mimical
             SetLevel(initLevel);
         }
 
+        One once = new();
         void Update()
         {
             Move();
             if (transform.position.x <= -14)
                 gameObject.Remove();
 
-            if (!(transform.GetChild(activeLevel).childCount > 0))
+            if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                if (bb)
+                once.Once(D);
+                void D()
                 {
-                    bb = false;
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
                     if (sr.color.a <= 0 && speed <= 0) //TODO fx
@@ -41,7 +43,6 @@ namespace Mimical
                 }
             }
         }
-        bool bb = true;
         float alpha = 1f;
         IEnumerator Fade()
         {
@@ -72,5 +73,11 @@ namespace Mimical
 
         protected override void OnBecameInvisible() {; }
         protected override void OnBecameVisible() {; }
+
+        void OnCollisionEnter2D(Collision2D info)
+        {
+            if (info.Compare(Constant.Bullet))
+                dead = true;
+        }
     }
 }

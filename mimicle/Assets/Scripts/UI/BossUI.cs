@@ -7,29 +7,14 @@ namespace Mimical
     {
         [SerializeField]
         GameObject core;
-
         [SerializeField]
         Image gauge;
-
         [SerializeField]
         Text text;
-
         [SerializeField]
         HP bossHp;
-
         [SerializeField]
         EnemySpawner spawner;
-
-        bool once = false;
-
-        void Start()
-        {
-            if (spawner.StartWave3 && !once)
-            {
-                // bossHp = gobject.Find(constant.Boss).GetComponent<HP>();
-                once = true;
-            }
-        }
 
         public void UpdateBossUI()
         {

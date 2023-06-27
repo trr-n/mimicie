@@ -10,7 +10,7 @@ namespace Mimical
         protected void Start(HP hp) => hp.SetMax();
         protected abstract void Move();
         // protected abstract void Attack();
-        protected virtual void Left(GameObject obj, int deadLine = -20)
+        protected virtual void Left(GameObject obj, float deadLine = -10.24f)
         {
             if (obj.transform.position.x <= deadLine)
                 obj.Remove();

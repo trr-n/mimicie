@@ -8,10 +8,12 @@ namespace Mimical.Extend
         SystemStopwatch sw;
         public Stopwatch() => sw = new();
         public Stopwatch(bool b) { sw = new(); sw.Start(); }
+        ~Stopwatch() { Destruct(); }
         public void Start() => sw.Start();
         public void Stop() => sw.Stop();
         public void Restart() => sw.Restart();
         public void Reset() => sw.Reset();
+        public void Destruct() { sw.Stop(); sw = null; }
         public bool IsOngoing() => sw.IsRunning;
         public int Hour() => sw.Elapsed.Hours;
         public float HourF(int digit = 6) => Numeric.Round((float)sw.Elapsed.TotalHours, digit);

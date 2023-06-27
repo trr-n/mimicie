@@ -13,7 +13,7 @@ namespace Mimical
             OutOfScreen(gameObject);
         }
 
-        protected override void Move(float speed) => transform.Translate(transform.up * speed * Time.deltaTime);
+        protected override void Move(float speed) => transform.Translate(Vector2.left * speed * Time.deltaTime);
 
         protected override void TakeDamage(Collision2D info)
         {
@@ -26,6 +26,8 @@ namespace Mimical
         {
             if (info.Compare(Constant.Player))
                 TakeDamage(info);
+            if (info.Compare(Constant.Bullet))
+                gameObject.Remove();
         }
     }
 }

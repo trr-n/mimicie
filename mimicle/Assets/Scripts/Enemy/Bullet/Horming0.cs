@@ -22,6 +22,7 @@ namespace Mimical
             level = boss.ActiveLevel;
             player = GameObject.FindGameObjectWithTag(Constant.Player);
             playerHp = player.GetComponent<HP>();
+            sr = GetComponent<SpriteRenderer>();
         }
 
         void Update()
