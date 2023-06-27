@@ -28,7 +28,9 @@ namespace Mimical.Extend
         public static GameObject[] Finds(string tag) => GameObject.FindGameObjectsWithTag(tag);
         public static void Remove(this GameObject gob, float lifetime = 0) => UnityEngine.GameObject.Destroy(gob, lifetime);
         public static void Remove(this Collider info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Remove(this Collider2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
         public static void Remove(this Collision info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Remove(this Collision2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
         public static bool IsActive(this GameObject gob, Active? active = null) => active == Active.Self || active is null ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
         public static bool Exist(this GameObject obj) => obj.gameObject;

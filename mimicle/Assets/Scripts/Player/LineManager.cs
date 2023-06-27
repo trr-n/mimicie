@@ -13,15 +13,13 @@ namespace Mimical
             player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
             line = GetComponent<LineRenderer>();
             point = GameObject.Find("gun");
-            var thickness = 0.075f;
-            line.startWidth = thickness;
-            line.endWidth = thickness;
+            line.startWidth = line.endWidth = 0.075f;
         }
 
         void Update()
         {
-            var notHit = new Vector3[] { point.transform.position, new(20.48f, point.transform.position.y) };
-            var hitting = new Vector3[] { notHit[0], new(player.Hit.point.x, point.transform.position.y) };
+            Vector3[] notHit = new[] { point.transform.position, new(20.48f, point.transform.position.y) },
+                hitting = new[] { notHit[0], new(player.Hit.point.x, point.transform.position.y) };
             line.SetPositions(player.Hit.collider ? hitting : notHit);
         }
     }

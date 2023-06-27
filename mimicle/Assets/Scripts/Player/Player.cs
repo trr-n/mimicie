@@ -16,9 +16,13 @@ namespace Mimical
         GameManager manager;
         [SerializeField]
         Text reloadingT;
+        [SerializeField]
+        AudioClip[] damageSE;
 
         // Gun
         float rapid;
+        Stopwatch rapidSW = new(true);
+        float rapidSpan = 0.5f;
         float timeToReload = 0f;
         public float Time2Reload => timeToReload;
         float rtime = 2f;
@@ -62,11 +66,13 @@ namespace Mimical
 
         void Trigger()
         {
-            rapid += Time.deltaTime;
-            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
+            // rapid += Time.deltaTime;
+            // if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
+            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sF > rapidSpan && !isReloading))
                 return;
             gun.Shot();
-            rapid = 0;
+            rapidSW.Restart();
+            // rapid = 0;
         }
 
         void Reload()
@@ -105,12 +111,10 @@ namespace Mimical
         void Move()
         {
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-            float h = Input.GetAxis(Constant.Horizontal),
-                v = Input.GetAxis(Constant.Vertical);
-            Vector2 moving = new(h, v);
             if (!manager.PlayerCtrlable)
                 return;
-            transform.Translate(moving * movingSpeed * Time.deltaTime);
+            float h = Input.GetAxis(Constant.Horizontal), v = Input.GetAxis(Constant.Vertical);
+            transform.Translate(new Vector2(h, v) * movingSpeed * Time.deltaTime);
         }
     }
 }

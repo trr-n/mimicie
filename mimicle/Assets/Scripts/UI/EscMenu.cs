@@ -34,9 +34,9 @@ namespace Mimical
 
         void Show()
         {
-            speaker.VCtrl(volumeT);
+            speaker.SpeakerVolumeControl(volumeT);
             if (Mynput.Down(Values.Key.Mute))
-                speaker.VMute(volumeT);
+                speaker.MuteVolume(volumeT);
             if (Mynput.Down(Values.Key.MChange))
                 speaker.Change(songT);
             if (Mynput.Down(KeyCode.Escape))

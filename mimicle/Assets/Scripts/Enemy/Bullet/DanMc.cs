@@ -7,6 +7,10 @@ namespace Mimical
 {
     public class DanMc : Bullet
     {
+        void _Start()
+        {
+        }
+
         void Update()
         {
             Move(speed: 3);
@@ -27,7 +31,10 @@ namespace Mimical
             if (info.Compare(Constant.Player))
                 TakeDamage(info);
             if (info.Compare(Constant.Bullet))
+            {
+                info.Remove();
                 gameObject.Remove();
+            }
         }
     }
 }

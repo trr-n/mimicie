@@ -10,24 +10,24 @@ namespace Mimical
         AudioClip[] musics;
 
         AudioSource speaker;
-        float amount = 0.02f;
-        float _volume = 0.4f;
+        const float amount = 0.02f;
+        [Range(0, 1f)] float _volume = 0.5f;
         float preVolume = 0f;
-        int nowIndex = 0;
+        int playingIndex = 0;
         int pressCounter = 0;
 
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            nowIndex = Rnd.ice(musics);
-            speaker.clip = musics[nowIndex];
+            playingIndex = Rnd.ice(musics);
+            speaker.clip = musics[playingIndex];
             speaker.loop = true;
             speaker.Play();
         }
 
         string VText(float _percentage) => $"おんりょう{_percentage}%";
 
-        public void VCtrl(Text volumeT)
+        public void SpeakerVolumeControl(Text volumeT)
         {
             if (Mynput.Down(Values.Key.VUp))
                 _volume += amount;
@@ -38,7 +38,7 @@ namespace Mimical
             volumeT.text = VText(Numeric.Percent(_volume));
         }
 
-        public void VMute(Text volumeT)
+        public void MuteVolume(Text volumeT)
         {
             if (pressCounter == 0)
             {
@@ -56,12 +56,12 @@ namespace Mimical
 
         public void Change(Text songT)
         {
-            nowIndex++;
-            if (nowIndex >= musics.Length)
-                nowIndex = 0;
-            speaker.clip = musics[nowIndex];
+            playingIndex++;
+            if (playingIndex >= musics.Length)
+                playingIndex = 0;
+            speaker.clip = musics[playingIndex];
             speaker.Play();
-            songT.text = musics[nowIndex].name;
+            songT.text = musics[playingIndex].name;
         }
     }
 }

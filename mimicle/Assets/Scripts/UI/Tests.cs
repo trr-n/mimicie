@@ -48,7 +48,7 @@ namespace Mimical
             timeT.text = Score.Time().ToString();
             nowWaveT.text = wave.Now.ToString();
             maxWaveT.text = wave.Max.ToString();
-            fpsT.text = Visual.Fps().ToString();
+            fpsT.text = Render.Fps().ToString();
             scoreT.text = Score.Now.ToString();
             waveT.text = waveData.Now.ToString();
         }
