@@ -15,7 +15,6 @@ namespace Mimical
         AudioClip[] presses, clicks;
 
         AudioSource speaker;
-        Animator animator;
         (Color deactive, Color active) colour = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
         bool isActivated = false;
         bool isMouseOverOnLogo = false;
@@ -30,9 +29,7 @@ namespace Mimical
 
         void Start()
         {
-            speaker ??= GetComponent<AudioSource>();
-            animator = GetComponent<Animator>();
-            animator.enabled = false;
+            speaker = GetComponent<AudioSource>();
             pressT.color = colour.deactive;
             clickT.color = colour.deactive;
         }

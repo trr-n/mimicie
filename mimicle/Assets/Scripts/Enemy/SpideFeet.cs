@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
@@ -12,12 +10,12 @@ namespace Mimical
             if (info.Compare(Constant.Player))
             {
                 info.Get<HP>().Damage(Values.Damage.Spide);
-                gameObject.Remove();
+                Destroy(gameObject);
             }
             if (info.Compare(Constant.Bullet))
             {
-                info.gameObject.Remove();
-                gameObject.Remove();
+                Destroy(info.gameObject);
+                Destroy(gameObject);
             }
         }
     }

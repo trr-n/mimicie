@@ -10,28 +10,20 @@ namespace Mimical
     {
         [SerializeField]
         Text todayT;
-
         [SerializeField]
         Text systemT;
-
         [SerializeField]
         Text volumeT;
-
         [SerializeField]
         Text songT;
-
         [SerializeField]
         Speaker speaker;
-
         [SerializeField]
         GameManager manager;
 
         string[] info;
-
         void Start() => info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
-
         void Update() => Show();
-
         void Show()
         {
             speaker.SpeakerVolumeControl(volumeT);

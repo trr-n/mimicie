@@ -33,7 +33,6 @@ namespace Mimical
                 _volume += amount;
             else if (Mynput.Down(Values.Key.VDown))
                 _volume -= amount;
-
             speaker.volume = _volume;
             volumeT.text = VText(Numeric.Percent(_volume));
         }

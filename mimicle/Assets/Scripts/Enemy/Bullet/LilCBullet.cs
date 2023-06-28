@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
@@ -32,7 +30,7 @@ namespace Mimical
         {
             info.Get<HP>().Damage(Values.Damage.LilC);
             Score.Add(Values.Point.RedLilCBullet);
-            gameObject.Remove();
+            Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -41,7 +39,7 @@ namespace Mimical
                 TakeDamage(info);
 
             if (info.Compare(Constant.Bullet))
-                gameObject.Remove();
+                Destroy(gameObject);
         }
     }
 }

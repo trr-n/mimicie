@@ -43,18 +43,8 @@ namespace Mimical
             {
                 info.Get<HP>().Damage(Values.Damage.Charger);
                 Score.Add(Values.Point.RedCharger);
-                gameObject.Remove();
+                Destroy(gameObject);
             }
-        }
-
-        protected override void OnBecameInvisible()
-        {
-            col.isTrigger = true;
-        }
-
-        protected override void OnBecameVisible()
-        {
-            col.isTrigger = false;
         }
     }
 }

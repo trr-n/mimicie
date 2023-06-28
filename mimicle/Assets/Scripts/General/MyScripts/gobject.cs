@@ -6,10 +6,10 @@ namespace Mimical.Extend
     public enum Active { Self, Hierarchy }
     public static class Gobject
     {
-        public static GameObject Instance(this GameObject[] gobjects, Vector3 position, Quaternion rotation)
-            => UnityEngine.MonoBehaviour.Instantiate(gobjects[Rnd.ice(gobjects)], position, rotation);
-        public static GameObject Instance(this GameObject gobject, Vector3 position, Quaternion rotation)
-            => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
+        public static GameObject Instance(this GameObject[] gobjects, Vector3 position = new(), Quaternion rotation = new())
+        => UnityEngine.MonoBehaviour.Instantiate(gobjects[Rnd.ice(gobjects)], position, rotation);
+        public static GameObject Instance(this GameObject gobject, Vector3 position = new(), Quaternion rotation = new())
+        => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
         public static GameObject Instance(this GameObject gob) => UnityEngine.MonoBehaviour.Instantiate(gob);
         public static bool Compare(this Collision info, string tag) => info.gameObject.CompareTag(tag);
         public static bool Compare(this Collider info, string tag) => info.CompareTag(tag);

@@ -27,7 +27,6 @@ namespace Mimical
         bool b = true;
         void Update()
         {
-            // now = ((int)waves) + 1;
             if (Mynput.Down(KeyCode.Return))
                 Next();
             if (IsDone && b)
@@ -36,7 +35,6 @@ namespace Mimical
                 Score.finalScore = Score.Now;
                 Score.finalTime = Score.Time();
             }
-            print("score: " + Score.finalScore + ", time: " + Score.finalTime);
         }
 
         public void Next()

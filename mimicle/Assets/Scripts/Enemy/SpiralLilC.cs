@@ -20,7 +20,6 @@ namespace Mimical
             base.Start(hp);
             rb = GetComponent<Rigidbody2D>();
             rb.isKinematic = true;
-
             StartCoroutine(Attack());
         }
 
@@ -31,12 +30,9 @@ namespace Mimical
 
         void Update()
         {
-            // Move();
             Rotate();
             if (hp.IsZero)
-            {
                 AddSlainCountAndRemove(gameObject);
-            }
         }
 
         IEnumerator Attack()
@@ -45,7 +41,6 @@ namespace Mimical
             {
                 yield return new WaitForSeconds(rot / 360);
                 bullet.Instance(transform.position, transform.rotation);
-                print("a");
             }
         }
 
@@ -56,15 +51,7 @@ namespace Mimical
 
         protected override void Move()
         {
-            // transform.Translate(Vector3.left * speed * Time.deltaTime);
-            // rb.velocity += Vector2.left * speed * Time.deltaTime;
             transform.position += (Vector3)Vector2.left * speed * Time.deltaTime;
-        }
-
-        protected override void OnBecameVisible() {; }
-        protected override void OnBecameInvisible()
-        {
-            Score.Add(-100);
         }
     }
 }

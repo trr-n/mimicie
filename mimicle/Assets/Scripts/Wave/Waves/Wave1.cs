@@ -53,8 +53,7 @@ namespace Mimical
                 {
                     ssy = playerPos.y + sy;
                     ssy = Mathf.Clamp(ssy, -4, 4);
-                    spawned.Add(enemies.Instance(new(
-                            X, ssy, transform.position.z), Quaternion.identity));
+                    spawned.Add(enemies.Instance(new(X, ssy, transform.position.z), Quaternion.identity));
                     sy -= spawn.space;
                     yield return new WaitForSecondsRealtime(spawn.span / spawn.count);
                 }
@@ -78,15 +77,12 @@ namespace Mimical
             if (isDone)
             {
                 StopCoroutine(Chargers());
-                print("stop");
                 sw.Start();
-                // spawnTimer.Destruct();
                 if (sw.SecondF() >= BreakTime)
                 {
                     slain.ResetCount();
                     data.ActivateWave(((int)Activate.Second));
-                    // sw.Destruct();
-                    sw = spawnTimer = null;
+                    Stopwatch.Destruct(sw, spawnTimer);
                 }
             }
         }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Mimical.Extend
 {
@@ -33,7 +31,8 @@ namespace Mimical.Extend
             foreach (var _ in dict)
             {
                 r -= _.Value;
-                if (r <= 0) return _.Key;
+                if (r <= 0)
+                    return _.Key;
             }
             return new List<T>(dict.Keys)[0];
         }

@@ -13,15 +13,12 @@ namespace Mimical
         protected virtual void Left(GameObject obj, float deadLine = -10.24f)
         {
             if (obj.transform.position.x <= deadLine)
-                obj.Remove();
+                Destroy(obj);
         }
         protected void AddSlainCountAndRemove(GameObject gob)
         {
-            var slain = GameObject.Find("Wave").GetComponent<Slain>();
-            slain.AddCount();
-            gob.Remove();
+            GameObject.Find("Wave").GetComponent<Slain>().AddCount();
+            Destroy(gob);
         }
-        protected abstract void OnBecameVisible();
-        protected abstract void OnBecameInvisible();
     }
 }

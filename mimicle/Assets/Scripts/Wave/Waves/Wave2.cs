@@ -24,7 +24,7 @@ namespace Mimical
         float span = 0.5f;
         const int X = 15;
         const float BreakTime = 2f;
-        float breakTimer = 0f;
+        Stopwatch sw = new();
 
         List<GameObject> spawned = new List<GameObject>();
 
@@ -57,12 +57,12 @@ namespace Mimical
 
             if (IsDone())
             {
-                breakTimer += Time.deltaTime;
-                if (breakTimer >= BreakTime)
+                sw.Start();
+                if (sw.sf >= BreakTime)
                 {
                     data.ActivateWave(((int)Activate.Third));
                     slain.ResetCount();
-                    breakTimer = 0;
+                    sw.Destruct();
                 }
             }
 

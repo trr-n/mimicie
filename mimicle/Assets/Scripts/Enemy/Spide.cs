@@ -7,10 +7,12 @@ namespace Mimical
 {
     public class Spide : Enemy
     {
-        int initLevel = 0;
         [SerializeField]
         GameObject[] levels;
+        [SerializeField]
+        GameObject[] fxs;
 
+        int initLevel = 0;
         int activeLevel = 0;
         float speed = 1f;
         int[] rotationSpeed = { 50, 90, 120 };
@@ -38,8 +40,12 @@ namespace Mimical
                 {
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
-                    if (sr.color.a <= 0 && speed <= 0) //TODO fx
+                    if (sr.color.a <= 0 && speed <= 0)
+                    {
+                        //TODO fx
+                        fxs.Instance(transform.position, Quaternion.identity);
                         Destroy(gameObject);
+                    }
                 }
             }
         }
@@ -70,9 +76,6 @@ namespace Mimical
             transform.position += Vector3.left * speed * Time.deltaTime;
             transform.Rotate(0, 0, rotationSpeed[activeLevel] * Time.deltaTime);
         }
-
-        protected override void OnBecameInvisible() {; }
-        protected override void OnBecameVisible() {; }
 
         void OnCollisionEnter2D(Collision2D info)
         {

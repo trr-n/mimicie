@@ -20,11 +20,6 @@ namespace Mimical
 
         bool boolean = false;
 
-        void Start()
-        {
-            player ??= GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
-        }
-
         void Update()
         {
             debugT.text = $"fillamount:{ammoI.fillAmount.newline()}remain:{ammo.Remain.newline()}max:{ammo.Max}";
@@ -46,7 +41,7 @@ namespace Mimical
             while (sw.SecondF() < time)
             {
                 yield return null;
-                ammoI.fillAmount = Mathf.Lerp(ammo.Remain / 10, 1, sw.SpentF(SWFormat.S) / time);
+                ammoI.fillAmount = Mathf.Lerp(ammo.Remain / 10, 1, sw.sf / time);
                 if (ammoI.fillAmount >= 1)
                     boolean = false;
             }

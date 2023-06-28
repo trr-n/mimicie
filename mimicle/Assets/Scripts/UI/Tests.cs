@@ -8,37 +8,26 @@ namespace Mimical
     {
         [SerializeField]
         Text timeT;
-
         [SerializeField]
         Text nowWaveT;
-
         [SerializeField]
         Text maxWaveT;
-
         [SerializeField]
         Wave wave;
-
         [SerializeField]
         Image hpImage;
-
         [SerializeField]
         HP playerHp;
-
         [SerializeField]
         Text fpsT;
-
         [SerializeField]
         Player player;
-
         [SerializeField]
         Text scoreT;
-
         // [SerializeField]
         // Score score;
-
         [SerializeField]
         WaveData waveData;
-
         [SerializeField]
         Text waveT;
 

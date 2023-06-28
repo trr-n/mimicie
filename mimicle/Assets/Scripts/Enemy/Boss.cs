@@ -107,7 +107,7 @@ namespace Mimical
         bool once = false;
         Stopwatch l1sw = new();
         /// <summary>
-        /// 75 ~ 100, 青: 5%弾, 毎秒発射
+        /// 75 ~ 100, blue: 5% not homing, fire every second 
         /// </summary>
         void Lv1()
         {
@@ -125,7 +125,8 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(Rnd.randint(1, 10));
+                // yield return new WaitForSeconds(Rnd.randint(1, 10));
+                yield return new WaitForSeconds(W1Rapid.range * 1.5f);
                 for (var i = 0; i < W1Rapid.bullets; i++)
                 {
                     bullets[0].Instance(point.transform.position, Quaternion.identity);

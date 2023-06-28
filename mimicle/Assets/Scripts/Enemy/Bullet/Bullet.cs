@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
 
 namespace Mimical
 {
@@ -9,12 +6,12 @@ namespace Mimical
     {
         protected abstract void Move(float speed);
         protected abstract void TakeDamage(Collision2D info);
-        protected void OutOfScreen(GameObject g)
+        protected void OutOfScreen(GameObject gobject)
         {
-            (float x, float y) borders = (12.80f, 7.20f);
-            if (g.transform.position.x > borders.x || g.transform.position.x < -borders.x ||
-                g.transform.position.y > borders.y || g.transform.position.y < -borders.y)
-                g.Remove();
+            (float x, float y) border = (12.80f, 7.20f);
+            if (gobject.transform.position.x > border.x || gobject.transform.position.x < -border.x ||
+                gobject.transform.position.y > border.y || gobject.transform.position.y < -border.y)
+                Destroy(gameObject);
         }
     }
 }

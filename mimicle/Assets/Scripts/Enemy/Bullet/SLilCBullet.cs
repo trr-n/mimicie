@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
@@ -13,14 +12,11 @@ namespace Mimical
         SpiralLilC slilc;
         SpriteRenderer sr;
 
-        // Start is called before the first frame update
         void Start()
         {
-            // Invoke(nameof(removal), 30);
             sr = GetComponent<SpriteRenderer>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             Move(speed);
@@ -38,7 +34,7 @@ namespace Mimical
         {
             info.Get<HP>().Damage(Values.Damage.SLilC);
             Score.Add(Values.Point.RedSLilCBullet);
-            gameObject.Remove();
+            Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -47,7 +43,7 @@ namespace Mimical
                 TakeDamage(info);
 
             if (info.Compare(Constant.Bullet))
-                gameObject.Remove();
+                Destroy(gameObject);
         }
     }
 }

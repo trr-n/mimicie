@@ -66,13 +66,10 @@ namespace Mimical
 
         void Trigger()
         {
-            // rapid += Time.deltaTime;
-            // if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapid > 0.5f && !isReloading))
-            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sF > rapidSpan && !isReloading))
+            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
                 return;
             gun.Shot();
             rapidSW.Restart();
-            // rapid = 0;
         }
 
         void Reload()
@@ -80,7 +77,8 @@ namespace Mimical
             ReloadProgress = reloadsw.SecondF() / timeToReload;
             //! fixed: リロード中値が変わらないように
             if (!isReloading)
-                timeToReload = (1 - ammo.Ratio) * rtime; // リロード時間=残弾数の割合*2秒
+                // リロード時間=残弾数の割合*2秒
+                timeToReload = (1 - ammo.Ratio) * rtime;
             reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadsw.SecondF()}";
             if (Mynput.Down(Values.Key.Reload))
             {
@@ -91,11 +89,10 @@ namespace Mimical
             if (isReloading)
             {
                 reloadsw.Start();
-                if (reloadsw.SecondF() >= timeToReload)
-                {
-                    isReloading = false;
-                    reloadsw.Reset();
-                }
+                if (!(reloadsw.SecondF() >= timeToReload))
+                    return;
+                isReloading = false;
+                reloadsw.Reset();
             }
         }
 
@@ -113,8 +110,8 @@ namespace Mimical
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
             if (!manager.PlayerCtrlable)
                 return;
-            float h = Input.GetAxis(Constant.Horizontal), v = Input.GetAxis(Constant.Vertical);
-            transform.Translate(new Vector2(h, v) * movingSpeed * Time.deltaTime);
+            transform.Translate(new Vector2(
+                Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical)) * movingSpeed * Time.deltaTime);
         }
     }
 }

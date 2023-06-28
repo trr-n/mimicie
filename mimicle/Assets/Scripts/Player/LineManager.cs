@@ -11,8 +11,8 @@ namespace Mimical
         void Start()
         {
             player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
-            line = GetComponent<LineRenderer>();
             point = GameObject.Find("gun");
+            line = GetComponent<LineRenderer>();
             line.startWidth = line.endWidth = 0.075f;
         }
 

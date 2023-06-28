@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
 
@@ -7,10 +5,14 @@ namespace Mimical
 {
     public class BossBullet0 : Bullet
     {
+        [SerializeField]
+        GameObject explosionFx;
+
         float speed = 10;
         Vector3 direction;
         Transform player;
-        float accelRatio = 1.001f;
+        float accelarationRatio = 1.001f;
+        bool isHitPlayerBullet;
 
         void Start()
         {
@@ -30,9 +32,8 @@ namespace Mimical
 
         protected override void Move(float speed)
         {
-            if (this.gameObject is not null)
-                transform.Translate(direction.normalized * speed * Time.deltaTime);
-            else Destroy(this);
+            speed *= accelarationRatio;
+            transform.Translate(direction.normalized * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)
@@ -40,7 +41,7 @@ namespace Mimical
             info.Try<HP>(out var hp);
             var dmgAmount = ((int)Numeric.Round(hp.Now / 50));
             hp.Damage(dmgAmount);
-            gameObject.Remove();
+            Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -52,7 +53,7 @@ namespace Mimical
         void OnTriggerExit2D(Collider2D info)
         {
             if (info.Compare(Constant.Safety))
-                gameObject.Remove();
+                Destroy(gameObject);
         }
     }
 }

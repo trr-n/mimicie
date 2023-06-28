@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mimical
@@ -8,7 +6,6 @@ namespace Mimical
     {
         [SerializeField]
         GameObject[] cores;
-
         [SerializeField]
         float scrollSpeed = 1;
 
@@ -17,11 +14,8 @@ namespace Mimical
             foreach (var i in cores)
             {
                 i.transform.Translate(Vector2.left * scrollSpeed * Time.deltaTime);
-
                 if (i.transform.position.x <= -Scroll.Left)
-                {
                     i.transform.position = new(Scroll.Left, 0);
-                }
             }
         }
     }

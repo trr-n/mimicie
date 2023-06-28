@@ -9,6 +9,7 @@ namespace Mimical.Extend
         public Stopwatch() => sw = new();
         public Stopwatch(bool b) { sw = new(); sw.Start(); }
         ~Stopwatch() { Destruct(); }
+        public static void Destruct(params Stopwatch[] sw) { foreach (var i in sw) i.Destruct(); }
         public void Start() => sw.Start();
         public void Stop() => sw.Stop();
         public void Restart() => sw.Restart();
@@ -16,13 +17,13 @@ namespace Mimical.Extend
         public void Destruct() { sw.Stop(); sw = null; }
         public bool IsOngoing() => sw.IsRunning;
         public int h => sw.Elapsed.Hours;
-        public float hF => Numeric.Round((float)sw.Elapsed.TotalHours, 6);
+        public float hf => Numeric.Round((float)sw.Elapsed.TotalHours, 6);
         public int m => sw.Elapsed.Minutes;
-        public float mF => Numeric.Round((float)sw.Elapsed.TotalMinutes, 6);
+        public float mf => Numeric.Round((float)sw.Elapsed.TotalMinutes, 6);
         public int s => sw.Elapsed.Seconds;
-        public float sF => Numeric.Round((float)sw.Elapsed.TotalSeconds, 6);
+        public float sf => Numeric.Round((float)sw.Elapsed.TotalSeconds, 6);
         public int ms => sw.Elapsed.Milliseconds;
-        public float msF => Numeric.Round((float)sw.Elapsed.TotalMilliseconds, 6);
+        public float msf => Numeric.Round((float)sw.Elapsed.TotalMilliseconds, 6);
         public int Hour() => sw.Elapsed.Hours;
         public float HourF(int digit = 6) => Numeric.Round((float)sw.Elapsed.TotalHours, digit);
         public int Minute() => sw.Elapsed.Minutes;

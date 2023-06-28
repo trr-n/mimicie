@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
@@ -38,14 +37,12 @@ namespace Mimical
                 TakeDamage(info);
             if (info.Compare(Constant.Bullet))
             {
-                info.gameObject.Remove();
-                gameObject.Remove();
+                Destroy(info.gameObject);
+                Destroy(gameObject);
             }
         }
 
         Quaternion rotate;
-        // Vector3 direction;
-        float distance;
         protected override void Move(float speed)
         {
             switch (level)
@@ -65,8 +62,8 @@ namespace Mimical
                 case 4:
                     damage = Numeric.Percent(playerHp.Now, pers[4]);
                     sr.color = new(0.98f, 0.21f, 0.6f);
-                    distance = Vector3.Distance(transform.position, player.transform.position);
-                    if (distance <= 5) chasing = false;
+                    if (Vector3.Distance(transform.position, player.transform.position) <= 5)
+                        chasing = false;
                     rotate = chasing ?
                         Quaternion.FromToRotation(Vector2.up, player.transform.position - transform.position) :
                         Quaternion.Euler(0, 0, transform.eulerAngles.z);

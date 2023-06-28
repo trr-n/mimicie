@@ -23,7 +23,7 @@ namespace Mimical
         {
             info.Get<HP>().Damage(Values.Damage.Charger);
             Score.Add(Values.Point.RedCharger);
-            gameObject.Remove();
+            Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -33,7 +33,7 @@ namespace Mimical
             if (info.Compare(Constant.Bullet))
             {
                 info.Remove();
-                gameObject.Remove();
+                Destroy(gameObject);
             }
         }
     }
