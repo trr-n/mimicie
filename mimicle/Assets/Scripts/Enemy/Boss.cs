@@ -28,7 +28,7 @@ namespace Mimical
         Colour[] colour = new Colour[5];
         // Colour2[] colour = new Colour2[5];
 
-        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) Initial = (Quaternion.Euler(0, 0, 90), new(7, 0, 1), Vector3.one * 3);
+        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) initial = (Quaternion.Euler(0, 0, 90), new(7.75f, 0, 1), new(3, 3, 3));
         enum Level { First = 0, Second, Third, Fourth, Fifth }
         float posLerpSpeed = 5;
         new PolygonCollider2D collider;
@@ -60,14 +60,14 @@ namespace Mimical
             playerHp = Gobject.Find(Constant.Player).GetComponent<HP>();
             bossHp = GetComponent<HP>();
             bossHp.SetMax();
-            transform.setr(Initial.Rotation);
-            transform.sets(Initial.Scale);
+            transform.setr(initial.Rotation);
+            transform.sets(initial.Scale);
             spideSW.Start();
         }
 
         void OnEnable()
         {
-            transform.DOMove(Initial.Position, posLerpSpeed).SetEase(Ease.OutCubic);
+            transform.DOMove(initial.Position, posLerpSpeed).SetEase(Ease.OutCubic);
         }
 
         void Update()
@@ -79,7 +79,7 @@ namespace Mimical
 
         void Both()
         {
-            if (!Coordinate.Twins(transform.position, Initial.Position))
+            if (!Coordinate.Twins(transform.position, initial.Position))
                 return;
             startBossBattle = true;
             if (collide)
@@ -152,14 +152,14 @@ namespace Mimical
             }
             (float Max, float Min) barrageRange = (120, 60);
             if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
-                speed *= -1;
+                speed *= -1; // rangeを超えたら逆回転
             point.transform.Rotate(new Vector3(0, 0, baseSpeed * speed * Time.deltaTime));
         }
         IEnumerator Barrage()
         {
             int i = 0;
-            // fire 100 bullets
-            while (i <= 100)
+            while (i <= 100) // fire 100 bullets
+
             {
                 yield return new WaitForSecondsRealtime(barrageRapid);
                 i++;
@@ -219,8 +219,7 @@ namespace Mimical
             var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
             {
-                var levelDict = new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } };
-                _spide.SetLevel(Rnd.Pro(levelDict));
+                _spide.SetLevel(Rnd.Pro(new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } }));
             }
             spideSW.Restart();
             spawnSpideSpan = Rnd.randint(20, 30);
