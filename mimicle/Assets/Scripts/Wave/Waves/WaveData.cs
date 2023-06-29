@@ -33,7 +33,7 @@ namespace Mimical
             {
                 b = false;
                 Score.finalScore = Score.Now;
-                Score.finalTime = Score.Time();
+                Score.finalTime = Score.Time;
             }
         }
 

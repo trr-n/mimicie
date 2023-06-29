@@ -12,6 +12,7 @@ namespace Mimical.Test
         GameObject point;
         [SerializeField]
         Text t;
+
         void Update()
         {
             t.text = $"world:{point.transform.eulerAngles}\nlocal:{point.transform.localEulerAngles}";

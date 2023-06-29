@@ -23,8 +23,8 @@ namespace Mimical
         float rapid;
         Stopwatch rapidSW = new(true);
         float rapidSpan = 0.5f;
-        float timeToReload = 0f;
-        public float Time2Reload => timeToReload;
+        float time2reload = 0f;
+        public float Time2Reload => time2reload;
         float rtime = 2f;
         bool isReloading = false;
         public bool IsReloading => isReloading;
@@ -74,12 +74,11 @@ namespace Mimical
 
         void Reload()
         {
-            ReloadProgress = reloadsw.SecondF() / timeToReload;
-            //! fixed: リロード中値が変わらないように
+            ReloadProgress = reloadsw.sf / time2reload;
             if (!isReloading)
                 // リロード時間=残弾数の割合*2秒
-                timeToReload = (1 - ammo.Ratio) * rtime;
-            reloadingT.text = $"time: {timeToReload.newline()}timer: {reloadsw.SecondF()}";
+                time2reload = (1 - ammo.Ratio) * rtime; //! fix: 値が0以下になる
+            reloadingT.text = $"time: {time2reload.newline()}timer: {reloadsw.SecondF()}";
             if (Mynput.Down(Values.Key.Reload))
             {
                 ammo.Reload();
@@ -89,7 +88,7 @@ namespace Mimical
             if (isReloading)
             {
                 reloadsw.Start();
-                if (!(reloadsw.SecondF() >= timeToReload))
+                if (!(reloadsw.SecondF() >= time2reload))
                     return;
                 isReloading = false;
                 reloadsw.Reset();
