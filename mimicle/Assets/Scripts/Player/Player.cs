@@ -16,6 +16,8 @@ namespace Mimical
         GameManager manager;
         [SerializeField]
         AudioClip[] damageSE;
+        [SerializeField]
+        Parry parry;
 
         // Gun
         float rapid;
@@ -34,6 +36,7 @@ namespace Mimical
         public float maxs => 1.5f;
         SpriteRenderer sr;
         Stopwatch sw = new();
+        new BoxCollider2D collider;
 
         void Awake()
         {
@@ -41,6 +44,7 @@ namespace Mimical
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
             reloadsw = new();
             sr = GetComponent<SpriteRenderer>();
+            collider = GetComponent<BoxCollider2D>();
         }
 
         void Start() => ammo.Reload();
@@ -56,6 +60,7 @@ namespace Mimical
             Dead();
             Reload();
             DrawRaid();
+            collider.isTrigger = parry.IsParry;
             if (sw.sf >= 0.2f)
                 sr.color = Color.white;
         }
@@ -116,8 +121,11 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            sw.Restart();
-            sr.color = Color.red;
+            if (!parry.IsParry)
+            {
+                sw.Restart();
+                sr.color = Color.red;
+            }
         }
     }
 }

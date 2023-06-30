@@ -38,6 +38,7 @@ namespace Mimical
         Bullet = "Bullet",
         Logo = "Logo",
         Boss = "Boss",
-        TriggerZone = "TriggerArea";
+        TriggerZone = "TriggerArea",
+        EnemyBullet = "EnemyBullet";
     }
 }

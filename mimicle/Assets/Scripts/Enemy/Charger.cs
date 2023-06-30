@@ -39,7 +39,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player))
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 info.Get<HP>().Damage(Values.Damage.Charger);
                 Score.Add(Values.Point.RedCharger);

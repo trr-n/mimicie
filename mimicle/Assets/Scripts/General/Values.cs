@@ -35,6 +35,7 @@ namespace Mimical
             public static KeyCode VUp = KeyCode.UpArrow;
             public static KeyCode VDown = KeyCode.DownArrow;
             public static KeyCode MChange = KeyCode.LeftArrow;
+            public static KeyCode Parry = KeyCode.LeftControl;
         }
     }
 }
