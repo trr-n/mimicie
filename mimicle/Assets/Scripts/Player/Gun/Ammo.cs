@@ -19,6 +19,8 @@ namespace Mimical
                 return;
             for (int i = 0; i <= max; i++)
                 remain++;
+            if (remain >= 10)
+                remain = max;
         }
         public void Reduce(int amount = 1) => remain -= amount;
     }

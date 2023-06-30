@@ -15,7 +15,7 @@ namespace Mimical.Extend
         public void Restart() => sw.Restart();
         public void Reset() => sw.Reset();
         public void Destruct() { sw.Stop(); sw = null; }
-        public bool IsOngoing() => sw.IsRunning;
+        public bool IsRunning() => sw.IsRunning;
         public int h => sw.Elapsed.Hours;
         public float hf => Numeric.Round((float)sw.Elapsed.TotalHours, 6);
         public int m => sw.Elapsed.Minutes;

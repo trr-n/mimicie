@@ -159,7 +159,6 @@ namespace Mimical
         {
             int i = 0;
             while (i <= 100) // fire 100 bullets
-
             {
                 yield return new WaitForSecondsRealtime(barrageRapid);
                 i++;

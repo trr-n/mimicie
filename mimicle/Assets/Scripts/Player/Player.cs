@@ -25,7 +25,6 @@ namespace Mimical
         float rapidSpan = 0.5f;
         float time2reload = 0f;
         public float Time2Reload => time2reload;
-        float rtime = 2f;
         bool isReloading = false;
         public bool IsReloading => isReloading;
         public float ReloadProgress; float movingSpeed = 5;
@@ -59,9 +58,8 @@ namespace Mimical
         void DrawRaid()
         {
             var r = new Ray(transform.position, Vector2.right);
+            Debug.DrawRay(r.origin, r.direction, Color.green, Time.deltaTime);
             hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9 | 1 << 10);
-            if (!hit.collider)
-                return;
         }
 
         void Trigger()
@@ -76,9 +74,11 @@ namespace Mimical
         {
             ReloadProgress = reloadsw.sf / time2reload;
             if (!isReloading)
-                // リロード時間=残弾数の割合*2秒
-                time2reload = (1 - ammo.Ratio) * rtime; //! fix: 値が0以下になる
-            reloadingT.text = $"time: {time2reload.newline()}timer: {reloadsw.SecondF()}";
+                // リロード時間=残弾数の割合*n秒
+                time2reload = (1 - ammo.Ratio) * 1.5f;
+#if UNITY_EDITOR
+            reloadingT.text = $"time: {time2reload}\ntimer: {reloadsw.SecondF()}";
+#endif
             if (Mynput.Down(Values.Key.Reload))
             {
                 ammo.Reload();
@@ -95,7 +95,7 @@ namespace Mimical
             }
         }
 
-        // TODO
+        // TODO when dead
         void Dead()
         {
             if (hp.IsZero)
