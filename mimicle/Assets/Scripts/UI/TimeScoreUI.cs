@@ -11,8 +11,8 @@ namespace Mimical
         void Update()
         {
             score.fontSize = time.fontSize = 20;
-            score.text = $"Time: {Score.Now}";
-            time.text = $"Score: {Score.Time}";
+            score.text = $"Time: {Score.Time}";
+            time.text = $"Score: {Score.Now}";
         }
     }
 }

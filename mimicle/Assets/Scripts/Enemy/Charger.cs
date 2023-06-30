@@ -11,7 +11,7 @@ namespace Mimical
         BoxCollider2D col;
         // float xx = 8.9f, yy = 5f;
         float speed = 2;
-        float accelRatio = 1.0025f;
+        float accelRatio = 1.002f;
 
         void Start()
         {

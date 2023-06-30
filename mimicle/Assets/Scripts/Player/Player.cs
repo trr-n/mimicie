@@ -15,8 +15,6 @@ namespace Mimical
         [SerializeField]
         GameManager manager;
         [SerializeField]
-        Text reloadingT;
-        [SerializeField]
         AudioClip[] damageSE;
 
         // Gun
@@ -32,12 +30,17 @@ namespace Mimical
         RaycastHit2D hit;
         public RaycastHit2D Hit => hit;
         Stopwatch reloadsw;
+        public float Reload__ => reloadsw.SecondF(2);
+        public float maxs => 1.5f;
+        SpriteRenderer sr;
+        Stopwatch sw = new();
 
         void Awake()
         {
             hp = GetComponent<HP>();
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
             reloadsw = new();
+            sr = GetComponent<SpriteRenderer>();
         }
 
         void Start() => ammo.Reload();
@@ -53,12 +56,13 @@ namespace Mimical
             Dead();
             Reload();
             DrawRaid();
+            if (sw.sf >= 0.2f)
+                sr.color = Color.white;
         }
 
         void DrawRaid()
         {
             var r = new Ray(transform.position, Vector2.right);
-            Debug.DrawRay(r.origin, r.direction, Color.green, Time.deltaTime);
             hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9 | 1 << 10);
         }
 
@@ -75,12 +79,10 @@ namespace Mimical
             ReloadProgress = reloadsw.sf / time2reload;
             if (!isReloading)
                 // リロード時間=残弾数の割合*n秒
-                time2reload = (1 - ammo.Ratio) * 1.5f;
-#if UNITY_EDITOR
-            reloadingT.text = $"time: {time2reload}\ntimer: {reloadsw.SecondF()}";
-#endif
+                time2reload = (1 - ammo.Ratio) * maxs;
             if (Mynput.Down(Values.Key.Reload))
             {
+                // StartCoroutine(ammoUI.reload(time2reload));
                 ammo.Reload();
                 isReloading = true;
             }
@@ -109,8 +111,13 @@ namespace Mimical
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
             if (!manager.PlayerCtrlable)
                 return;
-            transform.Translate(new Vector2(
-                Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical)) * movingSpeed * Time.deltaTime);
+            transform.Translate(new Vector2(Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical)) * movingSpeed * Time.deltaTime);
+        }
+
+        void OnCollisionEnter2D(Collision2D info)
+        {
+            sw.Restart();
+            sr.color = Color.red;
         }
     }
 }

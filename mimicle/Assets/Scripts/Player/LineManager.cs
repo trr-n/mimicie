@@ -4,6 +4,9 @@ namespace Mimical
 {
     public class LineManager : MonoBehaviour
     {
+        [SerializeField]
+        GameObject reticle;
+
         LineRenderer line;
         GameObject point;
         Player player;
@@ -21,6 +24,11 @@ namespace Mimical
             Vector3[] notHit = new[] { point.transform.position, new(20.48f, point.transform.position.y) },
                 hitting = new[] { notHit[0], new(player.Hit.point.x, point.transform.position.y) };
             line.SetPositions(player.Hit.collider ? hitting : notHit);
+            // TODO player.hitがnull
+            if (player.Hit.collider.gameObject.TryGetComponent<SpriteRenderer>(out var hitSr))
+            {
+                ;
+            }
         }
     }
 }

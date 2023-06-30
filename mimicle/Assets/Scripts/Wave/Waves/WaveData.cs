@@ -10,6 +10,8 @@ namespace Mimical
         public Activate waves = Activate.First;
         [SerializeField]
         GameObject[] waveObjs;
+        [SerializeField]
+        WaveUI waveUI;
 
         int max = 0;
         public int Max => max;
@@ -22,13 +24,12 @@ namespace Mimical
             max = waveObjs.Length;
             now4ui = ((int)waves);
             ActivateWave(((int)waves));
+            waveUI.Start();
         }
 
         bool b = true;
         void Update()
         {
-            if (Mynput.Down(KeyCode.Return))
-                Next();
             if (IsDone && b)
             {
                 b = false;
@@ -50,6 +51,7 @@ namespace Mimical
         {
             waveObjs[index].SetActive(true);
             now4ui = index + 1;
+            waveUI.UpdateUI();
             for (var i = 0; i < waveObjs.Length; i++)
                 if (i != index)
                     waveObjs[i].SetActive(false);

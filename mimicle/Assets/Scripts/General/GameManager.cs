@@ -12,8 +12,6 @@ namespace Mimical
         EnemySpawner spawner;
         public GameObject menuPanel;
         [SerializeField]
-        Text debugT;
-        [SerializeField]
         Scroll scroll;
         [SerializeField]
         Slain slain;
@@ -34,7 +32,6 @@ namespace Mimical
 
         void Update()
         {
-            debugT.text = "slain count: " + slain.Count;
             if (Mynput.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;
