@@ -26,6 +26,12 @@ namespace Mimical.Extend
                 throw new Karappoyanke();
             t.position = new(Mathf.Clamp(t.position.x, minX.Single(), maxX.Single()), Mathf.Clamp(t.position.y, minY.Single(), maxY.Single()));
         }
+        public static void setpc2(this Transform t, (float min, float max)? x = null, (float min, float max)? y = null)
+        {
+            if (x is null && y is null)
+                throw new Karappoyanke();
+            t.position = new(Mathf.Clamp(t.position.x, x.Value.max, x.Value.max), Mathf.Clamp(t.position.y, y.Value.min, y.Value.max));
+        }
         public static void setpc2(this Transform t, float? x = null, float? y = null)
         {
             if (x is null && y is null)

@@ -19,7 +19,7 @@ namespace Mimical
 
         void ScrollBackground()
         {
-            if (!manager.BackGroundScrollable)
+            if (!manager.BGScroll)
                 return;
             foreach (var i in cores)
             {

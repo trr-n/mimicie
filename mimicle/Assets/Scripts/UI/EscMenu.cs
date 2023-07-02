@@ -42,10 +42,10 @@ namespace Mimical
                         "CPU: " + info[1].newline() +
                         "GPU: " + info[2].newline() +
                         "RAM: " + info[3] + "GB";
-                    manager.Pause();
+                    manager.OpenMenu();
                     return;
                 }
-                manager.Restart();
+                manager.CloseMenu();
             }
         }
     }

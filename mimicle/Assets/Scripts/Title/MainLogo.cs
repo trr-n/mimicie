@@ -15,7 +15,7 @@ namespace Mimical
         AudioClip[] presses, clicks;
 
         AudioSource speaker;
-        (Color deactive, Color active) colour = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
+        (Color deactive, Color active) colours = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
         bool isActivated = false;
         bool isMouseOverOnLogo = false;
         bool timerFlag = true;
@@ -23,15 +23,15 @@ namespace Mimical
         const float panelFadeSpeed = 0.008f;
         float fadingPanelAlpha = 0;
         const float logoRotateSpeed = 10;
-        const float txtColorChangeSpeed = 1;
+        const float textColorChangeSpeed = 1;
         const float rotationTolerance = 0.1f;
         Stopwatch transitionTimer = new();
+        Vector3 Scale = new(2, 2, 2);
 
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            pressT.color = colour.deactive;
-            clickT.color = colour.deactive;
+            pressT.color = clickT.color = colours.deactive;
         }
 
         void Update()
@@ -50,12 +50,11 @@ namespace Mimical
 
         void MouseOver()
         {
-            var cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var hit = Physics2D.Raycast(cursor, Vector2.up, 1);
+            var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.up, 1);
             if (hit && hit.collider.gameObject.name == Constant.Logo)
             {
                 isMouseOverOnLogo = true;
-                transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2.1f, 2.1f), 20 * Time.deltaTime);
+                transform.localScale = Vector3.Lerp(transform.localScale, Scale * 1.1f, 20 * Time.deltaTime);
                 if (Mynput.Down(0))
                 {
                     speaker.PlayOneShot(clicks.ice3());
@@ -71,7 +70,7 @@ namespace Mimical
             if (!(hit && hit.collider.gameObject.name == Constant.Logo))
             {
                 isMouseOverOnLogo = false;
-                transform.localScale = Vector3.Lerp(transform.localScale, new(2, 2, 2), 30 * Time.deltaTime);
+                transform.localScale = Vector3.Lerp(transform.localScale, Scale, 30 * Time.deltaTime);
             }
 
             if (isActivated)
@@ -90,8 +89,8 @@ namespace Mimical
 
         void ChangeTextsColor(Text text)
         {
-            text.color = Color.Lerp(colour.deactive, colour.active, txtColorChangeSpeed);
-            if (text.color.r >= colour.active.r)
+            text.color = Color.Lerp(colours.deactive, colours.active, textColorChangeSpeed);
+            if (text.color.r >= colours.active.r)
                 isActivated = true;
         }
 

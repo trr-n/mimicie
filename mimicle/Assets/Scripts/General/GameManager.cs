@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Mimical.Extend;
 
 namespace Mimical
@@ -18,15 +17,17 @@ namespace Mimical
         [SerializeField]
         WaveData wdata;
 
-        public bool PlayerCtrlable { get; set; }
-        public bool BackGroundScrollable { get; set; }
+        public bool Ctrlable { get; set; }
+        public bool BGScroll { get; set; }
         public bool IsOpeningMenu { get; set; }
+        public bool IsDead { get; set; }
 
         void Start()
         {
             spawner.ActivateWave(startWave);
-            PlayerCtrlable = true;
-            BackGroundScrollable = true;
+            Ctrlable = true;
+            BGScroll = true;
+            IsDead = false;
             Physics2D.gravity = Vector3.forward * 9.81f;
         }
 
@@ -35,31 +36,39 @@ namespace Mimical
             if (Mynput.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;
-                PlayerCtrlable = false;
-                BackGroundScrollable = false;
+                Ctrlable = false;
+                BGScroll = false;
             }
             else if (Mynput.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
-                PlayerCtrlable = true;
-                BackGroundScrollable = true;
+                Ctrlable = true;
+                BGScroll = true;
             }
         }
 
-        public void Pause()
+        public void PlayerIsDead()
+        {
+            Ctrlable = false;
+            BGScroll = false;
+            Time.timeScale = 0;
+            // TODO bg fading
+        }
+
+        public void OpenMenu()
         {
             menuPanel.SetActive(true);
-            PlayerCtrlable = false;
-            BackGroundScrollable = false;
+            Ctrlable = false;
+            BGScroll = false;
             IsOpeningMenu = true;
             Time.timeScale = 0;
         }
 
-        public void Restart()
+        public void CloseMenu()
         {
             menuPanel.SetActive(false);
-            PlayerCtrlable = true;
-            BackGroundScrollable = true;
+            Ctrlable = true;
+            BGScroll = true;
             IsOpeningMenu = false;
             Time.timeScale = 1;
         }

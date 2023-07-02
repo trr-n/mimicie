@@ -1,6 +1,5 @@
 using UnityEngine;
 using Mimical.Extend;
-using UnityEngine.UI;
 
 namespace Mimical
 {
@@ -102,24 +101,26 @@ namespace Mimical
             }
         }
 
-        // TODO when dead
+        // when a player is dead
         void Dead()
         {
             if (hp.IsZero)
             {
-                Section.Load();
+                print("dying");
+                manager.PlayerIsDead();
             }
         }
 
         void Move()
         {
-            transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-            if (!manager.PlayerCtrlable)
+            if (!manager.Ctrlable)
                 return;
-            transform.Translate(new Vector2(Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical)) * movingSpeed * Time.deltaTime);
+            transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
+            (float h, float v) axis = (Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical));
+            transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }
 
-        void OnCollisionEnter2D(Collision2D info)
+        void OnCollisionEnter2D(Collision2D _)
         {
             if (!parry.IsParry)
             {

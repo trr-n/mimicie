@@ -26,7 +26,6 @@ namespace Mimical
         }
         [SerializeField]
         Colour[] colour = new Colour[5];
-        // Colour2[] colour = new Colour2[5];
 
         readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) initial = (Quaternion.Euler(0, 0, 90), new(7.75f, 0, 1), new(3, 3, 3));
         enum Level { First = 0, Second, Third, Fourth, Fifth }
@@ -46,9 +45,6 @@ namespace Mimical
         (int bullets, float range) W1Rapid = (5, 1.25f);
         float speed = 1;
         float baseSpeed = 30f;
-
-        delegate void Waves();
-        Waves waves;
 
         void Start()
         {
@@ -95,13 +91,6 @@ namespace Mimical
             Lv3();
             Lv4();
             Lv5();
-            // waves += Lv1;
-            // waves += Lv2;
-            // waves += Lv3;
-            // waves += Lv4;
-            // waves += Lv5;
-            // waves();
-            // print($"boss: {selfRemain}%, player: {playerRemain}%");
         }
 
         bool once = false;
@@ -125,7 +114,6 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                // yield return new WaitForSeconds(Rnd.randint(1, 10));
                 yield return new WaitForSeconds(W1Rapid.range * 1.5f);
                 for (var i = 0; i < W1Rapid.bullets; i++)
                 {
@@ -152,7 +140,7 @@ namespace Mimical
             }
             (float Max, float Min) barrageRange = (120, 60);
             if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
-                speed *= -1; // rangeを超えたら逆回転
+                speed *= -1; // 逆回転
             point.transform.Rotate(new Vector3(0, 0, baseSpeed * speed * Time.deltaTime));
         }
         IEnumerator Barrage()
