@@ -36,6 +36,7 @@ namespace Mimical
         SpriteRenderer sr;
         Stopwatch sw = new();
         new BoxCollider2D collider;
+        public bool NotNinnin = false;
 
         void Awake()
         {
@@ -72,7 +73,7 @@ namespace Mimical
 
         void Trigger()
         {
-            if (!(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
+            if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
                 return;
             gun.Shot();
             rapidSW.Restart();
@@ -106,7 +107,6 @@ namespace Mimical
         {
             if (hp.IsZero)
             {
-                print("dying");
                 manager.PlayerIsDead();
             }
         }

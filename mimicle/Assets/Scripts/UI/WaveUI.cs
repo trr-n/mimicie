@@ -14,12 +14,7 @@ namespace Mimical
 
         public void Start()
         {
-            print(wave.Max);
             max.text = wave.Max.ToString();
-        }
-
-        void Update()
-        {
         }
 
         public void UpdateUI()

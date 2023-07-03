@@ -10,16 +10,8 @@ namespace Mimical
     {
         [SerializeField]
         WaveData data;
-
-        [SerializeField]
-        int quota = 10;
-
         [SerializeField]
         GameObject[] enemies;
-
-        [SerializeField]
-        float spawnSpan = 1f;
-
         [SerializeField]
         Slain slain;
 
@@ -27,7 +19,7 @@ namespace Mimical
         const float BreakTime = 2f;
         const int X = 15;
         Stopwatch sw = new(), spawnTimer = new();
-        // bool isDone = false;
+        int quota = 10;
         bool isDone => slain.Count >= quota;
         (int count, float span, float space) spawn = (3, 2, 1.5f);
 
@@ -41,34 +33,12 @@ namespace Mimical
             Spawn();
         }
 
-        float sy = 0f, ssy = 0f;
-        IEnumerator Chargers()
-        {
-            while (data.Now == 1 && !isDone)
-            {
-                yield return new WaitForSecondsRealtime(spawn.span);
-                sy = spawn.space;
-                var playerPos = GameObject.FindGameObjectWithTag(Constant.Player).transform.position;
-                for (var i = 0; i < spawn.count; i++)
-                {
-                    ssy = playerPos.y + sy;
-                    ssy = Mathf.Clamp(ssy, -4, 4);
-                    spawned.Add(enemies.Instance(new(X, ssy, transform.position.z), Quaternion.identity));
-                    sy -= spawn.space;
-                    yield return new WaitForSecondsRealtime(spawn.span / spawn.count);
-                }
-            }
-        }
-        bool bb;
+        One one = new();
         void Spawn()
         {
             if (data.Now != 1)
                 return;
-            if (!bb)
-            {
-                StartCoroutine(Chargers());
-                bb = true;
-            }
+            one.Once(() => { StartCoroutine(Chargers()); });
 
             foreach (var charger in spawned)
                 if (charger.Exist())
@@ -87,5 +57,23 @@ namespace Mimical
             }
         }
 
+        IEnumerator Chargers()
+        {
+            float offset = 0f, spawnY = 0f;
+            while (data.Now == 1 && !isDone)
+            {
+                yield return new WaitForSecondsRealtime(spawn.span);
+                offset = spawn.space;
+                var playerPos = GameObject.FindGameObjectWithTag(Constant.Player).transform.position;
+                for (var i = 0; i < spawn.count; i++)
+                {
+                    spawnY = playerPos.y + offset;
+                    spawnY = Mathf.Clamp(spawnY, -4, 4);
+                    spawned.Add(enemies.Instance(new(X, spawnY, transform.position.z), Quaternion.identity));
+                    offset -= spawn.space;
+                    yield return new WaitForSecondsRealtime(spawn.span / spawn.count);
+                }
+            }
+        }
     }
 }

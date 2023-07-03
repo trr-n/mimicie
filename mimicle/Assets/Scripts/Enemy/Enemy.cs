@@ -20,5 +20,6 @@ namespace Mimical
             GameObject.Find("Wave").GetComponent<Slain>().AddCount();
             Destroy(gob);
         }
+        protected void MakeFx(GameObject fx) => fx.Instance();
     }
 }

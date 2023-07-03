@@ -123,7 +123,7 @@ namespace Mimical
             }
         }
 
-        One o = new();
+        One _ = new One();
         /// <summary>
         /// barrage
         /// </summary>
@@ -132,12 +132,11 @@ namespace Mimical
             if (!isActiveLevel(((int)Level.Second)))
                 return;
             activeLevel = 1;
-            o.Once(l2);
-            void l2()
+            _.Once(() =>
             {
                 point.transform.eulerAngles = new(0, 0, 60);
                 StartCoroutine(Barrage());
-            }
+            });
             (float Max, float Min) barrageRange = (120, 60);
             if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
                 speed *= -1; // 逆回転
@@ -146,7 +145,7 @@ namespace Mimical
         IEnumerator Barrage()
         {
             int i = 0;
-            while (i <= 100) // fire 100 bullets
+            while (i <= 100) // 100 bullets
             {
                 yield return new WaitForSecondsRealtime(barrageRapid);
                 i++;

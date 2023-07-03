@@ -23,7 +23,6 @@ namespace Mimical
             Move();
         }
 
-        bool boolean = true;
         One one = new();
         void Update()
         {
@@ -39,13 +38,11 @@ namespace Mimical
             {
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.LilC);
-                one.Once(a);
-                void a()
+                one.Once(() =>
                 {
                     GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
-                    //TODO 回復量要調節 ////////////////////////////////////////////////
                     playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
-                }
+                });
             }
         }
 

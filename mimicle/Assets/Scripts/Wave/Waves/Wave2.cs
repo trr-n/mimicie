@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
+using System.Collections;
 
 namespace Mimical
 {
@@ -15,47 +16,46 @@ namespace Mimical
         [SerializeField]
         Slain slain;
 
-        Transform playerTransform;
-
-        int quota = 4;
+        // Transform playerTransform;
+        const int Quota = 4;
         float lilcSpawnY = -3.5f;
         int spawnCount = 0;
         float timer = 0f;
-        float span = 0.5f;
+        const float Span = 0.5f;
         const int X = 15;
         const float BreakTime = 2f;
-        Stopwatch sw = new();
-
+        const float Offset = 3.4f;
+        Stopwatch sw = new(), sp = new(true);
         List<GameObject> spawned = new List<GameObject>();
+        bool isCleared1 => slain.Count >= Quota;
+        bool isTrueClear = false;
 
         void OnEnable()
         {
-            playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
+            // playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
         }
 
         void Update()
         {
-            Spawn();
+            Make();
         }
 
-        void Spawn()
+        void Make()
         {
             if (data.Now != 2)
                 return;
-            print("wave2");
             transform.position = new(X, transform.position.y);
-            timer += Time.deltaTime;
 
             // 0123 = 4
-            if (timer >= span && spawnCount < quota)
+            if (sp.sf >= Span && spawnCount < Quota)
             {
                 enemies[Wave.Second].Instance(new(X, lilcSpawnY), Quaternion.identity);
-                timer = 0;
+                sp.Restart();
+                lilcSpawnY += 8 / Offset; //04255319148936f;
                 spawnCount++;
-                lilcSpawnY += 8 / 3.4f; //04255319148936f;
             }
 
-            if (IsDone())
+            if (isCleared1)
             {
                 sw.Start();
                 if (sw.sf >= BreakTime)
@@ -66,7 +66,6 @@ namespace Mimical
                 }
             }
 
-            bool IsDone() => slain.Count >= quota;
         }
     }
 }
