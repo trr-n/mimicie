@@ -24,6 +24,7 @@ namespace Mimical
         void Update()
         {
             Move(speeds.move);
+            OutOfScreen(gameObject);
         }
 
         protected override void Move(float speed)
@@ -42,7 +43,7 @@ namespace Mimical
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player))
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
                 TakeDamage(info);
             if (info.Compare(Constant.Bullet))
                 info.Remove();

@@ -17,12 +17,11 @@ namespace Mimical
         bool isNinning = false;
         Stopwatch sw_shuri = new(true);
         Stopwatch sw_move = new();
-        const int ShuriCount = 5;
         GameObject player;
         Player p;
         float shuriRZ;
-        const float ShuriSpan = 0.2f;
-        const float ShuriRange = 30f;
+        (int Count, float Span, float Range, int RZ) Shuri = (Count: 5, Span: 2f, Range: 30f, RZ: 345);
+        const float ofs = 1.5f;
         HP hp;
         Vector3 FxOfs => new(0, -1.5f, 0);
         bool fxflag = false;
@@ -35,6 +34,7 @@ namespace Mimical
             p = player.GetComponent<Player>();
             hp = GetComponent<HP>();
             base.Start(hp);
+            Shuri.Range = 2 * (360 - Shuri.RZ);
         }
 
         void Update()
@@ -47,7 +47,7 @@ namespace Mimical
 
         void ThrowShuriken()
         {
-            if (sw_shuri.sf >= 2)
+            if (sw_shuri.sf >= Shuri.Span)
             {
                 StartCoroutine(Throw());
                 sw_shuri.Restart();
@@ -56,13 +56,16 @@ namespace Mimical
 
         IEnumerator Throw()
         {
-            shuriRZ = 345f;
-            for (int i = 0; i < ShuriCount; i++)
+            var angle = Vector3.Angle(-transform.right, player.transform.position - transform.position);
+            shuriRZ = angle - Shuri.Range / 2;
+            var pie = player.transform.position.y;
+            for (int i = 0; i < Shuri.Count; i++)
             {
-                shuriken.Instance(transform.position, Quaternion.Euler(0, 0, shuriRZ));
-                shuriRZ += ShuriRange / ShuriCount;
-                yield return new WaitForSeconds(ShuriSpan);
+                shuriken.Instance(transform.position, Quaternion.Euler(0, 0, pie > transform.position.y ? -shuriRZ : shuriRZ));
+                shuriRZ += Shuri.Range / Shuri.Count + ofs;
+                // yield return new WaitForSeconds(Shuri.Span);
             }
+            yield return null;
         }
 
         protected override void Move()

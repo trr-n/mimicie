@@ -15,6 +15,7 @@ TagManager:
   - Boss
   - TriggerArea
   - EnemyBullet
+  - WaveManager
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,8 @@ namespace Mimical
         }
         protected void AddSlainCountAndRemove(GameObject gob)
         {
-            GameObject.Find("Wave").GetComponent<Slain>().AddCount();
+            // GameObject.FindGameObjectWithTag(Constant.WaveManager).GetComponent<Slain>().AddCount();
+            Gobject.Find(Constant.WaveManager).GetComponent<Slain>().AddCount();
             Destroy(gob);
         }
         protected void MakeFx(GameObject fx) => fx.Instance();

@@ -39,6 +39,7 @@ namespace Mimical
         Logo = "Logo",
         Boss = "Boss",
         TriggerZone = "TriggerArea",
-        EnemyBullet = "EnemyBullet";
+        EnemyBullet = "EnemyBullet",
+        WaveManager = "WaveManager";
     }
 }
