@@ -13,8 +13,6 @@ namespace Mimical
         [SerializeField]
         Scroll scroll;
         [SerializeField]
-        Slain slain;
-        [SerializeField]
         WaveData wdata;
 
         public bool Ctrlable { get; set; }
@@ -51,8 +49,8 @@ namespace Mimical
         {
             Ctrlable = false;
             BGScroll = false;
+            Score.StopTimer();
             Time.timeScale = 0;
-            // TODO bg fading
         }
 
         public void OpenMenu()

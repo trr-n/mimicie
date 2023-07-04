@@ -30,6 +30,7 @@ namespace Mimical
 
         void Start()
         {
+            Time.timeScale = 1;
             speaker = GetComponent<AudioSource>();
             pressT.color = clickT.color = colours.deactive;
         }
