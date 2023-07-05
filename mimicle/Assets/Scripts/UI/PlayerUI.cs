@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mimical.Extend;
 
 namespace Mimical
 {
@@ -12,13 +13,10 @@ namespace Mimical
         [SerializeField]
         Image gauge;
         [SerializeField]
-        Image face;
-        [SerializeField]
-        Sprite[] faces;
+        Sprite[] bars;
 
         void Update()
         {
-            // TODO make player ui
             gauge.fillAmount = hp_player.Ratio;
         }
     }

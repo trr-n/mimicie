@@ -25,7 +25,7 @@ namespace Mimical
         HP hp;
         Vector3 FxOfs => new(0, -1.5f, 0);
         bool fxflag = false;
-        (float MakeSmoke, float Teleport) timing = (0.2f, 0.7f);
+        (float Smoke, float Teleport) timing = (0.2f, 0.7f);
 
         void Start()
         {
@@ -56,14 +56,12 @@ namespace Mimical
 
         IEnumerator Throw()
         {
-            var angle = Vector3.Angle(-transform.right, player.transform.position - transform.position);
-            shuriRZ = angle - Shuri.Range / 2;
-            var pie = player.transform.position.y;
+            shuriRZ = Vector3.Angle(-transform.right, player.transform.position - transform.position) - Shuri.Range / 2;
             for (int i = 0; i < Shuri.Count; i++)
             {
-                shuriken.Instance(transform.position, Quaternion.Euler(0, 0, pie > transform.position.y ? -shuriRZ : shuriRZ));
+                shuriken.Instance(transform.position, Quaternion.Euler(
+                    0, 0, player.transform.position.y > transform.position.y ? -shuriRZ : shuriRZ));
                 shuriRZ += Shuri.Range / Shuri.Count + ofs;
-                // yield return new WaitForSeconds(Shuri.Span);
             }
             yield return null;
         }
@@ -77,7 +75,7 @@ namespace Mimical
                 isNinning = true;
                 fxflag = true;
             }
-            if (sw_move.sf >= timing.MakeSmoke && fxflag)
+            if (sw_move.sf >= timing.Smoke && fxflag)
             {
                 audio.PlayOneShot(se_doron);
                 fx_smoke.Instance(transform.position + FxOfs, Quaternion.identity);
@@ -85,7 +83,7 @@ namespace Mimical
             }
             if (sw_move.sf >= timing.Teleport && isNinning)
             {
-                transform.position = new(Rnd.randint(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8), y: Rnd.randfloat(-4, 4), 1);
+                transform.position = new(Rnd.randint(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8), Rnd.randfloat(-4, 4), 1);
                 sw_move.Reset();
                 isNinning = false;
             }
