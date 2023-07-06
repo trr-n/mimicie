@@ -20,7 +20,6 @@ namespace Mimical
         const int Quota = 4;
         float lilcSpawnY = -3.5f;
         int spawnCount = 0;
-        float timer = 0f;
         const float Span = 0.5f;
         const int X = 15;
         const float BreakTime = 2f;

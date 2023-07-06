@@ -17,6 +17,8 @@ namespace Mimical
         AudioClip[] damageSE;
         [SerializeField]
         Parry parry;
+        [SerializeField]
+        ParamsUI paramsUI;
 
         // Gun
         float rapid;
@@ -76,6 +78,7 @@ namespace Mimical
             if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
                 return;
             gun.Shot();
+            paramsUI.UpdateAmmo();
             rapidSW.Restart();
         }
 

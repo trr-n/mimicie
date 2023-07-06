@@ -15,13 +15,13 @@ namespace Mimical
         [SerializeField]
         Ammo ammo;
 
-        public void UpdHP()
+        void Update()
         {
             foreach (var i in tops)
                 i.fillAmount = hp_player.Ratio;
         }
 
-        public void UpdAmmo()
+        public void UpdateAmmo()
         {
             foreach (var i in bottoms)
                 i.fillAmount = ammo.Ratio;
