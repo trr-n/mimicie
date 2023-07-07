@@ -70,13 +70,17 @@ namespace Mimical
         {
             Both();
             if (bossHp.IsZero)
+            {
                 Section.Load(Constant.Final);
+            }
         }
 
         void Both()
         {
             if (!Coordinate.Twins(transform.position, initial.Position))
+            {
                 return;
+            }
             startBossBattle = true;
             if (collide)
             {
@@ -101,7 +105,9 @@ namespace Mimical
         void Lv1()
         {
             if (!isActiveLevel(((int)Level.First)))
+            {
                 return;
+            }
             activeLevel = 0;
             if (!once)
             {
@@ -130,7 +136,9 @@ namespace Mimical
         void Lv2()
         {
             if (!isActiveLevel(((int)Level.Second)))
+            {
                 return;
+            }
             activeLevel = 1;
             _.Once(() =>
             {
@@ -139,7 +147,9 @@ namespace Mimical
             });
             (float Max, float Min) barrageRange = (120, 60);
             if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
+            {
                 speed *= -1; // 逆回転
+            }
             point.transform.Rotate(new Vector3(0, 0, baseSpeed * speed * Time.deltaTime));
         }
         IEnumerator Barrage()
@@ -159,7 +169,9 @@ namespace Mimical
         void Lv3()
         {
             if (!isActiveLevel(((int)Level.Third)))
+            {
                 return;
+            }
             activeLevel = 2;
         }
 
@@ -169,24 +181,24 @@ namespace Mimical
         void Lv4()
         {
             if (!isActiveLevel(((int)Level.Fourth)))
+            {
                 return;
+            }
             activeLevel = 3;
         }
 
-        bool bb = true;
+        One o5 = new();
         /// <summary>
         ///TODO 00 ~ 10, red: 15% homing
         /// </summary>
         void Lv5()
         {
             if (!isActiveLevel(((int)Level.Fifth)))
-                return;
-            activeLevel = 4;
-            if (bb)
             {
-                bb = false;
-                StartCoroutine(Lv5s());
+                return;
             }
+            activeLevel = 4;
+            o5.Once(() => StartCoroutine(Lv5s()));
         }
 
         IEnumerator Lv5s()
@@ -201,7 +213,9 @@ namespace Mimical
         void SpawnSpide()
         {
             if (!(spideSW.SecondF() >= spawnSpideSpan))
+            {
                 return;
+            }
             var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
             {
@@ -215,11 +229,13 @@ namespace Mimical
         public void ChangeBodyColor()
         {
             foreach (var i in colour)
+            {
                 if (bossRemain >= i.remainHp)
                 {
                     sr.color = i.color;
                     break;
                 }
+            }
         }
 
         public bool isActiveLevel(int _level)

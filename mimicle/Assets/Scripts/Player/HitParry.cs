@@ -20,8 +20,7 @@ namespace Mimical
         {
             if (info.Compare(Constant.EnemyBullet))
             {
-                // TODO make se
-                // audio.PlayOneShot(parrySE);
+                audio.PlayOneShot(parrySE);
                 Destroy(info.gameObject);
             }
         }

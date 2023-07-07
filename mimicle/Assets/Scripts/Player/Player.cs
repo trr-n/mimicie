@@ -18,8 +18,6 @@ namespace Mimical
         [SerializeField]
         Parry parry;
         [SerializeField]
-        ParamsUI paramsUI;
-        [SerializeField]
         CircleUI circleUI;
 
         // Gun

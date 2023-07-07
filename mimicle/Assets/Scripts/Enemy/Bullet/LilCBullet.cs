@@ -5,7 +5,7 @@ namespace Mimical
 {
     public class LilCBullet : Bullet
     {
-        float speed = 1;
+        float speed = 20;
         Transform playerTransform;
         Vector2 direction;
 
@@ -23,7 +23,7 @@ namespace Mimical
 
         protected override void Move(float speed)
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(direction.normalized * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)

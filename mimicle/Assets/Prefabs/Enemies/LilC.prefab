@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 4513088207769312622, guid: 3460fce7863422243a5b7fc6feee3df1, type: 3}
+  fx: {fileID: 4863333330596225917, guid: a119ecaae89497b498a097680e6da402, type: 3}
 --- !u!114 &4201622935332774082
 MonoBehaviour:
   m_ObjectHideFlags: 0

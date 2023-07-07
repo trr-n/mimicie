@@ -8,7 +8,7 @@ namespace Mimical
     public sealed class LilC : Enemy
     {
         [SerializeField]
-        GameObject bullet;
+        GameObject bullet, fx;
 
         HP hp;
         Vector2 firstPosition;
@@ -40,6 +40,7 @@ namespace Mimical
                 Score.Add(Values.Point.LilC);
                 one.Once(() =>
                 {
+                    fx.Instance(transform.position);
                     GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
                     playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
                 });

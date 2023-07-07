@@ -21,9 +21,6 @@ namespace Mimical
         [SerializeField]
         Player player;
 
-        // bool boo = false;
-        // int remain = 0;
-
         void Update()
         {
             hpGauge.fillAmount = playerHp.Ratio;
