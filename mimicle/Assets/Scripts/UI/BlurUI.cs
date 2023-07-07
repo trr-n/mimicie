@@ -20,7 +20,6 @@ namespace Mimical
             mat.SetFloat("_Blur", 0);
         }
 
-        float test = 0f;
         void Update()
         {
             if (hp_player.IsZero)
@@ -28,7 +27,9 @@ namespace Mimical
                 blur = Numeric.Clamp(blur, 0, MaxBlur);
                 mat.SetFloat("_Blur", blur += Time.unscaledDeltaTime * MaxBlur);
                 if (blur >= MaxBlur)
+                {
                     max = true;
+                }
             }
         }
     }

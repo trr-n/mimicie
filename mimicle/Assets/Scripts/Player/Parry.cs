@@ -8,10 +8,11 @@ namespace Mimical
         [SerializeField]
         GameObject parry;
 
-        float cooltime = 2;
+        const float CT = 2;
         float duration = 0.5f;
         Stopwatch cooltimer = new(true), durationTimer = new();
-        public int Timer => cooltimer.s;
+        public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CT);
+        public bool isCT => cooltimer.isRunning;
         bool isParry = false;
         public bool IsParry => isParry;
 
@@ -28,17 +29,23 @@ namespace Mimical
 
         void MakeParry()
         {
-            if (cooltimer.sf >= cooltime && Mynput.Down(Values.Key.Parry))
+            if (cooltimer.sf >= CT && Mynput.Down(Values.Key.Parry))
             {
                 cooltimer.Reset();
                 parry.SetActive(true);
                 durationTimer.Start();
             }
+
             if (durationTimer.isRunning && durationTimer.sf >= duration)
             {
                 parry.SetActive(false);
                 durationTimer.Reset();
                 cooltimer.Start();
+            }
+
+            if (cooltimer.isRunning && cooltimer.sf >= CT)
+            {
+                cooltimer.Stop();
             }
         }
     }

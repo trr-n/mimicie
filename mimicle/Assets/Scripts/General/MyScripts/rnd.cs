@@ -17,36 +17,12 @@ namespace Mimical.Extend
         public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            char[] charaArr = count != null ? new char[count.Int()] : new char[randint(2, 16)];
-            var r = new System.Random();
-            for (int i = 0; i < charaArr.Length; i++) charaArr[i] = characters[r.Next(characters.Length)];
-            return charaArr.ToString();
-        }
-        public static T Pro<T>(Dictionary<T, float> dict)
-        {
-            var total = 0f;
-            foreach (var per in dict)
-                total += per.Value;
-            var r = Rnd.randfloat(max: total);
-            foreach (var _ in dict)
+            char[] charaArr = count is null ? new char[randint(2, 16)] : new char[((int)count)];
+            for (int i = 0; i < charaArr.Length; i++)
             {
-                r -= _.Value;
-                if (r <= 0)
-                    return _.Key;
+                charaArr[i] = characters[new System.Random().Next(characters.Length)];
             }
-            return new List<T>(dict.Keys)[0];
-        }
-        public static T Pro<T>(Dictionary<T, int> dict) { return Pro(dict); }
-        public static List<float> Pro2<T>(Dictionary<T, float> dict)
-        // public static T Pro2<T>(Dictionary<T, double> dict)
-        {
-            float total = 0;
-            foreach (var value in dict.Values)
-                total += value;
-            List<float> percentage = new();
-            foreach (var dv in dict.Values)
-                percentage.Add(Numeric.Round(dv / total, 3));
-            return percentage;
+            return charaArr.ToString();
         }
     }
 }

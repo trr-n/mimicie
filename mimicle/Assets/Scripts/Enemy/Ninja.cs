@@ -9,14 +9,14 @@ namespace Mimical
         [SerializeField]
         GameObject shuriken;
         [SerializeField]
-        GameObject fx_smoke;
+        GameObject smokeFX, deadFX;
         [SerializeField]
-        AudioClip se_doron;
+        AudioClip doronSE;
 
         new AudioSource audio;
         bool isNinning = false;
-        Stopwatch sw_shuri = new(true);
-        Stopwatch sw_move = new();
+        Stopwatch shuriSW = new(true);
+        Stopwatch moveSW = new();
         GameObject player;
         Player p;
         float shuriRZ;
@@ -42,49 +42,54 @@ namespace Mimical
             Move();
             ThrowShuriken();
             if (hp.IsZero)
+            {
+                deadFX.Instance(transform.position, Quaternion.identity);
                 Destroy(gameObject);
+            }
         }
 
         void ThrowShuriken()
         {
-            if (sw_shuri.sf >= Shuri.Span)
+            if (shuriSW.sf >= Shuri.Span)
             {
                 StartCoroutine(Throw());
-                sw_shuri.Restart();
+                shuriSW.Restart();
             }
         }
 
         IEnumerator Throw()
         {
+            yield return null;
             shuriRZ = Vector3.Angle(-transform.right, player.transform.position - transform.position) - Shuri.Range / 2;
             for (int i = 0; i < Shuri.Count; i++)
             {
-                shuriken.Instance(transform.position, Quaternion.Euler(
-                    0, 0, player.transform.position.y > transform.position.y ? -shuriRZ : shuriRZ));
+                var z = player.transform.position.y > transform.position.y ? -shuriRZ : shuriRZ;
+                shuriken.Instance(transform.position, Quaternion.Euler(0, 0, z));
                 shuriRZ += Shuri.Range / Shuri.Count + ofs;
             }
-            yield return null;
         }
 
         protected override void Move()
         {
-            // teleport
             if (!p.NotNinnin)
             {
-                sw_move.Restart();
+                moveSW.Restart();
                 isNinning = true;
                 fxflag = true;
             }
-            if (sw_move.sf >= timing.Smoke && fxflag)
+
+            if (moveSW.sf >= timing.Smoke && fxflag)
             {
-                audio.PlayOneShot(se_doron);
-                fx_smoke.Instance(transform.position + FxOfs, Quaternion.identity);
+                audio.PlayOneShot(doronSE);
+                smokeFX.Instance(transform.position + FxOfs, Quaternion.identity);
                 fxflag = false;
             }
-            if (sw_move.sf >= timing.Teleport && isNinning)
+
+            if (moveSW.sf >= timing.Teleport && isNinning)
             {
-                transform.position = new(Rnd.randint(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8), Rnd.randfloat(-4, 4), 1);
-                sw_move.Reset();
+                var x = Rnd.randint(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8);
+                transform.position = new(x, Rnd.randfloat(-4, 4), 1);
+                moveSW.Reset();
                 isNinning = false;
             }
         }

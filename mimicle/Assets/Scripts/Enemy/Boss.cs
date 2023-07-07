@@ -205,7 +205,8 @@ namespace Mimical
             var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
             {
-                _spide.SetLevel(Rnd.Pro(new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } }));
+                // TODO
+                // _spide.SetLevel(Rnd.Pro(new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } }));
             }
             spideSW.Restart();
             spawnSpideSpan = Rnd.randint(20, 30);

@@ -23,6 +23,7 @@ namespace Mimical
         {
             if (!blur.Max)
                 return;
+
             a = Mathf.Clamp(a, 0, 1);
             a += Time.unscaledDeltaTime * 10;
             canvas.alpha = a;

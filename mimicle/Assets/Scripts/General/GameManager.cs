@@ -19,6 +19,7 @@ namespace Mimical
         public bool BGScroll { get; set; }
         public bool IsOpeningMenu { get; set; }
         public bool IsDead { get; set; }
+        public static ScoreAWave[] wave = new ScoreAWave[3];
 
         void Start()
         {

@@ -24,10 +24,12 @@ namespace Mimical
             Vector3[] notHit = new[] { point.transform.position, new(20.48f, point.transform.position.y) },
                 hitting = new[] { notHit[0], new(player.Hit.point.x, point.transform.position.y) };
             line.SetPositions(player.Hit.collider ? hitting : notHit);
+
             if (player.Hit.collider is null)
             {
                 reticle.SetActive(false);
             }
+
             if (player.Hit.collider is not null && player.Hit.collider.gameObject.TryGetComponent<SpriteRenderer>(out var hitSr))
             {
                 reticle.SetActive(true);

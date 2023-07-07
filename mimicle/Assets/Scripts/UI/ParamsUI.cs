@@ -14,17 +14,24 @@ namespace Mimical
         HP hp_player;
         [SerializeField]
         Ammo ammo;
+        [SerializeField]
+        Text timeT;
 
         void Update()
         {
             foreach (var i in tops)
+            {
                 i.fillAmount = hp_player.Ratio;
+            }
+            timeT.text = Score.Time.ToString();
         }
 
         public void UpdateAmmo()
         {
             foreach (var i in bottoms)
+            {
                 i.fillAmount = ammo.Ratio;
+            }
         }
     }
 }

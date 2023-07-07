@@ -61,24 +61,20 @@ namespace Mimical
             Move();
             Dead();
             Reload();
-            DrawRaid();
+            hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, 1 << 9 | 1 << 10);
             collider.isTrigger = parry.IsParry;
             if (sw.sf >= 0.2f)
+            {
                 sr.color = Color.white;
-        }
-
-        void DrawRaid()
-        {
-            var r = new Ray(transform.position, Vector2.right);
-            hit = Physics2D.Raycast(r.origin, r.direction, 20.48f, 1 << 9 | 1 << 10);
+            }
         }
 
         void Trigger()
         {
             if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
                 return;
+
             gun.Shot();
-            paramsUI.UpdateAmmo();
             rapidSW.Restart();
         }
 
@@ -86,8 +82,11 @@ namespace Mimical
         {
             ReloadProgress = reloadsw.sf / time2reload;
             if (!isReloading)
+            {
                 // リロード時間=残弾数の割合*n秒
                 time2reload = (1 - ammo.Ratio) * maxs;
+            }
+
             if (Mynput.Down(Values.Key.Reload))
             {
                 // StartCoroutine(ammoUI.reload(time2reload));
@@ -117,9 +116,13 @@ namespace Mimical
         void Move()
         {
             if (!manager.Ctrlable)
+            {
                 return;
+            }
+
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-            (float h, float v) axis = (Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical));
+            // (float h, float v) axis = (Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical));
+            (float h, float v) axis = (Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
             transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }
 

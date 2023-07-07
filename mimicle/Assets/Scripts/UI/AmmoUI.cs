@@ -19,7 +19,9 @@ namespace Mimical
         void Update()
         {
             remainT.text = ammo.Remain.ToString();
-            timeT.text = (player.IsReloading ? Numeric.Round(player.Time2Reload - player.Reload__, 2) : player.Time2Reload).ToString();
+            timeT.text = (player.IsReloading ?
+                Numeric.Round(player.Time2Reload - player.Reload__, 2) :
+                player.Time2Reload).ToString();
         }
     }
 }

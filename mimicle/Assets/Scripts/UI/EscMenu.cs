@@ -22,15 +22,24 @@ namespace Mimical
         GameManager manager;
 
         string[] info;
-        void Start() => info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
-        void Update() => Show();
-        void Show()
+
+        void Start()
+        {
+            info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
+        }
+
+        void Update()
         {
             speaker.SpeakerVolumeControl(volumeT);
             if (Mynput.Down(Values.Key.Mute))
+            {
                 speaker.MuteVolume(volumeT);
+            }
             if (Mynput.Down(Values.Key.MChange))
+            {
                 speaker.Change(songT);
+            }
+
             if (Mynput.Down(KeyCode.Escape))
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))

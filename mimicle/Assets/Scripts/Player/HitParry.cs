@@ -6,9 +6,10 @@ namespace Mimical
     public class HitParry : MonoBehaviour
     {
         [SerializeField]
-        AudioClip parryse;
+        AudioClip parrySE;
 
         new AudioSource audio;
+        new Collider2D collider;
 
         void Start()
         {
@@ -19,7 +20,8 @@ namespace Mimical
         {
             if (info.Compare(Constant.EnemyBullet))
             {
-                // audio.PlayOneShot(parryse);
+                // TODO make se
+                // audio.PlayOneShot(parrySE);
                 Destroy(info.gameObject);
             }
         }

@@ -44,9 +44,11 @@ namespace Mimical
         void Rotation()
         {
             if (isMouseOverOnLogo)
+            {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), 10 * Time.deltaTime);
-            else
-                transform.Rotate(new(0, 0, logoRotateSpeed * Time.deltaTime));
+                return;
+            }
+            transform.Rotate(new(0, 0, logoRotateSpeed * Time.deltaTime));
         }
 
         void MouseOver()
@@ -85,14 +87,18 @@ namespace Mimical
             }
 
             if (fadingPanel.color.a >= clickToTransition)
+            {
                 Section.Load(Constant.Main);
+            }
         }
 
         void ChangeTextsColor(Text text)
         {
             text.color = Color.Lerp(colours.deactive, colours.active, textColorChangeSpeed);
             if (text.color.r >= colours.active.r)
+            {
                 isActivated = true;
+            }
         }
 
         IEnumerator FadingOutPanel()

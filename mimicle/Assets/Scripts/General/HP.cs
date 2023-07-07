@@ -17,12 +17,18 @@ public class HP : MonoBehaviour
     {
         now = Mathf.Clamp(now, 0, max);
         now += amount;
-        if (now >= max) SetMax();
+        if (now >= max)
+        {
+            SetMax();
+        }
     }
     public void Damage(int amount)
     {
         now = Mathf.Clamp(now, 0, max);
         now -= amount;
-        if (now < 0) now = 0;
+        if (now < 0)
+        {
+            now = 0;
+        }
     }
 }
