@@ -19,41 +19,41 @@ namespace Mimical
         Parry parry;
         [SerializeField]
         ParamsUI paramsUI;
+        [SerializeField]
+        CircleUI circleUI;
 
         // Gun
-        float rapid;
-        Stopwatch rapidSW = new(true);
         float rapidSpan = 0.5f;
         float time2reload = 0f;
         public float Time2Reload => time2reload;
         bool isReloading = false;
         public bool IsReloading => isReloading;
-        public float ReloadProgress; float movingSpeed = 5;
+        public float ReloadProgress;
+        float movingSpeed = 5;
         HP hp;
         RaycastHit2D hit;
-        public RaycastHit2D Hit => hit;
-        Stopwatch reloadsw;
-        public float Reload__ => reloadsw.SecondF(2);
-        public float maxs => 1.5f;
-        SpriteRenderer sr;
+        Stopwatch reloadsw = new();
+        Stopwatch rapidSW = new(true);
         Stopwatch sw = new();
+        SpriteRenderer sr;
         new BoxCollider2D collider;
         public bool NotNinnin = false;
+        public RaycastHit2D Hit => hit;
+        public float Reload__ => reloadsw.SecondF(2);
+        const float maxs = 1.5f;
+        public float ratio = 0f;
 
         void Awake()
         {
             hp = GetComponent<HP>();
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
-            reloadsw = new();
             sr = GetComponent<SpriteRenderer>();
             collider = GetComponent<BoxCollider2D>();
         }
 
-        void Start() => ammo.Reload();
-
-        void FixedUpdate()
+        void Start()
         {
-            Trigger();
+            ammo.Reload();
         }
 
         void Update()
@@ -69,11 +69,12 @@ namespace Mimical
             }
         }
 
-        void Trigger()
+        void FixedUpdate()
         {
             if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
+            {
                 return;
-
+            }
             gun.Shot();
             rapidSW.Restart();
         }
@@ -89,7 +90,7 @@ namespace Mimical
 
             if (Mynput.Down(Values.Key.Reload))
             {
-                // StartCoroutine(ammoUI.reload(time2reload));
+                StartCoroutine(circleUI.UpdateAmmoGauge(ammo.Ratio, time2reload));
                 ammo.Reload();
                 isReloading = true;
             }
@@ -98,13 +99,14 @@ namespace Mimical
             {
                 reloadsw.Start();
                 if (!(reloadsw.SecondF() >= time2reload))
+                {
                     return;
+                }
                 isReloading = false;
                 reloadsw.Reset();
             }
         }
 
-        // when a player is dead
         void Dead()
         {
             if (hp.IsZero)
@@ -121,7 +123,6 @@ namespace Mimical
             }
 
             transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
-            // (float h, float v) axis = (Input.GetAxis(Constant.Horizontal), Input.GetAxis(Constant.Vertical));
             (float h, float v) axis = (Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
             transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }

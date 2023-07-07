@@ -11,7 +11,7 @@ namespace Mimical
         [SerializeField]
         Text ammoT;
         [SerializeField]
-        Image hpGauge, parryGauge, reloadGauge;
+        Image hpGauge, parryGauge, ammoGauge;
         [SerializeField]
         Ammo ammo;
         [SerializeField]
@@ -21,31 +21,37 @@ namespace Mimical
         [SerializeField]
         Player player;
 
-        bool boo = false;
+        // bool boo = false;
+        // int remain = 0;
 
         void Update()
         {
             hpGauge.fillAmount = playerHp.Ratio;
             parryGauge.fillAmount = parry.Timer / 2;
-
-            ammoT.text = ammo.Remain.ToString();
-            ReloadGauge();
+            AMMO();
         }
 
-        // TODO
-        void ReloadGauge()
+        void AMMO()
         {
             if (!player.IsReloading)
             {
-                reloadGauge.fillAmount = player.ReloadProgress;
+                ammoT.text = ammo.Remain.ToString();
+                ammoGauge.fillAmount = ammo.Ratio;
             }
-            if (ammo.Remain > 0 && Mynput.Down(Values.Key.Reload) && !boo)
+        }
+
+        public IEnumerator UpdateAmmoGauge(float start, float time)
+        {
+            Stopwatch _timer = new(true);
+            while (_timer.sf <= time)
             {
-                boo = true;
-            }
-            if (!boo)
-            {
-                print(reloadGauge.fillAmount);
+                yield return null;
+                ammoGauge.fillAmount = Mathf.Lerp(start, ammo.Max, _timer.sf / time);
+                if (ammoGauge.fillAmount >= 1)
+                {
+                    ammoGauge.fillAmount = 1;
+                    break;
+                }
             }
         }
     }

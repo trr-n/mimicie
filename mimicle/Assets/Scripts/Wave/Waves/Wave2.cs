@@ -45,7 +45,6 @@ namespace Mimical
             {
                 return;
             }
-            print(GameManager.wave[0].score);
 
             transform.position = new(X, transform.position.y);
 

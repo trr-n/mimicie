@@ -58,7 +58,6 @@ namespace Mimical
                     var hoge = GameManager.wave[0];
                     hoge.score = Score.Now;
                     hoge.time = Score.Time;
-                    print("set");
                 });
                 StopCoroutine(Chargers());
                 sw.Start();

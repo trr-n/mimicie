@@ -2291,7 +2291,7 @@ MonoBehaviour:
   ammoT: {fileID: 566802821}
   hpGauge: {fileID: 1967343020}
   parryGauge: {fileID: 174795419}
-  reloadGauge: {fileID: 397129929}
+  ammoGauge: {fileID: 397129929}
   ammo: {fileID: 1582402335}
   playerHp: {fileID: 279275797}
   parry: {fileID: 2067048228}
@@ -4435,6 +4435,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1895085138}
+    - target: {fileID: 673241856300152031, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
+      propertyPath: circleUI
+      value: 
+      objectReference: {fileID: 1344125829}
     - target: {fileID: 673241856300152031, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
       propertyPath: paramsUI
       value: 
