@@ -7,10 +7,6 @@ namespace Mimical
 {
     public class DanMc : Bullet
     {
-        void _Start()
-        {
-        }
-
         void Update()
         {
             Move(speed: 3);
@@ -29,7 +25,10 @@ namespace Mimical
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            {
                 TakeDamage(info);
+            }
+
             if (info.Compare(Constant.Bullet))
             {
                 info.Remove();

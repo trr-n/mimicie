@@ -8,14 +8,14 @@ namespace Mimical
     {
         [SerializeField]
         GameObject fx;
-        // [SerializeField]
-        // AudioClip[] se;
+        [SerializeField]
+        AudioClip se;
 
-        // AudioSource spk;
+        AudioSource spk;
 
         void Start()
         {
-            // spk = GetComponent<AudioSource>();
+            spk = GetComponent<AudioSource>();
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -35,7 +35,6 @@ namespace Mimical
         {
             if (info.Compare(Constant.Safety))
             {
-                //TODO 
                 // spk.PlayOneShot(se[1]);
                 Destroy(gameObject);
             }

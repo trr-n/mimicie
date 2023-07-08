@@ -9,10 +9,8 @@ namespace Mimical
     {
         [SerializeField]
         GameObject bullet;
-
         [SerializeField]
         AudioClip se;
-
         [SerializeField]
         float power;
 
@@ -32,7 +30,9 @@ namespace Mimical
             ammo.Reduce();
             b.GetComponent<Rigidbody2D>().velocity += Vector2.right * power * Time.deltaTime;
             if (b.transform.position.x >= 10)
+            {
                 Destroy(b);
+            }
         }
 
         IEnumerator TestFire()

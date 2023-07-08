@@ -865,7 +865,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: 0.1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1290,7 +1290,7 @@ GameObject:
   - component: {fileID: 566802822}
   - component: {fileID: 566802821}
   m_Layer: 5
-  m_Name: ammo
+  m_Name: time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2384,7 +2384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cdcbbc4e1f2e64c8aec5a6ed7bd9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoT: {fileID: 566802821}
+  timeT: {fileID: 566802821}
   hpGauge: {fileID: 1967343020}
   parryGauge: {fileID: 174795419}
   ammoGauge: {fileID: 397129929}
@@ -2392,6 +2392,15 @@ MonoBehaviour:
   playerHp: {fileID: 279275797}
   parry: {fileID: 2067048228}
   player: {fileID: 2067048223}
+  change:
+  - color: {r: 1, g: 0.09067254, b: 0, a: 1}
+    border: 0.25
+  - color: {r: 1, g: 0.7058532, b: 0, a: 1}
+    border: 0.5
+  - color: {r: 0.93859005, g: 1, b: 0, a: 1}
+    border: 0.75
+  - color: {r: 0.08334541, g: 1, b: 0, a: 1}
+    border: 1
 --- !u!1001 &1345065205
 PrefabInstance:
   m_ObjectHideFlags: 0

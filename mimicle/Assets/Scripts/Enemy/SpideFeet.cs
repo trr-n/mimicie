@@ -12,6 +12,7 @@ namespace Mimical
                 info.Get<HP>().Damage(Values.Damage.Spide);
                 Destroy(gameObject);
             }
+
             if (info.Compare(Constant.Bullet))
             {
                 Destroy(info.gameObject);

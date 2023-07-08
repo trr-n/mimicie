@@ -87,8 +87,8 @@ namespace Mimical
 
             if (moveSW.sf >= timing.Teleport && isNinning)
             {
-                var x = Rnd.randint(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8);
-                transform.position = new(x, Rnd.randfloat(-4, 4), 1);
+                var x = Rnd.Int(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8);
+                transform.position = new(x, Rnd.Float(-4, 4), 1);
                 moveSW.Reset();
                 isNinning = false;
             }

@@ -7,7 +7,9 @@ namespace Mimical
 {
     public class Final : MonoBehaviour
     {
-        [SerializeField] Text scores;
+        [SerializeField]
+        Text scores;
+
         void Update()
         {
             scores.text = $"のこりじかん: {Score.finalTime}\nすこあ: {Score.finalScore}";

@@ -10,20 +10,12 @@ namespace Mimical
         float speed = 1;
 
         SpiralLilC slilc;
-        SpriteRenderer sr;
-
-        void Start()
-        {
-            sr = GetComponent<SpriteRenderer>();
-        }
 
         void Update()
         {
             Move(speed);
             OutOfScreen(gameObject);
         }
-
-        void removal() => gameObject.Remove();
 
         protected override void Move(float speed)
         {
@@ -40,10 +32,14 @@ namespace Mimical
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            {
                 TakeDamage(info);
+            }
 
             if (info.Compare(Constant.Bullet))
+            {
                 Destroy(gameObject);
+            }
         }
     }
 }

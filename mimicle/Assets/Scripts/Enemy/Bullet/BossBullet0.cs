@@ -39,21 +39,24 @@ namespace Mimical
         protected override void TakeDamage(Collision2D info)
         {
             info.Try<HP>(out var hp);
-            var dmgAmount = ((int)Numeric.Round(hp.Now / 50));
-            hp.Damage(dmgAmount);
+            hp.Damage(((int)Numeric.Round(hp.Now / 50)));
             Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            {
                 TakeDamage(info);
+            }
         }
 
         void OnTriggerExit2D(Collider2D info)
         {
             if (info.Compare(Constant.Safety))
+            {
                 Destroy(gameObject);
+            }
         }
     }
 }

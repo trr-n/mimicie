@@ -9,7 +9,6 @@ namespace Mimical
     {
         HP hp;
         BoxCollider2D col;
-        // float xx = 8.9f, yy = 5f;
         float speed = 2;
         float accelRatio = 1.002f;
 

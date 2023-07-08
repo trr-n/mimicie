@@ -9,7 +9,7 @@ namespace Mimical
     public class CircleUI : MonoBehaviour
     {
         [SerializeField]
-        Text ammoT;
+        Text timeT;
         [SerializeField]
         Image hpGauge, parryGauge, ammoGauge;
         [SerializeField]
@@ -21,20 +21,25 @@ namespace Mimical
         [SerializeField]
         Player player;
 
+        [System.Serializable]
+        struct ChangeColors
+        {
+            public Color color;
+            public float border;
+        }
+        [SerializeField]
+        ChangeColors[] change = new ChangeColors[4];
+
         void Update()
         {
             hpGauge.fillAmount = playerHp.Ratio;
             parryGauge.fillAmount = parry.Timer / 2;
-            AMMO();
-        }
-
-        void AMMO()
-        {
+            timeT.text = Score.Time.ToString();
             if (!player.IsReloading)
             {
-                ammoT.text = ammo.Remain.ToString();
                 ammoGauge.fillAmount = ammo.Ratio;
             }
+            UpdateAmmoGaugeColor();
         }
 
         public IEnumerator UpdateAmmoGauge(float start, float time)
@@ -47,6 +52,18 @@ namespace Mimical
                 if (ammoGauge.fillAmount >= 1)
                 {
                     ammoGauge.fillAmount = 1;
+                    break;
+                }
+            }
+        }
+
+        void UpdateAmmoGaugeColor()
+        {
+            foreach (var i in change)
+            {
+                if (ammoGauge.fillAmount <= i.border)
+                {
+                    ammoGauge.color = i.color;
                     break;
                 }
             }

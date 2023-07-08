@@ -8,7 +8,9 @@ namespace Mimical.Extend
         public void Once(Action action)
         {
             if (flag)
+            {
                 return;
+            }
             action();
             flag = true;
         }

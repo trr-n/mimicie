@@ -14,6 +14,7 @@ namespace Mimical
         bool chasing = true;
         int[] pers = { 0, 7, 9, 11, 15 };
         SpriteRenderer sr;
+        Quaternion rotate;
 
         void Start()
         {
@@ -27,22 +28,9 @@ namespace Mimical
         void Update()
         {
             Move(speed: 12);
-            print($"php:{playerHp.Now}, dmg:{damage}");
             OutOfScreen(gameObject);
         }
 
-        void OnCollisionEnter2D(Collision2D info)
-        {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
-                TakeDamage(info);
-            if (info.Compare(Constant.Bullet))
-            {
-                Destroy(info.gameObject);
-                Destroy(gameObject);
-            }
-        }
-
-        Quaternion rotate;
         protected override void Move(float speed)
         {
             switch (level)
@@ -63,7 +51,9 @@ namespace Mimical
                     damage = Numeric.Percent(playerHp.Now, pers[4]);
                     sr.color = new(0.98f, 0.21f, 0.6f);
                     if (Vector3.Distance(transform.position, player.transform.position) <= 5)
+                    {
                         chasing = false;
+                    }
                     rotate = chasing ?
                         Quaternion.FromToRotation(Vector2.up, player.transform.position - transform.position) :
                         Quaternion.Euler(0, 0, transform.eulerAngles.z);
@@ -79,6 +69,19 @@ namespace Mimical
             info.Get<HP>().Damage(damage);
             Score.Add(pers[4] * -2);
             gameObject.Remove();
+        }
+
+        void OnCollisionEnter2D(Collision2D info)
+        {
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            {
+                TakeDamage(info);
+            }
+            if (info.Compare(Constant.Bullet))
+            {
+                Destroy(info.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

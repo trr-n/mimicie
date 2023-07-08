@@ -49,7 +49,7 @@ namespace Mimical
 
         protected override void Move()
         {
-            firstPosition = new(Rnd.randint(3, 6), transform.position.y);
+            firstPosition = new(Rnd.Int(3, 6), transform.position.y);
             direction = firstPosition - (Vector2)transform.position;
             transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);
         }

@@ -50,13 +50,14 @@ namespace Mimical
         {
             Ctrlable = false;
             BGScroll = false;
-            Score.StopTimer();
+            Score.StopTimerFinal();
             Time.timeScale = 0;
         }
 
         public void OpenMenu()
         {
             menuPanel.SetActive(true);
+            Score.StopTimer();
             Ctrlable = false;
             BGScroll = false;
             IsOpeningMenu = true;
@@ -66,6 +67,7 @@ namespace Mimical
         public void CloseMenu()
         {
             menuPanel.SetActive(false);
+            Score.StartTimer();
             Ctrlable = true;
             BGScroll = true;
             IsOpeningMenu = false;

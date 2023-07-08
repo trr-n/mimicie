@@ -120,7 +120,7 @@ namespace Mimical
                 return;
             }
 
-            transform.setpc2(-7.95f, 8.2f, -4.12f, 4.38f);
+            transform.ClampPosition2(-7.95f, 8.2f, -4.12f, 4.38f);
             (float h, float v) axis = (Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
             transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }

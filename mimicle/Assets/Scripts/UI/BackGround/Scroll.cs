@@ -7,7 +7,7 @@ namespace Mimical
 {
     public class Scroll : MonoBehaviour
     {
-        [SerializeField]
+        // [SerializeField]
         GameManager manager;
         [SerializeField]
         Color[] colors;
@@ -16,18 +16,36 @@ namespace Mimical
 
         float speed = 3;
         Vector2 Spawn => new Vector2(20f, 0);
+        bool scroll = false;
+
+        void Awake()
+        {
+            if (Section.Active() == Constant.Main)
+            {
+                manager = Gobject.Find(Constant.Manager).GetComponent<GameManager>();
+            }
+        }
 
         void Start()
         {
             foreach (var i in backgrounds)
             {
-                i.GetComponent<SpriteRenderer>().color = colors.ice3();
+                i.GetComponent<SpriteRenderer>().color = colors.Choice3();
             }
         }
 
         void Update()
         {
-            if (!manager.BGScroll)
+            if (Section.Active() == Constant.Main)
+            {
+                scroll = manager.BGScroll;
+            }
+            else
+            {
+                scroll = true;
+            }
+
+            if (!scroll)
             {
                 return;
             }
@@ -38,7 +56,7 @@ namespace Mimical
                 if (i.transform.position.x <= -20f)
                 {
                     i.transform.position = Spawn;
-                    i.GetComponent<SpriteRenderer>().color = colors.ice3();
+                    i.GetComponent<SpriteRenderer>().color = colors.Choice3();
                 }
             }
         }

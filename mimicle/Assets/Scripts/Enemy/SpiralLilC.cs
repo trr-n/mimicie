@@ -9,8 +9,7 @@ namespace Mimical
         [SerializeField]
         GameObject bullet;
 
-        float speed = 0.5f, rot = 100;
-
+        (float move, float rotation) speeds = (0.5f, 100);
         HP hp;
         Rigidbody2D rb;
 
@@ -32,26 +31,22 @@ namespace Mimical
         {
             Rotate();
             if (hp.IsZero)
+            {
                 AddSlainCountAndRemove(gameObject);
+            }
         }
 
         IEnumerator Attack()
         {
             while (true)
             {
-                yield return new WaitForSeconds(rot / 360);
+                yield return new WaitForSeconds(speeds.rotation / 360);
                 bullet.Instance(transform.position, transform.rotation);
             }
         }
 
-        void Rotate()
-        {
-            transform.Rotate(0, 0, rot * Time.deltaTime);
-        }
+        void Rotate() => transform.Rotate(0, 0, speeds.rotation * Time.deltaTime);
 
-        protected override void Move()
-        {
-            transform.position += (Vector3)Vector2.left * speed * Time.deltaTime;
-        }
+        protected override void Move() => transform.position += (Vector3)Vector2.left * speeds.move * Time.deltaTime;
     }
 }

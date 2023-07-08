@@ -11,7 +11,7 @@ namespace Mimical
 
         AudioSource speaker;
         const float amount = 0.02f;
-        [Range(0, 1f)] float _volume = 0.5f;
+        float _volume = 0.5f; // 0-1
         float preVolume = 0f;
         int playingIndex = 0;
         int pressCounter = 0;
@@ -19,7 +19,7 @@ namespace Mimical
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            playingIndex = Rnd.ice(musics);
+            playingIndex = Rnd.Choice(musics);
             speaker.clip = musics[playingIndex];
             speaker.loop = true;
             speaker.Play();
@@ -61,7 +61,9 @@ namespace Mimical
         {
             playingIndex++;
             if (playingIndex >= musics.Length)
+            {
                 playingIndex = 0;
+            }
             speaker.clip = musics[playingIndex];
             speaker.Play();
             songT.text = musics[playingIndex].name;

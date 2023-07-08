@@ -56,8 +56,8 @@ namespace Mimical
             playerHp = Gobject.Find(Constant.Player).GetComponent<HP>();
             bossHp = GetComponent<HP>();
             bossHp.SetMax();
-            transform.setr(initial.Rotation);
-            transform.sets(initial.Scale);
+            transform.SetRotation(initial.Rotation);
+            transform.SetScale(initial.Scale);
             spideSW.Start();
         }
 
@@ -216,6 +216,7 @@ namespace Mimical
             {
                 return;
             }
+
             var spide = mobs[((int)Mobs.Spide)].Instance();
             if (spide.TryGetComponent<Spide>(out var _spide))
             {
@@ -223,7 +224,7 @@ namespace Mimical
                 // _spide.SetLevel(Rnd.Pro(new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } }));
             }
             spideSW.Restart();
-            spawnSpideSpan = Rnd.randint(20, 30);
+            spawnSpideSpan = Rnd.Int(20, 30);
         }
 
         public void ChangeBodyColor()

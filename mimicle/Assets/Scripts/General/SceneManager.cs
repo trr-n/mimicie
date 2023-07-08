@@ -5,7 +5,7 @@ namespace Mimical
 {
     public class SceneManager : MonoBehaviour
     {
-        public void sMain() => Section.Load(Constant.Main);
-        public void sTitle() => Section.Load(Constant.Title);
+        public void ToMain() => Section.Load(Constant.Main);
+        public void ToTitle() => Section.Load(Constant.Title);
     }
 }
