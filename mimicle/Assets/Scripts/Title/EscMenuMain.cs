@@ -15,46 +15,62 @@ namespace Mimical
 
         CanvasGroup canvas;
         bool isActive = false;
-        bool maxblur = false;
-        (float fade, float _) speeds = (10, 1);
+        public bool IsActive => isActive;
+        const float speeds = 10;
+        enum f { fin, fout }
 
         void Start()
         {
             canvas = GetComponent<CanvasGroup>();
+            canvas.alpha = 0;
             blur.SetFloat("_Blur", 0f);
         }
 
-        /*TODO
-        
-        */
         void Update()
         {
             if (Mynput.Down(KeyCode.Escape))
             {
                 if (!isActive)
                 {
-                    StartCoroutine(PanelAlpha());
+                    StartCoroutine(Fade(f.fin));
                 }
                 else
                 {
-
+                    StartCoroutine(Fade(f.fout));
                 }
             }
         }
 
-        void Canvas()
+        IEnumerator Fade(f ff)
         {
-
-        }
-
-        IEnumerator PanelAlpha()
-        {
-            while (canvas.alpha < 1)
+            float alpha = 0f;
+            switch (ff)
             {
-                yield return null;
-                canvas.alpha = Mathf.Lerp(0, 1, Time.deltaTime * speeds.fade);
+                case f.fin:
+                    alpha = 0f;
+                    while (alpha <= 1)
+                    {
+                        yield return null;
+                        alpha = Mathf.Clamp(alpha, 0, 1);
+                        alpha += Time.deltaTime * speeds;
+                        blur.SetFloat("_Blur", alpha * 10);
+                        canvas.alpha = alpha;
+                    }
+                    isActive = true;
+                    break;
+                case f.fout:
+                    alpha = 1f;
+                    while (alpha >= 0)
+                    {
+                        yield return null;
+                        alpha = Mathf.Clamp(alpha, 0, 1);
+                        alpha -= Time.deltaTime * speeds;
+                        blur.SetFloat("_Blur", alpha * 10);
+                        canvas.alpha = alpha;
+                    }
+                    isActive = false;
+                    break;
             }
-            maxblur = true;
         }
     }
 }

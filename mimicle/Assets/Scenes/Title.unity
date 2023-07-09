@@ -502,7 +502,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1582194023}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -809,7 +809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1320491066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -823,7 +823,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1582194023}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -927,8 +927,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 1e1a5687dfcb7034aa390db7acd944ea, type: 3}
-    m_FontSize: 49
+    m_Font: {fileID: 12800000, guid: 6914c6e901c91a142893976f341a93bb, type: 3}
+    m_FontSize: 31
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -1041,9 +1041,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 901856804}
-  - {fileID: 465338946}
   - {fileID: 1320491066}
   - {fileID: 2071849111}
+  - {fileID: 465338946}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1232,7 +1232,7 @@ RectTransform:
   m_Children:
   - {fileID: 32542259}
   m_Father: {fileID: 1582194023}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08151e4c7b3eaea44ae4c0c1a56661be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blur: {fileID: 1320491067}
+  blur: {fileID: 2100000, guid: adabd1de224c7b845b42860c693ff951, type: 2}
   buttons: []
 --- !u!1001 &1730835606823384353
 PrefabInstance:
@@ -1304,6 +1304,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1730835607213943078, guid: 532909b78beef034e81cde50f624ff86, type: 3}
+      propertyPath: menu
+      value: 
+      objectReference: {fileID: 2071849113}
     - target: {fileID: 1730835607213943078, guid: 532909b78beef034e81cde50f624ff86, type: 3}
       propertyPath: clickT
       value: 

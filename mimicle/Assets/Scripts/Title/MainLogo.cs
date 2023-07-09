@@ -13,6 +13,8 @@ namespace Mimical
         Text pressT, clickT;
         [SerializeField]
         AudioClip[] presses, clicks;
+        [SerializeField]
+        EscMenuMain menu;
 
         AudioSource speaker;
         (Color inactive, Color active) colours = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
@@ -26,7 +28,7 @@ namespace Mimical
         const float textColorChangeSpeed = 1;
         const float rotationTolerance = 0.1f;
         Stopwatch transitionTimer = new();
-        Vector3 Scale = new(2, 2, 2);
+        Vector3 Scale => new(2, 2, 2);
 
         void Start()
         {
@@ -37,8 +39,8 @@ namespace Mimical
 
         void Update()
         {
-            MouseOver();
             Rotation();
+            MouseOver();
         }
 
         void Rotation()

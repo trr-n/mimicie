@@ -14,7 +14,7 @@ namespace Mimical.Extend
         public static int Choice(object[] arr) => Int(max: arr.Length - 1);
         public static int Choice2(this object[] arr) => Int(max: arr.Length - 1);
         public static T Choice3<T>(this T[] arr) => arr[Int(max: arr.Length - 1)];
-        public static string String(int? count)
+        public static string String(int? count = null)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             char[] charaArr = count is null ? new char[Int(2, 16)] : new char[((int)count)];
