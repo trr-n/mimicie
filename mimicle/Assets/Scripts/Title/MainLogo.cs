@@ -17,15 +17,20 @@ namespace Mimical
         EscMenuMain menu;
 
         AudioSource speaker;
-        (Color inactive, Color active) colours = (new(0.311f, 0.196f, 0.157f, 1), new(1, 1, 0, 1));
+        (Color inactive, Color active) colours = (
+            inactive: new(0.311f, 0.196f, 0.157f, 1),
+            active: new(1, 1, 0, 1)
+        );
         bool isActivated = false;
         bool isMouseOverOnLogo = false;
         bool timerFlag = true;
         float clickToTransition = 1;
         float fadingPanelAlpha = 0;
-        const float panelFadeSpeed = 0.008f;
-        const float logoRotateSpeed = 10;
-        const float textColorChangeSpeed = 1;
+        readonly (float PanelFade, float LogoRotate, float TextColorChange) Speeds = (
+            PanelFade: 0.008f,
+            LogoRotate: 10,
+            TextColorChange: 1
+        );
         const float rotationTolerance = 0.1f;
         Stopwatch transitionTimer = new();
         Vector3 Scale => new(2, 2, 2);
@@ -50,7 +55,7 @@ namespace Mimical
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), 10 * Time.deltaTime);
                 return;
             }
-            transform.Rotate(new(0, 0, logoRotateSpeed * Time.deltaTime));
+            transform.Rotate(new(0, 0, Speeds.LogoRotate * Time.deltaTime));
         }
 
         void MouseOver()
@@ -96,7 +101,7 @@ namespace Mimical
 
         void ChangeTextsColor(Text text)
         {
-            text.color = Color.Lerp(colours.inactive, colours.active, textColorChangeSpeed);
+            text.color = Color.Lerp(colours.inactive, colours.active, Speeds.TextColorChange);
             if (text.color.r >= colours.active.r)
             {
                 isActivated = true;
@@ -109,7 +114,7 @@ namespace Mimical
             {
                 yield return null;
                 fadingPanelAlpha = Mathf.Clamp01(fadingPanelAlpha);
-                fadingPanel.color = new(0, 0, 0, fadingPanelAlpha += panelFadeSpeed);
+                fadingPanel.color = new(0, 0, 0, fadingPanelAlpha += Speeds.PanelFade);
             }
         }
     }
