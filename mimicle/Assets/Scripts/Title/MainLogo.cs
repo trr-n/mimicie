@@ -14,7 +14,7 @@ namespace Mimical
         [SerializeField]
         AudioClip[] presses, clicks;
         [SerializeField]
-        EscMenuMain menu;
+        Sprite[] logos = new Sprite[2];
 
         AudioSource speaker;
         (Color inactive, Color active) colours = (
@@ -34,18 +34,38 @@ namespace Mimical
         const float rotationTolerance = 0.1f;
         Stopwatch transitionTimer = new();
         Vector3 Scale => new(2, 2, 2);
+        bool nowstate = true;
+        new SpriteRenderer renderer;
 
         void Start()
         {
             Time.timeScale = 1;
             speaker = GetComponent<AudioSource>();
             pressT.color = clickT.color = colours.inactive;
+            renderer = GetComponent<SpriteRenderer>();
+            renderer.sprite = logos[0];
         }
 
         void Update()
         {
             Rotation();
             MouseOver();
+            ChangeSprite();
+        }
+
+        void ChangeSprite()
+        {
+            if (Mynput.Down(KeyCode.Tab))
+            {
+                if (renderer.Compare(logos[0]))
+                {
+                    renderer.SetSprite(logos[1]);
+                }
+                else if (renderer.Compare(logos[1]))
+                {
+                    renderer.SetSprite(logos[0]);
+                }
+            }
         }
 
         void Rotation()
@@ -95,7 +115,14 @@ namespace Mimical
 
             if (fadingPanel.color.a >= clickToTransition)
             {
-                Section.Load(Constant.Main);
+                if (renderer.Compare(logos[0]))
+                {
+                    Section.Load(Constant.Main);
+                }
+                else if (renderer.Compare(logos[1]))
+                {
+                    Application.Quit();
+                }
             }
         }
 

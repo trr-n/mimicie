@@ -7,6 +7,6 @@ namespace Mimical.Extend
         public static string OS() => operatingSystem;
         public static int RAM() => systemMemorySize / 1000;
         public static string CPU() => processorType;
-        public static string GPU() => graphicsDeviceName.space() + graphicsMemorySize / 1000 /*1024*/ + "GB";
+        public static string GPU() => graphicsDeviceName.space() + graphicsMemorySize / 1000 + "GB";
     }
 }

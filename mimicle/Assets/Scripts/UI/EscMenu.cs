@@ -44,7 +44,7 @@ namespace Mimical
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {
-                    todayT.text = "きょうは" + Real.Date();
+                    todayT.text = "きょうは" + Temps.Date();
                     systemT.text =
                         "すぺっく".newline() +
                         "OS: " + info[0].newline() +
