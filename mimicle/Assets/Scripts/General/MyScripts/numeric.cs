@@ -31,5 +31,9 @@ namespace Mimical.Extend
             }
             return true;
         }
+        public static int GetEnumLength<T>(this T it)
+        {
+            return Enum.GetNames(typeof(T)).Length;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Mimical.Extend;
 using UnityEngine;
 
 namespace Mimical
@@ -18,7 +19,9 @@ namespace Mimical
         void Start()
         {
             foreach (var i in bossRelated)
+            {
                 i.SetActive(false);
+            }
         }
 
         void OnEnable()
@@ -36,19 +39,21 @@ namespace Mimical
             }
         }
 
-        bool once = true;
+        One one = new();
         void Spawn()
         {
             if (data.Now != 3)
+            {
                 return;
-            print("wave3");
+            }
             transform.position = new();
-            if (once)
+            one.Once(() =>
             {
                 foreach (var i in bossRelated)
+                {
                     i.SetActive(true);
-                once = false;
-            }
+                }
+            });
         }
     }
 }

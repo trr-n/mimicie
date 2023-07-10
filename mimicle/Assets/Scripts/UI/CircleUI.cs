@@ -29,31 +29,29 @@ namespace Mimical
         }
         [SerializeField]
         ChangeColors[] change = new ChangeColors[4];
+        float timerf = 0f;
 
         void Update()
         {
+            UpdateAmmoGauge();
+            UpdateAmmoGaugeColor();
             hpGauge.fillAmount = playerHp.Ratio;
             parryGauge.fillAmount = parry.Timer / 2;
             timeT.text = Score.Time.ToString();
+        }
+
+        void UpdateAmmoGauge()
+        {
             if (!player.IsReloading)
             {
                 ammoGauge.fillAmount = ammo.Ratio;
+                timerf = 0f;
+                return;
             }
-            UpdateAmmoGaugeColor();
-        }
-
-        public IEnumerator UpdateAmmoGauge(float start, float time)
-        {
-            Stopwatch _timer = new(true);
-            while (_timer.sf <= time)
+            timerf += Time.deltaTime;
+            if (timerf <= player.Time2Reload)
             {
-                yield return null;
-                ammoGauge.fillAmount = Mathf.Lerp(start, ammo.Max, _timer.sf / time);
-                if (ammoGauge.fillAmount >= 1)
-                {
-                    ammoGauge.fillAmount = 1;
-                    break;
-                }
+                ammoGauge.fillAmount = Mathf.Lerp(player.ratio, 1, timerf / player.Time2Reload);
             }
         }
 

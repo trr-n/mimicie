@@ -4,13 +4,13 @@ namespace Mimical.Extend
 {
     public static class Coordinate
     {
-        public static void SetPositioin(this Transform t, double? x = null, double? y = null, double? z = null)
+        public static void SetPosition(this Transform transform, double? x = null, double? y = null, double? z = null)
         {
             if (x is null && y is null && z is null)
             {
                 throw new Karappoyanke();
             }
-            t.position = new(x is null ? t.position.x : x.Single(), y is null ? t.position.y : y.Single(), z is null ? t.position.z : z.Single());
+            transform.position = new(x is null ? transform.position.x : x.Single(), y is null ? transform.position.y : y.Single(), z is null ? transform.position.z : z.Single());
         }
         public static void SetPosition(this Transform transform, Vector3 position) => transform.position = position;
         public static void SetPosition(this Transform transform, Vector2 position) => transform.position = position;

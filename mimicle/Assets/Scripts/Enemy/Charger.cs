@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,20 +9,24 @@ namespace Mimical
     public sealed class Charger : Enemy
     {
         HP hp;
-        BoxCollider2D col;
-        float speed = 2;
+        new BoxCollider2D collider;
+        float speed = 5;
         float accelRatio = 1.002f;
+        enum Style { straight, circular, stiffly }
+        Style style = Style.straight;
 
         void Start()
         {
             hp = GetComponent<HP>();
             base.Start(hp);
-            col = GetComponent<BoxCollider2D>();
+            collider = GetComponent<BoxCollider2D>();
+            style = (Style)Rnd.Int(max: style.GetEnumLength());
         }
 
         void Update()
         {
-            speed *= accelRatio;
+            print(style.GetEnumLength());
+            // speed *= accelRatio;
             Move();
             Left(gameObject);
             if (hp.IsZero)
@@ -33,7 +38,19 @@ namespace Mimical
 
         protected override void Move()
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
+            switch (style)
+            {
+                case Style.straight:
+                    transform.Translate(Vector2.left * speed * Time.deltaTime);
+                    break;
+                case Style.circular:
+                    transform.Translate(Vector2.left * speed * Time.deltaTime);
+                    transform.position = new(transform.position.x, Mathf.Sin(Time.time * 10));
+                    break;
+                case Style.stiffly:
+                    // TODO kakukaku movement
+                    break;
+            }
         }
 
         void OnCollisionEnter2D(Collision2D info)

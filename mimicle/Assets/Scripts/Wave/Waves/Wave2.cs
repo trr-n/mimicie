@@ -16,7 +16,6 @@ namespace Mimical
         [SerializeField]
         Slain slain;
 
-        // Transform playerTransform;
         const int Quota = 4;
         float lilcSpawnY = -3.5f;
         int spawnCount = 0;
@@ -28,11 +27,6 @@ namespace Mimical
         List<GameObject> spawned = new List<GameObject>();
         bool isDone1 => slain.Count >= Quota;
         bool isTrueClear = false;
-
-        void OnEnable()
-        {
-            // playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
-        }
 
         void Update()
         {
@@ -51,7 +45,7 @@ namespace Mimical
             // 0123 = 4
             if (spanwSW.sf >= Span && spawnCount < Quota)
             {
-                enemies[Wave.Second].Instance(new(X, lilcSpawnY), Quaternion.identity);
+                enemies[Wave.Second].Instance(new(X, lilcSpawnY));
                 spanwSW.Restart();
                 lilcSpawnY += 8 / Offset; //04255319148936f;
                 spawnCount++;

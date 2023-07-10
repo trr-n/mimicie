@@ -43,7 +43,7 @@ namespace Mimical
             ThrowShuriken();
             if (hp.IsZero)
             {
-                deadFX.Instance(transform.position, Quaternion.identity);
+                deadFX.Instance(transform.position);
                 Destroy(gameObject);
             }
         }
@@ -61,7 +61,7 @@ namespace Mimical
         {
             yield return null;
             shuriRZ = Vector3.Angle(-transform.right, player.transform.position - transform.position) - Shuri.Range / 2;
-            for (int i = 0; i < Shuri.Count; i++)
+            for (int count = 0; count < Shuri.Count; count++)
             {
                 var z = player.transform.position.y > transform.position.y ? -shuriRZ : shuriRZ;
                 shuriken.Instance(transform.position, Quaternion.Euler(0, 0, z));
@@ -81,7 +81,7 @@ namespace Mimical
             if (moveSW.sf >= timing.Smoke && fxflag)
             {
                 audio.PlayOneShot(doronSE);
-                smokeFX.Instance(transform.position + FxOfs, Quaternion.identity);
+                smokeFX.Instance(transform.position + FxOfs);
                 fxflag = false;
             }
 

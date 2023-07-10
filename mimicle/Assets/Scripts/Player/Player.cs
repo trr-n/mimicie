@@ -88,7 +88,7 @@ namespace Mimical
 
             if (Mynput.Down(Values.Key.Reload))
             {
-                StartCoroutine(circleUI.UpdateAmmoGauge(ammo.Ratio, time2reload));
+                ratio = ammo.Ratio;
                 ammo.Reload();
                 isReloading = true;
             }
