@@ -129,7 +129,7 @@ namespace Mimical
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
                 qset[Wave.Third].timer = 0;
             if (slain.Count >= qset[Wave.Third].quota)
-                one.Once(Final);
+                one.RunOnce(Final);
             void Final() { }
         }
         One one = new();

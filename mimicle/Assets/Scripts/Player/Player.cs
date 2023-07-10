@@ -21,7 +21,7 @@ namespace Mimical
         CircleUI circleUI;
 
         // Gun
-        float rapidSpan = 0.5f;
+        const float RapidSpan = 0.1f;
         float time2reload = 0f;
         public float Time2Reload => time2reload;
         bool isReloading = false;
@@ -30,15 +30,15 @@ namespace Mimical
         float movingSpeed = 5;
         HP hp;
         RaycastHit2D hit;
-        Stopwatch reloadsw = new();
+        Stopwatch reloadSW = new();
         Stopwatch rapidSW = new(true);
         Stopwatch sw = new();
         SpriteRenderer sr;
         new BoxCollider2D collider;
         public bool NotNinnin = false;
         public RaycastHit2D Hit => hit;
-        public float Reload__ => reloadsw.SecondF(2);
-        const float maxs = 1.5f;
+        public float Reload__ => reloadSW.SecondF(2);
+        const float MaxReloadTime = 1f;
         public float ratio = 0f;
 
         void Awake()
@@ -69,7 +69,7 @@ namespace Mimical
 
         void FixedUpdate()
         {
-            if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > rapidSpan && !isReloading))
+            if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpan && !isReloading))
             {
                 return;
             }
@@ -79,11 +79,11 @@ namespace Mimical
 
         void Reload()
         {
-            ReloadProgress = reloadsw.sf / time2reload;
+            ReloadProgress = reloadSW.sf / time2reload;
             if (!isReloading)
             {
                 // リロード時間=残弾数の割合*n秒
-                time2reload = (1 - ammo.Ratio) * maxs;
+                time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
             if (Mynput.Down(Values.Key.Reload))
@@ -95,13 +95,13 @@ namespace Mimical
 
             if (isReloading)
             {
-                reloadsw.Start();
-                if (!(reloadsw.SecondF() >= time2reload))
+                reloadSW.Start();
+                if (!(reloadSW.SecondF() >= time2reload))
                 {
                     return;
                 }
                 isReloading = false;
-                reloadsw.Reset();
+                reloadSW.Reset();
             }
         }
 

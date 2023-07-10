@@ -5,7 +5,7 @@ namespace Mimical.Extend
     public class One
     {
         bool flag;
-        public void Once(Action action)
+        public void RunOnce(Action action)
         {
             if (flag)
             {

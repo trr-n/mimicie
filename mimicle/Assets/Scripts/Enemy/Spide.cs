@@ -37,7 +37,7 @@ namespace Mimical
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                once.Once(() =>
+                once.RunOnce(() =>
                 {
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
@@ -64,13 +64,17 @@ namespace Mimical
         /// <param name="_level">0-2</param>
         public void SetLevel(int _level)
         {
-            if (_level >= levels.Length)
+            try
             {
-                throw new System.IndexOutOfRangeException();
+                activeLevel = _level;
+                levels[activeLevel].SetActive(true);
             }
-            print("pass");
-            activeLevel = _level;
-            levels[activeLevel].SetActive(true);
+            catch (System.IndexOutOfRangeException)
+            {
+                activeLevel = levels.Length - 1;
+                levels[activeLevel].SetActive(true);
+            }
+
             for (var i = 0; i < levels.Length; i++)
             {
                 if (activeLevel != i)

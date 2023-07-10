@@ -47,7 +47,7 @@ namespace Mimical
                 return;
             }
             transform.position = new();
-            one.Once(() =>
+            one.RunOnce(() =>
             {
                 foreach (var i in bossRelated)
                 {

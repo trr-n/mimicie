@@ -42,7 +42,7 @@ namespace Mimical
             }
             transform.SetPosition(x: X);
 
-            LilC.Once(() => StartCoroutine(MakeLilC()));
+            LilC.RunOnce(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {

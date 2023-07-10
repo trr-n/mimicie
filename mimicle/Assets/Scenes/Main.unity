@@ -5523,6 +5523,10 @@ PrefabInstance:
       propertyPath: se
       value: 
       objectReference: {fileID: 8300000, guid: dbc17452b5c57c74381e22f45a9e5b2e, type: 3}
+    - target: {fileID: 673241857198986962, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
+      propertyPath: max
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
 --- !u!1001 &2495686367114509825

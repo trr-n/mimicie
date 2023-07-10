@@ -38,7 +38,7 @@ namespace Mimical
             {
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.LilC);
-                one.Once(() =>
+                one.RunOnce(() =>
                 {
                     fx.Instance(transform.position);
                     GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);

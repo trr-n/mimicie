@@ -1,24 +1,18 @@
 ﻿namespace Mimical.Extend
 {
-    public class Weight
+    public static class Lottery
     {
-        float[] weight;
-        float totalWeight;
-        float[] cumulativeWeights;
-
-        public Weight(params float[] weight)
+        public static int ChoiceByWeights(params float[] weights)
         {
-            this.weight = weight;
-            cumulativeWeights = new float[this.weight.Length];
-            for (var i = 0; i < this.weight.Length; i++)
+            float[] weight, cumulativeWeights;
+            float totalWeight = 0;
+            weight = weights;
+            cumulativeWeights = new float[weights.Length];
+            for (var i = 0; i < weight.Length; i++)
             {
-                totalWeight += this.weight[i];
+                totalWeight += weight[i];
                 cumulativeWeights[i] = totalWeight;
             }
-        }
-
-        public int Choose()
-        {
             var randomPoint = Rnd.Float(max: totalWeight);
             int mini = 0, maxi = cumulativeWeights.Length - 1;
             while (mini < maxi)

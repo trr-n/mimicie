@@ -41,7 +41,7 @@ namespace Mimical
                 return;
             }
 
-            one.Once(() => { StartCoroutine(Chargers()); });
+            one.RunOnce(() => { StartCoroutine(Chargers()); });
 
             foreach (var charger in spawned)
             {
@@ -53,7 +53,7 @@ namespace Mimical
 
             if (isDone)
             {
-                one1k.Once(() =>
+                one1k.RunOnce(() =>
                 {
                     var hoge = GameManager.wave[0];
                     hoge.score = Score.Now;

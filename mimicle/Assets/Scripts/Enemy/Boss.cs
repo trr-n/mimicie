@@ -129,7 +129,7 @@ namespace Mimical
             }
         }
 
-        One _ = new One();
+        One barrage = new();
         /// <summary>
         /// barrage
         /// </summary>
@@ -140,7 +140,7 @@ namespace Mimical
                 return;
             }
             activeLevel = 1;
-            _.Once(() =>
+            barrage.RunOnce(() =>
             {
                 isBarrage = true;
                 point.transform.eulerAngles = new(0, 0, 120);
@@ -151,7 +151,6 @@ namespace Mimical
             {
                 if (point.transform.eulerAngles.z > Range.Max || point.transform.eulerAngles.z < Range.Min)
                 {
-                    print("reverse");
                     rotate *= -1; // reverse
                 }
                 point.transform.Rotate(new Vector3(0, 0, baseSpeed * rotate * Time.deltaTime));
@@ -161,7 +160,9 @@ namespace Mimical
         bool isBarrage = false;
         IEnumerator Barrage()
         {
-            for (int i = 0; i < 10; i++)
+            // todo
+            // for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 000000; i++)
             {
                 yield return new WaitForSecondsRealtime(BarrageRapid);
                 bullets[1].Instance(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
@@ -205,7 +206,7 @@ namespace Mimical
                 return;
             }
             activeLevel = 4;
-            o5.Once(() => StartCoroutine(Lv5s()));
+            o5.RunOnce(() => StartCoroutine(Lv5s()));
         }
 
         IEnumerator Lv5s()
@@ -222,7 +223,7 @@ namespace Mimical
             if (spideSW.SecondF() >= spawnSpideSpan)
             {
                 var spide = mobs[((int)Mobs.Spide)].Instance();
-                spide.GetComponent<Spide>().SetLevel(new Weight(1, 0.5f, 0.25f).Choose());
+                spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceByWeights(1, 0.5f, 0.25f));
                 spideSW.Restart();
                 spawnSpideSpan = Rnd.Int(20, 30);
             }
