@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public static class Mynput
     {

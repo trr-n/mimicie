@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public static class Numeric
     {
@@ -31,9 +31,6 @@ namespace Mimical.Extend
             }
             return true;
         }
-        public static int GetEnumLength<T>(this T it)
-        {
-            return Enum.GetNames(typeof(T)).Length;
-        }
+        public static int GetEnumLength<T>(this T t) => Enum.GetNames(typeof(T)).Length;
     }
 }

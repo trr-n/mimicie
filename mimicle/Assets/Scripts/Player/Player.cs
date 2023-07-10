@@ -1,7 +1,7 @@
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]

@@ -1,4 +1,4 @@
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public static class Typing
     {

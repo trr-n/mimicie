@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public enum LogType { Standard, Warning, Error }
     public static class log
@@ -18,7 +18,7 @@ namespace Mimical.Extend
                 case LogType.Error: msg.error(); break;
             }
         }
-        public static string newline(this object msg) => msg + "\r\n";
-        public static string space(this object msg) => msg + " ";
+        public static string NewLine(this object msg) => msg + "\r\n";
+        public static string Space(this object msg) => msg + " ";
     }
 }

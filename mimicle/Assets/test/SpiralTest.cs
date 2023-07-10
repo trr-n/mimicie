@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical.Test
+namespace Cet.Test
 {
     public class SpiralTest : MonoBehaviour
     {
@@ -32,7 +32,7 @@ namespace Mimical.Test
 
             // r=a+bθ
 
-            xyT.text = "x: " + x.newline() + "y: " + y;
+            xyT.text = "x: " + x.NewLine() + "y: " + y;
         }
     }
 }

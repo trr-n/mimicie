@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public static class Compute
     {

@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class Tests : MonoBehaviour
     {

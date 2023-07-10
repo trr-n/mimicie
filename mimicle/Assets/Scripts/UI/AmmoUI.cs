@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class AmmoUI : MonoBehaviour
     {

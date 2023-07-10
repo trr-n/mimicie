@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mimical
+namespace Cet
 {
     public class Wave : MonoBehaviour
     {

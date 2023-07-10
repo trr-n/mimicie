@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 using DG.Tweening;
 using UnityEngine.UI;
 
-namespace Mimical
+namespace Cet
 {
     public class Boss : MonoBehaviour
     {
@@ -71,7 +71,7 @@ namespace Mimical
             Both();
             if (bossHp.IsZero)
             {
-                Section.Load(Constant.Final);
+                Site.Load(Constant.Final);
             }
         }
 

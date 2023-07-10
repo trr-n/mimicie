@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class Ninja : Enemy
     {

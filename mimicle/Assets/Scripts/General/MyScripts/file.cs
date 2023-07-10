@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public static class File
     {

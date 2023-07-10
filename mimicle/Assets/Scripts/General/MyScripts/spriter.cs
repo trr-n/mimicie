@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
-    public static class SRenderer
+    public static class SpriteR
     {
         public static bool Compare(this SpriteRenderer sr, Sprite sprite) => sr.sprite == sprite;
         public static void SetSprite(this SpriteRenderer sr, Sprite sprite) => sr.sprite = sprite;

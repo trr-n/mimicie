@@ -1,4 +1,4 @@
-﻿namespace Mimical.Extend
+﻿namespace Cet.Extend
 {
     public static class Lottery
     {
@@ -8,7 +8,7 @@
             float totalWeight = 0;
             weight = weights;
             cumulativeWeights = new float[weights.Length];
-            for (var i = 0; i < weight.Length; i++)
+            for (int i = 0; i < weight.Length; i++)
             {
                 totalWeight += weight[i];
                 cumulativeWeights[i] = totalWeight;

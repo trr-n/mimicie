@@ -1,7 +1,7 @@
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public abstract class Bullet : MonoBehaviour
     {

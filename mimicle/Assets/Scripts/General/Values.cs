@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace Mimical
+namespace Cet
 {
     public class Values : MonoBehaviour
     {
         public static class Damage
         {
-            public static int Player = 100;
+            public static int Player = 34;
             public static int Charger = 5;
             public static int LilC = 10;
             public static int SLilC = 5;

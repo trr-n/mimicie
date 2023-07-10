@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Mimical.Extend;
+using Cet.Extend;
 using UnityEngine;
 
-namespace Mimical
+namespace Cet
 {
     public class Scroll : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Mimical
 
         void Awake()
         {
-            if (Section.Active() == Constant.Main)
+            if (Site.Active() == Constant.Main)
             {
                 manager = Gobject.Find(Constant.Manager).GetComponent<GameManager>();
             }
@@ -36,7 +36,7 @@ namespace Mimical
 
         void Update()
         {
-            if (Section.Active() == Constant.Main)
+            if (Site.Active() == Constant.Main)
             {
                 scroll = manager.BGScroll;
             }

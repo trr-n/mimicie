@@ -1,11 +1,11 @@
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class SceneManager : MonoBehaviour
     {
-        public void ToMain() => Section.Load(Constant.Main);
-        public void ToTitle() => Section.Load(Constant.Title);
+        public void ToMain() => Site.Load(Constant.Main);
+        public void ToTitle() => Site.Load(Constant.Title);
     }
 }

@@ -2,35 +2,35 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 using DG.Tweening;
 
-namespace Mimical
+namespace Cet
 {
     public sealed class Charger : Enemy
     {
         HP hp;
         new BoxCollider2D collider;
-        float speed = 5;
         float accelRatio = 1.002f;
-        enum Style { straight, circular, stiffly }
-        Style style = Style.straight;
+        enum MovingType { Straight, Circular, Stiffly }
+        MovingType style = MovingType.Straight;
         Vector3 SpawnPos;
         new SpriteRenderer renderer;
+        (float x, float y) move = (5, 10);
+        float cir = 1f;
 
         void Start()
         {
             hp = GetComponent<HP>();
             base.Start(hp);
             collider = GetComponent<BoxCollider2D>();
-            style = (Style)Rnd.Int(max: style.GetEnumLength());
+            style = (MovingType)Rnd.Int(max: style.GetEnumLength());
             SpawnPos = transform.position;
             renderer = GetComponent<SpriteRenderer>();
         }
 
         void Update()
         {
-            speed *= accelRatio;
             Move();
             Left(gameObject);
             if (hp.IsZero)
@@ -40,34 +40,30 @@ namespace Mimical
             }
         }
 
-        One one = new();
         protected override void Move()
         {
             switch (style)
             {
-                case Style.straight:
+                case MovingType.Straight:
                     renderer.SetColor(Color.gray);
-                    transform.Translate(Vector2.left * speed * Time.deltaTime);
+                    move.x *= accelRatio;
+                    transform.Translate(Vector2.left * move.x * Time.deltaTime);
                     break;
-                case Style.circular:
+                case MovingType.Circular:
                     renderer.SetColor(Color.red);
-                    transform.Translate(Vector2.left * speed * Time.deltaTime);
-                    transform.position = new(transform.position.x, Mathf.Sin(Time.time * 10));
+                    cir *= accelRatio;
+                    transform.Translate(Vector2.left * move.x * Time.deltaTime);
+                    transform.position = new(transform.position.x, cir * Mathf.Sin(Time.time * 10));
                     break;
-                case Style.stiffly:
+                case MovingType.Stiffly:
                     renderer.SetColor(Color.blue);
-                    transform.Translate(Vector2.left * speed * Time.deltaTime);
-                    transform.position = new(transform.position.x, Mathf.PingPong(Time.time * 5, 4));
+                    if (transform.position.y >= 4.5f || transform.position.y <= -4.5f)
+                    {
+                        move.y *= -1;
+                    }
+                    transform.Translate(new Vector2(-move.x, move.y) * Time.deltaTime);
                     break;
             }
-        }
-
-        void Up()
-        {
-        }
-
-        void Down()
-        {
         }
 
         void OnCollisionEnter2D(Collision2D info)

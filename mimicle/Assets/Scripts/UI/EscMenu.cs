@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Mimical.Extend;
+using Cet.Extend;
 
-using static Mimical.Extend.Sys;
+using static Cet.Extend.Sys;
 
-namespace Mimical
+namespace Cet
 {
     public class EscMenu : MonoBehaviour
     {
@@ -46,10 +46,10 @@ namespace Mimical
                 {
                     todayT.text = "きょうは" + Temps.Date();
                     systemT.text =
-                        "すぺっく".newline() +
-                        "OS: " + info[0].newline() +
-                        "CPU: " + info[1].newline() +
-                        "GPU: " + info[2].newline() +
+                        "すぺっく".NewLine() +
+                        "OS: " + info[0].NewLine() +
+                        "CPU: " + info[1].NewLine() +
+                        "GPU: " + info[2].NewLine() +
                         "RAM: " + info[3] + "GB";
                     manager.OpenMenu();
                     return;

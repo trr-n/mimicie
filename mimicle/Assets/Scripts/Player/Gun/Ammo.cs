@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mimical
+namespace Cet
 {
     public class Ammo : MonoBehaviour
     {

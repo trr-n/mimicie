@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class MainLogo : MonoBehaviour
     {
@@ -117,7 +117,7 @@ namespace Mimical
             {
                 if (renderer.Compare(logos[0]))
                 {
-                    Section.Load(Constant.Main);
+                    Site.Load(Constant.Main);
                 }
                 else if (renderer.Compare(logos[1]))
                 {

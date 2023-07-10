@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
-namespace Mimical
+namespace Cet
 {
     public class SpiralLilC : Enemy
     {
@@ -47,6 +47,7 @@ namespace Mimical
 
         void Rotate() => transform.Rotate(0, 0, speeds.rotation * Time.deltaTime);
 
+        // https://i-learn.jp/article/3489
         protected override void Move() => transform.position += (Vector3)Vector2.left * speeds.move * Time.deltaTime;
     }
 }

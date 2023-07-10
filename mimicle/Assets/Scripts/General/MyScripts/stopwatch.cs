@@ -1,6 +1,6 @@
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public class Stopwatch

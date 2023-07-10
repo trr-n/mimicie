@@ -1379,7 +1379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d8ac9a12287e841bfac9e83f080cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves: 2
+  waves: 0
   waveObjs:
   - {fileID: 286884585}
   - {fileID: 1736559679}
@@ -1428,7 +1428,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max: 3
-  now: 0
 --- !u!1 &1198770402
 GameObject:
   m_ObjectHideFlags: 0
@@ -4420,7 +4419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7090090225156688501, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7090090225156688501, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
       propertyPath: m_TagString

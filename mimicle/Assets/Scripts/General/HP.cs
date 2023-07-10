@@ -1,5 +1,5 @@
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 
 public class HP : MonoBehaviour
 {

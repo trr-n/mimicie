@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     [Serializable]
     public class Karappoyanke : Exception

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mimical
+namespace Cet
 {
     public class Final : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mimical.Extend
+namespace Cet.Extend
 {
     public enum Style { Standard, Rebirth }
     public static class Temps

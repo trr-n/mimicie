@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Mimical.Extend;
+using Cet.Extend;
 using System.Collections;
 
-namespace Mimical
+namespace Cet
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {
