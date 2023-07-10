@@ -4,25 +4,25 @@ namespace Mimical.Extend
 {
     public static class Coordinate
     {
-        public static void SetPosition(this Transform transform, double? x = null, double? y = null, double? z = null)
+        public static void SetPosition(this Transform t, double? x = null, double? y = null, double? z = null)
         {
             if (x is null && y is null && z is null)
             {
                 throw new Karappoyanke();
             }
-            transform.position = new(x is null ? transform.position.x : x.Single(), y is null ? transform.position.y : y.Single(), z is null ? transform.position.z : z.Single());
+            t.position = new(x is null ? t.position.x : (float)x, y is null ? t.position.y : (float)y, z is null ? t.position.z : (float)z);
         }
-        public static void SetPosition(this Transform transform, Vector3 position) => transform.position = position;
-        public static void SetPosition(this Transform transform, Vector2 position) => transform.position = position;
+        public static void SetPosition(this Transform t, Vector3 position) => t.position = position;
+        public static void SetPosition(this Transform t, Vector2 position) => t.position = position;
         public static void ClampPosition22(this Transform t, float? minX = null, float? maxX = null, float? minY = null, float? maxY = null, float? minZ = null, float? maxZ = null)
         {
             if (minX is not null && maxX is not null && minY is not null && maxY is not null && minZ is not null && maxZ is not null)
             {
                 throw new Karappoyanke();
             }
-            t.position = new(minX is null ? t.position.x : Mathf.Clamp(t.position.x, minX.Single(), maxX.Single()),
-                minY is null ? t.position.y : Mathf.Clamp(t.position.y, minY.Single(), maxY.Single()),
-                minZ is null ? t.position.z : Mathf.Clamp(t.position.z, minZ.Single(), maxZ.Single()));
+            t.position = new(minX is null ? t.position.x : Mathf.Clamp(t.position.x, (float)minX, (float)maxX),
+                minY is null ? t.position.y : Mathf.Clamp(t.position.y, (float)minY, (float)maxY),
+                minZ is null ? t.position.z : Mathf.Clamp(t.position.z, (float)minZ, (float)maxZ));
         }
         public static void ClampPosition2(this Transform t, float? minX = null, float? maxX = null, float? minY = null, float? maxY = null)
         {
@@ -30,7 +30,7 @@ namespace Mimical.Extend
             {
                 throw new Karappoyanke();
             }
-            t.position = new(Mathf.Clamp(t.position.x, minX.Single(), maxX.Single()), Mathf.Clamp(t.position.y, minY.Single(), maxY.Single()));
+            t.position = new(Mathf.Clamp(t.position.x, (float)minX, (float)maxX), Mathf.Clamp(t.position.y, (float)minY, (float)maxY));
         }
         public static void ClampPosition2(this Transform t, (float min, float max)? x = null, (float min, float max)? y = null)
         {
@@ -46,7 +46,7 @@ namespace Mimical.Extend
             {
                 throw new Karappoyanke();
             }
-            t.position = new(Mathf.Clamp(t.position.x, x.Single(), -x.Single()), Mathf.Clamp(t.position.y, y.Single(), -y.Single()));
+            t.position = new(Mathf.Clamp(t.position.x, (float)x, (float)-x), Mathf.Clamp(t.position.y, (float)y, (float)-y));
         }
         public static void SetRotation(this Transform t, double? x = null, double? y = null, double? z = null)
         {
@@ -54,7 +54,7 @@ namespace Mimical.Extend
             {
                 throw new Karappoyanke();
             }
-            t.rotation = Quaternion.Euler(x is null ? t.localScale.x : x.Single(), y is null ? t.localScale.y : y.Single(), z is null ? t.localScale.z : z.Single());
+            t.rotation = Quaternion.Euler(x is null ? t.localScale.x : (float)x, y is null ? t.localScale.y : (float)y, z is null ? t.localScale.z : (float)z);
         }
         public static void SetRotation(this Transform t, Quaternion rotation) => t.rotation = rotation;
         public static void SetScale(this Transform t, double? x = null, double? y = null, double? z = null)
@@ -63,7 +63,7 @@ namespace Mimical.Extend
             {
                 throw new Karappoyanke();
             }
-            t.localScale = new(x is null ? t.localScale.x : x.Single(), y is null ? t.localScale.y : y.Single(), z is null ? t.localScale.z : z.Single());
+            t.localScale = new(x is null ? t.localScale.x : (float)x, y is null ? t.localScale.y : (float)y, z is null ? t.localScale.z : (float)z);
         }
         public static void SetScale(this Transform t, Vector3 scale) => t.localScale = scale;
         public static void Move2(this Transform t, float speed, string axish = "Horizontal", string axisv = "Vertical")

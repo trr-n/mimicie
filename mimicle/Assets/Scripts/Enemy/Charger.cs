@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mimical.Extend;
+using DG.Tweening;
 
 namespace Mimical
 {
@@ -14,6 +15,8 @@ namespace Mimical
         float accelRatio = 1.002f;
         enum Style { straight, circular, stiffly }
         Style style = Style.straight;
+        Vector3 SpawnPos;
+        new SpriteRenderer renderer;
 
         void Start()
         {
@@ -21,12 +24,13 @@ namespace Mimical
             base.Start(hp);
             collider = GetComponent<BoxCollider2D>();
             style = (Style)Rnd.Int(max: style.GetEnumLength());
+            SpawnPos = transform.position;
+            renderer = GetComponent<SpriteRenderer>();
         }
 
         void Update()
         {
-            print(style.GetEnumLength());
-            // speed *= accelRatio;
+            speed *= accelRatio;
             Move();
             Left(gameObject);
             if (hp.IsZero)
@@ -36,21 +40,34 @@ namespace Mimical
             }
         }
 
+        One one = new();
         protected override void Move()
         {
             switch (style)
             {
                 case Style.straight:
+                    renderer.SetColor(Color.gray);
                     transform.Translate(Vector2.left * speed * Time.deltaTime);
                     break;
                 case Style.circular:
+                    renderer.SetColor(Color.red);
                     transform.Translate(Vector2.left * speed * Time.deltaTime);
                     transform.position = new(transform.position.x, Mathf.Sin(Time.time * 10));
                     break;
                 case Style.stiffly:
-                    // TODO kakukaku movement
+                    renderer.SetColor(Color.blue);
+                    transform.Translate(Vector2.left * speed * Time.deltaTime);
+                    transform.position = new(transform.position.x, Mathf.PingPong(Time.time * 5, 4));
                     break;
             }
+        }
+
+        void Up()
+        {
+        }
+
+        void Down()
+        {
         }
 
         void OnCollisionEnter2D(Collision2D info)

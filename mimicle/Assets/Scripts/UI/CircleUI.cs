@@ -11,7 +11,7 @@ namespace Mimical
         [SerializeField]
         Text timeT;
         [SerializeField]
-        Image hpGauge, parryGauge, ammoGauge;
+        Image hpGauge, hpbgGauge, parryGauge, ammoGauge;
         [SerializeField]
         Ammo ammo;
         [SerializeField]
@@ -30,6 +30,8 @@ namespace Mimical
         [SerializeField]
         ChangeColors[] change = new ChangeColors[4];
         float timerf = 0f;
+        float prehp = 1f;
+        Stopwatch delaySW = new();
 
         void Update()
         {

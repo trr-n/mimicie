@@ -27,6 +27,7 @@ namespace Mimical
         List<GameObject> spawned = new List<GameObject>();
         bool isDone1 => slain.Count >= Quota;
         bool isTrueClear = false;
+        One LilC = new();
 
         void Update()
         {
@@ -39,17 +40,9 @@ namespace Mimical
             {
                 return;
             }
+            transform.SetPosition(x: X);
 
-            transform.position = new(X, transform.position.y);
-
-            // 0123 = 4
-            if (spanwSW.sf >= Span && spawnCount < Quota)
-            {
-                enemies[Wave.Second].Instance(new(X, lilcSpawnY));
-                spanwSW.Restart();
-                lilcSpawnY += 8 / Offset; //04255319148936f;
-                spawnCount++;
-            }
+            LilC.Once(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {
@@ -60,6 +53,17 @@ namespace Mimical
                     slain.ResetCount();
                     nextSW.Destruct();
                 }
+            }
+        }
+
+        IEnumerator MakeLilC()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                enemies[0].Instance(new(X, lilcSpawnY));
+                spanwSW.Restart();
+                lilcSpawnY += 8 / Offset; //04255319148936f;
+                yield return new WaitForSeconds(1f);
             }
         }
     }

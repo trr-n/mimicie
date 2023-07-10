@@ -12,7 +12,6 @@ namespace Mimical
         [SerializeField]
         GameObject[] fxs;
 
-        int initLevel = 0;
         int activeLevel = 0;
         float speed = 1f;
         int[] rotationSpeed = { 50, 90, 120 };
@@ -23,8 +22,7 @@ namespace Mimical
         void Start()
         {
             sr = GetComponent<SpriteRenderer>();
-            activeLevel = initLevel;
-            SetLevel(initLevel);
+            // SetLevel(0);
         }
 
         One once = new();
@@ -33,7 +31,8 @@ namespace Mimical
             Move();
             if (transform.position.x <= -14)
             {
-                gameObject.Remove();
+                Score.Add(Values.Point.RedSpide);
+                Destroy(gameObject);
             }
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
@@ -44,7 +43,7 @@ namespace Mimical
                     StartCoroutine(Fade());
                     if (sr.color.a <= 0 && speed <= 0)
                     {
-                        fxs.Instance(transform.position, Quaternion.identity);
+                        fxs.Instance(transform.position);
                         Destroy(gameObject);
                     }
                 });
@@ -65,6 +64,11 @@ namespace Mimical
         /// <param name="_level">0-2</param>
         public void SetLevel(int _level)
         {
+            if (_level >= levels.Length)
+            {
+                throw new System.IndexOutOfRangeException();
+            }
+            print("pass");
             activeLevel = _level;
             levels[activeLevel].SetActive(true);
             for (var i = 0; i < levels.Length; i++)

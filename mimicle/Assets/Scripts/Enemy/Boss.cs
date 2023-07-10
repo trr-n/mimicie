@@ -21,13 +21,13 @@ namespace Mimical
         [System.Serializable]
         struct Colour
         {
-            public int remainHp;
+            public int hpBorder;
             public Color color;
         }
         [SerializeField]
         Colour[] colour = new Colour[5];
 
-        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) initial = (Quaternion.Euler(0, 0, 90), new(7.75f, 0, 1), new(3, 3, 3));
+        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) initial = (Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3));
         enum Level { First = 0, Second, Third, Fourth, Fifth }
         float posLerpSpeed = 5;
         new PolygonCollider2D collider;
@@ -40,10 +40,10 @@ namespace Mimical
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
         Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
-        float spawnSpideSpan = 30;
-        const float barrageRapid = 0.2f;
-        (int bullets, float range) W1Rapid = (5, 1.25f);
-        float speed = 1;
+        float spawnSpideSpan = 5;
+        const float BarrageRapid = 0.2f;
+        (int Bullets, float Range) W1Rapid = (5, 1.25f);
+        float rotate = 1;
         float baseSpeed = 30f;
 
         void Start()
@@ -120,11 +120,11 @@ namespace Mimical
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(W1Rapid.range * 1.5f);
-                for (var i = 0; i < W1Rapid.bullets; i++)
+                yield return new WaitForSeconds(W1Rapid.Range * 1.5f);
+                for (var i = 0; i < W1Rapid.Bullets; i++)
                 {
                     bullets[0].Instance(point.transform.position, Quaternion.identity);
-                    yield return new WaitForSeconds(W1Rapid.range / W1Rapid.bullets);
+                    yield return new WaitForSeconds(W1Rapid.Range / W1Rapid.Bullets);
                 }
             }
         }
@@ -142,25 +142,32 @@ namespace Mimical
             activeLevel = 1;
             _.Once(() =>
             {
-                point.transform.eulerAngles = new(0, 0, 60);
+                isBarrage = true;
+                point.transform.eulerAngles = new(0, 0, 120);
                 StartCoroutine(Barrage());
             });
-            (float Max, float Min) barrageRange = (120, 60);
-            if (point.transform.eulerAngles.z > barrageRange.Max || point.transform.eulerAngles.z < barrageRange.Min)
+            (float Max, float Min) Range = (120, 60);
+            if (isBarrage)
             {
-                speed *= -1; // 逆回転
+                if (point.transform.eulerAngles.z > Range.Max || point.transform.eulerAngles.z < Range.Min)
+                {
+                    print("reverse");
+                    rotate *= -1; // reverse
+                }
+                point.transform.Rotate(new Vector3(0, 0, baseSpeed * rotate * Time.deltaTime));
             }
-            point.transform.Rotate(new Vector3(0, 0, baseSpeed * speed * Time.deltaTime));
         }
+
+        bool isBarrage = false;
         IEnumerator Barrage()
         {
-            int i = 0;
-            while (i <= 100) // 100 bullets
+            for (int i = 0; i < 10; i++)
             {
-                yield return new WaitForSecondsRealtime(barrageRapid);
-                i++;
+                yield return new WaitForSecondsRealtime(BarrageRapid);
                 bullets[1].Instance(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
             }
+            isBarrage = false;
+            point.transform.eulerAngles = Vector3.zero;
         }
 
         /// <summary>
@@ -212,26 +219,20 @@ namespace Mimical
 
         void SpawnSpide()
         {
-            if (!(spideSW.SecondF() >= spawnSpideSpan))
+            if (spideSW.SecondF() >= spawnSpideSpan)
             {
-                return;
+                var spide = mobs[((int)Mobs.Spide)].Instance();
+                spide.GetComponent<Spide>().SetLevel(new Weight(1, 0.5f, 0.25f).Choose());
+                spideSW.Restart();
+                spawnSpideSpan = Rnd.Int(20, 30);
             }
-
-            var spide = mobs[((int)Mobs.Spide)].Instance();
-            if (spide.TryGetComponent<Spide>(out var _spide))
-            {
-                // TODO
-                // _spide.SetLevel(Rnd.Pro(new Dictionary<int, float>() { { 0, 50 }, { 1, 25 }, { 2, 12.5f } }));
-            }
-            spideSW.Restart();
-            spawnSpideSpan = Rnd.Int(20, 30);
         }
 
         public void ChangeBodyColor()
         {
             foreach (var i in colour)
             {
-                if (bossRemain >= i.remainHp)
+                if (bossRemain >= i.hpBorder)
                 {
                     sr.color = i.color;
                     break;
@@ -243,11 +244,11 @@ namespace Mimical
         {
             switch (_level)
             {
-                case 0: return bossRemain >= colour[((int)Level.First)].remainHp;
-                case 1: return bossRemain >= colour[((int)Level.Second)].remainHp && bossRemain < colour[((int)Level.First)].remainHp;
-                case 2: return bossRemain >= colour[((int)Level.Third)].remainHp && bossRemain < colour[((int)Level.Second)].remainHp;
-                case 3: return bossRemain >= colour[((int)Level.Fourth)].remainHp && bossRemain < colour[((int)Level.Third)].remainHp;
-                case 4: return bossRemain >= colour[((int)Level.Fifth)].remainHp && bossRemain < colour[((int)Level.Fourth)].remainHp;
+                case 0: return bossRemain >= colour[((int)Level.First)].hpBorder;
+                case 1: return bossRemain >= colour[((int)Level.Second)].hpBorder && bossRemain < colour[((int)Level.First)].hpBorder;
+                case 2: return bossRemain >= colour[((int)Level.Third)].hpBorder && bossRemain < colour[((int)Level.Second)].hpBorder;
+                case 3: return bossRemain >= colour[((int)Level.Fourth)].hpBorder && bossRemain < colour[((int)Level.Third)].hpBorder;
+                case 4: return bossRemain >= colour[((int)Level.Fifth)].hpBorder && bossRemain < colour[((int)Level.Fourth)].hpBorder;
                 default: throw new System.Exception();
             }
         }

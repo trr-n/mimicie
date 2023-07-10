@@ -27,6 +27,7 @@ namespace Mimical
             public static int RedLilCBullet = -10;
             public static int RedSLilCBullet = -1;
             public static int RedHoming = -10;
+            public static int RedSpide = -50;
             public static int RedShuriken = -10;
         }
 

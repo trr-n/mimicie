@@ -17,6 +17,8 @@ namespace Mimical
         Color[] colors = { Color.white, new(0.21f, 0.98f, 0.4f), new(0.87f, 0.98f, 0.21f), new(0.98f, 0.66f, 0.21f), new(0.98f, 0.21f, 0.6f) };
         SpriteRenderer sr;
         Quaternion rotate;
+        float speed = 12f;
+        float accelRatio = 1.002f;
 
         void Start()
         {
@@ -29,7 +31,8 @@ namespace Mimical
 
         void Update()
         {
-            Move(speed: 12);
+            speed *= accelRatio;
+            Move(speed);
             OutOfScreen(gameObject);
         }
 
