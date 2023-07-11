@@ -130,7 +130,7 @@ namespace Cet
             if (!parry.IsParry)
             {
                 sw.Restart();
-                sr.color = Color.red;
+                sr.SetColor(Color.red);
             }
         }
     }

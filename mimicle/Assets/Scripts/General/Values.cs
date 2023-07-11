@@ -9,7 +9,7 @@ namespace Cet
             public static int Player = 34;
             public static int Charger = 5;
             public static int LilC = 10;
-            public static int SLilC = 5;
+            public static int BigC = 5;
             public static int Spide = 24;
             public static int Shuriken = 15;
         }
@@ -18,6 +18,7 @@ namespace Cet
         {
             public static int Charger = 100;
             public static int LilC = 500;
+            public static int BigC = 500;
             public static int Boss = 10000;
             public static int Spide = 250;
             public static int Ninja = 400;
@@ -25,7 +26,7 @@ namespace Cet
             public static int RedCharger = -10;
             public static int RedLilC = -100;
             public static int RedLilCBullet = -10;
-            public static int RedSLilCBullet = -1;
+            public static int RedBigCBullet = -10;
             public static int RedHoming = -10;
             public static int RedSpide = -50;
             public static int RedShuriken = -10;

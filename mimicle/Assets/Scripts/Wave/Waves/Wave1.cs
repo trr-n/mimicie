@@ -21,7 +21,7 @@ namespace Cet
         Stopwatch sw = new(), spawnTimer = new();
         int quota = 10;
         bool isDone => slain.Count >= quota;
-        (int Count, float Span, float Space) spawn = (3, 2, 1.5f);
+        (int Count, float Span, float Space) Spawn = (3, 2, 1.5f);
 
         void OnEnable()
         {
@@ -30,18 +30,19 @@ namespace Cet
 
         void Update()
         {
-            Spawn();
+            Make();
         }
 
-        One one = new();
-        void Spawn()
+        One MakeCharger = new();
+        One Saves = new();
+        void Make()
         {
             if (data.Now != 1)
             {
                 return;
             }
 
-            one.RunOnce(() => { StartCoroutine(Chargers()); });
+            MakeCharger.RunOnce(() => { StartCoroutine(Chargers()); });
 
             foreach (var charger in spawned)
             {
@@ -53,7 +54,7 @@ namespace Cet
 
             if (isDone)
             {
-                one1k.RunOnce(() =>
+                Saves.RunOnce(() =>
                 {
                     var hoge = GameManager.wave[0];
                     hoge.score = Score.Now;
@@ -69,23 +70,22 @@ namespace Cet
                 }
             }
         }
-        One one1k = new();
 
         IEnumerator Chargers()
         {
             float offset = 0f, spawnY = 0f;
             while (data.Now == 1 && !isDone)
             {
-                yield return new WaitForSecondsRealtime(spawn.Span);
-                offset = spawn.Space;
+                yield return new WaitForSecondsRealtime(Spawn.Span);
+                offset = Spawn.Space;
                 var playerPos = GameObject.FindGameObjectWithTag(Constant.Player).transform.position;
-                for (var i = 0; i < spawn.Count; i++)
+                for (var i = 0; i < Spawn.Count; i++)
                 {
                     spawnY = playerPos.y + offset;
                     spawnY = Mathf.Clamp(spawnY, -4, 4);
-                    spawned.Add(enemies.Instance(new(X, spawnY, transform.position.z), Quaternion.identity));
-                    offset -= spawn.Space;
-                    yield return new WaitForSecondsRealtime(spawn.Span / spawn.Count);
+                    spawned.Add(enemies[0].Instance(new(X, spawnY, transform.position.z), Quaternion.identity));
+                    offset -= Spawn.Space;
+                    yield return new WaitForSecondsRealtime(Spawn.Span / Spawn.Count);
                 }
             }
         }

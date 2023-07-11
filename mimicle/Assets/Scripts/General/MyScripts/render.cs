@@ -19,5 +19,8 @@ namespace Cet.Extend
                 yield return new WaitForSeconds(span);
             }
         }
+        public static bool Compare(this SpriteRenderer sr, Sprite sprite) => sr.sprite == sprite;
+        public static void SetSprite(this SpriteRenderer sr, Sprite sprite) => sr.sprite = sprite;
+        public static void SetSprite2(this SpriteRenderer sr, Sprite[] sprites) => sr.sprite = sprites.Choice3();
     }
 }
