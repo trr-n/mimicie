@@ -1,40 +1,69 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text.Json;
 using UnityEngine;
 
 namespace Mimicle.Extend
 {
     public class Save
     {
-        string password;
-        string path;
-
-        public Save(string password, string path)
+        public static void Write(object data, string password, string path)
         {
-            this.password = password;
-            this.path = path;
-        }
-
-        public void Write(object data)
-        {
-            var encrypt = new RijndaelEncryption(this.password);
-            var hexData = encrypt.Encrypt(JsonUtility.ToJson(data));
             using (FileStream stream = new(path, FileMode.Create))
             {
+                var encrypt = new RijndaelEncryption(password);
+                var dataArr = encrypt.Encrypt(JsonUtility.ToJson(data));
+                stream.Write(dataArr, 0, dataArr.Length);
+            }
+        }
+
+        public static void Read<T>(out T read, string password, string path)
+        {
+            using (FileStream stream = new(path, FileMode.Open))
+            {
+                byte[] readArr = new byte[stream.Length];
+                stream.Read(readArr, 0, ((int)stream.Length));
+                var decrypt = new RijndaelEncryption(password);
+                read = JsonUtility.FromJson<T>(decrypt.DecryptToString(readArr));
+            }
+        }
+
+        [System.Obsolete]
+        public static void Write2(object data, string password, string path)
+        {
+            using (FileStream stream = new(path, FileMode.Create))
+            {
+                var encrypt = new RijndaelEncryption(password);
+                var hexData = encrypt.Encrypt(JsonSerializer.Serialize(data));
                 stream.Write(hexData, 0, hexData.Length);
             }
         }
 
-        public T Read<T>()
+        [System.Obsolete]
+        public static void Read2<T>(out T read, string password, string path)
         {
-            byte[] read;
             using (FileStream stream = new(path, FileMode.Open))
             {
-                read = new byte[stream.Length];
-                stream.Read(read, 0, ((int)stream.Length));
+                byte[] readArr = new byte[stream.Length];
+                stream.Read(readArr, 0, ((int)stream.Length));
+                var decrypt = new RijndaelEncryption(password);
+                read = JsonSerializer.Deserialize<T>(decrypt.DecryptToString(readArr));
             }
-            var decrypt = new RijndaelEncryption(this.password);
-            return JsonUtility.FromJson<T>(decrypt.DecryptToString(read));
+        }
+
+    }
+
+    class Example
+    {
+        struct SaveData { public string name; }
+
+        void Examples()
+        {
+            // write //
+            Save.Write(new SaveData { name = "hoge" }, "hoge", Application.dataPath + "huga.bin");
+
+            // read //
+            Save.Read<SaveData>(out var data, "hoge", Application.dataPath + "huga.bin");
+            _ = data.name;
         }
     }
 }
