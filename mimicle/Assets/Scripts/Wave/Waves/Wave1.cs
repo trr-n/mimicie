@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 using System.Collections;
 
-namespace Cet
+namespace Mimicle
 {
     public sealed class Wave1 : MonoBehaviour//WaveData
     {

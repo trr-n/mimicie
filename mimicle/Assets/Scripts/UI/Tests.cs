@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet
+namespace Mimicle
 {
     public class Tests : MonoBehaviour
     {

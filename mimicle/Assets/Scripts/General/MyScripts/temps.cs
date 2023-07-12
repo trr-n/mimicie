@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public enum Style { Standard, Rebirth }
     public static class Temps

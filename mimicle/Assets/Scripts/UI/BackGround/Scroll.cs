@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Cet.Extend;
+using Mimicle.Extend;
 using UnityEngine;
 
-namespace Cet
+namespace Mimicle
 {
     public class Scroll : MonoBehaviour
     {

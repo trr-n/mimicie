@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Cet.Extend;
+using Mimicle.Extend;
 
-using static Cet.Extend.Sys;
+using static Mimicle.Extend.Sys;
 
-namespace Cet
+namespace Mimicle
 {
     public class EscMenu : MonoBehaviour
     {

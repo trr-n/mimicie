@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public class PlayerBullet : Bullet
     {

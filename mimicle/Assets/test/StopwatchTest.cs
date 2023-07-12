@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet.Test
+namespace Mimicle.Test
 {
     public class StopwatchTest : MonoBehaviour
     {

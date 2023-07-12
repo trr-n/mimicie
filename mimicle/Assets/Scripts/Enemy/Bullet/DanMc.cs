@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet
+namespace Mimicle
 {
     public class DanMc : Bullet
     {

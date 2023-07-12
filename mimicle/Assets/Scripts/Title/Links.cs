@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cet
+namespace Mimicle
 {
     public class Links : MonoBehaviour
     {

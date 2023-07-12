@@ -1,7 +1,7 @@
-using Cet.Extend;
+using Mimicle.Extend;
 using UnityEngine;
 
-namespace Cet
+namespace Mimicle
 {
     public class Wave3 : MonoBehaviour
     {

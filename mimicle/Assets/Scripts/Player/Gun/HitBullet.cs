@@ -1,7 +1,7 @@
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet
+namespace Mimicle
 {
     [RequireComponent(typeof(AudioSource))]
     public class HitBullet : MonoBehaviour

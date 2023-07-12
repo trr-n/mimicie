@@ -1,6 +1,6 @@
 ﻿using static UnityEngine.SystemInfo;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public static class Sys
     {

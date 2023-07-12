@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public static class Rnd
     {

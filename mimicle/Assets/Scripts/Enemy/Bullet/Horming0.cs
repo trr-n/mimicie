@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet
+namespace Mimicle
 {
     public class Horming0 : Bullet
     {

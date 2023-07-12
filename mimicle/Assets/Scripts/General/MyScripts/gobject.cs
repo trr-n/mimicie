@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public enum Active { Self, Hierarchy }
     public static class Gobject

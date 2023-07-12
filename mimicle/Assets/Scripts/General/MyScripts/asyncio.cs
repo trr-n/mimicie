@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public static class Asyncio
     {

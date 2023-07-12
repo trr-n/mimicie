@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cet
+namespace Mimicle
 {
     public class WaveUI : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public class One
     {

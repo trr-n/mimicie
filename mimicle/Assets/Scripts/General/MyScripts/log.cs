@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public enum LogType { Standard, Warning, Error }
     public static class log

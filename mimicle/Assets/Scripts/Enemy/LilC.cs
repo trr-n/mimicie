@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 using DG.Tweening;
 
-namespace Cet
+namespace Mimicle
 {
     public sealed class LilC : Enemy
     {

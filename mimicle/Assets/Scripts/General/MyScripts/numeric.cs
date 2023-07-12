@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public static class Numeric
     {

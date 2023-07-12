@@ -1,7 +1,7 @@
 using UnityEngine;
 using static UnityEngine.SceneManagement.SceneManager;
 
-namespace Cet.Extend
+namespace Mimicle.Extend
 {
     public class Site
     {

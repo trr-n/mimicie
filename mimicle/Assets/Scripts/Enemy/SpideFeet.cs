@@ -1,7 +1,7 @@
 using UnityEngine;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet
+namespace Mimicle
 {
     public class SpideFeet : MonoBehaviour
     {

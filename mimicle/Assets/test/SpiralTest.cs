@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Cet.Extend;
+using Mimicle.Extend;
 
-namespace Cet.Test
+namespace Mimicle.Test
 {
     public class SpiralTest : MonoBehaviour
     {

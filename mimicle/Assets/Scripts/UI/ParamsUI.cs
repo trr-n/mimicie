@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Cet
+namespace Mimicle
 {
     public class ParamsUI : MonoBehaviour
     {
