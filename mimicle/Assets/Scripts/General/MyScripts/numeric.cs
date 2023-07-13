@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public static class Numeric
     {

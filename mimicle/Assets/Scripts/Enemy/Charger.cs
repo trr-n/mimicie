@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 using DG.Tweening;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public sealed class Charger : Enemy
     {

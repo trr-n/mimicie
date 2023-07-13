@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using static UnityEngine.Cursor;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public enum c { hide, show }
     public enum v { inscene = CursorLockMode.Confined, locked = CursorLockMode.Locked, unlocked = CursorLockMode.None }

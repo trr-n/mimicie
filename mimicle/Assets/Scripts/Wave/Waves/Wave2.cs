@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 using System.Collections;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {

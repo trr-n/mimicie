@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public class BigC : Enemy
     {

@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public static class File
     {

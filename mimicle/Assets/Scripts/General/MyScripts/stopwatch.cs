@@ -1,6 +1,6 @@
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public class Stopwatch

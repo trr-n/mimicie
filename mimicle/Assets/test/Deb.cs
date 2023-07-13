@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Mimicle.Test
+namespace UnionEngine.Test
 {
     public class Deb : MonoBehaviour
     {

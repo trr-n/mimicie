@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 using DG.Tweening;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public sealed class LilC : Enemy
     {

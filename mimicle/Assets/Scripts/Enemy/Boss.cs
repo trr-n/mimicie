@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 using DG.Tweening;
 using UnityEngine.UI;
 using System;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public class Boss : MonoBehaviour
     {

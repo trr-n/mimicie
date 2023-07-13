@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.MonoBehaviour;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public enum Active { Self, Hierarchy }
 

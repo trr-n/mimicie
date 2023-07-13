@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 
-namespace Mimicle.Test
+namespace UnionEngine.Test
 {
     public class StopwatchTest : MonoBehaviour
     {

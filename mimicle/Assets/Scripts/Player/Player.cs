@@ -1,7 +1,7 @@
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 
-namespace Mimicle
+namespace UnionEngine
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]

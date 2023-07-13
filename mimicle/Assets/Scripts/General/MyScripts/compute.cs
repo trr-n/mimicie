@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Mimicle.Extend
+namespace Urchin.Extend
 {
     public static class Compute
     {

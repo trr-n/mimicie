@@ -1,7 +1,7 @@
 using UnityEngine;
-using Mimicle.Extend;
+using UnionEngine.Extend;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public enum Activate { First, Second, Third }
     public class WaveData : MonoBehaviour

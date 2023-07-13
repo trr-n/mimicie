@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public class ParryUI : MonoBehaviour
     {

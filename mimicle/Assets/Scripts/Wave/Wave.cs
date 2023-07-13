@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mimicle
+namespace UnionEngine
 {
     public class Wave : MonoBehaviour
     {

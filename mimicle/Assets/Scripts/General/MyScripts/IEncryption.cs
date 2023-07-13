@@ -1,4 +1,4 @@
-﻿namespace Mimicle.Extend
+﻿namespace UnionEngine.Extend
 {
     public interface IEncryption
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mimicle
+namespace SeaUrchinTea
 {
     public class ParticleManager : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public enum Style { Standard, Rebirth }
     public static class Temps

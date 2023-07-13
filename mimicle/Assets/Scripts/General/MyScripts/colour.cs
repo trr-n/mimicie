@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public static class Colour
     {

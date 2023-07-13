@@ -2,7 +2,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public class RijndaelEncryption : IEncryption
     {

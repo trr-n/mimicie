@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public static class Rnd
     {

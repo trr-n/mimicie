@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mimicle.Extend
+namespace UnionEngine.Extend
 {
     public class One
     {
