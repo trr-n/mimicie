@@ -1,11 +1,30 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.Json;
 using UnityEngine;
 
 namespace Mimicle.Extend
 {
-    public class Save
+    public sealed class Save
     {
+        readonly string path;
+        readonly string password;
+        // Type type;
+
+        public Save(string path, string password)
+        {
+            this.path = path;
+            this.password = password;
+        }
+
+        public void Write(object data) => Write(data, this.password, this.path);
+
+        public T Read<T>()
+        {
+            Read<T>(out T read, this.password, this.path);
+            return read;
+        }
+
         public static void Write(object data, string password, string path)
         {
             using (FileStream stream = new(path, FileMode.Create))
@@ -26,44 +45,30 @@ namespace Mimicle.Extend
                 read = JsonUtility.FromJson<T>(decrypt.DecryptToString(readArr));
             }
         }
-
-        [System.Obsolete]
-        public static void Write2(object data, string password, string path)
-        {
-            using (FileStream stream = new(path, FileMode.Create))
-            {
-                var encrypt = new RijndaelEncryption(password);
-                var hexData = encrypt.Encrypt(JsonSerializer.Serialize(data));
-                stream.Write(hexData, 0, hexData.Length);
-            }
-        }
-
-        [System.Obsolete]
-        public static void Read2<T>(out T read, string password, string path)
-        {
-            using (FileStream stream = new(path, FileMode.Open))
-            {
-                byte[] readArr = new byte[stream.Length];
-                stream.Read(readArr, 0, ((int)stream.Length));
-                var decrypt = new RijndaelEncryption(password);
-                read = JsonSerializer.Deserialize<T>(decrypt.DecryptToString(readArr));
-            }
-        }
-
     }
 
     class Example
     {
+        const string PW = "hoge";
+        string path = Application.dataPath + "huga.bin";
+
         struct SaveData { public string name; }
+        SaveData data = new SaveData { name = "hoge" };
 
-        void Examples()
+        void Examplez()
         {
-            // write //
-            Save.Write(new SaveData { name = "hoge" }, "hoge", Application.dataPath + "huga.bin");
+            // instance
+            Save save = new(path, PW);
+            save.Write(this.data);
 
-            // read //
-            Save.Read<SaveData>(out var data, "hoge", Application.dataPath + "huga.bin");
+            var data = save.Read<SaveData>();
             _ = data.name;
+
+            // static
+            Save.Write(data, PW, path);
+
+            Save.Read<SaveData>(out var readData, PW, path);
+            _ = readData.name;
         }
     }
 }

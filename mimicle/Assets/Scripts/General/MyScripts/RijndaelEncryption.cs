@@ -10,23 +10,23 @@ namespace Mimicle.Extend
         readonly (int bufferKey, int block, int key) size;
 
         public RijndaelEncryption(
-            string password_, int bufferKey = 32, int blockSize = 256, int keySize = 256)
+            string password, int bufferKey = 32, int blockSize = 256, int keySize = 256)
         {
-            this.password = password_;
-            this.size.bufferKey = bufferKey;
-            this.size.block = blockSize;
-            this.size.key = keySize;
+            this.password = password;
+            size.bufferKey = bufferKey;
+            size.block = blockSize;
+            size.key = keySize;
         }
 
         public byte[] Encrypt(byte[] src)
         {
-            RijndaelManaged rijndaelManaged = new RijndaelManaged();
+            RijndaelManaged rijndaelManaged = new();
             rijndaelManaged.BlockSize = size.block;
             rijndaelManaged.KeySize = size.key;
             rijndaelManaged.Mode = CipherMode.CBC;
             rijndaelManaged.Padding = PaddingMode.PKCS7;
 
-            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(password, size.bufferKey);
+            Rfc2898DeriveBytes deriveBytes = new(password, size.bufferKey);
             byte[] salt = deriveBytes.Salt;
             rijndaelManaged.Key = deriveBytes.GetBytes(size.bufferKey);
             rijndaelManaged.GenerateIV();
@@ -34,7 +34,7 @@ namespace Mimicle.Extend
             using (ICryptoTransform encrypt = rijndaelManaged.CreateEncryptor(rijndaelManaged.Key, rijndaelManaged.IV))
             {
                 byte[] dest = encrypt.TransformFinalBlock(src, 0, src.Length);
-                List<byte> compile = new List<byte>(salt);
+                List<byte> compile = new(salt);
                 compile.AddRange(rijndaelManaged.IV);
                 compile.AddRange(dest);
                 return compile.ToArray();
@@ -45,17 +45,17 @@ namespace Mimicle.Extend
 
         public byte[] Decrypt(byte[] src)
         {
-            RijndaelManaged rijndaelManaged = new RijndaelManaged();
+            RijndaelManaged rijndaelManaged = new();
             rijndaelManaged.BlockSize = size.block;
             rijndaelManaged.KeySize = size.key;
             rijndaelManaged.Mode = CipherMode.CBC;
             rijndaelManaged.Padding = PaddingMode.PKCS7;
 
-            List<byte> compile = new List<byte>(src);
+            List<byte> compile = new(src);
             List<byte> salt = compile.GetRange(0, size.bufferKey);
             rijndaelManaged.IV = compile.GetRange(size.bufferKey, size.bufferKey).ToArray();
 
-            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(password, salt.ToArray());
+            Rfc2898DeriveBytes deriveBytes = new(password, salt.ToArray());
             rijndaelManaged.Key = deriveBytes.GetBytes(size.bufferKey);
 
             byte[] plain = compile.GetRange(size.bufferKey * 2, compile.Count - (size.bufferKey * 2)).ToArray();
@@ -68,3 +68,8 @@ namespace Mimicle.Extend
         public string DecryptToString(byte[] src) => Encoding.UTF8.GetString(Decrypt(src));
     }
 }
+
+// https://www.tohoho-web.com/ex/crypt.html
+// CBC https://ja.wikipedia.org/wiki/%E6%9A%97%E5%8F%B7%E5%88%A9%E7%94%A8%E3%83%A2%E3%83%BC%E3%83%89#Cipher_Block_Chaining_(CBC)
+// PKCS7 https://www.mtioutput.com/entry/2019/01/08/152559
+// salt https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%AB%E3%83%88_(%E6%9A%97%E5%8F%B7)

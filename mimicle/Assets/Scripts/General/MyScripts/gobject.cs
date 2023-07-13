@@ -1,16 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.MonoBehaviour;
 
 namespace Mimicle.Extend
 {
     public enum Active { Self, Hierarchy }
+
     public static class Gobject
     {
-        public static GameObject Instance(this GameObject[] gobjects, Vector3 position = new(), Quaternion rotation = new())
-        => UnityEngine.MonoBehaviour.Instantiate(gobjects[Rnd.Choice(gobjects)], position, rotation);
-        public static GameObject Instance(this GameObject gobject, Vector3 position = new(), Quaternion rotation = new())
-        => UnityEngine.MonoBehaviour.Instantiate(gobject, position, rotation);
-        public static GameObject Instance(this GameObject gob) => UnityEngine.MonoBehaviour.Instantiate(gob);
+        public static GameObject Instance(this GameObject[] g, Vector3 p = new(), Quaternion r = new()) => MonoBehaviour.Instantiate(g[Rnd.Choice(g)], p, r);
+        public static GameObject Instance(this GameObject g, Vector3 p = new(), Quaternion r = new()) => MonoBehaviour.Instantiate(g, p, r);
+        public static GameObject Instance(this GameObject gob) => MonoBehaviour.Instantiate(gob);
         public static bool Compare(this Collision info, string tag) => info.gameObject.CompareTag(tag);
         public static bool Compare(this Collider info, string tag) => info.CompareTag(tag);
         public static bool Compare(this Collision2D info, string tag) => info.gameObject.CompareTag(tag);
@@ -26,11 +26,11 @@ namespace Mimicle.Extend
         public static bool Try<T>(this GameObject gob, out T t) => gob.TryGetComponent<T>(out t);
         public static GameObject Find(string tag) => GameObject.FindGameObjectWithTag(tag);
         public static GameObject[] Finds(string tag) => GameObject.FindGameObjectsWithTag(tag);
-        public static void Remove(this GameObject gob, float lifetime = 0) => UnityEngine.GameObject.Destroy(gob, lifetime);
-        public static void Remove(this Collider info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
-        public static void Remove(this Collider2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
-        public static void Remove(this Collision info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
-        public static void Remove(this Collision2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Destroy(this GameObject gob, float lifetime = 0) => UnityEngine.GameObject.Destroy(gob, lifetime);
+        public static void Destroy(this Collider info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Destroy(this Collider2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Destroy(this Collision info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
+        public static void Destroy(this Collision2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
         public static bool IsActive(this GameObject gob, Active? active = null) => active == Active.Self || active is null ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
         public static bool Exist(this GameObject obj) => obj.gameObject;

@@ -31,7 +31,7 @@ namespace Mimicle
 
             if (info.Compare(Constant.Bullet))
             {
-                info.Remove();
+                info.Destroy();
                 Destroy(gameObject);
             }
         }

@@ -77,7 +77,7 @@ namespace Mimicle
         {
             info.Get<HP>().Damage(damage);
             Score.Add(pers[4] * -2);
-            gameObject.Remove();
+            gameObject.Destroy();
         }
 
         void OnCollisionEnter2D(Collision2D info)
