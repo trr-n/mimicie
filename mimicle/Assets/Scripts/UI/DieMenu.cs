@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnionEngine.Extend;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class DieMenu : MonoBehaviour
     {

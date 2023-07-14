@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnionEngine.Extend;
+using Feather.Utils;
 using System.Collections;
 
-namespace UnionEngine
+namespace Feather
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {
@@ -51,7 +51,7 @@ namespace UnionEngine
                 {
                     data.ActivateWave(((int)Activate.Third));
                     slain.ResetCount();
-                    nextSW.Destruct();
+                    nextSW.Rubbish();
                 }
             }
         }

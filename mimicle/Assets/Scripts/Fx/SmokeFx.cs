@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnionEngine.Extend;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class SmokeFx : MonoBehaviour
     {

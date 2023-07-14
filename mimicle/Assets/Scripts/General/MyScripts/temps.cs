@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public enum Style { Standard, Rebirth }
     public static class Temps

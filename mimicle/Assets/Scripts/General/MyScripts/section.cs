@@ -1,9 +1,9 @@
 using UnityEngine;
 using static UnityEngine.SceneManagement.SceneManager;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
-    public class Site
+    public class Parallel
     {
         public static void Load(string name) => LoadScene(name);
         public static void Load(int index) => LoadScene(index);

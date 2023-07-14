@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public static class Coordinate
     {

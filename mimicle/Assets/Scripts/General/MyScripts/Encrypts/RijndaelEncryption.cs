@@ -2,7 +2,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public class RijndaelEncryption : IEncryption
     {

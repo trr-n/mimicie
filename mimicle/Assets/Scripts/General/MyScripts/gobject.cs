@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.MonoBehaviour;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public enum Active { Self, Hierarchy }
 

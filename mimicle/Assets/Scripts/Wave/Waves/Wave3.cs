@@ -1,7 +1,7 @@
-using UnionEngine.Extend;
+using Feather.Utils;
 using UnityEngine;
 
-namespace UnionEngine
+namespace Feather
 {
     public class Wave3 : MonoBehaviour
     {
@@ -39,15 +39,17 @@ namespace UnionEngine
             }
         }
 
-        One one = new();
+        One bossActivate = new();
         void Spawn()
         {
             if (data.Now != 3)
             {
                 return;
             }
+
             transform.position = new();
-            one.RunOnce(() =>
+
+            bossActivate.RunOnce(() =>
             {
                 foreach (var i in bossRelated)
                 {

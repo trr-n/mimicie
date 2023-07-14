@@ -1,4 +1,4 @@
-﻿namespace UnionEngine.Extend
+﻿namespace Feather.Utils
 {
     public interface IEncryption
     {

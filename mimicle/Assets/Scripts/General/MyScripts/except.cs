@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     [Serializable]
     public class Karappoyanke : Exception

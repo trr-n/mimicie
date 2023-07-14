@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using UnionEngine.Extend;
+using Feather.Utils;
 using DG.Tweening;
 
-namespace UnionEngine
+namespace Feather
 {
     public sealed class LilC : Enemy
     {

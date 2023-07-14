@@ -1,27 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnionEngine.Extend;
 using DG.Tweening;
-using UnityEngine.UI;
-using System;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class Boss : MonoBehaviour
     {
         [SerializeField, Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
         GameObject[] bullets;
 
-        [SerializeField, Tooltip("0: charger\n1: lilc\n2: slilc\n3: spide")]
+        [SerializeField, Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
         GameObject[] mobs;
-        enum Mobs
-        {
-            Charger,
-            LilC,
-            BigC,
-            Spide
-        }
+        readonly (int charger, int lilc, int bigc, int spide) Mobs = (0, 1, 2, 3);
 
         [SerializeField]
         GameObject point;
@@ -29,25 +20,23 @@ namespace UnionEngine
         [SerializeField]
         BossUI bossUI;
 
-        [System.Serializable]
-        struct Colour
-        {
-            public int hpBorder;
-            public Color color;
-        }
-        [SerializeField]
-        Colour[] colour = new Colour[5];
+        // [System.Serializable]
+        // struct Colour
+        // {
+        //     public int hpBorder;
+        //     public Color color;
+        // }
+        // [SerializeField]
+        // Colour[] colour = new Colour[5];
 
-        readonly (Quaternion Rotation, Vector3 Position, Vector3 Scale) initial = (
-            Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3));
+        readonly (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial = (
+            Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3), Color.green);
 
         new PolygonCollider2D collider;
         bool collide = true;
 
-        SpriteRenderer sr;
-        // HP bossHp, playerHp;
-        // int bossRemain = 0, playerRemain = 0;
-        (HP hp, int remain) boss, player;
+        SpriteRenderer bossr;
+        (HP hp, int remain) self, player;
 
         int activeLevel = 0;
         public int ActiveLevel => activeLevel;
@@ -55,50 +44,57 @@ namespace UnionEngine
 
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
-        Stopwatch spideSW = new(), l1SW = new(), l2SW = new();
+
+        // Stopwatch l1SW = new(), l2SW = new();
+
+        Stopwatch spideSW = new();
         float spawnSpideSpan = 5;
 
-        // const float BarrageRapid = 0.2f;
-        (int Bullets, float Range) W1Rapid = (5, 1.25f);
+        readonly (int Bullets, float Range) w1Rapid = (5, 1.25f);
 
         (float rotate, float basis, float rapid) barrageSpeed = (1, 30f, 0.2f);
-        // float rotate = 1;
-        // float baseSpeed = 30f;
         float posLerpSpeed = 5;
 
         void Start()
         {
             bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
+
             collider = GetComponent<PolygonCollider2D>();
             collider.isTrigger = true;
-            sr = GetComponent<SpriteRenderer>();
-            sr.color = colour[((int)Level.First)].color;
+
             player.hp = Gobject.Find(Constant.Player).GetComponent<HP>();
-            boss.hp = GetComponent<HP>();
-            boss.hp.SetMax();
-            transform.SetRotation(initial.Rotation);
-            transform.SetScale(initial.Scale);
+
+            transform.position = new(12, 0, 0);
+            transform.SetRotation(initial.rotation);
+            transform.SetScale(initial.scale);
+
             spideSW.Start();
         }
 
         void OnEnable()
         {
-            transform.DOMove(initial.Position, posLerpSpeed).SetEase(Ease.OutCubic);
+            self.hp = GetComponent<HP>();
+            self.hp.SetMax();
+
+            bossr = GetComponent<SpriteRenderer>();
+            bossr.color = initial.color;
+
+            transform.DOMove(initial.position, posLerpSpeed).SetEase(Ease.OutCubic);
         }
 
         void Update()
         {
-            Debug.DrawLine(point.transform.position, point.transform.up * 5, Color.HSVToRGB(Time.time % 1, 1, 1));
             Both();
-            if (boss.hp.IsZero)
+
+            if (self.hp.IsZero)
             {
-                Site.Load(Constant.Final);
+                Parallel.Load(Constant.Final);
             }
         }
 
         void Both()
         {
-            if (!Coordinate.Twins(transform.position, initial.Position))
+            if (!Coordinate.Twins(transform.position, initial.position))
             {
                 return;
             }
@@ -110,7 +106,7 @@ namespace UnionEngine
                 collide = false;
             }
 
-            boss.remain = Numeric.Percent(boss.hp.Ratio);
+            self.remain = Numeric.Percent(self.hp.Ratio);
             player.remain = Numeric.Percent(player.hp.Ratio);
 
             SpawnSpide();
@@ -145,11 +141,11 @@ namespace UnionEngine
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(W1Rapid.Range * 1.5f);
-                for (var i = 0; i < W1Rapid.Bullets; i++)
+                yield return new WaitForSeconds(w1Rapid.Range * 1.5f);
+                for (var i = 0; i < w1Rapid.Bullets; i++)
                 {
                     bullets[0].Instance(point.transform.position, Quaternion.identity);
-                    yield return new WaitForSeconds(W1Rapid.Range / W1Rapid.Bullets);
+                    yield return new WaitForSeconds(w1Rapid.Range / w1Rapid.Bullets);
                 }
             }
         }
@@ -269,39 +265,53 @@ namespace UnionEngine
         {
             if (spideSW.SecondF() >= spawnSpideSpan)
             {
-                var spide = mobs[((int)Mobs.Spide)].Instance();
+                var spide = mobs[Mobs.spide].Instance();
                 spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceByWeights(1, 0.5f, 0.25f));
                 spideSW.Restart();
                 spawnSpideSpan = Rnd.Int(20, 30);
             }
         }
 
-        public void ChangeBodyColor()
+        // public void ChangeBodyColor()
+        // {
+        //     foreach (var i in colour)
+        //     {
+        //         if (self.remain >= i.hpBorder)
+        //         {
+        //             bossr.color = i.color;
+        //             break;
+        //         }
+        //     }
+        // }
+
+        void UpdateEyeColor()
         {
-            foreach (var i in colour)
-            {
-                if (boss.remain >= i.hpBorder)
-                {
-                    sr.color = i.color;
-                    break;
-                }
-            }
+            // 100 ≧ hue ≧ 0
+            var hue = self.hp.Ratio * 100;
+            print(hue);
+            bossr.color = Color.HSVToRGB(hue / 360, 1, 1);
         }
 
         public bool isActiveLevel(int _level)
         {
+            int[] borders = { 100, 80, 60, 40, 20 };
             switch (_level)
             {
                 case 0:
-                    return boss.remain >= colour[((int)Level.First)].hpBorder;
+                    return self.remain >= borders[0];
+                // return self.remain >= colour[((int)Level.First)].hpBorder;
                 case 1:
-                    return boss.remain >= colour[((int)Level.Second)].hpBorder && boss.remain < colour[((int)Level.First)].hpBorder;
+                    return self.remain >= borders[1] && self.remain < borders[0];
+                // return self.remain >= colour[((int)Level.Second)].hpBorder && self.remain < colour[((int)Level.First)].hpBorder;
                 case 2:
-                    return boss.remain >= colour[((int)Level.Third)].hpBorder && boss.remain < colour[((int)Level.Second)].hpBorder;
+                    return self.remain >= borders[2] && self.remain < borders[1];
+                // return self.remain >= colour[((int)Level.Third)].hpBorder && self.remain < colour[((int)Level.Second)].hpBorder;
                 case 3:
-                    return boss.remain >= colour[((int)Level.Fourth)].hpBorder && boss.remain < colour[((int)Level.Third)].hpBorder;
+                    return self.remain >= borders[3] && self.remain < borders[2];
+                // return self.remain >= colour[((int)Level.Fourth)].hpBorder && self.remain < colour[((int)Level.Third)].hpBorder;
                 case 4:
-                    return boss.remain >= colour[((int)Level.Fifth)].hpBorder && boss.remain < colour[((int)Level.Fourth)].hpBorder;
+                    return self.remain >= borders[4] && self.remain < borders[3];
+                // return self.remain >= colour[((int)Level.Fifth)].hpBorder && self.remain < colour[((int)Level.Fourth)].hpBorder;
                 default: throw new System.Exception();
             }
         }
@@ -310,7 +320,8 @@ namespace UnionEngine
         {
             if (info.Compare(Constant.Bullet))
             {
-                ChangeBodyColor();
+                // ChangeBodyColor();
+                UpdateEyeColor();
                 bossUI.UpdateBossUI();
             }
         }

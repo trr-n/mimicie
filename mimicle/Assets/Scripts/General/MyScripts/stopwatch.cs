@@ -1,20 +1,22 @@
+using System;
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
-    public class Stopwatch
+    public sealed class Stopwatch
     {
         SystemStopwatch sw;
         public Stopwatch() => sw = new();
         public Stopwatch(bool b) { sw = new(); sw.Start(); }
-        ~Stopwatch() { Destruct(); }
-        public static void Destruct(params Stopwatch[] sw) { foreach (var i in sw) i.Destruct(); }
+        // ~Stopwatch() { Rubbish(); }
+        public static void Rubbish(params Stopwatch[] sw) { foreach (var i in sw) i.Rubbish(); }
+        public void Rubbish() { sw.Stop(); sw = null; }
         public void Start() => sw.Start();
+        public static void Start(params Stopwatch[] sw) { foreach (var i in sw) i.Start(); }
         public void Stop() => sw.Stop();
         public void Restart() => sw.Restart();
         public void Reset() => sw.Reset();
-        public void Destruct() { sw.Stop(); sw = null; }
         public bool IsRunning() => sw.IsRunning;
         public bool isRunning => sw.IsRunning;
         public int h => sw.Elapsed.Hours;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public enum LogType { Standard, Warning, Error }
     public static class log

@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnionEngine.Extend;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class CircleUI : MonoBehaviour
     {
         [SerializeField]
         Text timeT;
+
         [SerializeField]
-        Image hpGauge, hpbgGauge, parryGauge, ammoGauge;
+        Image hpGauge, parryGauge, ammoGauge;
+
         [SerializeField]
         Ammo ammo;
+
         [SerializeField]
         HP playerHp;
+
         [SerializeField]
         Parry parry;
+
         [SerializeField]
         Player player;
 
@@ -29,9 +34,9 @@ namespace UnionEngine
         }
         [SerializeField]
         ChangeColors[] change = new ChangeColors[4];
+
         float timerf = 0f;
         float prehp = 1f;
-        Stopwatch delaySW = new();
 
         void Update()
         {
@@ -50,6 +55,7 @@ namespace UnionEngine
                 timerf = 0f;
                 return;
             }
+
             timerf += Time.deltaTime;
             if (timerf <= player.Time2Reload)
             {

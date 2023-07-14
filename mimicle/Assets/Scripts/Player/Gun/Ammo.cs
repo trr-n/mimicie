@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnionEngine
+namespace Feather
 {
     public class Ammo : MonoBehaviour
     {

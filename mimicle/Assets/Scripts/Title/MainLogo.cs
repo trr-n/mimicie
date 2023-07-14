@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnionEngine.Extend;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class MainLogo : MonoBehaviour
     {
@@ -117,7 +117,7 @@ namespace UnionEngine
             {
                 if (renderer.Compare(logos[0]))
                 {
-                    Site.Load(Constant.Main);
+                    Parallel.Load(Constant.Main);
                 }
                 else if (renderer.Compare(logos[1]))
                 {

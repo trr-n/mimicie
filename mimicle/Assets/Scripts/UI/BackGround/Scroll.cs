@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using UnionEngine.Extend;
+using Feather.Utils;
 using UnityEngine;
 
-namespace UnionEngine
+namespace Feather
 {
     public class Scroll : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace UnionEngine
 
         void Awake()
         {
-            if (Site.Active() == Constant.Main)
+            if (Parallel.Active() == Constant.Main)
             {
                 manager = Gobject.Find(Constant.Manager).GetComponent<GameManager>();
             }
@@ -36,7 +36,7 @@ namespace UnionEngine
 
         void Update()
         {
-            if (Site.Active() == Constant.Main)
+            if (Parallel.Active() == Constant.Main)
             {
                 scroll = manager.BGScroll;
             }

@@ -15,7 +15,7 @@ public class SpideTest : MonoBehaviour
         if (timer >= 1)
         {
             var a = Instantiate(spide, new(0, 0, 1), Quaternion.identity);
-            a.GetComponent<UnionEngine.Spide>().SetLevel(2);
+            a.GetComponent<Feather.Spide>().SetLevel(2);
             timer = 0f;
         }
     }

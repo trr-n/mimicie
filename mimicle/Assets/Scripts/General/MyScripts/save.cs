@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 using UnityEngine;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public sealed class Save
     {
@@ -11,14 +11,17 @@ namespace UnionEngine.Extend
         readonly string password;
         // Type type;
 
+        [Obsolete]
         public Save(string path, string password)
         {
             this.path = path;
             this.password = password;
         }
 
+        [Obsolete]
         public void Write(object data) => Write(data, this.password, this.path);
 
+        [Obsolete]
         public T Read<T>()
         {
             Read<T>(out T read, this.password, this.path);
@@ -29,8 +32,8 @@ namespace UnionEngine.Extend
         {
             using (FileStream stream = new(path, FileMode.Create))
             {
-                var encrypt = new RijndaelEncryption(password);
-                var dataArr = encrypt.Encrypt(JsonUtility.ToJson(data));
+                IEncryption encrypt = new RijndaelEncryption(password);
+                byte[] dataArr = encrypt.Encrypt(JsonUtility.ToJson(data));
                 stream.Write(dataArr, 0, dataArr.Length);
             }
         }
@@ -41,7 +44,7 @@ namespace UnionEngine.Extend
             {
                 byte[] readArr = new byte[stream.Length];
                 stream.Read(readArr, 0, ((int)stream.Length));
-                var decrypt = new RijndaelEncryption(password);
+                IEncryption decrypt = new RijndaelEncryption(password);
                 read = JsonUtility.FromJson<T>(decrypt.DecryptToString(readArr));
             }
         }

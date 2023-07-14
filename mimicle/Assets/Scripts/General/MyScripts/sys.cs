@@ -1,6 +1,6 @@
 ﻿using static UnityEngine.SystemInfo;
 
-namespace UnionEngine.Extend
+namespace Feather.Utils
 {
     public static class Sys
     {

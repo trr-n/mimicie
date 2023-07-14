@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnionEngine.Extend;
+using Feather.Utils;
 using DG.Tweening;
 
-namespace UnionEngine
+namespace Feather
 {
     public sealed class Charger : Enemy
     {

@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnionEngine.Extend;
+using Feather.Utils;
 
-namespace UnionEngine
+namespace Feather
 {
     public class SceneManager : MonoBehaviour
     {
-        public void ToMain() => Site.Load(Constant.Main);
-        public void ToTitle() => Site.Load(Constant.Title);
+        public void ToMain() => Parallel.Load(Constant.Main);
+        public void ToTitle() => Parallel.Load(Constant.Title);
     }
 }
