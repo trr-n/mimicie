@@ -9,10 +9,11 @@ namespace Feather
         Material mat;
 
         HP hp_player;
+
         float blur = 0;
-        const float MaxBlur = 10f;
         bool max = false;
         public bool Max => max;
+        const float MaxBlur = 10f;
 
         void Start()
         {
@@ -25,12 +26,19 @@ namespace Feather
             if (hp_player.IsZero)
             {
                 blur = Numeric.Clamp(blur, 0, MaxBlur);
-                mat.SetFloat("_Blur", blur += Time.unscaledDeltaTime * MaxBlur);
+                // mat.SetFloat("_Blur", blur += Time.unscaledDeltaTime * MaxBlur);
+                blur += Time.unscaledDeltaTime * MaxBlur;
                 if (blur >= MaxBlur)
                 {
                     max = true;
                 }
             }
+        }
+
+        public void Reblur()
+        {
+            // mat.SetFloat("_Blur", 0);
+            // mat.SetFloat("_Blur", MaxBlur);
         }
     }
 }

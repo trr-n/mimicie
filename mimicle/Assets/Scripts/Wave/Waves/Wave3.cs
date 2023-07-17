@@ -35,7 +35,6 @@ namespace Feather
             if (boss.GetComponent<HP>().IsZero)
             {
                 data.IsDone = true;
-                Score.StopTimerFinal();
             }
         }
 

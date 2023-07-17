@@ -20,7 +20,7 @@ namespace Feather
 
         void Awake()
         {
-            if (Parallel.Active() == Constant.Main)
+            if (MyScene.Active() == Constant.Main)
             {
                 manager = Gobject.Find(Constant.Manager).GetComponent<GameManager>();
             }
@@ -36,7 +36,7 @@ namespace Feather
 
         void Update()
         {
-            if (Parallel.Active() == Constant.Main)
+            if (MyScene.Active() == Constant.Main)
             {
                 scroll = manager.BGScroll;
             }

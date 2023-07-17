@@ -27,14 +27,11 @@ namespace Feather
             waveUI.Start();
         }
 
-        bool b = true;
         void Update()
         {
-            if (IsDone && b)
+            if (IsDone)
             {
-                b = false;
-                Score.finalScore = Score.Now;
-                Score.finalTime = Score.Time;
+                ;
             }
         }
 
@@ -42,9 +39,14 @@ namespace Feather
         {
             now4ui = ((int)waves) + 1;
             waveObjs[now4ui - 1].SetActive(true);
+
             for (int i = 0; i < waveObjs.Length; i++)
+            {
                 if (now4ui - 1 != i)
+                {
                     waveObjs[i].SetActive(false);
+                }
+            }
         }
 
         public void ActivateWave(int index)
@@ -52,9 +54,14 @@ namespace Feather
             waveObjs[index].SetActive(true);
             now4ui = index + 1;
             waveUI.UpdateUI();
+
             for (var i = 0; i < waveObjs.Length; i++)
+            {
                 if (i != index)
+                {
                     waveObjs[i].SetActive(false);
+                }
+            }
         }
     }
 }

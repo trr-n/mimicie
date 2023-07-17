@@ -50,10 +50,10 @@ namespace Feather
                         "CPU: " + info[1].NewLine() +
                         "GPU: " + info[2].NewLine() +
                         "RAM: " + info[3] + "GB";
-                    manager.OpenMenu();
+                    manager.OpenMenuPanel();
                     return;
                 }
-                manager.CloseMenu();
+                manager.CloseMenuPanel();
             }
         }
     }

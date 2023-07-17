@@ -88,7 +88,7 @@ namespace Feather
 
             if (self.hp.IsZero)
             {
-                Parallel.Load(Constant.Final);
+                MyScene.Load(Constant.Final);
             }
         }
 

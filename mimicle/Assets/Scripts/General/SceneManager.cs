@@ -5,7 +5,7 @@ namespace Feather
 {
     public class SceneManager : MonoBehaviour
     {
-        public void ToMain() => Parallel.Load(Constant.Main);
-        public void ToTitle() => Parallel.Load(Constant.Title);
+        public void ToMain() => MyScene.Load(Constant.Main);
+        public void ToTitle() => MyScene.Load(Constant.Title);
     }
 }

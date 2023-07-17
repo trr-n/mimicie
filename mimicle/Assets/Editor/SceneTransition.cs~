@@ -1,0 +1,43 @@
+﻿using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using static UnityEngine.MonoBehaviour;
+
+namespace Feather.Customize
+{
+    public class SceneTransition : EditorWindow
+    {
+        readonly string Path = Application.dataPath + "/Scenes/";
+        (string[] names, int count) scene = (new string[] { "Title", "Main" }, 2);
+
+        [MenuItem("Mine/SceneTransition")]
+        static void Create()
+        {
+            EditorWindow window = GetWindow<SceneTransition>(title: "easy transitioner");
+            window.Show();
+        }
+
+        void OnGUI()
+        {
+            // scene.count = EditorSceneManager.sceneCountInBuildSettings;
+            // scene.count = EditorSceneManager.sceneCount;
+            // scene.names = scene.count <= 0 ? null : new string[scene.count];
+            EditorGUILayout.LabelField(scene.count.ToString());
+
+            // for (int i = 0; i < scene.count; i++)
+            // {
+            //     scene.names[i] = EditorSceneManager.GetSceneAt(i).name;
+            // }
+
+            foreach (var name in scene.names)
+            {
+                print("call");
+                EditorGUILayout.LabelField(name);
+                // if (GUILayout.Button(name))
+                // {
+                //     EditorSceneManager.OpenScene(Path + name);
+                // }
+            }
+        }
+    }
+}

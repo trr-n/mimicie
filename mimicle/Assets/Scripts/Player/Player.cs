@@ -40,6 +40,7 @@ namespace Feather
         public float Reload__ => reloadSW.SecondF(2);
         const float MaxReloadTime = 1f;
         public float ratio = 0f;
+        One WriteData = new();
 
         void Awake()
         {
@@ -109,7 +110,7 @@ namespace Feather
         {
             if (hp.IsZero)
             {
-                manager.PlayerIsDead();
+                WriteData.RunOnce(() => manager.PlayerIsDead());
             }
         }
 

@@ -117,7 +117,7 @@ namespace Feather
             {
                 if (renderer.Compare(logos[0]))
                 {
-                    Parallel.Load(Constant.Main);
+                    MyScene.Load(Constant.Main);
                 }
                 else if (renderer.Compare(logos[1]))
                 {

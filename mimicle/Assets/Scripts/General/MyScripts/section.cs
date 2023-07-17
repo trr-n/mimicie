@@ -3,7 +3,7 @@ using static UnityEngine.SceneManagement.SceneManager;
 
 namespace Feather.Utils
 {
-    public class Parallel
+    public class MyScene
     {
         public static void Load(string name) => LoadScene(name);
         public static void Load(int index) => LoadScene(index);

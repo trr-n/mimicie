@@ -21,8 +21,7 @@ namespace Feather
         List<GameObject> spawned = new();
         Stopwatch nextWaveSW = new();
         Stopwatch waveSW = new();
-        One MakeChargers = new();
-        One Saves = new();
+        One MakeChargers = new(), Saves = new();
 
         const float WaveLength = 15f;
         const float BreakTime = 2f;
@@ -61,13 +60,7 @@ namespace Feather
                 }
             }
 
-            Saves.RunOnce(() =>
-            {
-                var hoge = GameManager.wave[0];
-                hoge.score = Score.Now;
-                hoge.time = Score.Time;
-                StopCoroutine(Chargers());
-            });
+            StopCoroutine(Chargers());
 
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)

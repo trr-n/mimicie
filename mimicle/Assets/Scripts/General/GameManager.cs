@@ -19,7 +19,6 @@ namespace Feather
         public bool BGScroll { get; set; }
         public bool IsOpeningMenu { get; set; }
         public bool IsDead { get; set; }
-        public static ScoreAWave[] wave = new ScoreAWave[3];
 
         void Start()
         {
@@ -38,6 +37,7 @@ namespace Feather
                 Ctrlable = false;
                 BGScroll = false;
             }
+
             else if (Mynput.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
@@ -50,11 +50,19 @@ namespace Feather
         {
             Ctrlable = false;
             BGScroll = false;
-            Score.StopTimerFinal();
             Time.timeScale = 0;
+
+            Score.StopTimer();
+            ScoreData data = new ScoreData
+            {
+                wave = 1,
+                time = Score.Time,
+                score = Score.Now
+            };
+            Save.Write(data, "goigoisu-", Application.dataPath + "/score.sav");
         }
 
-        public void OpenMenu()
+        public void OpenMenuPanel()
         {
             menuPanel.SetActive(true);
             Score.StopTimer();
@@ -64,7 +72,7 @@ namespace Feather
             Time.timeScale = 0;
         }
 
-        public void CloseMenu()
+        public void CloseMenuPanel()
         {
             menuPanel.SetActive(false);
             Score.StartTimer();
