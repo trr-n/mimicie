@@ -28,9 +28,9 @@ namespace Feather.Utils
             return read;
         }
 
-        public static void Write(object data, string password, string path)
+        public static void Write(object data, string password, string path, FileMode fileMode = FileMode.Create)
         {
-            using (FileStream stream = new(path, FileMode.Create))
+            using (FileStream stream = new(path, fileMode))
             {
                 IEncryption encrypt = new RijndaelEncryption(password);
                 byte[] dataArr = encrypt.Encrypt(JsonUtility.ToJson(data));

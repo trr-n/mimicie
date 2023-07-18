@@ -20,14 +20,12 @@ namespace Feather
         [SerializeField]
         BossUI bossUI;
 
-        // [System.Serializable]
-        // struct Colour
-        // {
-        //     public int hpBorder;
-        //     public Color color;
-        // }
-        // [SerializeField]
-        // Colour[] colour = new Colour[5];
+        [SerializeField]
+        DieMenu finishedPanel;
+
+        [SerializeField]
+        GameManager manager;
+
 
         readonly (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial = (
             Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3), Color.green);
@@ -45,19 +43,25 @@ namespace Feather
         bool startBossBattle = false;
         public bool StartBossBattle => startBossBattle;
 
-        // Stopwatch l1SW = new(), l2SW = new();
-
-        Stopwatch spideSW = new();
-        float spawnSpideSpan = 5;
-
         readonly (int Bullets, float Range) w1Rapid = (5, 1.25f);
 
         (float rotate, float basis, float rapid) barrageSpeed = (1, 30f, 0.2f);
         float posLerpSpeed = 5;
 
+        Stopwatch spideSW = new();
+        // float spawnSpideSpan = 5;
+
+        Stopwatch hormingSW = new();
+        // float[] spawnHomingSpan => new float[] { 5.5f, 4.5f, 4f, 3f, 2f };
+
+        (float spide, float[] horming) span = (
+            spide: 5,
+            horming: new float[] { 5.5f, 4.5f, 4f, 3f, 2f }
+        );
+
         void Start()
         {
-            bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
+            // bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
 
             collider = GetComponent<PolygonCollider2D>();
             collider.isTrigger = true;
@@ -68,7 +72,7 @@ namespace Feather
             transform.SetRotation(initial.rotation);
             transform.SetScale(initial.scale);
 
-            spideSW.Start();
+            Stopwatch.Start(spideSW, hormingSW);
         }
 
         void OnEnable()
@@ -80,15 +84,25 @@ namespace Feather
             bossr.color = initial.color;
 
             transform.DOMove(initial.position, posLerpSpeed).SetEase(Ease.OutCubic);
+
+            Save.Read<ScoreData>(out data, "goigoisu-", Application.dataPath + "/score.sav");
         }
+        ScoreData data;
 
         void Update()
         {
             Both();
+            Dead();
+            print(data.time.Space() + data.score);
+        }
 
+        void Dead()
+        {
             if (self.hp.IsZero)
             {
-                MyScene.Load(Constant.Final);
+                // MyScene.Load(Constant.Final);
+                finishedPanel.SetText(isDead: false);
+                manager.PlayerIsDead();
             }
         }
 
@@ -110,6 +124,7 @@ namespace Feather
             player.remain = Numeric.Percent(player.hp.Ratio);
 
             SpawnSpide();
+            SpawnHoming();
 
             Lv1();
             Lv2();
@@ -249,26 +264,28 @@ namespace Feather
                 return;
             }
             activeLevel = 4;
-            o5.RunOnce(() => StartCoroutine(Lv5s()));
         }
 
-        IEnumerator Lv5s()
+        void SpawnHoming()
         {
-            while (isActiveLevel(((int)Level.Fifth)))
+            // if (homingSW.sf > spawnHomingSpan[activeLevel])
+            if (hormingSW.sf > span.horming[activeLevel])
             {
-                yield return new WaitForSeconds(5);
-                bullets[4].Instance(point.transform.position, Quaternion.identity);
+                bullets[4].Instance(transform.position);
+                hormingSW.Restart();
             }
         }
 
         void SpawnSpide()
         {
-            if (spideSW.SecondF() >= spawnSpideSpan)
+            // if (spideSW.SecondF() >= spawnSpideSpan)
+            if (spideSW.SecondF() >= span.spide)
             {
                 var spide = mobs[Mobs.spide].Instance();
                 spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceByWeights(1, 0.5f, 0.25f));
+                // spawnSpideSpan = Rnd.Int(20, 30);
+                span.spide = Rnd.Int(20, 30);
                 spideSW.Restart();
-                spawnSpideSpan = Rnd.Int(20, 30);
             }
         }
 
@@ -287,9 +304,8 @@ namespace Feather
         void UpdateEyeColor()
         {
             // 100 ≧ hue ≧ 0
-            var hue = self.hp.Ratio * 100;
-            print(hue);
-            bossr.color = Color.HSVToRGB(hue / 360, 1, 1);
+            var hue = self.hp.Ratio / 360 * 100;
+            bossr.color = Color.HSVToRGB(hue, 1, 1);
         }
 
         public bool isActiveLevel(int _level)
@@ -299,19 +315,14 @@ namespace Feather
             {
                 case 0:
                     return self.remain >= borders[0];
-                // return self.remain >= colour[((int)Level.First)].hpBorder;
                 case 1:
                     return self.remain >= borders[1] && self.remain < borders[0];
-                // return self.remain >= colour[((int)Level.Second)].hpBorder && self.remain < colour[((int)Level.First)].hpBorder;
                 case 2:
                     return self.remain >= borders[2] && self.remain < borders[1];
-                // return self.remain >= colour[((int)Level.Third)].hpBorder && self.remain < colour[((int)Level.Second)].hpBorder;
                 case 3:
                     return self.remain >= borders[3] && self.remain < borders[2];
-                // return self.remain >= colour[((int)Level.Fourth)].hpBorder && self.remain < colour[((int)Level.Third)].hpBorder;
                 case 4:
                     return self.remain >= borders[4] && self.remain < borders[3];
-                // return self.remain >= colour[((int)Level.Fifth)].hpBorder && self.remain < colour[((int)Level.Fourth)].hpBorder;
                 default: throw new System.Exception();
             }
         }

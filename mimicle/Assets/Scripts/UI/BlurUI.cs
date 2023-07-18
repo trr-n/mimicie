@@ -8,7 +8,10 @@ namespace Feather
         [SerializeField]
         Material mat;
 
-        HP hp_player;
+        [SerializeField]
+        HP boss;
+
+        HP player;
 
         float blur = 0;
         bool max = false;
@@ -17,13 +20,13 @@ namespace Feather
 
         void Start()
         {
-            hp_player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<HP>();
+            player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<HP>();
             mat.SetFloat("_Blur", 0);
         }
 
         void Update()
         {
-            if (hp_player.IsZero)
+            if (player.IsZero || boss.IsZero)
             {
                 blur = Numeric.Clamp(blur, 0, MaxBlur);
                 // mat.SetFloat("_Blur", blur += Time.unscaledDeltaTime * MaxBlur);

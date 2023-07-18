@@ -12,7 +12,8 @@ namespace Feather
 
         void Update()
         {
-            scores.text = $"のこりじかん: {Score.finalTime}\nすこあ: {Score.finalScore}";
+            // TODO スコア表示
+            // scores.text = $"のこりじかん: {Score.finalTime}\nすこあ: {Score.finalScore}";
         }
     }
 }

@@ -7,13 +7,17 @@ namespace Feather
     {
         [SerializeField]
         int startWave = 0;
+
         [SerializeField]
         EnemySpawner spawner;
-        public GameObject menuPanel;
+
         [SerializeField]
         Scroll scroll;
+
         [SerializeField]
         WaveData wdata;
+
+        public GameObject menuPanel;
 
         public bool Ctrlable { get; set; }
         public bool BGScroll { get; set; }
@@ -55,7 +59,7 @@ namespace Feather
             Score.StopTimer();
             ScoreData data = new ScoreData
             {
-                wave = 1,
+                wave = wdata.Now,
                 time = Score.Time,
                 score = Score.Now
             };
