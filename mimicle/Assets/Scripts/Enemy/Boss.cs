@@ -84,16 +84,12 @@ namespace Feather
             bossr.color = initial.color;
 
             transform.DOMove(initial.position, posLerpSpeed).SetEase(Ease.OutCubic);
-
-            Save.Read<ScoreData>(out data, "goigoisu-", Application.dataPath + "/score.sav");
         }
-        ScoreData data;
 
         void Update()
         {
             Both();
             Dead();
-            print(data.time.Space() + data.score);
         }
 
         void Dead()
@@ -282,7 +278,7 @@ namespace Feather
             if (spideSW.SecondF() >= span.spide)
             {
                 var spide = mobs[Mobs.spide].Instance();
-                spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceByWeights(1, 0.5f, 0.25f));
+                spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceIndexByWeights(1, 0.5f, 0.25f));
                 // spawnSpideSpan = Rnd.Int(20, 30);
                 span.spide = Rnd.Int(20, 30);
                 spideSW.Restart();
