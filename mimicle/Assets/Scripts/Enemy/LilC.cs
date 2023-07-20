@@ -1,46 +1,65 @@
 using System;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 using DG.Tweening;
 
-namespace Feather
+namespace MyGame
 {
     public sealed class LilC : Enemy
     {
         [SerializeField]
         GameObject bullet, fx;
 
-        HP hp;
+        /// <summary>
+        /// little cleverのHP
+        /// </summary>
+        HP lilcHP;
+
+        /// <summary>
+        /// 定位置
+        /// </summary>
         Vector2 firstPosition;
+
+        /// <summary>
+        /// 
+        /// </summary>
         Vector2 direction;
-        Stopwatch sw = new(true);
-        float rapid = 2;
+
+        /// <summary>
+        /// 連射用
+        /// </summary>
+        (float Span, Stopwatch sw) rapid = (2, new(true));
+
+        /// <summary>
+        /// 死亡処理
+        /// </summary>
+        One Dead = new();
 
         void Start()
         {
-            hp = GetComponent<HP>();
-            base.Start(hp);
+            lilcHP = GetComponent<HP>();
+            base.Start(lilcHP);
             Move();
         }
 
-        One one = new();
         void Update()
         {
             Left(gameObject);
 
-            if (sw.sf >= rapid)
+            if (rapid.sw.sf >= rapid.Span)
             {
-                bullet.Instance(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
-                sw.Restart();
+                bullet.Generate(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
+                rapid.sw.Restart();
             }
 
-            if (hp.IsZero)
+            if (lilcHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.LilC);
-                one.RunOnce(() =>
+
+                Dead.RunOnce(() =>
                 {
-                    fx.Instance(transform.position);
+                    fx.Generate(transform.position);
                     GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
                     playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
                 });

@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public static class File
     {

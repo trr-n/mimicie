@@ -1,17 +1,33 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class BossBullet0 : Bullet
     {
         [SerializeField]
         GameObject explosionFx;
 
-        float speed = 10;
-        Vector3 direction;
         Transform player;
+
+        /// <summary>
+        /// 移動速度
+        /// </summary>
+        float speed = 10;
+
+        /// <summary>
+        /// 進行方向
+        /// </summary>
+        Vector3 direction;
+
+        /// <summary>
+        /// 加速比
+        /// </summary>
         float accelarationRatio = 1.001f;
+
+        /// <summary>
+        /// プレイヤーの弾があたったらTrue
+        /// </summary>
         bool isHitPlayerBullet;
 
         void Start()

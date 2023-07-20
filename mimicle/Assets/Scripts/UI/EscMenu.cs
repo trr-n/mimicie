@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
-using static Feather.Utils.Sys;
+using MyGame.Utils;
+using static MyGame.Utils.Sys;
 
-namespace Feather
+namespace MyGame
 {
     public class EscMenu : MonoBehaviour
     {

@@ -1,26 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
 public class AAA : MonoBehaviour
 {
     [SerializeField]
-    List<float> numbers;
+    List<float> n1, n2, n3;
 
     int[] n = { 1, 20, 100 };
+
+    const int C = 10000;
 
     KeyValuePair<int, float>[] pairs = { new(1, 1), new(20, 20), new(100, 100) };
     Pair<int, float>[] pairs2 = { new(1, 1), new(20, 20), new(100, 100) };
 
     void Start()
     {
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < C; i++)
         {
-            // numbers.Add(n[Lottery.ChoiceByWeights(1, 20, 100)]);
-            // numbers.Add(Lottery.ChoChoi(n, new float[] { 1, 20, 100 }));
-            // numbers.Add(Lottery.ChoiceByWeights(pairs));
-            numbers.Add(Lottery.ChoiceByWeights(pairs2));
+            n1.Add(n[Lottery.Weighted(1, 20, 100)]);
+            // n2.Add(Lottery.Weighted(pairs));
+            // n3.Add(Lottery.Weighted(pairs2));
         }
     }
 }

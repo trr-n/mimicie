@@ -1,12 +1,20 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class LilCBullet : Bullet
     {
+        /// <summary>
+        /// 移動速度
+        /// </summary>
         float speed = 20;
+
         Transform playerTransform;
+
+        /// <summary>
+        /// 進行方向
+        /// </summary>
         Vector2 direction;
 
         void Start()

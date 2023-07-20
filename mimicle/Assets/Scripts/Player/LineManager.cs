@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public class LineManager : MonoBehaviour
     {

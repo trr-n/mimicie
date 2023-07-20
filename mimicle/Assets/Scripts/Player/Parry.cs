@@ -1,19 +1,47 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Parry : MonoBehaviour
     {
         [SerializeField]
         GameObject parry;
 
+        /// <summary>
+        /// クールタイム
+        /// </summary>
         const float CT = 2;
+
+        /// <summary>
+        /// 持続時間
+        /// </summary>
         float duration = 0.5f;
-        Stopwatch cooltimer = new(true), durationTimer = new();
+
+        /// <summary>
+        /// クールタイム計測用ストップウォッチ
+        /// </summary>
+        Stopwatch cooltimer = new(true);
+
+        /// <summary>
+        /// 持続時間計測用ストップウォッチ
+        /// </summary>
+        Stopwatch durationTimer = new();
+
+        /// <summary>
+        /// クールタイム表示用
+        /// </summary>
         public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CT);
+
+        /// <summary>
+        /// クールタイム中ならTrue
+        /// </summary>
         public bool isCT => cooltimer.isRunning;
+
         bool isParry = false;
+        /// <summary>
+        /// パリィ中ならTrue
+        /// </summary>
         public bool IsParry => isParry;
 
         void Start()
@@ -27,6 +55,9 @@ namespace Feather
             isParry = parry.IsActive(Active.Self);
         }
 
+        /// <summary>
+        /// パリィ生成
+        /// </summary>
         void MakeParry()
         {
             if (cooltimer.sf >= CT && Mynput.Down(Values.Key.Parry))

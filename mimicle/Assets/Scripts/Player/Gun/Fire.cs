@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Fire : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace Feather
 
         public void Shot()
         {
-            bullet.Instance(transform.position, Quaternion.Euler(0, 0, 180));
+            bullet.Generate(transform.position, Quaternion.Euler(0, 0, 180));
             speaker.PlayOneShot(se);
             ammo.Reduce();
         }

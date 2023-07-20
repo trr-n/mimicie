@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public class AESEncryption : IEncryption
     {

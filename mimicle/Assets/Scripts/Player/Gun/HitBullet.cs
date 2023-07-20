@@ -1,7 +1,7 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     [RequireComponent(typeof(AudioSource))]
     public class HitBullet : MonoBehaviour
@@ -26,7 +26,7 @@ namespace Feather
                 hp.Damage(info.gameObject.name.Contains("boss") ? Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
                 //TODO 着弾時の効果音つける 
                 // spk.PlayOneShot(se[0]);
-                fx.Instance(transform.position, Quaternion.identity);
+                fx.Generate(transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Feather.Test
+namespace MyGame.Test
 {
     public class Deb : MonoBehaviour
     {

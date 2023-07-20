@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Speaker : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public class RijndaelEncryption : IEncryption
     {
@@ -58,7 +58,8 @@ namespace Feather.Utils
             Rfc2898DeriveBytes deriveBytes = new(password, salt.ToArray());
             rijndaelManaged.Key = deriveBytes.GetBytes(size.bufferKey);
 
-            byte[] plain = compile.GetRange(size.bufferKey * 2, compile.Count - (size.bufferKey * 2)).ToArray();
+            int index = size.bufferKey * 2, count = compile.Count - (size.bufferKey * 2);
+            byte[] plain = compile.GetRange(index, count).ToArray();
             using (ICryptoTransform decrypt = rijndaelManaged.CreateDecryptor(rijndaelManaged.Key, rijndaelManaged.IV))
             {
                 return decrypt.TransformFinalBlock(plain, 0, plain.Length);

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
 public class HP : MonoBehaviour
 {

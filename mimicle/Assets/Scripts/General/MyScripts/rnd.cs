@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public static class Rnd
     {

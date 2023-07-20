@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public static class Constant
     {
-        public enum sindex
+        public enum Sindex
         {
             Title = 0,
             Main = 1
@@ -40,6 +40,8 @@ namespace Feather
         Boss = "Boss",
         TriggerZone = "TriggerArea",
         EnemyBullet = "EnemyBullet",
-        WaveManager = "WaveManager";
+        WaveManager = "WaveManager",
+        UpgradeItem = "Upgrade",
+        Ring = "Ring";
     }
 }

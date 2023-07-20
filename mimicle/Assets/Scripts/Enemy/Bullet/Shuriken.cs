@@ -1,23 +1,35 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Shuriken : Bullet
     {
+        /// <summary>
+        /// 移動方向
+        /// </summary>
         Vector3 direction;
+
+        /// <summary>
+        /// 
+        /// </summary>
         (float move, float rotate) speeds = (10, 10);
+
         TrailRenderer trail;
+
         SpriteRenderer sr;
+
         bool teleport;
 
         void Start()
         {
             trail = GetComponent<TrailRenderer>();
             sr = GetComponent<SpriteRenderer>();
+
             trail.time = 0.2f;
-            trail.startWidth = sr.bounds.size.y / 3;
+            trail.startWidth = sr.GetSpriteSize().y / 3;
             trail.endWidth = 0f;
+
             direction = -transform.right;
         }
 

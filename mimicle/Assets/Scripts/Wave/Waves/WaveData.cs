@@ -1,7 +1,7 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public enum Activate { First, Second, Third }
     public class WaveData : MonoBehaviour

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public class PlayerBullet : Bullet
     {

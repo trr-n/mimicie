@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public class One
     {

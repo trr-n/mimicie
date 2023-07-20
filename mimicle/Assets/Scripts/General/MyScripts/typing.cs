@@ -1,4 +1,4 @@
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public static class Typing
     {

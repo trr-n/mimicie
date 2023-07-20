@@ -1,4 +1,4 @@
-﻿namespace Feather.Utils
+﻿namespace MyGame.Utils
 {
     public interface IEncryption
     {

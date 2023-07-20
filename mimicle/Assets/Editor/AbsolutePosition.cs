@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace Feather.Customize
+namespace MyGame.Customize
 {
     [CustomEditor(typeof(Transform))]
     public class AbsolutePos : Editor

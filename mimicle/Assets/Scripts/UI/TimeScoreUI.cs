@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Feather
+namespace MyGame
 {
     public class TimeScoreUI : MonoBehaviour
     {

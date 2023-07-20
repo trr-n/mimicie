@@ -1,24 +1,40 @@
-using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class BigCBullet : Bullet
     {
         [SerializeField]
         GameObject fx;
 
-        (float basis, float Reduct) speed = (5, 0.01f);
-        Vector2 SpawnedPosition;
-        Vector2 dir;
-        (float Range, float DamageMagnification) explosion = (2f, 1.5f);
         GameObject player;
+
+        /// <summary>
+        /// 移動速度
+        /// </summary>
+        (float basis, float Reduct) speed = (5, 0.01f);
+
+        /// <summary>
+        /// 弾の生成座標
+        /// </summary>
+        Vector2 SpawnedPosition;
+
+        /// <summary>
+        /// 進行方向
+        /// </summary>
+        Vector2 dir;
+
+        /// <summary>
+        /// 爆発処理
+        /// </summary>
+        (float Range, float DamageMagnification) explosion = (2f, 1.5f);
 
         void Start()
         {
             dir = -transform.right;
             SpawnedPosition = transform.position;
+
             player = Gobject.Find(Constant.Player);
         }
 
@@ -29,10 +45,12 @@ namespace Feather
                 speed.basis -= speed.Reduct;
                 Move(speed.basis);
             }
+
             else
             {
                 ExploseDamage();
             }
+
             OutOfScreen(gameObject);
         }
 
@@ -44,13 +62,15 @@ namespace Feather
 
         void ExploseDamage()
         {
-            fx.Instance(transform.position);
-            GetComponent<BoxCollider2D>();
-            float distance = 0f;
-            if ((distance = Vector2.Distance(transform.position, player.transform.position)) <= explosion.Range)
+            fx.Generate(transform.position);
+            // GetComponent<BoxCollider2D>();
+
+            float distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance <= explosion.Range)
             {
                 player.GetComponent<HP>().Damage(((int)Numeric.Round(distance * explosion.DamageMagnification)));
             }
+
             Score.Add(Values.Point.RedBigCBullet);
             Destroy(gameObject);
         }
@@ -64,6 +84,7 @@ namespace Feather
         {
             info.Get<HP>().Damage(Values.Damage.BigC);
             Score.Add(Values.Point.RedBigCBullet);
+
             Destroy(gameObject);
         }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using static UnityEngine.SceneManagement.SceneManager;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public class MyScene
     {

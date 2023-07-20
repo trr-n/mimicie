@@ -1,28 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Spide : Enemy
     {
         [SerializeField]
         GameObject[] levels;
+
         [SerializeField]
         GameObject[] fxs;
 
-        int activeLevel = 0;
-        float speed = 1f;
-        int[] rotationSpeed = { 50, 90, 120 };
         SpriteRenderer sr;
+
+        /// <summary>
+        /// アクティブなレベル
+        /// </summary>
+        int activeLevel = 0;
+
+        /// <summary>
+        /// 移動速度
+        /// </summary>
+        float speed = 1f;
+
+        /// <summary>
+        /// 回転速度
+        /// </summary>
+        int[] rotationSpeed = { 50, 90, 120 };
+
+        /// <summary>
+        /// 死亡判定フラグ
+        /// </summary>
         bool dead;
+
+        /// <summary>
+        /// 透明度
+        /// </summary>
         float alpha = 1f;
 
         void Start()
         {
             sr = GetComponent<SpriteRenderer>();
-            // SetLevel(0);
         }
 
         One once = new();
@@ -41,9 +61,10 @@ namespace Feather
                 {
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
+
                     if (sr.color.a <= 0 && speed <= 0)
                     {
-                        fxs.Instance(transform.position);
+                        fxs.Generate(transform.position);
                         Destroy(gameObject);
                     }
                 });

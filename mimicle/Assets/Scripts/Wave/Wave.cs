@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public class Wave : MonoBehaviour
     {

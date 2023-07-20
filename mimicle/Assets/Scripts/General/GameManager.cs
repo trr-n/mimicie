@@ -1,7 +1,7 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public sealed class GameManager : MonoBehaviour
     {

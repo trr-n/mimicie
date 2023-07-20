@@ -2,79 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public static class Lottery
     {
-        public static int ChoiceIndexByWeights(params float[] weights)
+        // https://youtu.be/3CQCBQRq0FA
+        public static int Weighted(params float[] weights)
         {
-            float[] weight = weights;
             float[] cumulativeWeights = new float[weights.Length];
 
             float totalWeight = 0f;
-            for (int i = 0; i < weight.Length; i++)
+            for (int i = 0; i < weights.Length; i++)
             {
-                totalWeight += weight[i];
+                totalWeight += weights[i];
                 cumulativeWeights[i] = totalWeight;
             }
 
-            var rndNum = Rnd.Float(max: totalWeight);
+            float rndNum = Rnd.Float(max: totalWeight);
 
             int min = 0, max = cumulativeWeights.Length - 1;
             while (min < max)
             {
-                var centeri = (min + max) / 2;
-                var centerPoint = cumulativeWeights[centeri];
+                int center = (min + max) / 2;
+                float centerPoint = cumulativeWeights[center];
 
                 if (rndNum > centerPoint)
                 {
-                    min = centeri + 1;
+                    min = center + 1;
                 }
 
                 else
                 {
-                    var pre = centeri > 0 ? cumulativeWeights[centeri - 1] : 0;
+                    float pre = center > 0 ? cumulativeWeights[center - 1] : 0;
                     if (rndNum >= pre)
                     {
-                        return centeri;
+                        return center;
                     }
-                    max = centeri;
+                    max = center;
                 }
             }
+
             return max;
         }
 
-        // public static T ChoChoi<T>(T[] items, float[] weights)
-        // {
-        //     if (items.Length != weights.Length)
-        //     {
-        //         throw new System.Exception("数おおてへん");
-        //     }
-
-        //     int choice = 0;
-
-        //     float totalWeight = 0f;
-        //     foreach (var weight in weights)
-        //     {
-        //         totalWeight += weight;
-        //     }
-
-        //     float rnd = Rnd.Float(max: totalWeight);
-
-        //     for (int index = 0; index < items.Length; index++)
-        //     {
-        //         rnd -= weights[index];
-        //         if (rnd < 0f)
-        //         {
-        //             choice = index;
-        //             break;
-        //         }
-        //     }
-
-        //     return items[choice];
-        // }
-
-        public static T ChoiceByWeights<T>(params KeyValuePair<T, float>[] pairs)
+        public static T Weighted<T>(params KeyValuePair<T, float>[] pairs)
         {
             if (pairs.Length == 1)
             {
@@ -87,13 +58,13 @@ namespace Feather.Utils
                 weights[i] = pairs[i].Value;
             }
 
-            int choice = ChoiceIndexByWeights(weights);
+            int choice = Weighted(weights);
             return pairs[choice].Key;
         }
 
-        public static T ChoiceByWeights<T>(params KeyValuePair<T, int>[] pairs) => ChoiceByWeights(pairs);
+        public static T Weighted<T>(params KeyValuePair<T, int>[] pairs) => Weighted(pairs);
 
-        public static T ChoiceByWeights<T>(params Pair<T, float>[] pairs)
+        public static T Weighted<T>(params Pair<T, float>[] pairs)
         {
             if (pairs.Length == 1)
             {
@@ -106,9 +77,8 @@ namespace Feather.Utils
                 weights[i] = pairs[i].Value;
             }
 
-            int choice = ChoiceIndexByWeights(weights);
+            int choice = Weighted(weights);
             return pairs[choice].Key;
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using static UnityEngine.SystemInfo;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public static class Sys
     {

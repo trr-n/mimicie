@@ -1,7 +1,7 @@
-using Feather.Utils;
+using MyGame.Utils;
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public class Wave3 : MonoBehaviour
     {

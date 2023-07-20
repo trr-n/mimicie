@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public class Links : MonoBehaviour
     {

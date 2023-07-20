@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 using UnityEngine;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public sealed class Save
     {

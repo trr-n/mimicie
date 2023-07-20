@@ -1,7 +1,7 @@
 using System;
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace Feather.Utils
+namespace MyGame.Utils
 {
     public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public sealed class Stopwatch

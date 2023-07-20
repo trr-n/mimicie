@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 using System.Collections;
 
-namespace Feather
+namespace MyGame
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {
@@ -16,6 +16,9 @@ namespace Feather
         [SerializeField]
         Slain slain;
 
+        [SerializeField]
+        GameObject player, sidegunUpgradeItem;
+
         const int Quota = 4;
         float lilcSpawnY = -3.5f;
         int spawnCount = 0;
@@ -27,7 +30,7 @@ namespace Feather
         List<GameObject> spawned = new List<GameObject>();
         bool isDone1 => slain.Count >= Quota;
         bool isTrueClear = false;
-        One LilC = new();
+        One LilC = new(), UpgradeItem = new();
 
         void Update()
         {
@@ -40,6 +43,13 @@ namespace Feather
             {
                 return;
             }
+
+            UpgradeItem.RunOnce(() =>
+            {
+                Vector3 playerPos = player.transform.position;
+                sidegunUpgradeItem.Generate();
+            });
+
             transform.SetPosition(x: X);
 
             LilC.RunOnce(() => StartCoroutine(MakeLilC()));
@@ -60,7 +70,7 @@ namespace Feather
         {
             for (int i = 0; i < 4; i++)
             {
-                enemies[0].Instance(new(X, lilcSpawnY));
+                enemies[0].Generate(new(X, lilcSpawnY));
                 spanwSW.Restart();
                 lilcSpawnY += 8 / Offset; //04255319148936f;
                 yield return new WaitForSeconds(1f);

@@ -1,7 +1,7 @@
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
@@ -9,44 +9,123 @@ namespace Feather
     {
         [SerializeField]
         Ammo ammo;
+
         [SerializeField]
         Fire gun;
+
         [SerializeField]
         GameManager manager;
+
         [SerializeField]
         AudioClip[] damageSE;
+
         [SerializeField]
         Parry parry;
+
         [SerializeField]
         CircleUI circleUI;
 
-        // Gun
+        [SerializeField]
+        SideGun sidegun;
+
+        /// <summary>
+        /// 連射速度
+        /// </summary>
         const float RapidSpan = 0.1f;
+
         float time2reload = 0f;
+        /// <summary>
+        /// リロードにかかる時間
+        /// </summary>
         public float Time2Reload => time2reload;
+
         bool isReloading = false;
+        /// <summary>
+        /// リロード中ならTrue
+        /// </summary>
         public bool IsReloading => isReloading;
+
+        /// <summary>
+        /// リロードの進捗
+        /// </summary>
         public float ReloadProgress;
+
+        /// <summary>
+        /// 移動速度
+        /// </summary> 
         float movingSpeed = 5;
-        HP hp;
-        RaycastHit2D hit;
+
+        /// <summary>
+        /// プレイヤーのHP
+        /// </summary>
+        HP playerHP;
+
+        /// <summary>
+        /// リロード用ストップウォッチ
+        /// </summary>
         Stopwatch reloadSW = new();
+
+        /// <summary>
+        /// 連射用ストップウォッチ
+        /// </summary>
         Stopwatch rapidSW = new(true);
+
+        /// <summary>
+        /// 被弾のやつ用ストップウォッチ
+        /// </summary>
         Stopwatch sw = new();
-        SpriteRenderer sr;
+
+        /// <summary>
+        /// プレイヤーのSR
+        /// </summary>
+        SpriteRenderer playerSR;
+
+        /// <summary>
+        /// プレイヤーの当たり判定
+        /// </summary>
         new BoxCollider2D collider;
+
+        /// <summary>
+        /// 忍者がにんにんしてたらFalse
+        /// </summary>
         public bool NotNinnin = false;
+
+        RaycastHit2D hit;
+        /// <summary>
+        /// レーザーの着弾地点表示用
+        /// </summary>
         public RaycastHit2D Hit => hit;
+
+        /// <summary>
+        /// リロード用ストップウォッチ
+        /// </summary>
         public float Reload__ => reloadSW.SecondF(2);
+
+        /// <summary>
+        /// 最大リロード時間
+        /// </summary>
         const float MaxReloadTime = 1f;
+
+        /// <summary>
+        /// 残弾数の割合
+        /// </summary>
         public float ratio = 0f;
+
+        /// <summary>
+        /// セーブデータ書き込み用
+        /// </summary>
         One WriteData = new();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        int upgradeCount = 0;
 
         void Awake()
         {
-            hp = GetComponent<HP>();
+            playerHP = GetComponent<HP>();
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
-            sr = GetComponent<SpriteRenderer>();
+            playerSR = GetComponent<SpriteRenderer>();
             collider = GetComponent<BoxCollider2D>();
         }
 
@@ -57,14 +136,18 @@ namespace Feather
 
         void Update()
         {
+            upgradeCount = Numeric.Clamp(upgradeCount, 0, 2);
+
             Move();
             Dead();
             Reload();
+
             hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, 1 << 9 | 1 << 10);
             collider.isTrigger = parry.IsParry;
+
             if (sw.sf >= 0.2f)
             {
-                sr.color = Color.white;
+                playerSR.color = Color.white;
             }
         }
 
@@ -81,6 +164,7 @@ namespace Feather
         void Reload()
         {
             ReloadProgress = reloadSW.sf / time2reload;
+
             if (!isReloading)
             {
                 // リロード時間=残弾数の割合*n秒
@@ -108,7 +192,7 @@ namespace Feather
 
         void Dead()
         {
-            if (hp.IsZero)
+            if (playerHP.IsZero)
             {
                 WriteData.RunOnce(() => manager.PlayerIsDead());
             }
@@ -126,12 +210,19 @@ namespace Feather
             transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }
 
-        void OnCollisionEnter2D(Collision2D _)
+        void OnCollisionEnter2D(Collision2D info)
         {
+            if (info.Compare(Constant.UpgradeItem) && upgradeCount < 2)
+            {
+                sidegun.Add(upgradeCount++);
+                info.Destroy();
+                return;
+            }
+
             if (!parry.IsParry)
             {
                 sw.Restart();
-                sr.SetColor(Color.red);
+                playerSR.SetColor(Color.red);
             }
         }
     }

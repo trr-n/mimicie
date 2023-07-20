@@ -1,16 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public abstract class Enemy : MonoBehaviour
     {
         protected void Start(HP hp) => hp.SetMax();
 
+        /// <summary>
+        /// 移動処理
+        /// </summary>
         protected abstract void Move();
 
+        /// <summary>
+        /// 画面外にでたら破壊
+        /// </summary>
+        /// <param name="deadLine">ボーダー</param>
         protected virtual void Left(GameObject obj, float deadLine = -10.24f)
         {
             if (obj.transform.position.x <= deadLine)
@@ -19,9 +24,13 @@ namespace Feather
             }
         }
 
+        /// <summary>
+        /// 討伐数を増やして破壊する
+        /// </summary>
         protected void AddSlainCountAndRemove(GameObject gob)
         {
-            Gobject.Find(Constant.WaveManager).GetComponent<Slain>().AddCount();
+            Slain slain = Gobject.Find(Constant.WaveManager).GetComponent<Slain>();
+            slain.AddCount();
             Destroy(gob);
         }
     }

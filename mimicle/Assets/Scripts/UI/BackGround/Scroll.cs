@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Feather.Utils;
+using MyGame.Utils;
 using UnityEngine;
 
-namespace Feather
+namespace MyGame
 {
     public class Scroll : MonoBehaviour
     {

@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather.Test
+namespace MyGame.Test
 {
     public class StopwatchTest : MonoBehaviour
     {

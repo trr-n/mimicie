@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Tests : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace Feather
 
         void Update()
         {
-            fpsT.text = Render.Fps().ToString();
+            fpsT.text = Render.SetFPS().ToString();
         }
     }
 }

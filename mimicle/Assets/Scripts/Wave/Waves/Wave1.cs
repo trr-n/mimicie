@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public sealed class Wave1 : MonoBehaviour//WaveData
     {
@@ -86,7 +86,7 @@ namespace Feather
                     spawnCount++;
                     spawnY = playerPos.y + offset;
                     spawnY = Mathf.Clamp(spawnY, -4, 4);
-                    spawned.Add(enemies[0].Instance(new(X, spawnY), Quaternion.identity));
+                    spawned.Add(enemies[0].Generate(new(X, spawnY), Quaternion.identity));
                     offset -= Spawn.Space;
                     yield return new WaitForSecondsRealtime(Spawn.Span / Spawn.Count);
                 }

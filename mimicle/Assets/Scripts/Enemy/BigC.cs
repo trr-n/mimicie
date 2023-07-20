@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class BigC : Enemy
     {
@@ -35,7 +35,7 @@ namespace Feather
             while (true)
             {
                 yield return new WaitForSeconds(speeds.rotation / 360);
-                bullet.Instance(transform.position, transform.rotation);
+                bullet.Generate(transform.position, transform.rotation);
             }
         }
     }

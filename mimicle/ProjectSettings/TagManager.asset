@@ -16,6 +16,8 @@ TagManager:
   - TriggerArea
   - EnemyBullet
   - WaveManager
+  - Upgrade
+  - Ring
   layers:
   - Default
   - TransparentFX

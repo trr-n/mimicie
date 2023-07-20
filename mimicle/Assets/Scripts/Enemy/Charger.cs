@@ -2,27 +2,51 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 using DG.Tweening;
 
-namespace Feather
+namespace MyGame
 {
     public sealed class Charger : Enemy
     {
-        HP hp;
+        /// <summary>
+        /// chargerのHP
+        /// </summary>
+        HP chargerHP;
+
         new BoxCollider2D collider;
-        float accelRatio = 1.002f;
-        enum MovingType { Straight, Circular, Stiffly }
-        MovingType style = MovingType.Straight;
-        Vector3 SpawnPos;
         new SpriteRenderer renderer;
+
+        /// <summary>
+        /// 加速比
+        /// </summary>
+        float accelRatio = 1.002f;
+
+        enum MovingType { Straight, Circular, Stiffly }
+        /// <summary>
+        /// 移動タイプ
+        /// </summary>
+        MovingType style = MovingType.Straight;
+
+        /// <summary>
+        /// 初期座標
+        /// </summary>
+        Vector3 SpawnPos;
+
+        /// <summary>
+        /// 移動
+        /// </summary>
         (float x, float y) move = (5, 10);
+
+        /// <summary>
+        /// 円移動パターンの基礎速度
+        /// </summary>
         float cir = 1f;
 
         void Start()
         {
-            hp = GetComponent<HP>();
-            base.Start(hp);
+            chargerHP = GetComponent<HP>();
+            base.Start(chargerHP);
             collider = GetComponent<BoxCollider2D>();
             style = (MovingType)Rnd.Int(max: style.GetEnumLength());
             SpawnPos = transform.position;
@@ -33,7 +57,7 @@ namespace Feather
         {
             Move();
             Left(gameObject);
-            if (hp.IsZero)
+            if (chargerHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.Charger);

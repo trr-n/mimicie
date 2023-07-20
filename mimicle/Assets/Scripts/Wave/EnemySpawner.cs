@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class EnemySpawner : MonoBehaviour
     {
@@ -64,7 +64,7 @@ namespace Feather
             wave.Set(Wave.First);
             if (qset[Wave.First].timer >= qset[Wave.First].span && slain.Count <= qset[Wave.First].quota)
             {
-                spawnedEnemies.Add(enemies[Wave.First].Instance(transform.position, Quaternion.identity));
+                spawnedEnemies.Add(enemies[Wave.First].Generate(transform.position, Quaternion.identity));
                 qset[Wave.First].timer = 0;
             }
 
@@ -98,7 +98,7 @@ namespace Feather
             // 0123 = 4
             if (qset[Wave.Second].timer >= qset[Wave.Second].span && spawnCount < 4)
             {
-                enemies[Wave.Second].Instance(new(X, lilcSpawnY), Quaternion.identity);
+                enemies[Wave.Second].Generate(new(X, lilcSpawnY), Quaternion.identity);
                 qset[Wave.Second].timer = 0;
                 spawnCount++;
                 lilcSpawnY += 8 / 3.4f; //04255319148936f;
@@ -174,7 +174,7 @@ namespace Feather
             while (inProgress(Wave.First))
             {
                 yield return new WaitForSeconds(qset[Wave.First].span);
-                enemies[Wave.First].Instance(transform.position, Quaternion.identity);
+                enemies[Wave.First].Generate(transform.position, Quaternion.identity);
                 if (slain.Count >= qset[Wave.First].quota)
                 {
                     ActivateWave(Wave.Second);

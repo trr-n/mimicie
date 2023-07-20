@@ -1,16 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Horming0 : Bullet
     {
-        int level = 0;
-        int damage = 0;
+        /// <summary>
+        /// 現在のレベル、ダメージ
+        /// </summary>
+        (int level, int damage) current;
 
         Boss boss;
         GameObject player;
+
+        /// <summary>
+        /// プレイヤーのHP
+        /// </summary>
         HP playerHp;
 
         int[] DamagePercentages => new int[] { 0, 7, 9, 11, 15 };
@@ -19,16 +25,31 @@ namespace Feather
         SpriteRenderer sr;
         Quaternion rotate;
 
-        float speed = 12f;
-        float accelRatio = 1.002f;
+        // /// <summary>
+        // /// 基礎速度
+        // /// </summary>
+        // float speed = 12f;
 
+        // /// <summary>
+        // /// 加速比
+        // /// </summary>
+        // float accelRatio = 1.002f;
+        (float basis, float accel) speed = (12f, 1.002f);
+
+        /// <summary>
+        /// プレイヤーに近付いたらTrue
+        /// </summary>
         bool close = true;
+
+        /// <summary>
+        /// プレイヤーを検知する距離
+        /// </summary>
         float detect = 5f;
 
         void Start()
         {
             boss = GameObject.Find("boss 1").GetComponent<Boss>();
-            level = boss.ActiveLevel;
+            current.level = boss.ActiveLevel;
 
             player = GameObject.FindGameObjectWithTag(Constant.Player);
             playerHp = player.GetComponent<HP>();
@@ -38,37 +59,37 @@ namespace Feather
 
         void Update()
         {
-            Move(speed *= accelRatio);
+            Move(speed.basis *= speed.accel);
             OutOfScreen(gameObject);
         }
 
         protected override void Move(float speed)
         {
-            switch (level)
+            switch (current.level)
             {
                 case 1:
-                    damage = Numeric.Percent(playerHp.Now, DamagePercentages[1]);
+                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[1]);
                     sr.SetColor(colors[1]);
                     break;
 
                 case 2:
-                    damage = Numeric.Percent(playerHp.Now, DamagePercentages[2]);
+                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[2]);
                     sr.SetColor(colors[2]);
                     break;
 
                 case 3:
-                    damage = Numeric.Percent(playerHp.Now, DamagePercentages[3]);
+                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[3]);
                     sr.SetColor(colors[3]);
                     break;
 
                 case 4:
-                    damage = Numeric.Percent(playerHp.Now, DamagePercentages[4]);
+                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[4]);
                     sr.SetColor(colors[4]);
                     break;
 
                 case 0:
                 default:
-                    damage = DamagePercentages[0];
+                    current.damage = DamagePercentages[0];
                     sr.SetColor(colors[0]);
                     break;
             }
@@ -82,13 +103,14 @@ namespace Feather
             rotate = close ?
                 Quaternion.FromToRotation(Vector2.up, dir) : Quaternion.Euler(0, 0, transform.eulerAngles.z);
 
-            transform.rotation = new(0, 0, rotate.z, rotate.w);
+            // transform.rotation = new(0, 0, rotate.z, rotate.w);
+            transform.SetRotation(z: rotate.z, w: rotate.w);
             transform.Translate(Vector2.up * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
-            info.Get<HP>().Damage(damage);
+            info.Get<HP>().Damage(current.damage);
             Score.Add(DamagePercentages[4] * -2);
             Destroy(gameObject);
         }

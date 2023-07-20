@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather.Test
+namespace MyGame.Test
 {
     public class SpiralTest : MonoBehaviour
     {

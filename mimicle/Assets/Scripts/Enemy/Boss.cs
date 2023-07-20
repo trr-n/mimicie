@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using Feather.Utils;
+using MyGame.Utils;
 
-namespace Feather
+namespace MyGame
 {
     public class Boss : MonoBehaviour
     {
@@ -27,6 +27,9 @@ namespace Feather
         GameManager manager;
 
 
+        /// <summary>
+        /// 初期値たち
+        /// </summary>
         readonly (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial = (
             Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3), Color.green);
 
@@ -37,32 +40,62 @@ namespace Feather
         (HP hp, int remain) self, player;
 
         int activeLevel = 0;
+        /// <summary>
+        /// アクティブなレベル
+        /// </summary>
         public int ActiveLevel => activeLevel;
         enum Level { First = 0, Second, Third, Fourth, Fifth }
 
         bool startBossBattle = false;
+        /// <summary>
+        /// ボス戦が始まったらTrue
+        /// </summary>
         public bool StartBossBattle => startBossBattle;
 
+        /// <summary>
+        /// レベル1 のやつ
+        /// </summary>
         readonly (int Bullets, float Range) w1Rapid = (5, 1.25f);
 
         (float rotate, float basis, float rapid) barrageSpeed = (1, 30f, 0.2f);
+
+        /// <summary>
+        /// 初期座標に向かうときの移動速度
+        /// </summary>
         float posLerpSpeed = 5;
 
+        /// <summary>
+        /// spideのスポーン間隔計測用ストップウォッチ
+        /// </summary>
         Stopwatch spideSW = new();
-        // float spawnSpideSpan = 5;
 
+        /// <summary>
+        /// ホーミング弾連射用ストップウォッチ
+        /// </summary>
         Stopwatch hormingSW = new();
-        // float[] spawnHomingSpan => new float[] { 5.5f, 4.5f, 4f, 3f, 2f };
 
-        (float spide, float[] horming) span = (
-            spide: 5,
-            horming: new float[] { 5.5f, 4.5f, 4f, 3f, 2f }
-        );
+        /// <summary>
+        /// 連射速度, 出現時間
+        /// </summary>
+        (float spide, float[] horming) span = (spide: 5, horming: new float[] { 5.5f, 4.5f, 4f, 3f, 2f });
+
+        /// <summary>
+        /// レベル1の連射間隔
+        /// </summary>
+        One Lv1C = new();
+
+        // /// <summary>
+        // /// 弾幕用フラグ
+        // /// </summary>
+        // bool isBarrage = false;
+
+        /// <summary>
+        /// 弾幕総合
+        /// </summary>
+        (int bulletCount, Stopwatch sw, One runner, bool during) barrage = (100, new(), new(), false);
 
         void Start()
         {
-            // bossUI ??= GameObject.Find("Canvas").GetComponent<BossUI>();
-
             collider = GetComponent<PolygonCollider2D>();
             collider.isTrigger = true;
 
@@ -92,6 +125,9 @@ namespace Feather
             Dead();
         }
 
+        /// <summary>
+        /// 死亡処理
+        /// </summary>
         void Dead()
         {
             if (self.hp.IsZero)
@@ -102,6 +138,9 @@ namespace Feather
             }
         }
 
+        /// <summary>
+        /// 全般
+        /// </summary>
         void Both()
         {
             if (!Coordinate.Twins(transform.position, initial.position))
@@ -129,8 +168,6 @@ namespace Feather
             Lv5();
         }
 
-        bool once = false;
-        Stopwatch l1sw = new();
         /// <summary>
         /// 75 ~ 100, blue: 5% not homing, fire every second 
         /// </summary>
@@ -141,11 +178,8 @@ namespace Feather
                 return;
             }
             activeLevel = 0;
-            if (!once)
-            {
-                StartCoroutine(Lv01());
-                once = true;
-            }
+
+            Lv1C.RunOnce(() => StartCoroutine(Lv01()));
         }
 
         IEnumerator Lv01()
@@ -153,19 +187,16 @@ namespace Feather
             while (isActiveLevel(((int)Level.First)))
             {
                 yield return new WaitForSeconds(w1Rapid.Range * 1.5f);
-                for (var i = 0; i < w1Rapid.Bullets; i++)
+                for (int count = 0; count < w1Rapid.Bullets; count++)
                 {
-                    bullets[0].Instance(point.transform.position, Quaternion.identity);
+                    bullets[0].Generate(point.transform.position, Quaternion.identity);
                     yield return new WaitForSeconds(w1Rapid.Range / w1Rapid.Bullets);
                 }
             }
         }
 
-        One barrage = new();
-        bool isBarrage = false;
-        Stopwatch barrageSW;
         /// <summary>
-        /// barrage
+        /// 弾幕
         /// </summary>
         void Lv2()
         {
@@ -175,54 +206,43 @@ namespace Feather
             }
             activeLevel = 1;
 
-            barrage.RunOnce(() =>
+            barrage.runner.RunOnce(() =>
             {
-                isBarrage = true;
+                barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
-                barrageSW = new(true);
+                barrage.sw = new(true);
             });
 
-            (float Max, float Min) Range = (120, 60);
-            if (isBarrage)
+            (float Max, float Min) range = (120, 60);
+
+            if (barrage.during)
             {
-                for (int i = 0; i < 100 && barrageSW.sf > barrageSpeed.rapid; i++)
+                for (int count = 0; count < barrage.bulletCount && barrage.sw.sf > barrageSpeed.rapid; count++)
                 {
-                    bullets[1].Instance(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
-                    barrageSW.Restart();
-                    if (i >= 100)
+                    bullets[1].Generate(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
+                    barrage.sw.Restart();
+
+                    if (count >= 100)
                     {
-                        isBarrage = false;
+                        barrage.during = false;
                         point.transform.eulerAngles = Vector3.zero;
                         break;
                     }
                 }
 
-                if (point.transform.eulerAngles.z > Range.Max || point.transform.eulerAngles.z < Range.Min)
+                if (point.transform.eulerAngles.z > range.Max || point.transform.eulerAngles.z < range.Min)
                 {
                     // 逆回転
                     barrageSpeed.rotate *= -1;
                 }
+
                 point.transform.Rotate(new Vector3(0, 0, barrageSpeed.basis * barrageSpeed.rotate * Time.deltaTime));
             }
         }
 
-        // 弾幕 n発
-        IEnumerator Barrage()
-        {
-            int n = 100;
-            for (int i = 0; i < n; i++)
-            {
-                yield return new WaitForSeconds(barrageSpeed.rapid);
-                bullets[1].Instance(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
-                print(isBarrage);
-            }
-            isBarrage = false;
-            point.transform.eulerAngles = Vector3.zero;
-        }
-
         One StopBarrage = new();
         /// <summary>
-        ///TODO 30 ~ 50, yellow: 9% homing
+        /// 30 ~ 50, yellow: 9% homing
         /// </summary>
         void Lv3()
         {
@@ -230,15 +250,12 @@ namespace Feather
             {
                 return;
             }
+
             activeLevel = 2;
-            // StopBarrage.RunOnce(() =>
-            // {
-            //     StopCoroutine(Barrage());
-            // });
         }
 
         /// <summary>
-        ///TODO 10 ~ 30, orange: 13% homing
+        /// 10 ~ 30, orange: 13% homing
         /// </summary>
         void Lv4()
         {
@@ -249,9 +266,8 @@ namespace Feather
             activeLevel = 3;
         }
 
-        One o5 = new();
         /// <summary>
-        ///TODO 00 ~ 10, red: 15% homing
+        /// 00 ~ 10, red: 15% homing
         /// </summary>
         void Lv5()
         {
@@ -259,44 +275,40 @@ namespace Feather
             {
                 return;
             }
+
             activeLevel = 4;
         }
 
+        /// <summary>
+        /// ホーミング弾生成
+        /// </summary>
         void SpawnHoming()
         {
-            // if (homingSW.sf > spawnHomingSpan[activeLevel])
             if (hormingSW.sf > span.horming[activeLevel])
             {
-                bullets[4].Instance(transform.position);
+                bullets[4].Generate(transform.position);
                 hormingSW.Restart();
             }
         }
 
+        /// <summary>
+        /// spide生成
+        /// </summary>
         void SpawnSpide()
         {
-            // if (spideSW.SecondF() >= spawnSpideSpan)
             if (spideSW.SecondF() >= span.spide)
             {
-                var spide = mobs[Mobs.spide].Instance();
-                spide.GetComponent<Spide>().SetLevel(Lottery.ChoiceIndexByWeights(1, 0.5f, 0.25f));
+                var spide = mobs[Mobs.spide].Generate();
+                spide.GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 // spawnSpideSpan = Rnd.Int(20, 30);
                 span.spide = Rnd.Int(20, 30);
                 spideSW.Restart();
             }
         }
 
-        // public void ChangeBodyColor()
-        // {
-        //     foreach (var i in colour)
-        //     {
-        //         if (self.remain >= i.hpBorder)
-        //         {
-        //             bossr.color = i.color;
-        //             break;
-        //         }
-        //     }
-        // }
-
+        /// <summary>
+        /// 残り体力によって目の色をかえる
+        /// </summary>
         void UpdateEyeColor()
         {
             // 100 ≧ hue ≧ 0
@@ -304,6 +316,9 @@ namespace Feather
             bossr.color = Color.HSVToRGB(hue, 1, 1);
         }
 
+        /// <summary>
+        /// レベル_levelがアクティブならTrue
+        /// </summary>
         public bool isActiveLevel(int _level)
         {
             int[] borders = { 100, 80, 60, 40, 20 };
@@ -327,7 +342,6 @@ namespace Feather
         {
             if (info.Compare(Constant.Bullet))
             {
-                // ChangeBodyColor();
                 UpdateEyeColor();
                 bossUI.UpdateBossUI();
             }
