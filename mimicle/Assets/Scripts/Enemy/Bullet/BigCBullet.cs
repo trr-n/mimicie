@@ -6,9 +6,9 @@ namespace MyGame
     public class BigCBullet : Bullet
     {
         [SerializeField]
-        GameObject fx;
+        GameObject effect;
 
-        GameObject player;
+        GameObject playerObj;
 
         /// <summary>
         /// 移動速度
@@ -23,7 +23,7 @@ namespace MyGame
         /// <summary>
         /// 進行方向
         /// </summary>
-        Vector2 dir;
+        Vector2 direction;
 
         /// <summary>
         /// 爆発処理
@@ -32,10 +32,10 @@ namespace MyGame
 
         void Start()
         {
-            dir = -transform.right;
+            direction = -transform.right;
             SpawnedPosition = transform.position;
 
-            player = Gobject.Find(Constant.Player);
+            playerObj = Gobject.Find(Constant.Player);
         }
 
         void Update()
@@ -56,19 +56,21 @@ namespace MyGame
 
         void OnDrawGizmos()
         {
-            Gizmos.color = Color.HSVToRGB(Time.time % 1, 1, 1);
+            Gizmos.color = Color.HSVToRGB(Time.unscaledTime % 1, 1, 1);
             Gizmos.DrawWireSphere(transform.position, explosion.Range);
         }
 
         void ExploseDamage()
         {
-            fx.Generate(transform.position);
-            // GetComponent<BoxCollider2D>();
+            effect.Generate(transform.position);
 
-            float distance = Vector2.Distance(transform.position, player.transform.position);
+            float distance = Vector2.Distance(transform.position, playerObj.transform.position);
             if (distance <= explosion.Range)
             {
-                player.GetComponent<HP>().Damage(((int)Numeric.Round(distance * explosion.DamageMagnification)));
+                // ダメージ量 = 距離 * ダメージ倍率
+                float damageDistance = explosion.Range - distance;
+                int damageAmount = ((int)Numeric.Round(damageDistance * explosion.DamageMagnification));
+                playerObj.GetComponent<HP>().Damage(damageAmount);
             }
 
             Score.Add(Values.Point.RedBigCBullet);
@@ -77,7 +79,7 @@ namespace MyGame
 
         protected override void Move(float speed)
         {
-            transform.Translate(dir * speed * Time.deltaTime);
+            transform.Translate(direction * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)

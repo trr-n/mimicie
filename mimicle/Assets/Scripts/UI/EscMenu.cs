@@ -20,20 +20,15 @@ namespace MyGame
         [SerializeField]
         GameManager manager;
 
-        string[] info;
-
-        void Start()
-        {
-            info = new string[] { OS(), CPU(), GPU(), RAM().ToString() };
-        }
-
         void Update()
         {
             speaker.SpeakerVolumeControl(volumeT);
+
             if (Mynput.Down(Values.Key.Mute))
             {
                 speaker.MuteVolume(volumeT);
             }
+
             if (Mynput.Down(Values.Key.MChange))
             {
                 speaker.Change(songT);
@@ -45,11 +40,11 @@ namespace MyGame
                 {
                     todayT.text = "きょうは" + Temps.Date();
                     systemT.text =
-                        "すぺっく".NewLine() +
-                        "OS: " + info[0].NewLine() +
-                        "CPU: " + info[1].NewLine() +
-                        "GPU: " + info[2].NewLine() +
-                        "RAM: " + info[3] + "GB";
+                        "すぺっく" +
+                        "\nOS: " + OS +
+                        "\nCPU: " + CPU +
+                        "\nGPU: " + GPU + " " + VRAM + "GB" +
+                        "\nRAM: " + RAM + "GB";
                     manager.OpenMenuPanel();
                     return;
                 }

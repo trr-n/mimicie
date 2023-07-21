@@ -30,7 +30,9 @@ namespace MyGame
             Ctrlable = true;
             BGScroll = true;
             IsDead = false;
+
             Physics2D.gravity = Vector3.forward * 9.81f;
+            App.SetFPS(60);
         }
 
         void Update()
@@ -57,13 +59,13 @@ namespace MyGame
             Time.timeScale = 0;
 
             Score.StopTimer();
-            ScoreData data = new ScoreData
-            {
-                wave = wdata.Now,
-                time = Score.Time,
-                score = Score.Now
-            };
-            Save.Write(data, "goigoisu-", Application.dataPath + "/score.sav");
+            // ScoreData data = new ScoreData
+            // {
+            //     wave = wdata.Now,
+            //     time = Score.Time,
+            //     score = Score.Now
+            // };
+            // Save.Write(data, "goigoisu-", Application.dataPath + "/score.sav");
         }
 
         public void OpenMenuPanel()

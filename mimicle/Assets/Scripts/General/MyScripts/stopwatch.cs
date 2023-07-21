@@ -3,15 +3,25 @@ using SystemStopwatch = System.Diagnostics.Stopwatch;
 
 namespace MyGame.Utils
 {
-    public enum SWFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
+    public enum StopwatchFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public sealed class Stopwatch
     {
         SystemStopwatch sw;
         public Stopwatch() => sw = new();
-        public Stopwatch(bool b) { sw = new(); sw.Start(); }
+        public Stopwatch(bool autoStart)
+        {
+            sw = new();
+            sw.Start();
+        }
 
         public void Start() => sw.Start();
-        public static void Start(params Stopwatch[] sw) { foreach (var i in sw) i.Start(); }
+        public static void Start(params Stopwatch[] sw)
+        {
+            foreach (var i in sw)
+            {
+                i.Start();
+            }
+        }
         public void Stop() => sw.Stop();
         public void Restart() => sw.Restart();
         public void Reset() => sw.Reset();
@@ -41,56 +51,56 @@ namespace MyGame.Utils
         public float MSecondF(int digit = 6) => Numeric.Round((float)sw.Elapsed.TotalMilliseconds, digit);
 
         public string Spent() => sw.Elapsed.ToString();
-        public int Spent(SWFormat style)
+        public int Spent(StopwatchFormat style)
         {
             switch (style)
             {
-                case SWFormat.H:
-                case SWFormat.h:
-                case SWFormat.Hour:
-                case SWFormat.hour:
+                case StopwatchFormat.H:
+                case StopwatchFormat.h:
+                case StopwatchFormat.Hour:
+                case StopwatchFormat.hour:
                     return Hour();
-                case SWFormat.M:
-                case SWFormat.m:
-                case SWFormat.Minute:
-                case SWFormat.minute:
+                case StopwatchFormat.M:
+                case StopwatchFormat.m:
+                case StopwatchFormat.Minute:
+                case StopwatchFormat.minute:
                     return Minute();
-                case SWFormat.S:
-                case SWFormat.s:
-                case SWFormat.Second:
-                case SWFormat.second:
+                case StopwatchFormat.S:
+                case StopwatchFormat.s:
+                case StopwatchFormat.Second:
+                case StopwatchFormat.second:
                     return Second();
-                case SWFormat.MS:
-                case SWFormat.ms:
+                case StopwatchFormat.MS:
+                case StopwatchFormat.ms:
                     return MSecond();
                 default:
-                    return 0;
+                    return -1;
             }
         }
-        public float SpentF(SWFormat style)
+        public float SpentF(StopwatchFormat style)
         {
             switch (style)
             {
-                case SWFormat.H:
-                case SWFormat.h:
-                case SWFormat.Hour:
-                case SWFormat.hour:
+                case StopwatchFormat.H:
+                case StopwatchFormat.h:
+                case StopwatchFormat.Hour:
+                case StopwatchFormat.hour:
                     return HourF();
-                case SWFormat.M:
-                case SWFormat.m:
-                case SWFormat.Minute:
-                case SWFormat.minute:
+                case StopwatchFormat.M:
+                case StopwatchFormat.m:
+                case StopwatchFormat.Minute:
+                case StopwatchFormat.minute:
                     return MinuteF();
-                case SWFormat.S:
-                case SWFormat.s:
-                case SWFormat.Second:
-                case SWFormat.second:
+                case StopwatchFormat.S:
+                case StopwatchFormat.s:
+                case StopwatchFormat.Second:
+                case StopwatchFormat.second:
                     return SecondF();
-                case SWFormat.MS:
-                case SWFormat.ms:
+                case StopwatchFormat.MS:
+                case StopwatchFormat.ms:
                     return MSecondF();
                 default:
-                    return 0f;
+                    return -1f;
             }
         }
     }

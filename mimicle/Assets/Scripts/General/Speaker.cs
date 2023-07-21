@@ -10,7 +10,12 @@ namespace MyGame
         AudioClip[] musics;
 
         AudioSource speaker;
+
+        /// <summary>
+        /// 音量増加量
+        /// </summary>
         const float amount = 0.02f;
+
         float _volume = 0.5f; // 0-1
         float preVolume = 0f;
         int playingIndex = 0;
@@ -33,10 +38,12 @@ namespace MyGame
             {
                 _volume += amount;
             }
+
             else if (Mynput.Down(Values.Key.VDown))
             {
                 _volume -= amount;
             }
+
             speaker.volume = _volume;
             volumeT.text = VText(Numeric.Percent(_volume));
         }
@@ -49,11 +56,13 @@ namespace MyGame
                 preVolume = _volume;
                 _volume = 0;
             }
+
             else if (pressCounter == 1)
             {
                 pressCounter = 0;
                 _volume = preVolume;
             }
+
             volumeT.text = VText(Numeric.Percent(_volume));
         }
 
@@ -64,8 +73,10 @@ namespace MyGame
             {
                 playingIndex = 0;
             }
+
             speaker.clip = musics[playingIndex];
             speaker.Play();
+
             songT.text = musics[playingIndex].name;
         }
     }

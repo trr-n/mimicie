@@ -83,7 +83,7 @@ namespace MyGame
         /// <summary>
         /// プレイヤーの当たり判定
         /// </summary>
-        new BoxCollider2D collider;
+        Collider2D playerCol;
 
         /// <summary>
         /// 忍者がにんにんしてたらFalse
@@ -109,24 +109,25 @@ namespace MyGame
         /// <summary>
         /// 残弾数の割合
         /// </summary>
-        public float ratio = 0f;
+        public float PreReloadRatio = 0f;
 
         /// <summary>
         /// セーブデータ書き込み用
         /// </summary>
-        One WriteData = new();
+        One a = new();
 
         /// <summary>
-        /// 
+        /// 上下の銃の表示数
         /// </summary>
         int upgradeCount = 0;
 
         void Awake()
         {
-            playerHP = GetComponent<HP>();
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
+
+            playerHP = GetComponent<HP>();
             playerSR = GetComponent<SpriteRenderer>();
-            collider = GetComponent<BoxCollider2D>();
+            playerCol = GetComponent<BoxCollider2D>();
         }
 
         void Start()
@@ -136,14 +137,12 @@ namespace MyGame
 
         void Update()
         {
-            upgradeCount = Numeric.Clamp(upgradeCount, 0, 2);
-
             Move();
             Dead();
             Reload();
 
             hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, 1 << 9 | 1 << 10);
-            collider.isTrigger = parry.IsParry;
+            playerCol.isTrigger = parry.IsParry;
 
             if (sw.sf >= 0.2f)
             {
@@ -153,6 +152,11 @@ namespace MyGame
 
         void FixedUpdate()
         {
+            if (Mynput.Pressed(Values.Key.Fire))
+            {
+                sidegun.Shot();
+            }
+
             if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpan && !isReloading))
             {
                 return;
@@ -167,13 +171,13 @@ namespace MyGame
 
             if (!isReloading)
             {
-                // リロード時間=残弾数の割合*n秒
+                // リロード時間=消費弾数の割合*n秒
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
             if (Mynput.Down(Values.Key.Reload))
             {
-                ratio = ammo.Ratio;
+                PreReloadRatio = ammo.Ratio;
                 ammo.Reload();
                 isReloading = true;
             }
@@ -181,12 +185,11 @@ namespace MyGame
             if (isReloading)
             {
                 reloadSW.Start();
-                if (!(reloadSW.SecondF() >= time2reload))
+                if (reloadSW.SecondF() >= time2reload)
                 {
-                    return;
+                    isReloading = false;
+                    reloadSW.Reset();
                 }
-                isReloading = false;
-                reloadSW.Reset();
             }
         }
 
@@ -194,7 +197,12 @@ namespace MyGame
         {
             if (playerHP.IsZero)
             {
-                WriteData.RunOnce(() => manager.PlayerIsDead());
+                // WriteData.RunOnce(() => manager.PlayerIsDead());
+                a.RunOnce(() =>
+                {
+                    Score.ResetTimer();
+                    MyScene.Load();
+                });
             }
         }
 
@@ -206,6 +214,7 @@ namespace MyGame
             }
 
             transform.ClampPosition2(-7.95f, 8.2f, -4.12f, 4.38f);
+
             (float h, float v) axis = (Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
             transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
         }
@@ -215,6 +224,7 @@ namespace MyGame
             if (info.Compare(Constant.UpgradeItem) && upgradeCount < 2)
             {
                 sidegun.Add(upgradeCount++);
+                // TODO make fx
                 info.Destroy();
                 return;
             }

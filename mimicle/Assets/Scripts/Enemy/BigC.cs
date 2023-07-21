@@ -10,25 +10,31 @@ namespace MyGame
         GameObject bullet;
 
         (float move, float rotation) speeds = (0.5f, 100);
-        HP hp;
+        HP bigcHP;
 
         void Start()
         {
-            hp = GetComponent<HP>();
-            base.Start(hp);
+            bigcHP = GetComponent<HP>();
+            bigcHP.SetMax();
+
             StartCoroutine(Attack());
         }
 
         void Update()
         {
             Move();
-            if (hp.IsZero)
+
+            if (bigcHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
             }
         }
 
-        protected override void Move() => transform.Translate(Vector2.left * speeds.move * Time.deltaTime, Space.World);
+        protected override void Move()
+        {
+            transform.Translate(Vector2.left * speeds.move * Time.deltaTime, Space.World);
+            transform.Rotate(0, 0, speeds.rotation * Time.deltaTime);
+        }
 
         IEnumerator Attack()
         {

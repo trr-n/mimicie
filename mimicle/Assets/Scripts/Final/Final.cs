@@ -12,7 +12,6 @@ namespace MyGame
 
         void Update()
         {
-            // TODO スコア表示
             // scores.text = $"のこりじかん: {Score.finalTime}\nすこあ: {Score.finalScore}";
         }
     }

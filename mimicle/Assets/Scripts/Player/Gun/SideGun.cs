@@ -14,56 +14,41 @@ namespace MyGame
         /// <summary>
         /// 上下の銃
         /// </summary>
-        GameObject[] guns = new GameObject[2];
+        GameObject[] sideguns = new GameObject[2];
 
         /// <summary>
         /// 連射用
         /// </summary>
-        (float Rapid, Stopwatch sw) trigger = (0.2f, new());
+        (float Rapid, Stopwatch stopwatch) trigger = (0.2f, new(true));
 
         const int Max = 2;
 
-        (int, bool, int) For(int init, bool boolean, int increase)
-        {
-            return (init, boolean, increase);
-        }
-
         void Start()
         {
-            for (int i = 0; i < Max; i++)
+            // 上下の銃を無効化
+            for (int index = 0; index < Max; index++)
             {
-                guns[i] = transform.GetChild(i).gameObject;
-            }
-
-            foreach (var i in guns)
-            {
-                i.SetActive(false);
-            }
-        }
-
-        void Update()
-        {
-            Rotation();
-        }
-
-        void Rotation()
-        {
-            foreach (var i in guns)
-            {
-                i.transform.SetEuler(z: -90);
+                sideguns[index] = transform.GetChild(index).gameObject;
+                if (sideguns[index] is not null)
+                {
+                    sideguns[index].SetActive(false);
+                }
             }
         }
 
-        void Fire()
+        void _Update()
         {
-            if (trigger.sw.sf < trigger.Rapid || player.IsReloading)
-            {
-                return;
-            }
+        }
 
-            if (Mynput.Pressed(Values.Key.Fire))
+        public void Shot()
+        {
+            foreach (var gun in sideguns)
             {
-                trigger.sw.Restart();
+                if (gun.IsActive(Active.Self) && trigger.stopwatch.sf > trigger.Rapid)
+                {
+                    bullet.Generate(gun.transform.position);
+                    trigger.stopwatch.Restart();
+                }
             }
         }
 
@@ -72,16 +57,23 @@ namespace MyGame
         /// </summary>
         public void Add(int hitCount)
         {
+            if (hitCount < 1 && hitCount > 2)
+            {
+                return;
+            }
+
             switch (hitCount)
             {
                 case 0:
+                    sideguns[0].SetActive(true);
                     break;
 
                 case 1:
+                    sideguns[1].SetActive(true);
                     break;
 
                 default:
-                    throw new Eguitte("えぐい!ふやしすぎや!");
+                    throw new Eguitte("ふやしすぎや!");
             }
         }
     }

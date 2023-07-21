@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
+using MyGame.Utils;
 
-namespace MyGame.Utils
+namespace MyGame
 {
-    public class PlayerBullet : Bullet
+    [RequireComponent(typeof(AudioSource))]
+    public class SideGunBullet : Bullet
     {
         [SerializeField]
         GameObject effect;
@@ -10,21 +12,27 @@ namespace MyGame.Utils
         [SerializeField]
         AudioClip sound;
 
-        new AudioSource audio;
+        AudioSource source;
+
+        /// <summary>
+        /// 移動速度
+        /// </summary>
+        float speed = 1;
 
         Vector2 direction;
 
         void Start()
         {
-            direction = transform.right;
+            source = GetComponent<AudioSource>();
 
-            audio = GetComponent<AudioSource>();
+            transform.SetEuler(z: -90);
+            direction = transform.up;
         }
 
         void Update()
         {
             OutOfScreen(gameObject);
-            Move(20);
+            Move(speed);
         }
 
         protected override void Move(float speed)
@@ -36,7 +44,6 @@ namespace MyGame.Utils
         {
             if (info.Try<HP>(out var hp))
             {
-                print("player bullet is hit");
                 hp.Damage(info.gameObject.name.Contains("boss") ?
                     Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
             }
@@ -44,17 +51,13 @@ namespace MyGame.Utils
 
         void OnCollisionEnter2D(Collision2D info)
         {
+            // effect.Generate(transform.position);
+            // source.PlayOneShot(sound);
+
             if (info.Compare(Constant.Enemy))
             {
                 TakeDamage(info);
-
-                //TODO 着弾時の効果音つける 
-                // audio.PlayOneShot(sound);
-                effect.Generate(transform.position, Quaternion.identity);
-
-                Destroy(gameObject);
             }
         }
-
     }
 }

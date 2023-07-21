@@ -5,11 +5,11 @@ namespace MyGame
 {
     public class SmokeFx : MonoBehaviour
     {
-        Stopwatch sw_fx = new(true);
+        Stopwatch effectStopwatch = new(true);
 
         void Update()
         {
-            if (sw_fx.sf >= 1.5f)
+            if (effectStopwatch.sf >= 1.5f)
             {
                 GetComponent<ParticleSystem>().Stop();
             }

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,9 @@ namespace MyGame
         GameObject[] levels;
 
         [SerializeField]
-        GameObject[] fxs;
+        GameObject[] effects;
 
-        SpriteRenderer sr;
+        SpriteRenderer spideSR;
 
         /// <summary>
         /// アクティブなレベル
@@ -36,13 +37,13 @@ namespace MyGame
         bool dead;
 
         /// <summary>
-        /// 透明度
+        /// 死亡時の透明度調整用
         /// </summary>
         float alpha = 1f;
 
         void Start()
         {
-            sr = GetComponent<SpriteRenderer>();
+            spideSR = GetComponent<SpriteRenderer>();
         }
 
         One once = new();
@@ -62,9 +63,9 @@ namespace MyGame
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());
 
-                    if (sr.color.a <= 0 && speed <= 0)
+                    if (spideSR.color.a <= 0 && speed <= 0)
                     {
-                        fxs.Generate(transform.position);
+                        effects.Generate(transform.position);
                         Destroy(gameObject);
                     }
                 });
@@ -73,15 +74,20 @@ namespace MyGame
 
         IEnumerator Fade()
         {
-            while (sr.color.a > 0)
+            while (spideSR.color.a > 0)
             {
                 yield return null;
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+                spideSR.color = new Color(spideSR.color.r, spideSR.color.g, spideSR.color.b, alpha);
                 alpha -= 0.02f;
                 speed -= 0.02f;
             }
         }
 
+
+
+        /// <summary>
+        /// レベルをセット
+        /// </summary>
         /// <param name="_level">0-2</param>
         public void SetLevel(int _level)
         {
@@ -92,15 +98,16 @@ namespace MyGame
             }
             catch (System.IndexOutOfRangeException)
             {
-                activeLevel = levels.Length - 1;
-                levels[activeLevel].SetActive(true);
+                // activeLevel = levels.Length - 1;
+                // levels[activeLevel].SetActive(true);
+                levels.Last().SetActive(true);
             }
 
-            for (var i = 0; i < levels.Length; i++)
+            for (int index = 0; index < levels.Length; index++)
             {
-                if (activeLevel != i)
+                if (activeLevel != index)
                 {
-                    levels[i].SetActive(false);
+                    levels[index].SetActive(false);
                 }
             }
         }
@@ -113,6 +120,7 @@ namespace MyGame
 
         void OnCollisionEnter2D(Collision2D info)
         {
+            // 弾が中心の丸にあたったら脂肪
             if (info.Compare(Constant.Bullet))
             {
                 dead = true;

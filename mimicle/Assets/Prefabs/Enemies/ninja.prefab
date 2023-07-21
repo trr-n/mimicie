@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4548487932667092725
 Transform:
   m_ObjectHideFlags: 0
@@ -222,10 +222,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56ac5fd484045d4f947acb9b9c182fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shuriken: {fileID: 5690039312463150852, guid: c749bda367c219d46a2f1360df2a30f0, type: 3}
-  smokeFX: {fileID: 6716933543107358056, guid: c56bfd3f6c712074b8ea750e8059a1ff, type: 3}
-  deadFX: {fileID: 5601036089067188822, guid: 924e772d99fea934f8c7dff7c622e78a, type: 3}
-  doronSE: {fileID: 8300000, guid: da080c10ee8fda543bb3b58d59a83436, type: 3}
+  shurikenObj: {fileID: 5690039312463150852, guid: c749bda367c219d46a2f1360df2a30f0, type: 3}
+  smokeEffect: {fileID: 6716933543107358056, guid: c56bfd3f6c712074b8ea750e8059a1ff, type: 3}
+  deadEffect: {fileID: 0}
+  doronSound: {fileID: 8300000, guid: da080c10ee8fda543bb3b58d59a83436, type: 3}
 --- !u!114 &4548487932667092722
 MonoBehaviour:
   m_ObjectHideFlags: 0

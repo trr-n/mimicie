@@ -5,8 +5,6 @@ namespace MyGame
 {
     public abstract class Enemy : MonoBehaviour
     {
-        protected void Start(HP hp) => hp.SetMax();
-
         /// <summary>
         /// 移動処理
         /// </summary>

@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6774830748733448834}
   - component: {fileID: 6483683378351682901}
-  - component: {fileID: 5510051847197408072}
+  - component: {fileID: -3288610703895184306}
   - component: {fileID: 3063789116938825952}
   - component: {fileID: 8507010373485937365}
-  - component: {fileID: 2791365007781411685}
   - component: {fileID: 5121292954223747016}
   - component: {fileID: 6443432057703438214}
   m_Layer: 7
@@ -79,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: bd8b8b67ea0e00f4892a1073fa24b478, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: ce1683e037069b842adb4fe53277d24a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,7 +89,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5510051847197408072
+--- !u!61 &-3288610703895184306
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,14 +106,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.1, y: 1.63}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 3.1, y: 1.63}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.1, y: 1.63}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &3063789116938825952
 Rigidbody2D:
@@ -236,20 +235,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 1
   m_Emitting: 1
---- !u!114 &2791365007781411685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8079115304018384153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f62a2d41fb68f64799ef7c2dfafa2c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fx: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
-  se: {fileID: 0}
 --- !u!82 &5121292954223747016
 AudioSource:
   m_ObjectHideFlags: 0
@@ -358,3 +343,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1220130afbee8a24daf8a0286ca83700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
+  sound: {fileID: 0}

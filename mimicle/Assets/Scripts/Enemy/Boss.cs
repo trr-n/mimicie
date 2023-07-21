@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using MyGame.Utils;
+using System.Collections.Generic;
 
 namespace MyGame
 {
@@ -12,7 +13,7 @@ namespace MyGame
 
         [SerializeField, Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
         GameObject[] mobs;
-        readonly (int charger, int lilc, int bigc, int spide) Mobs = (0, 1, 2, 3);
+        (int charger, int lilc, int bigc, int spide, int ninja) MobIndex => (0, 1, 2, 3, 4);
 
         [SerializeField]
         GameObject point;
@@ -37,7 +38,11 @@ namespace MyGame
         bool collide = true;
 
         SpriteRenderer bossr;
-        (HP hp, int remain) self, player;
+
+        /// <summary>
+        /// HPたち
+        /// </summary>
+        (HP hp, int remain) boss, player;
 
         int activeLevel = 0;
         /// <summary>
@@ -56,8 +61,6 @@ namespace MyGame
         /// レベル1 のやつ
         /// </summary>
         readonly (int Bullets, float Range) w1Rapid = (5, 1.25f);
-
-        (float rotate, float basis, float rapid) barrageSpeed = (1, 30f, 0.2f);
 
         /// <summary>
         /// 初期座標に向かうときの移動速度
@@ -84,15 +87,21 @@ namespace MyGame
         /// </summary>
         One Lv1C = new();
 
-        // /// <summary>
-        // /// 弾幕用フラグ
-        // /// </summary>
-        // bool isBarrage = false;
-
         /// <summary>
         /// 弾幕総合
         /// </summary>
-        (int bulletCount, Stopwatch sw, One runner, bool during) barrage = (100, new(), new(), false);
+        (int bulletCount, Stopwatch stopwatch, One runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
+            bulletCount: 100,
+            stopwatch: new(),
+            runner: new(),
+            during: false,
+            speed: (rotate: 1, basis: 30f, rapid: 0.2f)
+        );
+
+        /// <summary>
+        /// 角度調整しやすいようにちょっと傾ける
+        /// </summary>
+        Quaternion BarrageRotationOffset => Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90);
 
         void Start()
         {
@@ -110,8 +119,8 @@ namespace MyGame
 
         void OnEnable()
         {
-            self.hp = GetComponent<HP>();
-            self.hp.SetMax();
+            boss.hp = GetComponent<HP>();
+            boss.hp.SetMax();
 
             bossr = GetComponent<SpriteRenderer>();
             bossr.color = initial.color;
@@ -130,10 +139,8 @@ namespace MyGame
         /// </summary>
         void Dead()
         {
-            if (self.hp.IsZero)
+            if (boss.hp.IsZero)
             {
-                // MyScene.Load(Constant.Final);
-                finishedPanel.SetText(isDead: false);
                 manager.PlayerIsDead();
             }
         }
@@ -155,7 +162,7 @@ namespace MyGame
                 collide = false;
             }
 
-            self.remain = Numeric.Percent(self.hp.Ratio);
+            boss.remain = Numeric.Percent(boss.hp.Ratio);
             player.remain = Numeric.Percent(player.hp.Ratio);
 
             SpawnSpide();
@@ -177,6 +184,7 @@ namespace MyGame
             {
                 return;
             }
+
             activeLevel = 0;
 
             Lv1C.RunOnce(() => StartCoroutine(Lv01()));
@@ -187,6 +195,7 @@ namespace MyGame
             while (isActiveLevel(((int)Level.First)))
             {
                 yield return new WaitForSeconds(w1Rapid.Range * 1.5f);
+
                 for (int count = 0; count < w1Rapid.Bullets; count++)
                 {
                     bullets[0].Generate(point.transform.position, Quaternion.identity);
@@ -204,23 +213,24 @@ namespace MyGame
             {
                 return;
             }
+
             activeLevel = 1;
 
             barrage.runner.RunOnce(() =>
             {
                 barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
-                barrage.sw = new(true);
+                barrage.stopwatch.Start();
             });
 
             (float Max, float Min) range = (120, 60);
 
             if (barrage.during)
             {
-                for (int count = 0; count < barrage.bulletCount && barrage.sw.sf > barrageSpeed.rapid; count++)
+                for (int count = 0; count < barrage.bulletCount && barrage.stopwatch.sf > barrage.speed.rapid; count++)
                 {
-                    bullets[1].Generate(point.transform.position, Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90));
-                    barrage.sw.Restart();
+                    bullets[1].Generate(point.transform.position, BarrageRotationOffset);
+                    barrage.stopwatch.Restart();
 
                     if (count >= 100)
                     {
@@ -233,14 +243,15 @@ namespace MyGame
                 if (point.transform.eulerAngles.z > range.Max || point.transform.eulerAngles.z < range.Min)
                 {
                     // 逆回転
-                    barrageSpeed.rotate *= -1;
+                    barrage.speed.rotate *= -1;
                 }
 
-                point.transform.Rotate(new Vector3(0, 0, barrageSpeed.basis * barrageSpeed.rotate * Time.deltaTime));
+                point.transform.Rotate(new Vector3(0, 0, barrage.speed.basis * barrage.speed.rotate * Time.deltaTime));
             }
         }
 
-        One StopBarrage = new();
+        bool ninjable = true;
+        List<GameObject> ninjas = new();
         /// <summary>
         /// 30 ~ 50, yellow: 9% homing
         /// </summary>
@@ -249,6 +260,19 @@ namespace MyGame
             if (!isActiveLevel(((int)Level.Third)))
             {
                 return;
+            }
+
+            if (ninjable)
+            {
+                float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
+                ninjas.Add(mobs[MobIndex.ninja].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
+
+                ninjable = false;
+            }
+
+            foreach (var ninja in ninjas)
+            {
+
             }
 
             activeLevel = 2;
@@ -263,9 +287,13 @@ namespace MyGame
             {
                 return;
             }
+
             activeLevel = 3;
         }
 
+        (float Span, Stopwatch stopwatch) lv5Spawn = (
+            Span: 1.3f, stopwatch: new(false));
+        One lv5SWRunner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
@@ -277,6 +305,14 @@ namespace MyGame
             }
 
             activeLevel = 4;
+
+            lv5SWRunner.RunOnce(() => lv5Spawn.stopwatch.Start());
+
+            if (lv5Spawn.stopwatch.sf > boss.hp.Ratio * lv5Spawn.Span)
+            {
+                mobs.Generate(transform.position, Quaternion.identity);
+                lv5Spawn.stopwatch.Restart();
+            }
         }
 
         /// <summary>
@@ -298,22 +334,11 @@ namespace MyGame
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                var spide = mobs[Mobs.spide].Generate();
-                spide.GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
-                // spawnSpideSpan = Rnd.Int(20, 30);
+                mobs[MobIndex.spide].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 span.spide = Rnd.Int(20, 30);
+
                 spideSW.Restart();
             }
-        }
-
-        /// <summary>
-        /// 残り体力によって目の色をかえる
-        /// </summary>
-        void UpdateEyeColor()
-        {
-            // 100 ≧ hue ≧ 0
-            var hue = self.hp.Ratio / 360 * 100;
-            bossr.color = Color.HSVToRGB(hue, 1, 1);
         }
 
         /// <summary>
@@ -325,17 +350,32 @@ namespace MyGame
             switch (_level)
             {
                 case 0:
-                    return self.remain >= borders[0];
+                    return boss.remain >= borders[0];
+
                 case 1:
-                    return self.remain >= borders[1] && self.remain < borders[0];
+                    return boss.remain >= borders[1] && boss.remain < borders[0];
+
                 case 2:
-                    return self.remain >= borders[2] && self.remain < borders[1];
+                    return boss.remain >= borders[2] && boss.remain < borders[1];
+
                 case 3:
-                    return self.remain >= borders[3] && self.remain < borders[2];
+                    return boss.remain >= borders[3] && boss.remain < borders[2];
+
                 case 4:
-                    return self.remain >= borders[4] && self.remain < borders[3];
+                    return boss.remain >= borders[4] && boss.remain < borders[3];
+
                 default: throw new System.Exception();
             }
+        }
+
+        /// <summary>
+        /// 残り体力によって目の色をかえる
+        /// </summary>
+        void UpdateEyeColor()
+        {
+            // 100 ≧ hue ≧ 0
+            var hue = boss.hp.Ratio / 360 * 100;
+            bossr.color = Color.HSVToRGB(hue, 1, 1);
         }
 
         void OnCollisionEnter2D(Collision2D info)

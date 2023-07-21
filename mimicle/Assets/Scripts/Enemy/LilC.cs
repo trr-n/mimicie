@@ -33,12 +33,13 @@ namespace MyGame
         /// <summary>
         /// 死亡処理
         /// </summary>
-        One Dead = new();
+        One dead = new();
 
         void Start()
         {
             lilcHP = GetComponent<HP>();
-            base.Start(lilcHP);
+            lilcHP.SetMax();
+
             Move();
         }
 
@@ -57,9 +58,10 @@ namespace MyGame
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Values.Point.LilC);
 
-                Dead.RunOnce(() =>
+                dead.RunOnce(() =>
                 {
                     fx.Generate(transform.position);
+
                     GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
                     playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
                 });

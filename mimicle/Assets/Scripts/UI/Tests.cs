@@ -11,7 +11,7 @@ namespace MyGame
 
         void Update()
         {
-            fpsT.text = Render.SetFPS().ToString();
+            fpsT.text = Render.FPS().ToString();
         }
     }
 }

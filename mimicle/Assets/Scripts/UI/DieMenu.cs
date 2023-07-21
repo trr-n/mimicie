@@ -12,12 +12,10 @@ namespace MyGame
         BlurUI blur;
 
         [SerializeField]
-        Text stateText, score, time;
+        Text stateT, scoreT, timeT;
 
         CanvasGroup canvas;
         float a = 0f;
-
-        string[] StateText => new string[] { "Failure...", "You did it!" };
 
         void Start()
         {
@@ -25,15 +23,11 @@ namespace MyGame
             canvas.alpha = 0;
         }
 
-        public void SetText(bool isDead)
-        {
-            stateText.text = isDead ? StateText[0] : StateText[1];
-        }
-
         void Update()
         {
-            this.score.text = "Score: " + Score.Now;
-            this.time.text = "Time: " + Score.Time;
+            this.stateT.text = "Dit it !";
+            this.scoreT.text = "Score: " + Score.Now;
+            this.timeT.text = "Time: " + Score.Time;
             // ブラーがマックスになったらスコア表示
             if (!blur.Max)
             {

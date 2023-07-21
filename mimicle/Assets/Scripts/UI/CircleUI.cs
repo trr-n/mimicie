@@ -35,13 +35,15 @@ namespace MyGame
         [SerializeField]
         ChangeColors[] change = new ChangeColors[4];
 
+        /// <summary>
+        /// ゲージ増加用タイマー
+        /// </summary>
         float timerf = 0f;
-        float prehp = 1f;
 
         void Update()
         {
             UpdateAmmoGauge();
-            UpdateAmmoGaugeColor();
+
             hpGauge.fillAmount = playerHp.Ratio;
             parryGauge.fillAmount = parry.Timer / 2;
             timeT.text = Score.Time.ToString();
@@ -49,6 +51,9 @@ namespace MyGame
 
         void UpdateAmmoGauge()
         {
+            var hue = ammo.Ratio / 360 * 100;
+            ammoGauge.color = Color.HSVToRGB(hue, 1, 1);
+
             if (!player.IsReloading)
             {
                 ammoGauge.fillAmount = ammo.Ratio;
@@ -59,19 +64,7 @@ namespace MyGame
             timerf += Time.deltaTime;
             if (timerf <= player.Time2Reload)
             {
-                ammoGauge.fillAmount = Mathf.Lerp(player.ratio, 1, timerf / player.Time2Reload);
-            }
-        }
-
-        void UpdateAmmoGaugeColor()
-        {
-            foreach (var i in change)
-            {
-                if (ammoGauge.fillAmount <= i.border)
-                {
-                    ammoGauge.color = i.color;
-                    break;
-                }
+                ammoGauge.fillAmount = Mathf.Lerp(player.PreReloadRatio, 1, timerf / player.Time2Reload);
             }
         }
     }

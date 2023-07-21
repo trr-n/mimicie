@@ -7,20 +7,20 @@ namespace MyGame
     public class Ninja : Enemy
     {
         [SerializeField]
-        GameObject shuriken;
+        GameObject shurikenObj;
 
         [SerializeField]
-        GameObject smokeFX, deadFX;
+        GameObject smokeEffect, deadEffect;
 
         [SerializeField]
-        AudioClip doronSE;
+        AudioClip doronSound;
 
         /// <summary>
         /// ninjaのHP
         /// </summary>
-        HP hp;
+        HP ninjaHP;
 
-        new AudioSource audio;
+        AudioSource speaker;
 
         /// <summary>
         /// にんにんしてたらTrue
@@ -28,37 +28,28 @@ namespace MyGame
         bool isNinning = false;
 
         /// <summary>
-        /// 連射用ストップウォッチ
-        /// </summary>
-        Stopwatch shuriSW = new(true);
-
-        /// <summary>
         /// 移動するまで計測するストップウォッチ
         /// </summary>
-        Stopwatch moveSW = new();
+        Stopwatch moveStopwatch = new();
 
-        GameObject player;
+        GameObject playerObj;
         Player p;
 
         /// <summary>
         /// 回転Z座標
         /// </summary>
-        float shuriRZ;
+        float shurikenRotationZ;
 
         /// <summary>
         /// 手裏剣生成たち
         /// </summary>
-        (int Count, float Span, float Range, int RZ) shuri = (Count: 5, Span: 2f, Range: 30f, RZ: 345);
+        (int Count, float Span, float Range, int RZ, float Offset, Stopwatch stopwatch) shuriken = (
+            Count: 5, Span: 2f, Range: 30f, RZ: 345, Offset: 1.5f, stopwatch: new(true));
 
         /// <summary>
-        /// 弾の上下の間隔
+        /// エフェクトの生成座標調整
         /// </summary>
-        const float ofs = 1.5f;
-
-        /// <summary>
-        /// エフェクトの生成座標補正
-        /// </summary>
-        Vector3 FxOfs => new(0, -1.5f, 0);
+        Vector3 EffectPosOffset => new(0, -1.5f, 0);
 
         /// <summary>
         /// エフェクト生成フラグ
@@ -72,15 +63,15 @@ namespace MyGame
 
         void Start()
         {
-            audio = GetComponent<AudioSource>();
+            speaker = GetComponent<AudioSource>();
 
-            player = GameObject.FindGameObjectWithTag(Constant.Player);
-            p = player.GetComponent<Player>();
+            playerObj = GameObject.FindGameObjectWithTag(Constant.Player);
+            p = playerObj.GetComponent<Player>();
 
-            hp = GetComponent<HP>();
-            base.Start(hp);
+            ninjaHP = GetComponent<HP>();
+            ninjaHP.SetMax();
 
-            shuri.Range = 2 * (360 - shuri.RZ);
+            shuriken.Range = 2 * (360 - shuriken.RZ);
         }
 
         void Update()
@@ -88,9 +79,10 @@ namespace MyGame
             Move();
             ThrowShuriken();
 
-            if (hp.IsZero)
+            if (ninjaHP.IsZero)
             {
-                deadFX.Generate(transform.position);
+                // TODO
+                // deadEffect.Generate(transform.position);
                 Destroy(gameObject);
             }
         }
@@ -100,25 +92,27 @@ namespace MyGame
         /// </summary>
         void ThrowShuriken()
         {
-            if (shuriSW.sf >= shuri.Span)
+            if (shuriken.stopwatch.sf >= shuriken.Span)
             {
                 StartCoroutine(Throw());
-                shuriSW.Restart();
+                shuriken.stopwatch.Restart();
             }
         }
 
         /// <summary>
-        /// 投げ
+        /// 手裏剣shuriken.Count連投
         /// </summary>
         IEnumerator Throw()
         {
             yield return null;
-            shuriRZ = Vector3.Angle(-transform.right, player.transform.position - transform.position) - shuri.Range / 2;
-            for (int count = 0; count < shuri.Count; count++)
+
+            shurikenRotationZ = Vector3.Angle(-transform.right, playerObj.transform.position - transform.position) - shuriken.Range / 2;
+            for (int count = 0; count < shuriken.Count; count++)
             {
-                var z = player.transform.position.y > transform.position.y ? -shuriRZ : shuriRZ;
-                shuriken.Generate(transform.position, Quaternion.Euler(0, 0, z));
-                shuriRZ += shuri.Range / shuri.Count + ofs;
+                float spawnRotationZ = playerObj.transform.position.y > transform.position.y ? -shurikenRotationZ : shurikenRotationZ;
+                shurikenObj.Generate(transform.position, Quaternion.Euler(0, 0, spawnRotationZ));
+
+                shurikenRotationZ += shuriken.Range / shuriken.Count + shuriken.Offset;
             }
         }
 
@@ -126,23 +120,23 @@ namespace MyGame
         {
             if (!p.NotNinnin)
             {
-                moveSW.Restart();
+                moveStopwatch.Restart();
                 isNinning = true;
                 fxflag = true;
             }
 
-            if (moveSW.sf >= timing.Smoke && fxflag)
+            if (moveStopwatch.sf >= timing.Smoke && fxflag)
             {
-                audio.PlayOneShot(doronSE);
-                smokeFX.Generate(transform.position + FxOfs);
+                speaker.PlayOneShot(doronSound);
+                smokeEffect.Generate(transform.position + EffectPosOffset);
                 fxflag = false;
             }
 
-            if (moveSW.sf >= timing.Teleport && isNinning)
+            if (moveStopwatch.sf >= timing.Teleport && isNinning)
             {
-                var x = Rnd.Int(((int)Numeric.Round(player.transform.position.x + 2, 0)), 8);
+                var x = Rnd.Int(((int)Numeric.Round(playerObj.transform.position.x + 2, 0)), 8);
                 transform.position = new(x, Rnd.Float(-4, 4), 1);
-                moveSW.Reset();
+                moveStopwatch.Reset();
                 isNinning = false;
             }
         }

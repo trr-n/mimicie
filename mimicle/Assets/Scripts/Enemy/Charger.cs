@@ -46,7 +46,8 @@ namespace MyGame
         void Start()
         {
             chargerHP = GetComponent<HP>();
-            base.Start(chargerHP);
+            chargerHP.SetMax();
+
             collider = GetComponent<BoxCollider2D>();
             style = (MovingType)Rnd.Int(max: style.GetEnumLength());
             SpawnPos = transform.position;

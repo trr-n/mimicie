@@ -7,11 +7,13 @@ namespace MyGame
         public static class Damage
         {
             public static int Player = 34;
+            public static int MiniPlayer = 5;
             public static int Charger = 5;
             public static int LilC = 10;
             public static int BigC = 5;
             public static int Spide = 24;
             public static int Shuriken = 15;
+            public static int Ring = 49;
         }
 
         public static class Point

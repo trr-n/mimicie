@@ -13,6 +13,6 @@ namespace MyGame.Utils
     public class Eguitte : Exception
     {
         public Eguitte() : base("えぐいて!") {; }
-        public Eguitte(string msg = null) : base(msg) {; }
+        public Eguitte(string msg = null) : base("えぐいて!" + msg) {; }
     }
 }

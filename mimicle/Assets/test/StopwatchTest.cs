@@ -19,7 +19,7 @@ namespace MyGame.Test
         {
             if (sw.Second() > 5)
                 sw.Restart();
-            t.text = sw.SpentF(SWFormat.second).ToString();
+            t.text = sw.SpentF(StopwatchFormat.second).ToString();
         }
     }
 }

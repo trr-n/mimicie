@@ -8,7 +8,7 @@ namespace MyGame.Utils
     public enum v { inscene = CursorLockMode.Confined, locked = CursorLockMode.Locked, unlocked = CursorLockMode.None }
     public static class Render
     {
-        public static float SetFPS() => Mathf.Floor(1 / Time.deltaTime);
+        public static float FPS() => Mathf.Floor(1 / Time.deltaTime);
         public static void SetCursorStatus(c status = c.hide, v clock = v.inscene) { visible = status != c.hide; lockState = (CursorLockMode)clock; }
 
         public static IEnumerator Animation(this Sprite[] sprites, SpriteRenderer sr, float span = 0.5f)
