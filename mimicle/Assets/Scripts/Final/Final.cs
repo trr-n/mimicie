@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MyGame
+namespace Self
 {
     public class Final : MonoBehaviour
     {

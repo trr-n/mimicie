@@ -1,7 +1,7 @@
-using MyGame.Utils;
+using Self.Utils;
 using UnityEngine;
 
-namespace MyGame
+namespace Self
 {
     public class Wave3 : MonoBehaviour
     {

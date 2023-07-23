@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     [Serializable]
     public class Karappoyanke : Exception

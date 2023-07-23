@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 using DG.Tweening;
 
-namespace MyGame
+namespace Self
 {
     public sealed class Charger : Enemy
     {
@@ -58,6 +58,7 @@ namespace MyGame
         {
             Move();
             Left(gameObject);
+
             if (chargerHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
@@ -71,22 +72,30 @@ namespace MyGame
             {
                 case MovingType.Straight:
                     renderer.SetColor(Color.gray);
+
                     move.x *= accelRatio;
                     transform.Translate(Vector2.left * move.x * Time.deltaTime);
+
                     break;
+
                 case MovingType.Circular:
                     renderer.SetColor(Color.red);
+
                     cir *= accelRatio;
                     transform.Translate(Vector2.left * move.x * Time.deltaTime);
                     transform.position = new(transform.position.x, cir * Mathf.Sin(Time.time * 10));
+
                     break;
+
                 case MovingType.Stiffly:
                     renderer.SetColor(Color.blue);
+
                     if (transform.position.y >= 4.5f || transform.position.y <= -4.5f)
                     {
                         move.y *= -1;
                     }
                     transform.Translate(new Vector2(-move.x, move.y) * Time.deltaTime);
+
                     break;
             }
         }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public enum LogType { Standard, Warning, Error }
     public static class log

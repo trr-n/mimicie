@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public static class Coordinate
     {
@@ -12,7 +12,9 @@ namespace MyGame.Utils
             }
             t.position = new(x is null ? t.position.x : (float)x, y is null ? t.position.y : (float)y, z is null ? t.position.z : (float)z);
         }
+
         public static void SetPosition(this Transform t, Vector3 position) => t.position = position;
+
         public static void SetPosition(this Transform t, Vector2 position) => t.position = position;
 
         public static void ClampPosition22(this Transform t, float? minX = null, float? maxX = null, float? minY = null, float? maxY = null, float? minZ = null, float? maxZ = null)
@@ -25,6 +27,7 @@ namespace MyGame.Utils
                 minY is null ? t.position.y : Mathf.Clamp(t.position.y, (float)minY, (float)maxY),
                 minZ is null ? t.position.z : Mathf.Clamp(t.position.z, (float)minZ, (float)maxZ));
         }
+
         public static void ClampPosition2(this Transform t, float? minX = null, float? maxX = null, float? minY = null, float? maxY = null)
         {
             if (minX is null && maxX is null && minY is null && maxY is null)
@@ -33,6 +36,7 @@ namespace MyGame.Utils
             }
             t.position = new(Mathf.Clamp(t.position.x, (float)minX, (float)maxX), Mathf.Clamp(t.position.y, (float)minY, (float)maxY));
         }
+
         public static void ClampPosition2(this Transform t, (float min, float max)? x = null, (float min, float max)? y = null)
         {
             if (x is null && y is null)
@@ -41,6 +45,7 @@ namespace MyGame.Utils
             }
             t.position = new(Mathf.Clamp(t.position.x, x.Value.max, x.Value.max), Mathf.Clamp(t.position.y, y.Value.min, y.Value.max));
         }
+
         public static void ClampPosition2(this Transform t, float? x = null, float? y = null)
         {
             if (x is null && y is null)
@@ -78,6 +83,7 @@ namespace MyGame.Utils
             }
             t.localScale = new(x is null ? t.localScale.x : (float)x, y is null ? t.localScale.y : (float)y, z is null ? t.localScale.z : (float)z);
         }
+
         public static void SetScale(this Transform t, Vector3 scale) => t.localScale = scale;
 
         public static bool Twins(Vector3 n1, Vector3 n2) => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);

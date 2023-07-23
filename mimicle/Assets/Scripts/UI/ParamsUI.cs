@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace MyGame
+namespace Self
 {
     public class ParamsUI : MonoBehaviour
     {

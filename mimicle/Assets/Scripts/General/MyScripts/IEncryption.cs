@@ -1,4 +1,4 @@
-﻿namespace MyGame.Utils
+﻿namespace Self.Utils
 {
     public interface IEncryption
     {

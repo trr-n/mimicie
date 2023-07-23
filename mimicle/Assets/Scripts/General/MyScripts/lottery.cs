@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public static class Lottery
     {

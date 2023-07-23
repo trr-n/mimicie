@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyGame
+namespace Self
 {
     public class Ammo : MonoBehaviour
     {
@@ -40,6 +40,7 @@ namespace MyGame
         public void Reduce(int amount = 1)
         {
             remain -= amount;
+
             if (remain <= 0)
             {
                 remain = 0;
@@ -56,7 +57,7 @@ namespace MyGame
                 return;
             }
 
-            for (int i = 0; i <= max; i++)
+            for (int count = 0; count <= max; count++)
             {
                 remain = Mathf.Clamp(remain, 0, max);
                 remain++;

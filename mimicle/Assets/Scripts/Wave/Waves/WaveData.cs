@@ -1,7 +1,7 @@
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public enum Activate { First, Second, Third }
     public class WaveData : MonoBehaviour

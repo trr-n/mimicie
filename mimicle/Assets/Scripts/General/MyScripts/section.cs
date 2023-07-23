@@ -1,7 +1,7 @@
 using UnityEngine;
 using static UnityEngine.SceneManagement.SceneManager;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public class MyScene
     {

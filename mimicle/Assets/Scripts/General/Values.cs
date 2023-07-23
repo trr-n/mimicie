@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyGame
+namespace Self
 {
     public class Values : MonoBehaviour
     {

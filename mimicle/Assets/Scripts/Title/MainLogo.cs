@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public class MainLogo : MonoBehaviour
     {

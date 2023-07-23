@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public static class File
     {

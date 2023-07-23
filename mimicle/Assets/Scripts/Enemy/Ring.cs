@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public class Ring : Enemy
     {
         /// <summary>
         /// 速度
         /// </summary>
-        (float rotate, float move) speed = (1f, 1f);
+        (float rotate, float move) speed = (rotate: 50f, move: 0.5f);
 
         /// <summary>
         /// 進行方向
@@ -24,13 +24,14 @@ namespace MyGame
 
         void Update()
         {
+            // Debug.DrawLine(transform.position, direction * 100, Color.HSVToRGB(Time.time % 1, 1, 1));
             Move();
         }
 
         protected override void Move()
         {
-            // transform.Translate(direction * speed.move, Space.World);
-            transform.Rotate(Vector3.forward * speed.rotate * Time.deltaTime);
+            transform.Translate(direction * speed.move * Time.deltaTime, Space.World);
+            transform.Rotate(new(0, 0, speed.rotate * Time.deltaTime));
         }
 
         void OnCollisionEnter2D(Collision2D info)

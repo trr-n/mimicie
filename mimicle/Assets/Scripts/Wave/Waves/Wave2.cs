@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 using System.Collections;
 
-namespace MyGame
+namespace Self
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {

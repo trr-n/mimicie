@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using MyGame.Utils;
-using static MyGame.Utils.Sys;
+using Self.Utils;
+using static Self.Utils.Sys;
 
-namespace MyGame
+namespace Self
 {
     public class EscMenu : MonoBehaviour
     {

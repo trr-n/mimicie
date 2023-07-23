@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public class SideGun : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace MyGame
 
         void Start()
         {
-            // 上下の銃を無効化
+            // 銃を無効化
             for (int index = 0; index < Max; index++)
             {
                 sideguns[index] = transform.GetChild(index).gameObject;
@@ -46,6 +46,7 @@ namespace MyGame
             {
                 if (gun.IsActive(Active.Self) && trigger.stopwatch.sf > trigger.Rapid)
                 {
+                    print(gun.name + " is enable!");
                     bullet.Generate(gun.transform.position);
                     trigger.stopwatch.Restart();
                 }

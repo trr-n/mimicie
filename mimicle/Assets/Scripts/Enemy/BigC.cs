@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public class BigC : Enemy
     {
         [SerializeField]
         GameObject bullet;
 
+        /// <summary>
+        /// 速度
+        /// </summary>
         (float move, float rotation) speeds = (0.5f, 100);
+
+        /// <summary>
+        /// 体力
+        /// </summary>
         HP bigcHP;
 
         void Start()

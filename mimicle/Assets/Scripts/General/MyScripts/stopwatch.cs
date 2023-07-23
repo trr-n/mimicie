@@ -1,12 +1,12 @@
-using System;
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public enum StopwatchFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
     public sealed class Stopwatch
     {
         SystemStopwatch sw;
+
         public Stopwatch() => sw = new();
         public Stopwatch(bool autoStart)
         {

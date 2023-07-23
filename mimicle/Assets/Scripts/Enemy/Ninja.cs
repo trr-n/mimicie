@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame
+namespace Self
 {
     public class Ninja : Enemy
     {
@@ -107,7 +107,7 @@ namespace MyGame
             yield return null;
 
             shurikenRotationZ = Vector3.Angle(-transform.right, playerObj.transform.position - transform.position) - shuriken.Range / 2;
-            for (int count = 0; count < shuriken.Count; count++)
+            for (int throwCount = 0; throwCount < shuriken.Count; throwCount++)
             {
                 float spawnRotationZ = playerObj.transform.position.y > transform.position.y ? -shurikenRotationZ : shurikenRotationZ;
                 shurikenObj.Generate(transform.position, Quaternion.Euler(0, 0, spawnRotationZ));

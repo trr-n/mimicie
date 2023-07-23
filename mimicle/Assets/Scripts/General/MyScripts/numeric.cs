@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public static class Numeric
     {

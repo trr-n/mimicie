@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public enum Style { Standard, Rebirth }
     public static class Temps

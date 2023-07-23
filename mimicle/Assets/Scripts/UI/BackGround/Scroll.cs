@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using MyGame.Utils;
+using Self.Utils;
 using UnityEngine;
 
-namespace MyGame
+namespace Self
 {
     public class Scroll : MonoBehaviour
     {

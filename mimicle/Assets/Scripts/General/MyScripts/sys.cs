@@ -1,6 +1,6 @@
 ﻿using static UnityEngine.SystemInfo;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public static class Sys
     {

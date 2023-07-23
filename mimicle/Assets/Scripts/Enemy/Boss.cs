@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using MyGame.Utils;
+using Self.Utils;
 using System.Collections.Generic;
 
-namespace MyGame
+namespace Self
 {
     public class Boss : MonoBehaviour
     {
@@ -31,7 +31,7 @@ namespace MyGame
         /// <summary>
         /// 初期値たち
         /// </summary>
-        readonly (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial = (
+        (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial => (
             Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3), Color.green);
 
         new PolygonCollider2D collider;
@@ -53,7 +53,7 @@ namespace MyGame
 
         bool startBossBattle = false;
         /// <summary>
-        /// ボス戦が始まったらTrue
+        /// ボス戦(ウェーブ3)が始まったらTrue
         /// </summary>
         public bool StartBossBattle => startBossBattle;
 

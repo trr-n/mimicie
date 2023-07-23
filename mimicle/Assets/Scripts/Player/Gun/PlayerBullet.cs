@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public class PlayerBullet : Bullet
     {
@@ -36,7 +36,6 @@ namespace MyGame.Utils
         {
             if (info.Try<HP>(out var hp))
             {
-                print("player bullet is hit");
                 hp.Damage(info.gameObject.name.Contains("boss") ?
                     Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
             }
@@ -46,11 +45,11 @@ namespace MyGame.Utils
         {
             if (info.Compare(Constant.Enemy))
             {
-                TakeDamage(info);
-
                 //TODO 着弾時の効果音つける 
                 // audio.PlayOneShot(sound);
                 effect.Generate(transform.position, Quaternion.identity);
+
+                TakeDamage(info);
 
                 Destroy(gameObject);
             }

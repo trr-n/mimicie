@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public class One
     {

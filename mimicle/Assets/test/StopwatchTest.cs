@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using MyGame.Utils;
+using Self.Utils;
 
-namespace MyGame.Test
+namespace Self.Test
 {
     public class StopwatchTest : MonoBehaviour
     {

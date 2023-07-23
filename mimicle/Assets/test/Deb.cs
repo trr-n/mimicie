@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace MyGame.Test
+namespace Self.Test
 {
     public class Deb : MonoBehaviour
     {

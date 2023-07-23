@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MyGame.Utils
+namespace Self.Utils
 {
     public enum Active { Self, Hierarchy }
 

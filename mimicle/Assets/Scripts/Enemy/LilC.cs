@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using MyGame.Utils;
+using Self.Utils;
 using DG.Tweening;
 
-namespace MyGame
+namespace Self
 {
     public sealed class LilC : Enemy
     {
