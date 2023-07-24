@@ -11,13 +11,16 @@ namespace Self
         GameObject[] bullets = new GameObject[3];
 
         [SerializeField]
-        AudioClip se;
+        GameObject playerBullet;
 
         [SerializeField]
-        int level = 0;
+        AudioClip se;
 
         Ammo ammo;
         AudioSource speaker;
+
+        int activeType;
+        public int ActiveType => activeType;
 
         void Start()
         {
@@ -25,24 +28,34 @@ namespace Self
             ammo = GetComponent<Ammo>();
         }
 
-        public void Shot(int level = 0)
+        public void Shot(int activeType = 0)
         {
-            switch (level)
+            this.activeType = activeType;
+            GameObject bulletObj = null;
+            PlayerBullet playerBullet = null;
+
+            switch (activeType)
             {
-                // TODO 上下の銃を廃止してメインを強化する
-                // ノーマル弾単発
                 case 0:
-                    bullets[0].Generate(transform.position, Quaternion.Euler(0, 0, 180));
+                    // 弾取得
+                    bulletObj = bullets[0].Generate(transform.position, Quaternion.Euler(0, 0, 180));
+                    // 弾のplayerbullet取得
+                    playerBullet = bulletObj.GetComponent<PlayerBullet>();
+                    // 弾のグレード設定
+                    playerBullet.SetBulletType(activeType);
+
                     break;
 
-                // ロケラン単発
                 case 1:
                     break;
 
-                // ロケラン連射
                 case 2:
                     break;
+
+                default:
+                    throw new System.Exception("out of range active type");
             }
+
             speaker.PlayOneShot(se);
             ammo.Reduce();
         }

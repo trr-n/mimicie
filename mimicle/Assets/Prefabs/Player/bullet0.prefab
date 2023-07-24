@@ -343,5 +343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1220130afbee8a24daf8a0286ca83700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletType: 0
+  bulletSprites:
+  - {fileID: 7482667652216324306, guid: ce1683e037069b842adb4fe53277d24a, type: 3}
+  - {fileID: 7482667652216324306, guid: ce1683e037069b842adb4fe53277d24a, type: 3}
+  - {fileID: 7482667652216324306, guid: ce1683e037069b842adb4fe53277d24a, type: 3}
   effect: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   sound: {fileID: 0}

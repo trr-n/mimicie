@@ -116,10 +116,11 @@ namespace Self
         /// </summary>
         One a = new();
 
+        int currentGunGrade = 0;
         /// <summary>
-        /// 上下の銃の表示数
+        /// 現在の銃のグレード
         /// </summary>
-        int upgradeCount = 0;
+        public int CurrentGunGrade => currentGunGrade;
 
         void Awake()
         {
@@ -160,6 +161,9 @@ namespace Self
             rapidSW.Restart();
         }
 
+        /// <summary>
+        /// リロード処理
+        /// </summary>
         void Reload()
         {
             ReloadProgress = reloadSW.sf / time2reload;
@@ -201,6 +205,9 @@ namespace Self
             }
         }
 
+        /// <summary>
+        /// 移動処理
+        /// </summary>
         void Move()
         {
             if (!manager.Ctrlable)
@@ -216,9 +223,9 @@ namespace Self
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.UpgradeItem) && upgradeCount < 3)
+            if (info.Compare(Constant.UpgradeItem) && currentGunGrade < 3)
             {
-                sidegun.Add(upgradeCount++);
+                sidegun.Add(currentGunGrade++);
 
                 // TODO make fx
                 info.Destroy();
