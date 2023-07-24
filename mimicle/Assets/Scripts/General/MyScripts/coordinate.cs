@@ -19,7 +19,7 @@ namespace Self.Utils
 
         public static void ClampPosition22(this Transform t, float? minX = null, float? maxX = null, float? minY = null, float? maxY = null, float? minZ = null, float? maxZ = null)
         {
-            if (minX is not null && maxX is not null && minY is not null && maxY is not null && minZ is not null && maxZ is not null)
+            if (minX is null && maxX is null && minY is null && maxY is null && minZ is null && maxZ is null)
             {
                 throw new Karappoyanke();
             }

@@ -9,6 +9,7 @@ namespace Self
     {
         [SerializeField]
         Text max, now;
+
         [SerializeField]
         WaveData wave;
 

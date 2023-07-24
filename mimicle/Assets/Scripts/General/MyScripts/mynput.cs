@@ -2,7 +2,7 @@
 
 namespace Self.Utils
 {
-    public static class Mynput
+    public static class Feed
     {
         public static bool Down() => Input.anyKeyDown;
         public static bool Down(int click) => Input.GetMouseButtonDown(click);

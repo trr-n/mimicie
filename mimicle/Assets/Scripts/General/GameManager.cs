@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using Self.Utils;
 
 namespace Self
@@ -9,63 +11,125 @@ namespace Self
         int startWave = 0;
 
         [SerializeField]
-        EnemySpawner spawner;
-
-        [SerializeField]
         Scroll scroll;
 
         [SerializeField]
-        WaveData wdata;
+        Image sceneReloadPanel;
 
         public GameObject menuPanel;
 
+        /// <summary>
+        /// プレイヤー制御用フラグ
+        /// </summary>
         public bool Ctrlable { get; set; }
-        public bool BGScroll { get; set; }
+
+        /// <summary>
+        /// 背景スクロール制御用フラグ
+        /// </summary>
+        public bool Scrollable { get; set; }
+
+        /// <summary>
+        /// メニューパネル(esc)が開いてたらTrue
+        /// </summary>
         public bool IsOpeningMenu { get; set; }
+
+        /// <summary>
+        /// 死んだらTrue
+        /// </summary>
         public bool IsDead { get; set; }
+
+        // static string password = "mimicle";
+        // /// <summary>
+        // /// セーブ用パスワード
+        // /// </summary>
+        // public static string Password => password;
+
+        // static string path = null;
+        // /// <summary>
+        // /// セーブファイルのパス
+        // /// </summary>
+        // public static string Path => path is null ? "Not yet" : path;
+
+        static (string password, string path) saveFile = (password: "mimicle", null);
+        /// <summary>
+        /// セーブデータの設定s
+        /// </summary>
+        public static (string password, string path) SaveFile => (saveFile.password, saveFile.path is null ? "Not yet" : saveFile.path);
 
         void Start()
         {
-            spawner.ActivateWave(startWave);
+            Score.StartTimer();
             Ctrlable = true;
-            BGScroll = true;
+            Scrollable = true;
             IsDead = false;
+            sceneReloadPanel.color = Colour.transparent;
 
             Physics2D.gravity = Vector3.forward * 9.81f;
             App.SetFPS(60);
+            App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
         }
 
         void Update()
         {
-            if (Mynput.Pressed(Values.Key.Stop))
+            if (Feed.Pressed(Values.Key.Stop))
             {
                 Time.timeScale = 0;
                 Ctrlable = false;
-                BGScroll = false;
+                Scrollable = false;
             }
 
-            else if (Mynput.Released(Values.Key.Stop))
+            else if (Feed.Released(Values.Key.Stop))
             {
                 Time.timeScale = 1;
                 Ctrlable = true;
-                BGScroll = true;
+                Scrollable = true;
             }
         }
 
-        public void PlayerIsDead()
+        /// <summary>
+        /// プレイヤーの死亡処理
+        /// 複数回実行禁止
+        /// </summary>
+        public void PlayerIsDeath()
+        {
+            StartCoroutine(PlayerIsDeadCoroutine());
+        }
+
+        IEnumerator PlayerIsDeadCoroutine()
+        {
+            Score.ResetTimer();
+
+            // TODO シーンリセット演出追加,スコアは表示しない
+            float fadeAlpha = 0f;
+            float alphaIncAmount = 0.02f;
+            while (fadeAlpha >= 1)
+            {
+                yield return null;
+
+                fadeAlpha += alphaIncAmount * Time.unscaledDeltaTime;
+            }
+        }
+
+        /// <summary>
+        /// クリア処理\n
+        /// ! ファイル名を現在時刻にしてるから **複数回実行禁止**
+        /// </summary>
+        public void End()
         {
             Ctrlable = false;
-            BGScroll = false;
+            Scrollable = false;
             Time.timeScale = 0;
-
             Score.StopTimer();
-            // ScoreData data = new ScoreData
-            // {
-            //     wave = wdata.Now,
-            //     time = Score.Time,
-            //     score = Score.Now
-            // };
-            // Save.Write(data, "goigoisu-", Application.dataPath + "/score.sav");
+
+            ResultData data = new ResultData
+            {
+                time = 1,
+                score = 1
+            };
+            // path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
+            // Save.Write(data, password, path);
+            saveFile.path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
+            Save.Write(data, saveFile.password, saveFile.path);
         }
 
         public void OpenMenuPanel()
@@ -73,7 +137,7 @@ namespace Self
             menuPanel.SetActive(true);
             Score.StopTimer();
             Ctrlable = false;
-            BGScroll = false;
+            Scrollable = false;
             IsOpeningMenu = true;
             Time.timeScale = 0;
         }
@@ -83,7 +147,7 @@ namespace Self
             menuPanel.SetActive(false);
             Score.StartTimer();
             Ctrlable = true;
-            BGScroll = true;
+            Scrollable = true;
             IsOpeningMenu = false;
             Time.timeScale = 1;
         }

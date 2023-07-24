@@ -28,7 +28,7 @@ namespace Self
 
         void Update()
         {
-            if (Mynput.Down(KeyCode.Escape))
+            if (Feed.Down(KeyCode.Escape))
             {
                 if (!isActive)
                 {

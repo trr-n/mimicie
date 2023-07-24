@@ -17,7 +17,7 @@ namespace Self.Utils
         public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
 
         public static int Percent(float n, int digit = 0) => ((int)MathF.Round(n * 100, digit));
-        public static int Percent(int whole, int percentage) => Round(whole * percentage / 100);
+        public static int Percent(int w, int per) => Round(w * per / 100);
 
         public static float Ratio(float w, float t) => (float)w / t;
         public static bool Twins(this float n1, float n2) => Mathf.Approximately(n1, n2);

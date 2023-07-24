@@ -152,12 +152,7 @@ namespace Self
 
         void FixedUpdate()
         {
-            if (Mynput.Pressed(Values.Key.Fire))
-            {
-                sidegun.Shot();
-            }
-
-            if (NotNinnin = !(Mynput.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpan && !isReloading))
+            if (NotNinnin = !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpan && !isReloading))
             {
                 return;
             }
@@ -175,7 +170,7 @@ namespace Self
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
-            if (Mynput.Down(Values.Key.Reload))
+            if (Feed.Down(Values.Key.Reload))
             {
                 PreReloadRatio = ammo.Ratio;
                 ammo.Reload();
@@ -221,9 +216,10 @@ namespace Self
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.UpgradeItem) && upgradeCount < 2)
+            if (info.Compare(Constant.UpgradeItem) && upgradeCount < 3)
             {
                 sidegun.Add(upgradeCount++);
+
                 // TODO make fx
                 info.Destroy();
                 return;

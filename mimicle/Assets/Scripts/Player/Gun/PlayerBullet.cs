@@ -14,6 +14,11 @@ namespace Self.Utils
 
         Vector2 direction;
 
+        float speed = 20;
+
+        int currentLevel = 0;
+        public int Level => currentLevel;
+
         void Start()
         {
             direction = transform.right;
@@ -24,7 +29,7 @@ namespace Self.Utils
         void Update()
         {
             OutOfScreen(gameObject);
-            Move(20);
+            Move(speed);
         }
 
         protected override void Move(float speed)
@@ -37,7 +42,7 @@ namespace Self.Utils
             if (info.Try<HP>(out var hp))
             {
                 hp.Damage(info.gameObject.name.Contains("boss") ?
-                    Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
+                    Numeric.Round(Values.Damage.Player[currentLevel] / 3, 0) : Values.Damage.Player[currentLevel]);
             }
         }
 
@@ -50,7 +55,6 @@ namespace Self.Utils
                 effect.Generate(transform.position, Quaternion.identity);
 
                 TakeDamage(info);
-
                 Destroy(gameObject);
             }
         }

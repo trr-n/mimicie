@@ -13,7 +13,7 @@ namespace Self
 
         [SerializeField, Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
         GameObject[] mobs;
-        (int charger, int lilc, int bigc, int spide, int ninja) MobIndex => (0, 1, 2, 3, 4);
+        (int charger, int lilc, int bigc, int spide, int ninja) mobIndex => (0, 1, 2, 3, 4);
 
         [SerializeField]
         GameObject point;
@@ -103,6 +103,11 @@ namespace Self
         /// </summary>
         Quaternion BarrageRotationOffset => Quaternion.Euler(0, 0, point.transform.eulerAngles.z - 90);
 
+        /// <summary>
+        /// 終了用
+        /// </summary>
+        One Terminater = new();
+
         void Start()
         {
             collider = GetComponent<PolygonCollider2D>();
@@ -141,7 +146,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                manager.PlayerIsDead();
+                Terminater.RunOnce(() => manager.End());
             }
         }
 
@@ -262,20 +267,20 @@ namespace Self
                 return;
             }
 
+            activeLevel = 2;
+
             if (ninjable)
             {
                 float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
-                ninjas.Add(mobs[MobIndex.ninja].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
+                ninjas.Add(mobs[mobIndex.ninja].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
 
                 ninjable = false;
             }
 
-            foreach (var ninja in ninjas)
+            if (ninjas.Count <= 0)
             {
-
+                ninjable = true;
             }
-
-            activeLevel = 2;
         }
 
         /// <summary>
@@ -334,7 +339,7 @@ namespace Self
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                mobs[MobIndex.spide].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
+                mobs[mobIndex.spide].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 span.spide = Rnd.Int(20, 30);
 
                 spideSW.Restart();

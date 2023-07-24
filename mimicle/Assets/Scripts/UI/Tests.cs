@@ -6,12 +6,5 @@ namespace Self
 {
     public class Tests : MonoBehaviour
     {
-        [SerializeField]
-        Text fpsT;
-
-        void Update()
-        {
-            fpsT.text = Render.FPS().ToString();
-        }
     }
 }

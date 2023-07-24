@@ -24,17 +24,17 @@ namespace Self
         {
             speaker.SpeakerVolumeControl(volumeT);
 
-            if (Mynput.Down(Values.Key.Mute))
+            if (Feed.Down(Values.Key.Mute))
             {
                 speaker.MuteVolume(volumeT);
             }
 
-            if (Mynput.Down(Values.Key.MChange))
+            if (Feed.Down(Values.Key.MChange))
             {
                 speaker.Change(songT);
             }
 
-            if (Mynput.Down(KeyCode.Escape))
+            if (Feed.Down(KeyCode.Escape))
             {
                 if (!manager.menuPanel.IsActive(Active.Hierarchy))
                 {

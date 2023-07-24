@@ -60,7 +60,7 @@ namespace Self
         /// </summary>
         void MakeParry()
         {
-            if (cooltimer.sf >= CT && Mynput.Down(Values.Key.Parry))
+            if (cooltimer.sf >= CT && Feed.Down(Values.Key.Parry))
             {
                 cooltimer.Reset();
                 parry.SetActive(true);

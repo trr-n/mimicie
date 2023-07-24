@@ -21,9 +21,8 @@ namespace Self
         public static void Add(int amount) => now += amount;
     }
 
-    public struct ScoreData
+    public struct ResultData
     {
-        public int wave;
         public int score;
         public int time;
     }

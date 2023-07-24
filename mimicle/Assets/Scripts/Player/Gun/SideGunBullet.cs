@@ -17,7 +17,7 @@ namespace Self
         /// <summary>
         /// 移動速度
         /// </summary>
-        float speed = 1;
+        float speed = 15;
 
         Vector2 direction;
 
@@ -26,7 +26,7 @@ namespace Self
             source = GetComponent<AudioSource>();
 
             transform.SetEuler(z: -90);
-            direction = transform.up;
+            direction = -transform.right;
         }
 
         void Update()
@@ -45,12 +45,13 @@ namespace Self
             if (info.Try<HP>(out var hp))
             {
                 hp.Damage(info.gameObject.name.Contains("boss") ?
-                    Numeric.Round(Values.Damage.Player / 3, 0) : Values.Damage.Player);
+                    Numeric.Round(Values.Damage.MiniPlayer / 3, 0) : Values.Damage.MiniPlayer);
             }
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
+            // TODO
             // effect.Generate(transform.position);
             // source.PlayOneShot(sound);
 

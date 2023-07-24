@@ -38,7 +38,7 @@ namespace Self
         {
             if (MyScene.Active() == Constant.Main)
             {
-                scroll = manager.BGScroll;
+                scroll = manager.Scrollable;
             }
             else
             {

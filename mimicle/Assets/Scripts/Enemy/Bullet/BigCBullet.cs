@@ -13,7 +13,7 @@ namespace Self
         /// <summary>
         /// 移動速度
         /// </summary>
-        (float basis, float Reduct) speed = (5, 0.01f);
+        (float basis, float Reduct) speed = (5, 0.03f);
 
         /// <summary>
         /// 弾の生成座標
@@ -28,13 +28,12 @@ namespace Self
         /// <summary>
         /// 爆発処理
         /// </summary>
-        (float Range, float DamageMagnification) explosion = (2f, 1.5f);
+        (float Range, float DmgMult) explosion = (2f, 1.5f);
 
         void Start()
         {
             direction = -transform.right;
             SpawnedPosition = transform.position;
-
             playerObj = Gobject.Find(Constant.Player);
         }
 
@@ -67,9 +66,9 @@ namespace Self
             float distance = Vector2.Distance(transform.position, playerObj.transform.position);
             if (distance <= explosion.Range)
             {
-                // ダメージ量 = 距離 * ダメージ倍率
-                float damageDistance = explosion.Range - distance;
-                int damageAmount = ((int)Numeric.Round(damageDistance * explosion.DamageMagnification));
+                // ダメージ量 = (爆発範囲 - 距離) * ダメージ倍率
+                float hitPoint = explosion.Range - distance;
+                int damageAmount = ((int)Numeric.Round(hitPoint * explosion.DmgMult));
                 playerObj.GetComponent<HP>().Damage(damageAmount);
             }
 

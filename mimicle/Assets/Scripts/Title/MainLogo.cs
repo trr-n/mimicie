@@ -55,7 +55,7 @@ namespace Self
 
         void ChangeSprite()
         {
-            if (Mynput.Down(KeyCode.Tab))
+            if (Feed.Down(KeyCode.Tab))
             {
                 if (renderer.Compare(logos[0]))
                 {
@@ -85,13 +85,13 @@ namespace Self
             {
                 isMouseOverOnLogo = true;
                 transform.localScale = Vector3.Lerp(transform.localScale, Scale * 1.1f, 20 * Time.deltaTime);
-                if (Mynput.Down(0))
+                if (Feed.Down(0))
                 {
                     speaker.PlayOneShot(clicks.Choice3());
                     ChangeTextsColor(clickT);
                 }
             }
-            else if (Mynput.Down(KeyCode.Space))
+            else if (Feed.Down(KeyCode.Space))
             {
                 speaker.PlayOneShot(presses.Choice3());
                 ChangeTextsColor(pressT);

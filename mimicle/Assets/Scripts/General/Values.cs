@@ -6,7 +6,7 @@ namespace Self
     {
         public static class Damage
         {
-            public static int Player = 34;
+            public static int[] Player = { 25, 30, 35 };
             public static int MiniPlayer = 5;
             public static int Charger = 5;
             public static int LilC = 10;

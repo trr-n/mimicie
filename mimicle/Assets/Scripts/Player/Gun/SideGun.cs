@@ -19,7 +19,7 @@ namespace Self
         /// <summary>
         /// 連射用
         /// </summary>
-        (float Rapid, Stopwatch stopwatch) trigger = (0.2f, new(true));
+        (float RapidSpeed, Stopwatch stopwatch) trigger = (0.2f, new(true));
 
         const int Max = 2;
 
@@ -36,15 +36,15 @@ namespace Self
             }
         }
 
-        void _Update()
-        {
-        }
-
+        /// <summary>
+        /// 発砲処理
+        /// </summary>
         public void Shot()
         {
             foreach (var gun in sideguns)
             {
-                if (gun.IsActive(Active.Self) && trigger.stopwatch.sf > trigger.Rapid)
+                // FIXME: 下の銃だけ撃てない
+                if (gun.IsActive(Active.Self) && trigger.stopwatch.sf > trigger.RapidSpeed)
                 {
                     print(gun.name + " is enable!");
                     bullet.Generate(gun.transform.position);
@@ -54,7 +54,7 @@ namespace Self
         }
 
         /// <summary>
-        /// 上下の銃を追加
+        /// 有効化
         /// </summary>
         public void Add(int hitCount)
         {

@@ -34,12 +34,12 @@ namespace Self
 
         public void SpeakerVolumeControl(Text volumeT)
         {
-            if (Mynput.Down(Values.Key.VUp))
+            if (Feed.Down(Values.Key.VUp))
             {
                 _volume += amount;
             }
 
-            else if (Mynput.Down(Values.Key.VDown))
+            else if (Feed.Down(Values.Key.VDown))
             {
                 _volume -= amount;
             }
