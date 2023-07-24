@@ -52,12 +52,14 @@ namespace Self.Utils
 
         void LateUpdate()
         {
-            // setSprite.RunOnce(() => SetBulletSprite(currentLevel));
             SetBulletSprite(currentLevel);
         }
 
         public void SetBulletType(int bulletType) => currentLevel = bulletType;
 
+        /// <summary>
+        /// 弾の画像設定
+        /// </summary>
         void SetBulletSprite(int grade) => sr.sprite = bulletSprites[grade];
 
         protected override void Move(float speed)

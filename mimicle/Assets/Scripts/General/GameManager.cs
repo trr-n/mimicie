@@ -126,9 +126,9 @@ namespace Self
                 time = 1,
                 score = 1
             };
-            // path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
-            // Save.Write(data, password, path);
+
             saveFile.path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
+            // saveFile.path = Application.persistentDataPath + "/" + Temps.Raw2 + ".sav";
             Save.Write(data, saveFile.password, saveFile.path);
         }
 

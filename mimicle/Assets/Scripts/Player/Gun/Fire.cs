@@ -37,19 +37,21 @@ namespace Self
             switch (activeType)
             {
                 case 0:
+                    print("0ing");
                     // 弾取得
                     bulletObj = bullets[0].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     // 弾のplayerbullet取得
                     playerBullet = bulletObj.GetComponent<PlayerBullet>();
                     // 弾のグレード設定
                     playerBullet.SetBulletType(activeType);
-
                     break;
 
                 case 1:
+                    print("1ing");
                     break;
 
                 case 2:
+                    print("2ing");
                     break;
 
                 default:

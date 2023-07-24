@@ -25,13 +25,8 @@ namespace Self
         [SerializeField]
         CircleUI circleUI;
 
-        [SerializeField]
-        SideGun sidegun;
-
-        /// <summary>
-        /// 連射速度
-        /// </summary>
-        const float RapidSpan = 0.1f;
+        // [SerializeField]
+        // SideGun sidegun;
 
         float time2reload = 0f;
         /// <summary>
@@ -71,7 +66,7 @@ namespace Self
         Stopwatch rapidSW = new(true);
 
         /// <summary>
-        /// 被弾のやつ用ストップウォッチ
+        /// 被弾した時の色変更用ストップウォッチ
         /// </summary>
         Stopwatch sw = new();
 
@@ -97,7 +92,7 @@ namespace Self
         public RaycastHit2D Hit => hit;
 
         /// <summary>
-        /// リロード用ストップウォッチ
+        /// リロード時間
         /// </summary>
         public float Reload__ => reloadSW.SecondF(2);
 
@@ -114,13 +109,15 @@ namespace Self
         /// <summary>
         /// セーブデータ書き込み用
         /// </summary>
-        One a = new();
+        One write = new();
 
         int currentGunGrade = 0;
         /// <summary>
         /// 現在の銃のグレード
         /// </summary>
         public int CurrentGunGrade => currentGunGrade;
+
+        float[] RapidSpeeds => new float[3] { 0.1f, 1, 1 };
 
         void Awake()
         {
@@ -149,20 +146,34 @@ namespace Self
             {
                 playerSR.color = Color.white;
             }
+            // }
+
+            // void FixedUpdate()
+            // {
+            Shot();
         }
 
-        void FixedUpdate()
+        /// <summary>
+        /// 発砲
+        /// </summary>
+        void Shot()
         {
-            if (NotNinnin = !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpan && !isReloading))
+            if (NotNinnin =
+                !(Feed.Pressed(Values.Key.Fire) &&
+                !ammo.IsZero() &&
+                rapidSW.sf > RapidSpeeds[currentGunGrade] &&
+                !isReloading)
+            )
             {
                 return;
             }
-            gun.Shot();
+
+            gun.Shot(currentGunGrade);
             rapidSW.Restart();
         }
 
         /// <summary>
-        /// リロード処理
+        /// リロード
         /// </summary>
         void Reload()
         {
@@ -196,8 +207,7 @@ namespace Self
         {
             if (playerHP.IsZero)
             {
-                // WriteData.RunOnce(() => manager.PlayerIsDead());
-                a.RunOnce(() =>
+                write.RunOnce(() =>
                 {
                     Score.ResetTimer();
                     MyScene.Load();
@@ -225,7 +235,7 @@ namespace Self
         {
             if (info.Compare(Constant.UpgradeItem) && currentGunGrade < 3)
             {
-                sidegun.Add(currentGunGrade++);
+                currentGunGrade++;
 
                 // TODO make fx
                 info.Destroy();

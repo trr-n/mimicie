@@ -8,10 +8,12 @@ namespace Self
 {
     public class Boss : MonoBehaviour
     {
-        [SerializeField, Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
+        [SerializeField]
+        [Tooltip("0: 5%\n1:7%\n2:9%\n3:11%\n4:15%")]
         GameObject[] bullets;
 
-        [SerializeField, Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
+        [SerializeField]
+        [Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
         GameObject[] mobs;
         (int charger, int lilc, int bigc, int spide, int ninja) mobIndex => (0, 1, 2, 3, 4);
 
@@ -51,21 +53,21 @@ namespace Self
         public int ActiveLevel => activeLevel;
         enum Level { First = 0, Second, Third, Fourth, Fifth }
 
-        bool startBossBattle = false;
+        bool isStartedBossBattle = false;
         /// <summary>
         /// ボス戦(ウェーブ3)が始まったらTrue
         /// </summary>
-        public bool StartBossBattle => startBossBattle;
+        public bool IsStartedBossBattle => isStartedBossBattle;
 
         /// <summary>
         /// レベル1 のやつ
         /// </summary>
-        readonly (int Bullets, float Range) w1Rapid = (5, 1.25f);
+        (int Bullets, float Range) w1Rapid => (5, 1.25f);
 
         /// <summary>
         /// 初期座標に向かうときの移動速度
         /// </summary>
-        float posLerpSpeed = 5;
+        float PosLerpSpeed = 5;
 
         /// <summary>
         /// spideのスポーン間隔計測用ストップウォッチ
@@ -106,7 +108,7 @@ namespace Self
         /// <summary>
         /// 終了用
         /// </summary>
-        One Terminater = new();
+        One terminated = new();
 
         void Start()
         {
@@ -130,7 +132,7 @@ namespace Self
             bossr = GetComponent<SpriteRenderer>();
             bossr.color = initial.color;
 
-            transform.DOMove(initial.position, posLerpSpeed).SetEase(Ease.OutCubic);
+            transform.DOMove(initial.position, PosLerpSpeed).SetEase(Ease.OutCubic);
         }
 
         void Update()
@@ -146,7 +148,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                Terminater.RunOnce(() => manager.End());
+                terminated.RunOnce(() => manager.End());
             }
         }
 
@@ -160,7 +162,7 @@ namespace Self
                 return;
             }
 
-            startBossBattle = true;
+            isStartedBossBattle = true;
             if (collide)
             {
                 collider.isTrigger = false;

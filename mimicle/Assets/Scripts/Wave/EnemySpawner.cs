@@ -120,7 +120,7 @@ namespace Self
         {
             qset[Wave.Third].timer += Time.deltaTime;
 
-            if (!inProgress(Wave.Third) && !boss.StartBossBattle) // && !Spawnable)
+            if (!inProgress(Wave.Third) && !boss.IsStartedBossBattle) // && !Spawnable)
                 return;
             "Wave3".show();
             if (!StartWave3)
