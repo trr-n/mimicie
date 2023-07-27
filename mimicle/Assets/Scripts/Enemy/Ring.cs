@@ -24,7 +24,6 @@ namespace Self
 
         void Update()
         {
-            // Debug.DrawLine(transform.position, direction * 100, Color.HSVToRGB(Time.time % 1, 1, 1));
             Move();
         }
 

@@ -140,7 +140,7 @@ namespace Self
             Reload();
 
             hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, 1 << 9 | 1 << 10);
-            playerCol.isTrigger = parry.IsParry;
+            playerCol.isTrigger = parry.IsParrying;
 
             if (sw.sf >= 0.2f)
             {
@@ -159,11 +159,7 @@ namespace Self
         void Shot()
         {
             if (NotNinnin =
-                !(Feed.Pressed(Values.Key.Fire) &&
-                !ammo.IsZero() &&
-                rapidSW.sf > RapidSpeeds[currentGunGrade] &&
-                !isReloading)
-            )
+                !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpeeds[currentGunGrade] && !isReloading))
             {
                 return;
             }
@@ -242,7 +238,7 @@ namespace Self
                 return;
             }
 
-            if (!parry.IsParry)
+            if (!parry.IsParrying)
             {
                 sw.Restart();
                 playerSR.SetColor(Color.red);

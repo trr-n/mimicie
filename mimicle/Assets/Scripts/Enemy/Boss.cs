@@ -14,8 +14,14 @@ namespace Self
 
         [SerializeField]
         [Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
+        /// <summary>
+        /// 0: charger<br/>
+        /// 1: lilc<br/>
+        /// 2: bigc<br/>
+        /// 3: spide<br/>
+        /// 4: ninja<br/>
+        /// </summary>
         GameObject[] mobs;
-        (int charger, int lilc, int bigc, int spide, int ninja) mobIndex => (0, 1, 2, 3, 4);
 
         [SerializeField]
         GameObject point;
@@ -28,7 +34,6 @@ namespace Self
 
         [SerializeField]
         GameManager manager;
-
 
         /// <summary>
         /// 初期値たち
@@ -46,11 +51,11 @@ namespace Self
         /// </summary>
         (HP hp, int remain) boss, player;
 
-        int activeLevel = 0;
+        int currentActiveLevel = 0;
         /// <summary>
         /// アクティブなレベル
         /// </summary>
-        public int ActiveLevel => activeLevel;
+        public int CurrentActiveLevel => currentActiveLevel;
         enum Level { First = 0, Second, Third, Fourth, Fifth }
 
         bool isStartedBossBattle = false;
@@ -62,7 +67,7 @@ namespace Self
         /// <summary>
         /// レベル1 のやつ
         /// </summary>
-        (int Bullets, float Range) w1Rapid => (5, 1.25f);
+        (int Bullets, float Range) level1Rapids => (5, 1.25f);
 
         /// <summary>
         /// 初期座標に向かうときの移動速度
@@ -192,7 +197,7 @@ namespace Self
                 return;
             }
 
-            activeLevel = 0;
+            currentActiveLevel = 0;
 
             Lv1C.RunOnce(() => StartCoroutine(Lv01()));
         }
@@ -201,12 +206,12 @@ namespace Self
         {
             while (isActiveLevel(((int)Level.First)))
             {
-                yield return new WaitForSeconds(w1Rapid.Range * 1.5f);
+                yield return new WaitForSeconds(level1Rapids.Range * 1.5f);
 
-                for (int count = 0; count < w1Rapid.Bullets; count++)
+                for (int count = 0; count < level1Rapids.Bullets; count++)
                 {
                     bullets[0].Generate(point.transform.position, Quaternion.identity);
-                    yield return new WaitForSeconds(w1Rapid.Range / w1Rapid.Bullets);
+                    yield return new WaitForSeconds(level1Rapids.Range / level1Rapids.Bullets);
                 }
             }
         }
@@ -221,7 +226,7 @@ namespace Self
                 return;
             }
 
-            activeLevel = 1;
+            currentActiveLevel = 1;
 
             barrage.runner.RunOnce(() =>
             {
@@ -269,12 +274,13 @@ namespace Self
                 return;
             }
 
-            activeLevel = 2;
+            currentActiveLevel = 2;
 
+            // 2体以上忍者が湧かないように
             if (ninjable)
             {
                 float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
-                ninjas.Add(mobs[mobIndex.ninja].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
+                ninjas.Add(mobs[4].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
 
                 ninjable = false;
             }
@@ -295,12 +301,11 @@ namespace Self
                 return;
             }
 
-            activeLevel = 3;
+            currentActiveLevel = 3;
         }
 
-        (float Span, Stopwatch stopwatch) lv5Spawn = (
-            Span: 1.3f, stopwatch: new(false));
-        One lv5SWRunner = new();
+        (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
+        One level5StopwatchRunner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
@@ -311,14 +316,15 @@ namespace Self
                 return;
             }
 
-            activeLevel = 4;
+            currentActiveLevel = 4;
 
-            lv5SWRunner.RunOnce(() => lv5Spawn.stopwatch.Start());
+            level5StopwatchRunner.RunOnce(() => level5Spawns.stopwatch.Start());
 
-            if (lv5Spawn.stopwatch.sf > boss.hp.Ratio * lv5Spawn.Span)
+            if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                mobs.Generate(transform.position, Quaternion.identity);
-                lv5Spawn.stopwatch.Restart();
+                int index = Lottery.Weighted();
+                mobs[index].Generate(transform.position, Quaternion.identity);
+                level5Spawns.stopwatch.Restart();
             }
         }
 
@@ -327,7 +333,7 @@ namespace Self
         /// </summary>
         void SpawnHoming()
         {
-            if (hormingSW.sf > span.horming[activeLevel])
+            if (hormingSW.sf > span.horming[currentActiveLevel])
             {
                 bullets[4].Generate(transform.position);
                 hormingSW.Restart();
@@ -341,7 +347,7 @@ namespace Self
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                mobs[mobIndex.spide].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
+                mobs[0].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 span.spide = Rnd.Int(20, 30);
 
                 spideSW.Restart();
@@ -381,7 +387,7 @@ namespace Self
         void UpdateEyeColor()
         {
             // 100 ≧ hue ≧ 0
-            var hue = boss.hp.Ratio / 360 * 100;
+            float hue = boss.hp.Ratio / 360 * 100;
             bossr.color = Color.HSVToRGB(hue, 1, 1);
         }
 

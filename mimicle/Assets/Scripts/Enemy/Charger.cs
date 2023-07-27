@@ -102,7 +102,7 @@ namespace Self
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
             {
                 info.Get<HP>().Damage(Values.Damage.Charger);
                 Score.Add(Values.Point.RedCharger);

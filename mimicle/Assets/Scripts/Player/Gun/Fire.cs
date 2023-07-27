@@ -14,7 +14,8 @@ namespace Self
         GameObject playerBullet;
 
         [SerializeField]
-        AudioClip se;
+        // AudioClip[] sounds;
+        AudioClip sound;
 
         Ammo ammo;
         AudioSource speaker;
@@ -44,6 +45,9 @@ namespace Self
                     playerBullet = bulletObj.GetComponent<PlayerBullet>();
                     // 弾のグレード設定
                     playerBullet.SetBulletType(activeType);
+
+                    // speaker.PlayOneShot(sounds.Choice3());
+                    // speaker.PlayOneShot(sound);
                     break;
 
                 case 1:
@@ -58,7 +62,7 @@ namespace Self
                     throw new System.Exception("out of range active type");
             }
 
-            speaker.PlayOneShot(se);
+            // speaker.PlayOneShot(sounds.Choice3());
             ammo.Reduce();
         }
     }

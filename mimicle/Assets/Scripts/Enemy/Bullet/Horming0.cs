@@ -9,7 +9,8 @@ namespace Self
         /// <summary>
         /// 現在のレベル、ダメージ
         /// </summary>
-        (int level, int damage) current;
+        // (int level, int damage) current;
+        int damageAmount = 0;
 
         Boss boss;
         GameObject player;
@@ -39,7 +40,7 @@ namespace Self
         /// <summary>
         /// プレイヤーに近付いたらTrue
         /// </summary>
-        bool close = true;
+        bool isClose = true;
 
         /// <summary>
         /// プレイヤーを検知する距離
@@ -49,7 +50,6 @@ namespace Self
         void Start()
         {
             boss = GameObject.Find("boss 1").GetComponent<Boss>();
-            current.level = boss.ActiveLevel;
 
             player = GameObject.FindGameObjectWithTag(Constant.Player);
             playerHp = player.GetComponent<HP>();
@@ -65,59 +65,57 @@ namespace Self
 
         protected override void Move(float speed)
         {
-            switch (current.level)
+            switch (boss.CurrentActiveLevel)
             {
                 case 1:
-                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[1]);
+                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[1]);
                     sr.SetColor(colors[1]);
                     break;
 
                 case 2:
-                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[2]);
+                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[2]);
                     sr.SetColor(colors[2]);
                     break;
 
                 case 3:
-                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[3]);
+                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[3]);
                     sr.SetColor(colors[3]);
                     break;
 
                 case 4:
-                    current.damage = Numeric.Percent(playerHp.Now, DamagePercentages[4]);
+                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[4]);
                     sr.SetColor(colors[4]);
                     break;
 
                 case 0:
                 default:
-                    current.damage = DamagePercentages[0];
+                    damageAmount = DamagePercentages[0];
                     sr.SetColor(colors[0]);
                     break;
             }
 
             if (Vector3.Distance(transform.position, player.transform.position) <= detect)
             {
-                close = false;
+                isClose = false;
             }
 
             var dir = player.transform.position - transform.position;
-            rotate = close ?
-                Quaternion.FromToRotation(Vector2.up, dir) : Quaternion.Euler(0, 0, transform.eulerAngles.z);
+            rotate = isClose ? Quaternion.FromToRotation(Vector2.up, dir) : Quaternion.Euler(0, 0, transform.eulerAngles.z);
 
-            // transform.rotation = new(0, 0, rotate.z, rotate.w);
             transform.SetRotation(z: rotate.z, w: rotate.w);
             transform.Translate(Vector2.up * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
-            info.Get<HP>().Damage(current.damage);
+            info.Get<HP>().Damage(damageAmount);
             Score.Add(DamagePercentages[4] * -2);
             Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
             {
                 TakeDamage(info);
             }

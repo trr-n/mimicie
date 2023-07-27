@@ -6,7 +6,7 @@ namespace Self
     public class Parry : MonoBehaviour
     {
         [SerializeField]
-        GameObject parry;
+        GameObject parryObj;
 
         /// <summary>
         /// クールタイム
@@ -36,23 +36,23 @@ namespace Self
         /// <summary>
         /// クールタイム中ならTrue
         /// </summary>
-        public bool isCT => cooltimer.isRunning;
+        public bool isRecasting => cooltimer.isRunning;
 
-        bool isParry = false;
+        bool isParrying = false;
         /// <summary>
         /// パリィ中ならTrue
         /// </summary>
-        public bool IsParry => isParry;
+        public bool IsParrying => isParrying;
 
         void Start()
         {
-            parry.SetActive(false);
+            parryObj.SetActive(false);
         }
 
         void Update()
         {
             MakeParry();
-            isParry = parry.IsActive(Active.Self);
+            isParrying = parryObj.IsActive(Active.Self);
         }
 
         /// <summary>
@@ -63,13 +63,13 @@ namespace Self
             if (cooltimer.sf >= CT && Feed.Down(Values.Key.Parry))
             {
                 cooltimer.Reset();
-                parry.SetActive(true);
+                parryObj.SetActive(true);
                 durationTimer.Start();
             }
 
             if (durationTimer.isRunning && durationTimer.sf >= duration)
             {
-                parry.SetActive(false);
+                parryObj.SetActive(false);
                 durationTimer.Reset();
                 cooltimer.Start();
             }
