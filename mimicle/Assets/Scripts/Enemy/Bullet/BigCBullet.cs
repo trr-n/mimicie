@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
@@ -47,7 +47,7 @@ namespace Self
 
             else
             {
-                ExploseDamage();
+                ExplosionDamage();
             }
 
             OutOfScreen(gameObject);
@@ -59,7 +59,7 @@ namespace Self
             Gizmos.DrawWireSphere(transform.position, explosion.Range);
         }
 
-        void ExploseDamage()
+        void ExplosionDamage()
         {
             effect.Generate(transform.position);
 
@@ -93,13 +93,13 @@ namespace Self
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
             {
-                ExploseDamage();
+                ExplosionDamage();
                 TakeDamage(info);
             }
 
             if (info.Compare(Constant.Bullet))
             {
-                ExploseDamage();
+                ExplosionDamage();
                 Destroy(gameObject);
             }
         }

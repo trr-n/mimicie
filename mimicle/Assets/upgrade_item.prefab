@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 2264198045167537395}
   - component: {fileID: 2264198045167537397}
   m_Layer: 0
-  m_Name: sidegun_upgrade_item
+  m_Name: upgrade_item
   m_TagString: Upgrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

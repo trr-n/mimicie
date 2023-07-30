@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Self.Utils
+namespace Self.Utility
 {
     public enum Active { Self, Hierarchy }
 

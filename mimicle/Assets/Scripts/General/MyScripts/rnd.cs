@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Self.Utils
+namespace Self.Utility
 {
     public static class Rnd
     {

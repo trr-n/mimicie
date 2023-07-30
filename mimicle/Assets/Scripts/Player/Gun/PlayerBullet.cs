@@ -1,47 +1,34 @@
 ﻿using UnityEngine;
+using Self.Utility;
 
-namespace Self.Utils
+namespace Self
 {
     public class PlayerBullet : Bullet
     {
         [SerializeField]
-        [Range(0, 2)]
-        int bulletType;
-
-        [SerializeField]
-        Sprite[] bulletSprites = new Sprite[3];
-
-        [SerializeField]
         GameObject effect;
-        // GameObject[] hitEffects;
 
         [SerializeField]
-        AudioClip sound;
-        // AudioClip[] hitSounds;
+        AudioClip[] hitSounds;
 
         new AudioSource audio;
-        SpriteRenderer sr;
 
+        /// <summary>
+        /// 進行方向
+        /// </summary>
         Vector2 direction;
 
         float speed = 20;
 
-        int currentLevel = 0;
-        public int CurrentLevel => currentLevel;
-
-        Fire fire;
-
-        One setSprite = new();
+        // Fire fire;
 
         void Start()
         {
             direction = transform.right;
+            // fire = GameObject.FindGameObjectWithTag(Constant.Player)
+            //     .transform.GetChild(0).GetComponent<Fire>();
+
             audio = GetComponent<AudioSource>();
-
-            fire = GameObject.FindGameObjectWithTag(Constant.Player)
-                .transform.GetChild(0).GetComponent<Fire>();
-
-            sr = GetComponent<SpriteRenderer>();
         }
 
         void Update()
@@ -50,43 +37,20 @@ namespace Self.Utils
             Move(speed);
         }
 
-        void LateUpdate()
-        {
-            SetBulletSprite(currentLevel);
-        }
-
-        public void SetBulletType(int bulletType) => currentLevel = bulletType;
-
-        /// <summary>
-        /// 弾の画像設定
-        /// </summary>
-        void SetBulletSprite(int grade) => sr.sprite = bulletSprites[grade];
-
         protected override void Move(float speed)
         {
-            switch (currentLevel)
-            {
-                // 直進
-                case 0:
-                    transform.Translate(direction * speed * Time.deltaTime);
-                    break;
-
-                // ろけらん
-                case 1:
-                    break;
-
-                // ろけらん連射
-                case 2:
-                    break;
-            }
+            transform.Translate(direction * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
             if (info.Try<HP>(out var hp))
             {
+                Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
                 hp.Damage(info.gameObject.name.Contains("boss") ?
-                    Numeric.Round(Values.Damage.Player[currentLevel] / 3, 0) : Values.Damage.Player[currentLevel]);
+                    Numeric.Round(Values.Damage.Player[player.CurrentGunGrade] / 3, 0) :
+                    Values.Damage.Player[player.CurrentGunGrade]
+                );
             }
         }
 
@@ -94,8 +58,12 @@ namespace Self.Utils
         {
             if (info.Compare(Constant.Enemy))
             {
-                //TODO 着弾時の効果音つける 
-                // audio.PlayOneShot(sound);
+                try
+                {
+                    //TODO 着弾時の効果音つける 
+                    audio.PlayOneShot(hitSounds.Choice3());
+                }
+                catch { }
                 effect.Generate(transform.position, Quaternion.identity);
 
                 TakeDamage(info);

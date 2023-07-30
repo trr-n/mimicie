@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
@@ -109,7 +109,7 @@ namespace Self
         /// <summary>
         /// セーブデータ書き込み用
         /// </summary>
-        One write = new();
+        Special write = new();
 
         int currentGunGrade = 0;
         /// <summary>
@@ -117,7 +117,7 @@ namespace Self
         /// </summary>
         public int CurrentGunGrade => currentGunGrade;
 
-        float[] RapidSpeeds => new float[3] { 0.1f, 1, 1 };
+        float[] RapidRate => new float[3] { 0.1f, 1, 1 };
 
         void Awake()
         {
@@ -159,7 +159,7 @@ namespace Self
         void Shot()
         {
             if (NotNinnin =
-                !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidSpeeds[currentGunGrade] && !isReloading))
+                !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidRate[currentGunGrade] && !isReloading))
             {
                 return;
             }
@@ -203,7 +203,7 @@ namespace Self
         {
             if (playerHP.IsZero)
             {
-                write.RunOnce(() =>
+                write.Runner(() =>
                 {
                     Score.ResetTimer();
                     MyScene.Load();

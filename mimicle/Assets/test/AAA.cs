@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 public class AAA : MonoBehaviour
 {

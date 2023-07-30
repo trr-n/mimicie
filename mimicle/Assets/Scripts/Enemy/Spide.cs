@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
@@ -46,7 +46,7 @@ namespace Self
             spideSR = GetComponent<SpriteRenderer>();
         }
 
-        One once = new();
+        Special once = new();
         void Update()
         {
             Move();
@@ -58,7 +58,7 @@ namespace Self
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                once.RunOnce(() =>
+                once.Runner(() =>
                 {
                     Score.Add(Values.Point.Spide);
                     StartCoroutine(Fade());

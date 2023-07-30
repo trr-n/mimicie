@@ -2,7 +2,7 @@
 using static UnityEngine.Application;
 using static UnityEngine.Cursor;
 
-namespace Self.Utils
+namespace Self.Utility
 {
     public enum FrameRate { Low = 24, Medium = 30, High = 60, VSync = -1 }
     public enum CursorAppearance { Invisible, Visible }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
@@ -18,10 +18,13 @@ namespace Self
         [SerializeField]
         Slain slain;
 
+        [SerializeField]
+        GameObject upgradeItem;
+
         List<GameObject> spawned = new();
         Stopwatch nextWaveSW = new();
         Stopwatch waveSW = new();
-        One MakeChargers = new(), Saves = new();
+        Special makeChargers = new(), Saves = new();
 
         const float WaveLength = 15f;
         const float BreakTime = 2f;
@@ -32,9 +35,12 @@ namespace Self
 
         const int X = 15;
 
+        (Vector2 position, Special runner) upgrades;
+
         void OnEnable()
         {
             waveSW.Start();
+            upgrades.runner = new();
         }
 
         void Update()
@@ -44,9 +50,8 @@ namespace Self
                 return;
             }
 
-            MakeChargers.RunOnce(() => { StartCoroutine(Chargers()); });
+            makeChargers.Runner(() => { StartCoroutine(Chargers()); });
 
-            // if (WaveLength >= waveSW.sf && spawnCount <= 3 * 9 && slain.Count <= quota)
             if (!(waveSW.sf >= WaveLength && spawnCount >= quota.spawn && slain.Count >= quota.slain))
             {
                 return;
@@ -61,6 +66,7 @@ namespace Self
             }
 
             StopCoroutine(Chargers());
+            upgrades.runner.Runner(() => upgradeItem.Generate());
 
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)
@@ -75,7 +81,7 @@ namespace Self
         {
             spawnCount = 0;
             float offset = 0f, spawnY = 0f;
-            // while (data.Now == 1 && !isDone)
+
             while (true)
             {
                 yield return new WaitForSecondsRealtime(Spawn.Span);
@@ -87,6 +93,7 @@ namespace Self
                     spawnY = playerPos.y + offset;
                     spawnY = Mathf.Clamp(spawnY, -4, 4);
                     spawned.Add(enemies[0].Generate(new(X, spawnY), Quaternion.identity));
+
                     offset -= Spawn.Space;
                     yield return new WaitForSecondsRealtime(Spawn.Span / Spawn.Count);
                 }

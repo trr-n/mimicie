@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Self.Utils;
+using Self.Utility;
 using UnityEngine;
 
 namespace Self

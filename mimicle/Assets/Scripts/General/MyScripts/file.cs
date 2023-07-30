@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Self.Utils
+namespace Self.Utility
 {
     public static class File
     {

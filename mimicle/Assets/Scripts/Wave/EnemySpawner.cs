@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
@@ -129,10 +129,10 @@ namespace Self
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
                 qset[Wave.Third].timer = 0;
             if (slain.Count >= qset[Wave.Third].quota)
-                one.RunOnce(Final);
+                one.Runner(Final);
             void Final() { }
         }
-        One one = new();
+        Special one = new();
 
         public bool inProgress(int wave)
         {

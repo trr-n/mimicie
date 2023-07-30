@@ -1,4 +1,4 @@
-﻿namespace Self.Utils
+﻿namespace Self.Utility
 {
     public interface IEncryption
     {

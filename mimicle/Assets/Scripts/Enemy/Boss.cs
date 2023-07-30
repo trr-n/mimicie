@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using Self.Utils;
+using Self.Utility;
 using System.Collections.Generic;
 
 namespace Self
@@ -92,12 +92,12 @@ namespace Self
         /// <summary>
         /// レベル1の連射間隔
         /// </summary>
-        One Lv1C = new();
+        Special Lv1C = new();
 
         /// <summary>
         /// 弾幕総合
         /// </summary>
-        (int bulletCount, Stopwatch stopwatch, One runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
+        (int bulletCount, Stopwatch stopwatch, Special runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
             bulletCount: 100,
             stopwatch: new(),
             runner: new(),
@@ -113,7 +113,7 @@ namespace Self
         /// <summary>
         /// 終了用
         /// </summary>
-        One terminated = new();
+        Special terminated = new();
 
         void Start()
         {
@@ -153,7 +153,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                terminated.RunOnce(() => manager.End());
+                terminated.Runner(() => manager.End());
             }
         }
 
@@ -199,7 +199,7 @@ namespace Self
 
             currentActiveLevel = 0;
 
-            Lv1C.RunOnce(() => StartCoroutine(Lv01()));
+            Lv1C.Runner(() => StartCoroutine(Lv01()));
         }
 
         IEnumerator Lv01()
@@ -228,7 +228,7 @@ namespace Self
 
             currentActiveLevel = 1;
 
-            barrage.runner.RunOnce(() =>
+            barrage.runner.Runner(() =>
             {
                 barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
@@ -305,7 +305,7 @@ namespace Self
         }
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
-        One level5StopwatchRunner = new();
+        Special level5StopwatchRunner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
@@ -318,7 +318,7 @@ namespace Self
 
             currentActiveLevel = 4;
 
-            level5StopwatchRunner.RunOnce(() => level5Spawns.stopwatch.Start());
+            level5StopwatchRunner.Runner(() => level5Spawns.stopwatch.Start());
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {

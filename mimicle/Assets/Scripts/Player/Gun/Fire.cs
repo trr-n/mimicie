@@ -1,69 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
     public class Fire : MonoBehaviour
     {
         [SerializeField]
-        GameObject[] bullets = new GameObject[3];
+        GameObject[] bulletObjs = new GameObject[3];
+
+        // [SerializeField]
+        // AudioClip[] fireSounds;
 
         [SerializeField]
-        GameObject playerBullet;
-
-        [SerializeField]
-        // AudioClip[] sounds;
-        AudioClip sound;
-
         Ammo ammo;
-        AudioSource speaker;
 
-        int activeType;
-        public int ActiveType => activeType;
+        AudioSource speaker;
 
         void Start()
         {
-            speaker = GetComponent<AudioSource>();
-            ammo = GetComponent<Ammo>();
+            speaker = this.GetComponent<AudioSource>();
+            ammo = this.GetComponent<Ammo>();
         }
 
-        public void Shot(int activeType = 0)
+        public void Shot(int activeGrade = 0)
         {
-            this.activeType = activeType;
-            GameObject bulletObj = null;
-            PlayerBullet playerBullet = null;
-
-            switch (activeType)
-            {
-                case 0:
-                    print("0ing");
-                    // 弾取得
-                    bulletObj = bullets[0].Generate(transform.position, Quaternion.Euler(0, 0, 180));
-                    // 弾のplayerbullet取得
-                    playerBullet = bulletObj.GetComponent<PlayerBullet>();
-                    // 弾のグレード設定
-                    playerBullet.SetBulletType(activeType);
-
-                    // speaker.PlayOneShot(sounds.Choice3());
-                    // speaker.PlayOneShot(sound);
-                    break;
-
-                case 1:
-                    print("1ing");
-                    break;
-
-                case 2:
-                    print("2ing");
-                    break;
-
-                default:
-                    throw new System.Exception("out of range active type");
-            }
-
-            // speaker.PlayOneShot(sounds.Choice3());
             ammo.Reduce();
+            try
+            {
+                //FIXME 
+                // speaker.PlayOneShot(fireSounds[activeGrade]);
+            }
+            catch (System.NullReferenceException e) { print("raise error"); }
+
+            bulletObjs[activeGrade].Generate(transform.position, Quaternion.Euler(0, 0, 180));
         }
     }
 }

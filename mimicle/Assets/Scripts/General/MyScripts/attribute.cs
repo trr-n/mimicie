@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Self.Utils
+namespace Self.Utility
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
     public class WarningAttribute : Attribute

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 using System.Collections;
 
 namespace Self
@@ -26,7 +26,7 @@ namespace Self
         const float Offset = 3.4f;
         Stopwatch nextSW = new(), spanwSW = new(true);
         bool isDone1 => slain.Count >= Quota;
-        One LilC = new(), UpgradeItem = new();
+        Special LilC = new(), UpgradeItem = new();
 
         void Update()
         {
@@ -40,7 +40,7 @@ namespace Self
                 return;
             }
 
-            UpgradeItem.RunOnce(() =>
+            UpgradeItem.Runner(() =>
             {
                 Vector3 playerPos = player.transform.position;
                 sidegunUpgradeItem.Generate();
@@ -48,7 +48,7 @@ namespace Self
 
             transform.SetPosition(x: X);
 
-            LilC.RunOnce(() => StartCoroutine(MakeLilC()));
+            LilC.Runner(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {

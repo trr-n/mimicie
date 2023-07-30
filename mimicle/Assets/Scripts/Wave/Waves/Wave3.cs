@@ -1,4 +1,4 @@
-using Self.Utils;
+using Self.Utility;
 using UnityEngine;
 
 namespace Self
@@ -38,7 +38,7 @@ namespace Self
             }
         }
 
-        One bossActivate = new();
+        Special bossActivate = new();
         void Spawn()
         {
             if (data.Now != 3)
@@ -48,7 +48,7 @@ namespace Self
 
             transform.position = new();
 
-            bossActivate.RunOnce(() =>
+            bossActivate.Runner(() =>
             {
                 foreach (var i in bossRelated)
                 {

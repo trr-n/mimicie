@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utils;
-using static Self.Utils.Sys;
+using Self.Utility;
+using static Self.Utility.Sys;
 
 namespace Self
 {

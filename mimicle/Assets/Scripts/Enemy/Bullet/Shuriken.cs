@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utils;
+using Self.Utility;
 
 namespace Self
 {
