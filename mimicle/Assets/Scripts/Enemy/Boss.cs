@@ -72,7 +72,7 @@ namespace Self
         /// <summary>
         /// 初期座標に向かうときの移動速度
         /// </summary>
-        float PosLerpSpeed = 5;
+        const float PosLerpSpeed = 5;
 
         /// <summary>
         /// spideのスポーン間隔計測用ストップウォッチ
@@ -322,8 +322,9 @@ namespace Self
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                int index = Lottery.Weighted();
-                mobs[index].Generate(transform.position, Quaternion.identity);
+                // int index = // Lottery.Weighted();
+                // mobs[index].Generate(transform.position, Quaternion.identity);
+                mobs.Generate(transform.position, Quaternion.identity);
                 level5Spawns.stopwatch.Restart();
             }
         }

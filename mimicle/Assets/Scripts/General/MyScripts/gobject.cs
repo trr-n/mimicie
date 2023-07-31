@@ -21,6 +21,9 @@ namespace Self.Utility
         public static bool Compare(this Collision2D info, string tag) => info.gameObject.CompareTag(tag);
         public static bool Compare(this Collider2D info, string tag) => info.CompareTag(tag);
 
+        public static T GetWithTag<T>(string tag) => Gobject.Find(tag).GetComponent<T>();
+        public static bool TryWithTag<T>(out T t, string tag) => Gobject.Find(tag).TryGetComponent<T>(out t);
+
         public static T Get<T>(this Collision2D info) => info.gameObject.GetComponent<T>();
         public static T Get<T>(this Collider2D info) => info.gameObject.GetComponent<T>();
         public static T Get<T>(this Collision info) => info.gameObject.GetComponent<T>();

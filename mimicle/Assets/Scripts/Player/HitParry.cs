@@ -21,7 +21,7 @@ namespace Self
             if (info.Compare(Constant.EnemyBullet))
             {
                 audio.PlayOneShot(parrySE);
-                Destroy(info.gameObject);
+                info.Destroy();
             }
         }
     }

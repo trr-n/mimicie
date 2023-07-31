@@ -20,20 +20,25 @@ namespace Self
         Vector2 direction;
         (float basis, float Reduction) speeds = (15f, 0.2f);
 
-        (float Range, float Mult) damage => (5f, 2f);
+        (float Range, int basis, float Mult) damage => (
+            Range: 5f,
+            basis: 25,
+            Mult: 5f
+        );
 
         WaveData wdata;
+
+        [SerializeField]
+        int damageAmount;
 
         void Start()
         {
             speaker = GetComponent<AudioSource>();
-            //発砲音
             speaker.PlayOneShot(fireSound);
 
             direction = -transform.right;
 
-            wdata = GameObject.FindGameObjectWithTag(Constant.WaveManager)
-                .GetComponent<WaveData>();
+            wdata = Gobject.GetWithTag<WaveData>(Constant.WaveManager);
         }
 
         void Update()
@@ -44,6 +49,7 @@ namespace Self
             {
                 speeds.basis -= speeds.Reduction;
                 Move(speeds.basis);
+
                 return;
             }
 
@@ -57,81 +63,52 @@ namespace Self
 
         void Explosion()
         {
-            // foreach (var e in GetClosers())
-            foreach (var e in GetClosers2())
+            var closers = GetClosersArr();
+            if (closers is null)
             {
-                var distance = this.damage.Range - Vector2.Distance(e.transform.position, transform.position);
-                int damage = 0;
-                e.GetComponent<HP>()
-                    .Damage(damage = ((int)Numeric.Round(distance * this.damage.Mult, 0)));
-                print("deal: " + damage);
+                explosionEffect.Generate(transform.position);
+                return;
             }
 
-            // エフェクト生成
+            foreach (var enemy in closers)
+            {
+                float distance = damage.Range - Vector3.Distance(enemy.transform.position, transform.position);
+                int damageAmount = Numeric.Round((int)(distance * damage.basis * damage.Mult));
+                enemy.GetComponent<HP>().Damage(
+                    Mathf.Clamp(damageAmount, 1, 500));
+
+                print(damageAmount);
+            }
+
+            // 爆発エフェクト生成
             explosionEffect.Generate(transform.position);
 
             Destroy(gameObject);
         }
 
-        GameObject[] GetClosers2()
+        GameObject[] GetClosersArr()
         {
-            GameObject[] enemies = Gobject.Finds(Constant.Enemy);
+            var enemies = Gobject.Finds(Constant.Enemy);
 
-            if (Gobject.Find(Constant.Boss) is not null && wdata.Now == 2)
-            {
-            }
+            // Gobject.TryWithTag<HP>(out var bossHP, tag: Constant.Boss);
+            // if (wdata.Now == 2 && !bossHP.IsZero)
+            // {
+            // }
 
             if (enemies is null)
             {
+                print("pass");
                 return null;
             }
 
-            var closers = (
-                from e in enemies
-                where Vector2.Distance(e.transform.position, transform.position) < damage.Range
-                where e.GetComponent<HP>().Now > 0
-                select e
-            );
-
-            return closers.ToArray();
-        }
-
-        /// <summary>
-        /// damage.Rangeの範囲内かつHPが残っている敵を取得
-        /// </summary>
-        List<GameObject> GetClosers()
-        {
-            List<GameObject> enemies = new();
-            // enemies.Add(GameObject.FindGameObjectsWithTag(Constant.Enemy));
-            foreach (var i in GameObject.FindGameObjectsWithTag(Constant.Enemy))
-            {
-                enemies.Add(i);
-            }
-
-            // 最終ウェーブならボスも対象に追加
-            if (wdata.Now == 2 && Gobject.Find(Constant.Manager) is not null)
-            {
-                enemies.Add(GameObject.FindGameObjectWithTag(Constant.Boss));
-            }
-
-            if (enemies is null || enemies.Count <= 0)
-            {
-                return null;
-            }
-
-            print("enemies: " + enemies.Count);
-
-            //FIXME 爆発する瞬間にエラー
             var closers = (
                 from enemy in enemies
-                    // damage.Range の範囲内
                 where Vector2.Distance(enemy.transform.position, transform.position) < damage.Range
-                // HPが1以上
-                where enemy.Try<HP>().Now > 0
+                where enemy.GetComponent<HP>()
                 select enemy
             );
 
-            return closers.ToList();
+            return closers.ToArray();
         }
 
         protected override void TakeDamage(Collision2D info)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Self.Utility;
 
 namespace Self
@@ -119,6 +120,10 @@ namespace Self
 
         float[] RapidRate => new float[3] { 0.1f, 1, 0.7f };
 
+        (float distance, int damage) test;
+        [SerializeField]
+        Text distanceT, damageT;
+
         void Awake()
         {
             manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
@@ -135,6 +140,11 @@ namespace Self
 
         void Update()
         {
+            test.distance = 10 - Vector3.Distance(Vector3.zero, transform.position);
+            test.damage = ((int)Numeric.Round(test.distance * 10, 0));
+            distanceT.text = "distance: " + test.distance;
+            damageT.text = "damage: " + test.damage;
+
             print("current: " + currentGunGrade);
 
             Move();
