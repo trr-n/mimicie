@@ -5058,6 +5058,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7090090225156688498, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
+      propertyPath: max
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090090225156688498, guid: 0813a3f23b94c8743b651e9f43215335, type: 3}
       propertyPath: now
       value: 100
       objectReference: {fileID: 0}

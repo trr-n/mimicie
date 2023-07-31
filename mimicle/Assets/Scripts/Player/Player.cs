@@ -220,6 +220,11 @@ namespace Self
             }
         }
 
+        void Fade()
+        {
+            float value = 0f;
+        }
+
         /// <summary>
         /// 移動処理
         /// </summary>
