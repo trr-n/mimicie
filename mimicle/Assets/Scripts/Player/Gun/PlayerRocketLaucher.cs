@@ -104,6 +104,7 @@ namespace Self
             var closers = (
                 from enemy in enemies
                 where Vector2.Distance(enemy.transform.position, transform.position) < damage.Range
+                // HP持ってないやつは除外(SpideとかSpideとかSpideとか)
                 where enemy.GetComponent<HP>()
                 select enemy
             );
