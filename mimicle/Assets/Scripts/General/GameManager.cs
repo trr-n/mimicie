@@ -111,7 +111,7 @@ namespace Self
         }
 
         /// <summary>
-        /// クリア処理\n
+        /// クリア処理<br/>
         /// ! ファイル名を現在時刻にしてるから **複数回実行禁止**
         /// </summary>
         public void End()

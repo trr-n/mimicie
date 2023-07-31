@@ -63,8 +63,8 @@ namespace Self
         {
             effect.Generate(transform.position);
 
-            float distance = Vector2.Distance(transform.position, playerObj.transform.position);
-            if (distance <= explosion.Range)
+            float distance = 0f;
+            if ((distance = Vector2.Distance(transform.position, playerObj.transform.position)) <= explosion.Range)
             {
                 // ダメージ量 = (爆発範囲 - 距離) * ダメージ倍率
                 float hitPoint = explosion.Range - distance;

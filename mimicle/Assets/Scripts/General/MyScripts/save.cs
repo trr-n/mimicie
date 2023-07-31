@@ -48,6 +48,12 @@ namespace Self.Utility
                 read = JsonUtility.FromJson<T>(decrypt.DecryptToString(readArr));
             }
         }
+
+        public static T Read<T>(string password, string path)
+        {
+            Read<T>(out T data, password, path);
+            return data;
+        }
     }
 
     class Example
@@ -60,7 +66,7 @@ namespace Self.Utility
 
         void Examplez()
         {
-            // instance
+            // dynamic
             Save save = new(path, PW);
             save.Write(this.data);
 

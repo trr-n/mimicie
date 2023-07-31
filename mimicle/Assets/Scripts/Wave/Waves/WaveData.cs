@@ -8,22 +8,28 @@ namespace Self
     {
         [SerializeField]
         public Activate waves = Activate.First;
+
         [SerializeField]
         GameObject[] waveObjs;
+
         [SerializeField]
         WaveUI waveUI;
 
         int max = 0;
         public int Max => max;
+
         int now4ui = 0;
         public int Now => now4ui;
+
         public bool IsDone { get; set; }
 
         void Start()
         {
             max = waveObjs.Length;
             now4ui = ((int)waves);
+
             ActivateWave(((int)waves));
+
             waveUI.Start();
         }
 

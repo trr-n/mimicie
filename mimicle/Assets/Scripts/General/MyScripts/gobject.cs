@@ -31,6 +31,11 @@ namespace Self.Utility
         public static bool Try<T>(this Collision info, out T t) => info.gameObject.TryGetComponent<T>(out t);
         public static bool Try<T>(this Collider info, out T t) => info.gameObject.TryGetComponent<T>(out t);
         public static bool Try<T>(this GameObject gob, out T t) => gob.TryGetComponent<T>(out t);
+        public static T Try<T>(this GameObject gob)
+        {
+            gob.TryGetComponent<T>(out var t);
+            return t is null ? default(T) : t;
+        }
 
         public static GameObject Find(string tag) => GameObject.FindGameObjectWithTag(tag);
         public static GameObject[] Finds(string tag) => GameObject.FindGameObjectsWithTag(tag);

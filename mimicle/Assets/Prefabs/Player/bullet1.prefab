@@ -195,6 +195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireEffect: {fileID: 0}
-  hitEffect: {fileID: 0}
+  explosionEffect: {fileID: 417761080263594737, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4, type: 3}
   fireSound: {fileID: 0}
-  hitSound: {fileID: 0}
+  explosionSound: {fileID: 0}

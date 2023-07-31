@@ -26,15 +26,6 @@ namespace Self
         [SerializeField]
         Player player;
 
-        [System.Serializable]
-        struct ChangeColors
-        {
-            public Color color;
-            public float border;
-        }
-        [SerializeField]
-        ChangeColors[] change = new ChangeColors[4];
-
         /// <summary>
         /// ゲージ増加用タイマー
         /// </summary>

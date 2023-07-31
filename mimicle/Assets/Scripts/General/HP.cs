@@ -6,6 +6,7 @@ namespace Self
     {
         [SerializeField]
         int max = 100;
+        public void SetMax(int maxValue) => max = maxValue;
 
         [SerializeField]
         int now;
@@ -16,7 +17,7 @@ namespace Self
         public bool IsZero => now <= 0;
         public float Ratio => (float)now / max;
 
-        public void SetMax() => now = max;
+        public void Reset() => now = max;
 
         public void Healing(int amount)
         {
@@ -25,7 +26,7 @@ namespace Self
 
             if (now >= max)
             {
-                SetMax();
+                Reset();
             }
         }
 

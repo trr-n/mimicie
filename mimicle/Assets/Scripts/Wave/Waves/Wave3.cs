@@ -6,11 +6,14 @@ namespace Self
     public class Wave3 : MonoBehaviour
     {
         [SerializeField]
-        WaveData data;
+        WaveData wdata;
+
         [SerializeField, Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
         GameObject[] mobs;
+
         [SerializeField]
         GameObject[] bossRelated;
+
         [SerializeField]
         GameObject boss;
 
@@ -32,16 +35,17 @@ namespace Self
         void Update()
         {
             Spawn();
+
             if (boss.GetComponent<HP>().IsZero)
             {
-                data.IsDone = true;
+                wdata.IsDone = true;
             }
         }
 
         Special bossActivate = new();
         void Spawn()
         {
-            if (data.Now != 3)
+            if (wdata.Now != 3)
             {
                 return;
             }

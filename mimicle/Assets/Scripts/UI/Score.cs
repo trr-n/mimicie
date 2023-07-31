@@ -21,6 +21,12 @@ namespace Self
         public static void Add(int amount) => now += amount;
     }
 
+    public record Result
+    {
+        public int score { get; init; }
+        public int time { get; init; }
+    }
+
     public struct ResultData
     {
         public int score;

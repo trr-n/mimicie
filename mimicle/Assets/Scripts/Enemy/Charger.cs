@@ -46,7 +46,7 @@ namespace Self
         void Start()
         {
             chargerHP = GetComponent<HP>();
-            chargerHP.SetMax();
+            chargerHP.Reset();
 
             collider = GetComponent<BoxCollider2D>();
             style = (MovingType)Rnd.Int(max: style.GetEnumLength());

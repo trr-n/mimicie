@@ -117,7 +117,7 @@ namespace Self
         /// </summary>
         public int CurrentGunGrade => currentGunGrade;
 
-        float[] RapidRate => new float[3] { 0.1f, 1, 1 };
+        float[] RapidRate => new float[3] { 0.1f, 1, 0.7f };
 
         void Awake()
         {
@@ -135,6 +135,8 @@ namespace Self
 
         void Update()
         {
+            print("current: " + currentGunGrade);
+
             Move();
             Dead();
             Reload();
@@ -146,10 +148,7 @@ namespace Self
             {
                 playerSR.color = Color.white;
             }
-            // }
 
-            // void FixedUpdate()
-            // {
             Shot();
         }
 
@@ -229,7 +228,7 @@ namespace Self
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.UpgradeItem) && currentGunGrade < 3)
+            if (info.Compare(Constant.UpgradeItem) && currentGunGrade <= 2)
             {
                 currentGunGrade++;
 

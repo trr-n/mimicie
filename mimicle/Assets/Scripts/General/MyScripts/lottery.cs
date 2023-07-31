@@ -9,6 +9,11 @@ namespace Self.Utility
         // https://youtu.be/3CQCBQRq0FA
         public static int Weighted(params float[] weights)
         {
+            if (weights.Length <= 0)
+            {
+                return -1;
+            }
+
             float[] cumulativeWeights = new float[weights.Length];
 
             float totalWeight = 0f;

@@ -66,7 +66,7 @@ namespace Self
             }
 
             StopCoroutine(Chargers());
-            upgrades.runner.Runner(() => upgradeItem.Generate());
+            upgrades.runner.Runner(() => upgradeItem.Generate(Vector2.zero));
 
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)

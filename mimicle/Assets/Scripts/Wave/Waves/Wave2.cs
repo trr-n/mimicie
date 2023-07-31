@@ -46,13 +46,14 @@ namespace Self
                 sidegunUpgradeItem.Generate();
             });
 
-            transform.SetPosition(x: X);
+            transform.SetPosition(X);
 
             LilC.Runner(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {
                 nextSW.Start();
+
                 if (nextSW.sf >= BreakTime)
                 {
                     data.ActivateWave(((int)Activate.Third));

@@ -38,7 +38,8 @@ namespace Self
         void Start()
         {
             lilcHP = GetComponent<HP>();
-            lilcHP.SetMax();
+            lilcHP.SetMax(500);
+            lilcHP.Reset();
 
             Move();
         }

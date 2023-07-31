@@ -46,26 +46,26 @@ public class Record : MonoBehaviour
         print(read2.score);
     }
 
-    // enum Status { A, B, C }
-    // int n = 0;
-    // void Update()
-    // {
-    //     if (Mynput.Down(KeyCode.Alpha1))
-    //         n = 0;
-    //     else if (Mynput.Down(KeyCode.Alpha2))
-    //         n = 1;
-    //     else if (Mynput.Down(KeyCode.Alpha3))
-    //         n = 2;
-    //     else if (Mynput.Down(KeyCode.Alpha4))
-    //         n = 3;
+    enum Status { A, B, C }
+    int n = 0;
+    void Update()
+    {
+        if (Feed.Down(KeyCode.Alpha1))
+            n = 0;
+        else if (Feed.Down(KeyCode.Alpha2))
+            n = 1;
+        else if (Feed.Down(KeyCode.Alpha3))
+            n = 2;
+        else if (Feed.Down(KeyCode.Alpha4))
+            n = 3;
 
-    //     Status status = n switch
-    //     {
-    //         0 => Status.A,
-    //         1 => Status.B,
-    //         2 => Status.C,
-    //         _ => throw new Karappoyanke()
-    //     };
-    //     print(status);
-    //}
+        Status status = n switch
+        {
+            0 => Status.A,
+            1 => Status.B,
+            2 => Status.C,
+            _ => throw new Karappoyanke()
+        };
+        print(status);
+    }
 }

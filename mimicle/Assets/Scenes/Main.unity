@@ -589,6 +589,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 2435298199578689330, guid: 81f121ae8bf57444bb8a30010d268bbd, type: 3}
   slain: {fileID: 1186485610}
+  upgradeItem: {fileID: 2264198045167537394, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
 --- !u!1 &344630184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,63 +1493,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &1076856298
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2264198045167537394, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_Name
-      value: upgrade_item (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_RootOrder
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.022
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.745
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
 --- !u!1 &1084468168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,11 +1596,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.11
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.06
+      value: -4.18
       objectReference: {fileID: 0}
     - target: {fileID: 2264198045167537396, guid: eea2460aeedbd5d46b9396070063c865, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1723,7 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d8ac9a12287e841bfac9e83f080cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves: 0
+  waves: 1
   waveObjs:
   - {fileID: 286884585}
   - {fileID: 1736559679}
@@ -6157,6 +6101,10 @@ PrefabInstance:
       propertyPath: sounds.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 32d57710731fb18489ece7617c914c40, type: 3}
+    - target: {fileID: 673241857198986960, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
+      propertyPath: bulletObjs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 673241857198986960, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
       propertyPath: bullets.Array.data[0]
       value: 

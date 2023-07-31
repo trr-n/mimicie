@@ -69,7 +69,7 @@ namespace Self
             p = playerObj.GetComponent<Player>();
 
             ninjaHP = GetComponent<HP>();
-            ninjaHP.SetMax();
+            ninjaHP.Reset();
 
             shuriken.Range = 2 * (360 - shuriken.RZ);
         }

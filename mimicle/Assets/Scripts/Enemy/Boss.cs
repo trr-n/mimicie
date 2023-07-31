@@ -132,7 +132,7 @@ namespace Self
         void OnEnable()
         {
             boss.hp = GetComponent<HP>();
-            boss.hp.SetMax();
+            boss.hp.Reset();
 
             bossr = GetComponent<SpriteRenderer>();
             bossr.color = initial.color;
@@ -347,7 +347,7 @@ namespace Self
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                mobs[0].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
+                mobs[3].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 span.spide = Rnd.Int(20, 30);
 
                 spideSW.Restart();

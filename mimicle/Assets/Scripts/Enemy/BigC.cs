@@ -22,7 +22,7 @@ namespace Self
         void Start()
         {
             bigcHP = GetComponent<HP>();
-            bigcHP.SetMax();
+            bigcHP.Reset();
 
             StartCoroutine(Attack());
         }
