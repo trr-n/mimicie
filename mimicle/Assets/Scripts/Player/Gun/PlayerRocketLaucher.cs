@@ -28,9 +28,6 @@ namespace Self
 
         WaveData wdata;
 
-        [SerializeField]
-        int damageAmount;
-
         void Start()
         {
             speaker = GetComponent<AudioSource>();
@@ -74,10 +71,9 @@ namespace Self
             {
                 float distance = damage.Range - Vector3.Distance(enemy.transform.position, transform.position);
                 int damageAmount = Numeric.Round((int)(distance * damage.basis * damage.Mult));
-                enemy.GetComponent<HP>().Damage(
-                    Mathf.Clamp(damageAmount, 1, 500));
+                enemy.GetComponent<HP>().Damage(Mathf.Clamp(damageAmount, 1, 500));
 
-                print(damageAmount);
+                // print(damageAmount);
             }
 
             // 爆発エフェクト生成

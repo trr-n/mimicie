@@ -167,8 +167,8 @@ namespace Self
         /// </summary>
         void Shot()
         {
-            if (NotNinnin =
-                !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() && rapidSW.sf > RapidRate[currentGunGrade] && !isReloading))
+            if (NotNinnin = !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() &&
+                rapidSW.sf > RapidRate[currentGunGrade] && !isReloading))
             {
                 return;
             }

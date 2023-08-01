@@ -276,7 +276,6 @@ namespace Self
 
             currentActiveLevel = 2;
 
-            // 2体以上忍者が湧かないように
             if (ninjable)
             {
                 float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
@@ -291,6 +290,7 @@ namespace Self
             }
         }
 
+        Special special = new();
         /// <summary>
         /// 10 ~ 30, orange: 13% homing
         /// </summary>
@@ -302,6 +302,21 @@ namespace Self
             }
 
             currentActiveLevel = 3;
+
+            special.Runner(() =>
+            {
+                if (Gobject.TryWithTag<Player>(out var player, Constant.Player))
+                {
+                    if (player.CurrentGunGrade == 1)
+                    {
+                        mobs[3].Generate().TryGetComponent<Spide>(out var spide);
+                        if (spide is not null)
+                        {
+                            spide.SetLevel(Lottery.Weighted(1, 25, 50));
+                        }
+                    }
+                }
+            });
         }
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
@@ -322,7 +337,7 @@ namespace Self
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                // int index = // Lottery.Weighted();
+                // int index = Lottery.Weighted();
                 // mobs[index].Generate(transform.position, Quaternion.identity);
                 mobs.Generate(transform.position, Quaternion.identity);
                 level5Spawns.stopwatch.Restart();

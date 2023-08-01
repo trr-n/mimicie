@@ -10,6 +10,8 @@ namespace Self.Utility
         int length;
         int capacity;
 
+        public T this[int index] => collection[index];
+
         public int Length => length;
 
         public Bag()
@@ -44,6 +46,11 @@ namespace Self.Utility
 
             collection[length] = item;
             length++;
+        }
+
+        public void Remove()
+        {
+
         }
     }
 }
