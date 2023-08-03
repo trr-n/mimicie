@@ -124,6 +124,8 @@ namespace Self
 
         AudioSource speaker;
 
+        int detectLayers = 1 << 9 | 1 << 10;
+
         void Awake()
         {
             manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
@@ -148,7 +150,7 @@ namespace Self
             Dead();
             Reload();
 
-            hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, 1 << 9 | 1 << 10);
+            hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, detectLayers);
             playerCol.isTrigger = parry.IsParrying;
 
             if (sw.sf >= 0.2f)
@@ -266,10 +268,11 @@ namespace Self
 
             if (!parry.IsParrying)
             {
-                if (damageSE is not null)
+                try
                 {
                     speaker.RandomPlayOneShot(damageSE);
                 }
+                catch (Exception e) { print(e.Message); }
                 sw.Restart();
                 playerSR.SetColor(Color.red);
             }

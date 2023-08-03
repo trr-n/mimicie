@@ -65,6 +65,7 @@ namespace Self
             qset[Wave.First].timer += Time.deltaTime;
             transform.position = new(X, playerTransform.position.y);
             wave.Set(Wave.First);
+
             if (qset[Wave.First].timer >= qset[Wave.First].span && slain.Count <= qset[Wave.First].quota)
             {
                 spawnedEnemies.Add(enemies[Wave.First].Generate(transform.position, Quaternion.identity));
@@ -72,8 +73,12 @@ namespace Self
             }
 
             foreach (var i in spawnedEnemies)
-                if (i.Exist())
+            {
+                if (i.gameObject)
+                {
                     return;
+                }
+            }
 
             if (slain.Count >= qset[Wave.First].quota)
             {
@@ -86,7 +91,8 @@ namespace Self
                 }
             }
         }
-        Stopwatch sw = new();
+
+        readonly Stopwatch sw = new();
 
         /// <summary>
         /// ちょっと賢いヤツ(Lil Clever)を出す

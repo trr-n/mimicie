@@ -3,6 +3,7 @@ using UnityEngine;
 using DG.Tweening;
 using Self.Utils;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Self
 {
@@ -113,7 +114,7 @@ namespace Self
         /// <summary>
         /// 終了用
         /// </summary>
-        Runtime terminated = new();
+        Runtime terminate = new();
 
         void Start()
         {
@@ -132,6 +133,7 @@ namespace Self
         void OnEnable()
         {
             boss.hp = GetComponent<HP>();
+            boss.hp.SetMax(5000);
             boss.hp.Reset();
 
             bossr = GetComponent<SpriteRenderer>();
@@ -139,11 +141,20 @@ namespace Self
 
             transform.DOMove(initial.position, PosLerpSpeed).SetEase(Ease.OutCubic);
         }
+        [SerializeField]
+        Text text;
 
         void Update()
         {
             Both();
             Dead();
+
+            if (gameObject)
+            {
+                text.text = boss.hp.Now.ToString();
+            }
+
+            bossUI.UpdateBossUI();
         }
 
         /// <summary>
@@ -153,7 +164,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                terminated.RunOnce(() => manager.End());
+                terminate.RunOnce(() => manager.End());
             }
         }
 
@@ -164,6 +175,10 @@ namespace Self
         {
             if (!Coordinate.Twins(transform.position, initial.position))
             {
+                if (boss.hp.Now != boss.hp.Max)
+                {
+                    boss.hp.Reset();
+                }
                 return;
             }
 
@@ -192,7 +207,7 @@ namespace Self
         /// </summary>
         void Lv1()
         {
-            if (!isActiveLevel(((int)Level.First)))
+            if (!isActiveLevel((int)Level.First))
             {
                 return;
             }
@@ -204,7 +219,7 @@ namespace Self
 
         IEnumerator Lv01()
         {
-            while (isActiveLevel(((int)Level.First)))
+            while (isActiveLevel((int)Level.First))
             {
                 yield return new WaitForSeconds(level1Rapids.Range * 1.5f);
 
@@ -221,7 +236,7 @@ namespace Self
         /// </summary>
         void Lv2()
         {
-            if (!isActiveLevel(((int)Level.Second)))
+            if (!isActiveLevel((int)Level.Second))
             {
                 return;
             }
@@ -234,8 +249,6 @@ namespace Self
                 point.transform.eulerAngles = new(0, 0, 120);
                 barrage.stopwatch.Start();
             });
-
-            (float Max, float Min) range = (120, 60);
 
             if (barrage.during)
             {
@@ -252,24 +265,30 @@ namespace Self
                     }
                 }
 
-                if (point.transform.eulerAngles.z > range.Max || point.transform.eulerAngles.z < range.Min)
+                (float Max, float Min) = (120, 60);
+
+                if (point.transform.eulerAngles.z > Max || point.transform.eulerAngles.z < Min)
                 {
                     // 逆回転
                     barrage.speed.rotate *= -1;
                 }
 
-                point.transform.Rotate(new Vector3(0, 0, barrage.speed.basis * barrage.speed.rotate * Time.deltaTime));
+                Vector3 rotate
+                // = new(0, 0, barrage.speed.basis * barrage.speed.rotate * Time.deltaTime);
+                = Coordinate.Z * barrage.speed.basis * barrage.speed.rotate * Time.deltaTime;
+                point.transform.Rotate(rotate);
             }
         }
 
         bool ninjable = true;
-        List<GameObject> ninjas = new();
+        readonly List<GameObject> ninjas = new();
+
         /// <summary>
         /// 30 ~ 50, yellow: 9% homing
         /// </summary>
         void Lv3()
         {
-            if (!isActiveLevel(((int)Level.Third)))
+            if (!isActiveLevel((int)Level.Third))
             {
                 return;
             }
@@ -296,7 +315,7 @@ namespace Self
         /// </summary>
         void Lv4()
         {
-            if (!isActiveLevel(((int)Level.Fourth)))
+            if (!isActiveLevel((int)Level.Fourth))
             {
                 return;
             }
@@ -312,7 +331,8 @@ namespace Self
                         mobs[3].Generate().TryGetComponent<Spide>(out var spide);
                         if (spide is not null)
                         {
-                            spide.SetLevel(Lottery.Weighted(1, 25, 50));
+                            int activate = Lottery.Weighted(1, 25, 50);
+                            spide.SetLevel(activate);
                         }
                     }
                 }
@@ -320,24 +340,24 @@ namespace Self
         }
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
-        Runtime level5StopwatchRunner = new();
+        readonly Runtime l5runner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
         void Lv5()
         {
-            if (!isActiveLevel(((int)Level.Fifth)))
+            if (!isActiveLevel((int)Level.Fifth))
             {
                 return;
             }
 
             currentActiveLevel = 4;
 
-            level5StopwatchRunner.RunOnce(() => level5Spawns.stopwatch.Start());
+            l5runner.RunOnce(() => level5Spawns.stopwatch.Start());
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                // int index = Lottery.Weighted();
+                // int index = Lottery.Weighted(5, 4, 3, 2, 1);
                 // mobs[index].Generate(transform.position, Quaternion.identity);
                 mobs.Generate(transform.position, Quaternion.identity);
                 level5Spawns.stopwatch.Restart();
@@ -363,7 +383,8 @@ namespace Self
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                mobs[3].Generate().GetComponent<Spide>().SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
+                mobs[3].Generate().GetComponent<Spide>()
+                    .SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
                 span.spide = Rnd.Int(20, 30);
 
                 spideSW.Restart();
@@ -378,21 +399,11 @@ namespace Self
             int[] borders = { 100, 80, 60, 40, 20 };
             switch (_level)
             {
-                case 0:
-                    return boss.remain >= borders[0];
-
-                case 1:
-                    return boss.remain >= borders[1] && boss.remain < borders[0];
-
-                case 2:
-                    return boss.remain >= borders[2] && boss.remain < borders[1];
-
-                case 3:
-                    return boss.remain >= borders[3] && boss.remain < borders[2];
-
-                case 4:
-                    return boss.remain >= borders[4] && boss.remain < borders[3];
-
+                case 0: return boss.remain >= borders[0];
+                case 1: return boss.remain >= borders[1] && boss.remain < borders[0];
+                case 2: return boss.remain >= borders[2] && boss.remain < borders[1];
+                case 3: return boss.remain >= borders[3] && boss.remain < borders[2];
+                case 4: return boss.remain >= borders[4] && boss.remain < borders[3];
                 default: throw new System.Exception();
             }
         }
@@ -400,7 +411,7 @@ namespace Self
         /// <summary>
         /// 残り体力によって目の色をかえる
         /// </summary>
-        void UpdateEyeColor()
+        public void UpdateEyeColor()
         {
             // 100 ≧ hue ≧ 0
             float hue = boss.hp.Ratio / 360 * 100;

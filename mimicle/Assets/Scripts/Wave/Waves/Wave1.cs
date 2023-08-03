@@ -73,7 +73,7 @@ namespace Self
             if (nextWaveSW.SecondF() >= BreakTime)
             {
                 slain.ResetCount();
-                data.ActivateWave(((int)Activate.Second));
+                data.ActivateWave((int)Activate.Second);
                 Stopwatch.Rubbish(nextWaveSW);
             }
         }

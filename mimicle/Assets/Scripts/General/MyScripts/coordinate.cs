@@ -5,6 +5,10 @@ namespace Self.Utils
 {
     public static class Coordinate
     {
+        public static Vector3 X => new(1, 0, 0);
+        public static Vector3 Y => new(0, 1, 0);
+        public static Vector3 Z => new(0, 0, 1);
+
         public static void SetPosition(this Transform t, double? x = null, double? y = null, double? z = null)
         {
             if (x is null && y is null && z is null)

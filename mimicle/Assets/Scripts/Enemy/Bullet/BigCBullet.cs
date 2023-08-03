@@ -39,18 +39,17 @@ namespace Self
 
         void Update()
         {
+            OutOfScreen(gameObject);
+
             if (speed.basis >= 0)
             {
                 speed.basis -= speed.Reduct;
                 Move(speed.basis);
+
+                return;
             }
 
-            else
-            {
-                ExplosionDamage();
-            }
-
-            OutOfScreen(gameObject);
+            ExplosionDamage();
         }
 
         void OnDrawGizmos()
@@ -63,12 +62,12 @@ namespace Self
         {
             effect.Generate(transform.position);
 
-            float distance = 0f;
-            if ((distance = Vector2.Distance(transform.position, playerObj.transform.position)) <= explosion.Range)
+            float distance = Vector2.Distance(transform.position, playerObj.transform.position);
+            if (distance <= explosion.Range)
             {
                 // ダメージ量 = (爆発範囲 - 距離) * ダメージ倍率
                 float hitPoint = explosion.Range - distance;
-                int damageAmount = ((int)Numeric.Round(hitPoint * explosion.DmgMult));
+                int damageAmount = (int)Numeric.Round(hitPoint * explosion.DmgMult);
                 playerObj.GetComponent<HP>().Damage(damageAmount);
             }
 
@@ -76,10 +75,7 @@ namespace Self
             Destroy(gameObject);
         }
 
-        protected override void Move(float speed)
-        {
-            transform.Translate(direction * speed * Time.deltaTime);
-        }
+        protected override void Move(float speed) => transform.Translate(direction * speed * Time.deltaTime);
 
         protected override void TakeDamage(Collision2D info)
         {

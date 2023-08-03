@@ -47,7 +47,6 @@ namespace Self
 
         protected override void TakeDamage(Collision2D info)
         {
-            // TODO make fx
             info.Get<HP>().Damage(Constant.Damage.Shuriken);
             Score.Add(Constant.Point.RedShuriken);
             Destroy(gameObject);

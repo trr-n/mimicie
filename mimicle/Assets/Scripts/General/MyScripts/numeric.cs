@@ -16,7 +16,7 @@ namespace Self.Utils
         public static float Round(float n, int digit = 0) => MathF.Round(n, digit);
         public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
 
-        public static int CutAss(float n)
+        public static int Cutail(float n)
         {
             string nstr = n.ToString();
             string done = nstr.Split(".")[0];

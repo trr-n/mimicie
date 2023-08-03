@@ -8,10 +8,7 @@ namespace Self.Utils
     public static class Gobject
     {
         public static GameObject Generate(this GameObject[] g, Vector3 p = new(), Quaternion r = new())
-        {
-            int choice = Rnd.Choice(g);
-            return MonoBehaviour.Instantiate(g[choice], p, r);
-        }
+        => MonoBehaviour.Instantiate(g[Rnd.Choice(g)], p, r);
 
         public static GameObject Generate(this GameObject g, Vector3 p = new(), Quaternion r = new())
         => MonoBehaviour.Instantiate(g, p, r);
@@ -23,10 +20,16 @@ namespace Self.Utils
         public static bool Compare(this Collision2D info, string tag) => info.gameObject.CompareTag(tag);
         public static bool Compare(this Collider2D info, string tag) => info.CompareTag(tag);
 
-        public static GameObject GetWithTag(string tag) => Find(tag);
+        public static bool Contain(this Collision info, string tag) => info.gameObject.tag.Contains(tag);
+        public static bool Contain(this Collider info, string tag) => info.tag.Contains(tag);
+        public static bool Contain(this Collision2D info, string tag) => info.gameObject.tag.Contains(tag);
+        public static bool Contain(this Collider2D info, string tag) => info.gameObject.tag.Contains(tag);
+
         public static T GetWithTag<T>(string tag) => Find(tag).GetComponent<T>();
         public static T GetWithTag<T>(this GameObject gob) => gob.GetComponent<T>();
         public static bool TryGetWithTag<T>(out T t, string tag) => Find(tag).TryGetComponent<T>(out t);
+
+        public static T GetWithName<T>(string name) => GameObject.Find(name).GetComponent<T>();
 
         public static T Get<T>(this Collision2D info) => info.gameObject.GetComponent<T>();
         public static T Get<T>(this Collider2D info) => info.gameObject.GetComponent<T>();
@@ -56,13 +59,12 @@ namespace Self.Utils
         public static bool IsActive(this GameObject gob, Active? active = null)
         => active is null || active == Active.Self ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
-        public static bool Exist(this GameObject obj) => obj.gameObject;
 
         public static void SetActive(this GameObject[] gobs, bool state)
         {
-            foreach (var i in gobs)
+            foreach (var gob in gobs)
             {
-                i.SetActive(state);
+                gob.SetActive(state);
             }
         }
     }

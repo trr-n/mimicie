@@ -18,6 +18,7 @@ TagManager:
   - WaveManager
   - Upgrade
   - Ring
+  - Canvas
   layers:
   - Default
   - TransparentFX

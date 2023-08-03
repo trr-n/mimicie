@@ -42,7 +42,8 @@ namespace Self
         EnemyBullet = "EnemyBullet",
         WaveManager = "WaveManager",
         UpgradeItem = "Upgrade",
-        Ring = "Ring";
+        Ring = "Ring",
+        Canvas = "Canvas";
 
         public static class Damage
         {

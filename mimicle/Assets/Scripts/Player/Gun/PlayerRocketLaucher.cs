@@ -20,13 +20,11 @@ namespace Self
         Vector2 direction;
         (float basis, float Reduction) speeds = (15f, 0.2f);
 
-        (float Range, int basis, float Mult) damage => (
+        readonly (float Range, int basis, float Mult) damage = (
             Range: 5f,
             basis: 25,
             Mult: 5f
         );
-
-        WaveData wdata;
 
         void Start()
         {
@@ -34,8 +32,6 @@ namespace Self
             speaker.PlayOneShot(fireSound);
 
             direction = -transform.right;
-
-            wdata = Gobject.GetWithTag<WaveData>(Constant.WaveManager);
         }
 
         void Update()
@@ -70,7 +66,7 @@ namespace Self
             foreach (var enemy in closers)
             {
                 float distance = damage.Range - Vector3.Distance(enemy.transform.position, transform.position);
-                int damageAmount = Numeric.Round((int)(distance * damage.basis * damage.Mult));
+                int damageAmount = Numeric.Cutail(distance * damage.basis * damage.Mult);
                 enemy.GetComponent<HP>().Damage(Mathf.Clamp(damageAmount, 1, 500));
 
                 // print(damageAmount);
@@ -84,26 +80,18 @@ namespace Self
 
         GameObject[] GetClosersArr()
         {
-            var enemies = Gobject.Finds(Constant.Enemy);
-
-            // Gobject.TryWithTag<HP>(out var bossHP, tag: Constant.Boss);
-            // if (wdata.Now == 2 && !bossHP.IsZero)
-            // {
-            // }
+            GameObject[] enemies = Gobject.Finds(Constant.Enemy);
 
             if (enemies is null)
             {
-                print("pass");
                 return null;
             }
 
-            var closers = (
+            var closers =
                 from enemy in enemies
                 where Vector2.Distance(enemy.transform.position, transform.position) < damage.Range
-                // HP持ってないやつは除外(SpideとかSpideとかSpideとか)
                 where enemy.GetComponent<HP>()
-                select enemy
-            );
+                select enemy;
 
             return closers.ToArray();
         }

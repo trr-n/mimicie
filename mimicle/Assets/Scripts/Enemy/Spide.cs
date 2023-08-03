@@ -29,7 +29,7 @@ namespace Self
         /// <summary>
         /// 回転速度
         /// </summary>
-        int[] rotationSpeed = { 50, 90, 120 };
+        int[] rotationSpeed => new int[] { 50, 90, 120 };
 
         /// <summary>
         /// 死亡判定フラグ
@@ -52,7 +52,7 @@ namespace Self
             playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
-        Runtime deadp = new();
+        readonly Runtime deadp = new();
         void Update()
         {
             Move();
@@ -72,7 +72,7 @@ namespace Self
 
                     // 現在HPの20%回復
                     float amount = (1 - playerHP.Ratio) * 100 / 5;
-                    playerHP.Healing(Numeric.CutAss(amount));
+                    playerHP.Healing(Numeric.Cutail(amount));
 
                     if (spideSR.color.a <= 0 && speed <= 0)
                     {
