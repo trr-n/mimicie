@@ -1,25 +1,22 @@
 using Self.Utils;
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     public class Wave3 : MonoBehaviour
     {
         [SerializeField]
-        WaveData wdata;
-
-        [SerializeField, Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
+        [Tooltip("0:charger\n1:lilc\n2:slilc\n3:spide")]
         GameObject[] mobs;
 
         [SerializeField]
         GameObject[] bossRelated;
 
         [SerializeField]
-        GameObject boss;
-
         HP bossHP;
 
-        Transform playerTransform;
+        GameObject boss;
+        WaveData data;
 
         void Start()
         {
@@ -28,8 +25,8 @@ namespace Self
 
         void OnEnable()
         {
-            playerTransform = Gobject.GetWithTag<Transform>(Constant.Player);
-            bossHP = boss.GetComponent<HP>();
+            data = transform.parent.gameObject.GetComponent<WaveData>();
+            // bossHP = boss.GetComponent<HP>();
         }
 
         void Update()
@@ -38,19 +35,19 @@ namespace Self
 
             if (bossHP.IsZero)
             {
-                wdata.IsDone = true;
+                data.IsDone = true;
             }
         }
 
-        Runtime bossActivate = new();
+        readonly Runner bossActivate = new();
         void Spawn()
         {
-            if (wdata.Now != 3)
+            if (!data.IsActiveWave(2))
             {
                 return;
             }
 
-            bossActivate.RunOnce(() => bossRelated.SetActive(true));
+            bossActivate.Once(() => bossRelated.SetActive(true));
         }
     }
 }

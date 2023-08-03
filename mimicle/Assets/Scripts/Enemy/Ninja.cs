@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class Ninja : Enemy
     {
@@ -33,7 +33,7 @@ namespace Self
         Stopwatch moveStopwatch = new();
 
         GameObject playerObj;
-        Player p;
+        Player player;
 
         /// <summary>
         /// 回転Z座標
@@ -65,8 +65,8 @@ namespace Self
         {
             speaker = GetComponent<AudioSource>();
 
-            playerObj = GameObject.FindGameObjectWithTag(Constant.Player);
-            p = playerObj.GetComponent<Player>();
+            player = Gobject.GetWithTag<Player>(Constant.Player);
+            playerObj = player.gameObject;
 
             ninjaHP = GetComponent<HP>();
             ninjaHP.Reset();
@@ -81,7 +81,6 @@ namespace Self
 
             if (ninjaHP.IsZero)
             {
-                // TODO
                 // deadEffect.Generate(transform.position);
                 Destroy(gameObject);
             }
@@ -118,7 +117,7 @@ namespace Self
 
         protected override void Move()
         {
-            if (!p.NotNinnin)
+            if (!player.NotNinnin)
             {
                 moveStopwatch.Restart();
                 isNinning = true;
@@ -134,7 +133,7 @@ namespace Self
 
             if (moveStopwatch.sf >= timing.Teleport && isNinning)
             {
-                var x = Rnd.Int(((int)Numeric.Round(playerObj.transform.position.x + 2, 0)), 8);
+                int x = Rnd.Int((int)Numeric.Round(playerObj.transform.position.x + 2, 0), 8);
                 transform.position = new(x, Rnd.Float(-4, 4), 1);
                 moveStopwatch.Reset();
                 isNinning = false;

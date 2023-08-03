@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
@@ -109,7 +109,7 @@ namespace Self
         /// <summary>
         /// セーブデータ書き込み用
         /// </summary>
-        readonly Runtime write = new();
+        readonly Runner write = new();
 
         int currentGunGrade = 0;
         /// <summary>
@@ -124,7 +124,7 @@ namespace Self
 
         AudioSource speaker;
 
-        int detectLayers = 1 << 9 | 1 << 10;
+        readonly int detectLayers = 1 << 9 | 1 << 10;
 
         void Awake()
         {
@@ -158,7 +158,7 @@ namespace Self
                 playerSR.color = Color.white;
             }
 
-            Shot(Runtime.RunFunc(() => gun.Grade switch { 2 => rates[gun.Mode], _ => rates[gun.Grade] }));
+            Shot(Runner.Function(() => gun.Grade switch { 2 => rates[gun.Mode], _ => rates[gun.Grade] }));
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Self
         {
             if (playerHP.IsZero)
             {
-                write.RunOnce(() => StartCoroutine(Fade(true)));
+                write.Once(() => StartCoroutine(Fade(true)));
             }
         }
 

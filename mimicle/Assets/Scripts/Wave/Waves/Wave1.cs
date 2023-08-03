@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public sealed class Wave1 : MonoBehaviour
     {
@@ -21,21 +21,21 @@ namespace Self
         [SerializeField]
         GameObject upgradeItem;
 
-        List<GameObject> spawned = new();
-        Stopwatch nextWaveSW = new();
-        Stopwatch waveSW = new();
-        Runtime makeChargers = new(), Saves = new();
+        readonly List<GameObject> spawned = new();
+        readonly Stopwatch nextWaveSW = new();
+        readonly Stopwatch waveSW = new();
+        readonly Runner makeChargers = new();
 
         const float WaveLength = 15f;
         const float BreakTime = 2f;
 
         int spawnCount = 0;
-        readonly (int Count, float Span, float Space) Spawn = (3, 2, 1.5f);
-        readonly (int spawn, int slain) quota = (3 * 5, 3 * 3); // ノルマ
+        (int Count, float Span, float Space) Spawn => (3, 2, 1.5f);
+        (int Spawn, int Slain) Quota => (Spawn.Count * 5, Spawn.Count * 3); // ノルマ
 
         const int X = 15;
 
-        (Vector2 position, Runtime runner) upgrades = (default, new());
+        (Vector2 position, Runner runner) upgrades = (default, new());
 
         void OnEnable()
         {
@@ -44,19 +44,19 @@ namespace Self
 
         void Update()
         {
-            if (data.Now != 1)
+            // if (data.ActiveWave != 1)
+            if (!data.IsActiveWave(0))
             {
                 return;
             }
 
-            makeChargers.RunOnce(() => { StartCoroutine(Chargers()); });
+            makeChargers.Once(() => { StartCoroutine(Chargers()); });
 
-            if (!(waveSW.sf >= WaveLength && spawnCount >= quota.spawn && slain.Count >= quota.slain))
+            if (!(waveSW.sf >= WaveLength && spawnCount >= Quota.Spawn && slain.Count >= Quota.Slain))
             {
                 return;
             }
 
-            // chargerが残ってたらreturn
             foreach (var charger in spawned)
             {
                 if (charger)
@@ -67,11 +67,11 @@ namespace Self
 
             StopCoroutine(Chargers());
 
-            upgrades.runner.RunOnce(() => upgradeItem.Generate(Vector2.zero));
-
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)
             {
+                upgrades.runner.Once(() => upgradeItem.Generate(Vector2.zero));
+
                 slain.ResetCount();
                 data.ActivateWave((int)Activate.Second);
                 Stopwatch.Rubbish(nextWaveSW);
@@ -85,12 +85,12 @@ namespace Self
 
             while (true)
             {
-                yield return new WaitForSecondsRealtime(Spawn.Span);
+                yield return new WaitForSeconds(Spawn.Span);
 
                 offset = Spawn.Space;
                 Transform playerT = Gobject.GetWithTag<Transform>(Constant.Player);
 
-                for (var i = 0; i < Spawn.Count; i++)
+                for (var count = 0; count < Spawn.Count; count++)
                 {
                     spawnY = playerT.position.y + offset;
 
@@ -100,7 +100,7 @@ namespace Self
                     spawnCount++;
                     offset -= Spawn.Space;
 
-                    yield return new WaitForSecondsRealtime(Spawn.Span / Spawn.Count);
+                    yield return new WaitForSeconds(Spawn.Span / Spawn.Count);
                 }
             }
         }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class BigC : Enemy
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using Self.Utils;
 using DG.Tweening;
 
-namespace Self
+namespace Self.Game
 {
     public sealed class Charger : Enemy
     {

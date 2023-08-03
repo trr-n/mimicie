@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using Self.Utils;
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     public class Scroll : MonoBehaviour
     {

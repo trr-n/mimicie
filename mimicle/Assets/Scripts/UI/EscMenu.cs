@@ -3,20 +3,16 @@ using UnityEngine.UI;
 using Self.Utils;
 using static Self.Utils.Sys;
 
-namespace Self
+namespace Self.Game
 {
     public class EscMenu : MonoBehaviour
     {
         [SerializeField]
-        Text todayT;
-        [SerializeField]
-        Text systemT;
-        [SerializeField]
-        Text volumeT;
-        [SerializeField]
-        Text songT;
+        Text todayT, systemT, volumeT, songT;
+
         [SerializeField]
         Speaker speaker;
+
         [SerializeField]
         GameManager manager;
 

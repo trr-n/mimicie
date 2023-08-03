@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Self
+namespace Self.Game
 {
     public class ParamsUI : MonoBehaviour
     {
         [SerializeField]
         Image[] tops, bottoms;
+
         [SerializeField]
         HP hp_player;
+
         [SerializeField]
         Ammo ammo;
+
         [SerializeField]
         Text timeT;
 

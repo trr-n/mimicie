@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     public class Wave : MonoBehaviour
     {

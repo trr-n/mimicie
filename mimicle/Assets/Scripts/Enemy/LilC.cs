@@ -3,7 +3,7 @@ using UnityEngine;
 using Self.Utils;
 using DG.Tweening;
 
-namespace Self
+namespace Self.Game
 {
     public sealed class LilC : Enemy
     {
@@ -33,7 +33,7 @@ namespace Self
         /// <summary>
         /// 死亡処理
         /// </summary>
-        Runtime dead = new();
+        Runner dead = new();
 
         void Start()
         {
@@ -59,12 +59,13 @@ namespace Self
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Constant.Point.LilC);
 
-                dead.RunOnce(() =>
+                dead.Once(() =>
                 {
                     fx.Generate(transform.position);
 
-                    GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
-                    playerHp.Healing(((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0)));
+                    // GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
+                    HP playerHp = Gobject.GetWithTag<HP>(Constant.Player);
+                    playerHp.Healing((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0));
                 });
             }
         }

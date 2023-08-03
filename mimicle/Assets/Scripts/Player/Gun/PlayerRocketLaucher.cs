@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Self.Utils;
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     [RequireComponent(typeof(AudioSource))]
     public class PlayerRocketLaucher : Bullet
@@ -91,6 +91,8 @@ namespace Self
                 from enemy in enemies
                 where Vector2.Distance(enemy.transform.position, transform.position) < damage.Range
                 where enemy.GetComponent<HP>()
+                // bossに攻撃できると他の敵無視してクリアできちゃうから除外
+                where !enemy.gameObject.name.Contains("boss")
                 select enemy;
 
             return closers.ToArray();

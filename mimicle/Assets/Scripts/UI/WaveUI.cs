@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Self
+namespace Self.Game
 {
     public class WaveUI : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Self
 
         public void UpdateUI()
         {
-            now.text = wave.Now.ToString();
+            now.text = wave.Now4UI.ToString();
         }
     }
 }

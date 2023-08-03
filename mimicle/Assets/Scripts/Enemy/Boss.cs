@@ -5,7 +5,7 @@ using Self.Utils;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace Self
+namespace Self.Game
 {
     public class Boss : MonoBehaviour
     {
@@ -93,12 +93,12 @@ namespace Self
         /// <summary>
         /// レベル1の連射間隔
         /// </summary>
-        Runtime Lv1C = new();
+        Runner Lv1C = new();
 
         /// <summary>
         /// 弾幕総合
         /// </summary>
-        (int bulletCount, Stopwatch stopwatch, Runtime runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
+        (int bulletCount, Stopwatch stopwatch, Runner runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
             bulletCount: 100,
             stopwatch: new(),
             runner: new(),
@@ -114,7 +114,7 @@ namespace Self
         /// <summary>
         /// 終了用
         /// </summary>
-        Runtime terminate = new();
+        Runner terminate = new();
 
         void Start()
         {
@@ -141,18 +141,11 @@ namespace Self
 
             transform.DOMove(initial.position, PosLerpSpeed).SetEase(Ease.OutCubic);
         }
-        [SerializeField]
-        Text text;
 
         void Update()
         {
             Both();
             Dead();
-
-            if (gameObject)
-            {
-                text.text = boss.hp.Now.ToString();
-            }
 
             bossUI.UpdateBossUI();
         }
@@ -164,7 +157,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                terminate.RunOnce(() => manager.End());
+                terminate.Once(() => manager.End());
             }
         }
 
@@ -214,7 +207,7 @@ namespace Self
 
             currentActiveLevel = 0;
 
-            Lv1C.RunOnce(() => StartCoroutine(Lv01()));
+            Lv1C.Once(() => StartCoroutine(Lv01()));
         }
 
         IEnumerator Lv01()
@@ -243,7 +236,7 @@ namespace Self
 
             currentActiveLevel = 1;
 
-            barrage.runner.RunOnce(() =>
+            barrage.runner.Once(() =>
             {
                 barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
@@ -295,6 +288,8 @@ namespace Self
 
             currentActiveLevel = 2;
 
+            print("ninjable:" + ninjable);
+
             if (ninjable)
             {
                 float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
@@ -309,7 +304,7 @@ namespace Self
             }
         }
 
-        Runtime special = new();
+        Runner special = new();
         /// <summary>
         /// 10 ~ 30, orange: 13% homing
         /// </summary>
@@ -322,7 +317,7 @@ namespace Self
 
             currentActiveLevel = 3;
 
-            special.RunOnce(() =>
+            special.Once(() =>
             {
                 if (Gobject.TryGetWithTag<Player>(out var player, Constant.Player))
                 {
@@ -340,7 +335,7 @@ namespace Self
         }
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
-        readonly Runtime l5runner = new();
+        readonly Runner l5runner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
@@ -353,7 +348,7 @@ namespace Self
 
             currentActiveLevel = 4;
 
-            l5runner.RunOnce(() => level5Spawns.stopwatch.Start());
+            l5runner.Once(() => level5Spawns.stopwatch.Start());
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {

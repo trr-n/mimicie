@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Self.Utils
+namespace Self.Game
 {
     public class Snake : Enemy
     {

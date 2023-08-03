@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     public class Links : MonoBehaviour
     {

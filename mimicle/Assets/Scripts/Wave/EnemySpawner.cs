@@ -4,20 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField]
         GameObject[] waveObjs;
+
         [SerializeField]
         protected Slain slain;
+
         [SerializeField]
         protected Wave wave;
+
         [SerializeField]
         protected Boss boss;
+
         [SerializeField]
         GameObject[] enemies;
+
         [Serializable]
         protected struct Quota
         {
@@ -26,18 +31,20 @@ namespace Self
             public bool inProgress;
             public float timer;
         }
+
         [SerializeField]
         Quota[] qset = new Quota[3];
+
         public bool Spawnable { get; set; }
 
         Transform playerTransform;
-        List<GameObject> spawnedEnemies = new List<GameObject>();
+        readonly List<GameObject> spawnedEnemies = new();
         protected const int X = 15;
         float breakingTimer = 0;
         protected const int BreakingTime = 3;
         int spawnCount = 0;
         float lilcSpawnY = -3.5f;
-        bool finals = false;
+
         public bool StartWave3 { get; set; }
 
         void Start()
@@ -138,10 +145,10 @@ namespace Self
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
                 qset[Wave.Third].timer = 0;
             if (slain.Count >= qset[Wave.Third].quota)
-                one.RunOnce(Final);
+                one.Once(Final);
             void Final() { }
         }
-        Runtime one = new();
+        Runner one = new();
 
         public bool inProgress(int wave)
         {

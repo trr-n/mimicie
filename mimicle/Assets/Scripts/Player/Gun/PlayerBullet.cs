@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class PlayerBullet : Bullet
     {
@@ -18,7 +18,7 @@ namespace Self
         /// </summary>
         Vector2 direction;
 
-        float speed = 20;
+        readonly float speed = 20;
 
         void Start()
         {
@@ -41,7 +41,8 @@ namespace Self
         {
             if (info.Try<HP>(out var hp))
             {
-                Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
+                // Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
+                Player player = Gobject.GetWithTag<Player>(Constant.Player);
                 hp.Damage(info.gameObject.name.Contains("boss") ?
                     Numeric.Round(Constant.Damage.Player[player.CurrentGunGrade] / 3, 0) :
                     Constant.Damage.Player[player.CurrentGunGrade]
@@ -55,7 +56,6 @@ namespace Self
             {
                 try
                 {
-                    //TODO 着弾時の効果音つける 
                     audio.PlayOneShot(hitSounds.Choice3());
                 }
                 catch { }

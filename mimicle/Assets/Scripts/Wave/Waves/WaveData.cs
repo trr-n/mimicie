@@ -1,9 +1,10 @@
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public enum Activate { First, Second, Third }
+
     public class WaveData : MonoBehaviour
     {
         [SerializeField]
@@ -19,26 +20,21 @@ namespace Self
         public int Max => max;
 
         int now4ui = 0;
-        public int Now => now4ui;
+
+        public int Now4UI => now4ui;
+        public int ActiveWave => now4ui - 1;
 
         public bool IsDone { get; set; }
+
+        public bool IsActiveWave(int wave) => wave == ActiveWave;
 
         void Start()
         {
             max = waveObjs.Length;
-            now4ui = ((int)waves);
+            now4ui = (int)waves;
 
-            ActivateWave(((int)waves));
-
+            ActivateWave((int)waves);
             waveUI.Start();
-        }
-
-        void Update()
-        {
-            if (IsDone)
-            {
-                ;
-            }
         }
 
         public void Next()
@@ -46,26 +42,26 @@ namespace Self
             now4ui = ((int)waves) + 1;
             waveObjs[now4ui - 1].SetActive(true);
 
-            for (int i = 0; i < waveObjs.Length; i++)
+            for (int index = 0; index < waveObjs.Length; index++)
             {
-                if (now4ui - 1 != i)
+                if (now4ui - 1 != index)
                 {
-                    waveObjs[i].SetActive(false);
+                    waveObjs[index].SetActive(false);
                 }
             }
         }
 
-        public void ActivateWave(int index)
+        public void ActivateWave(int n)
         {
-            waveObjs[index].SetActive(true);
-            now4ui = index + 1;
+            waveObjs[n].SetActive(true);
+            now4ui = n + 1;
             waveUI.UpdateUI();
 
-            for (var i = 0; i < waveObjs.Length; i++)
+            for (var index = 0; index < waveObjs.Length; index++)
             {
-                if (i != index)
+                if (index != n)
                 {
-                    waveObjs[i].SetActive(false);
+                    waveObjs[index].SetActive(false);
                 }
             }
         }

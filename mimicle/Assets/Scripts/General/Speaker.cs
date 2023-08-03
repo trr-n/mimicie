@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class Speaker : MonoBehaviour
     {

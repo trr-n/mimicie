@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class Spide : Enemy
     {
@@ -52,7 +52,7 @@ namespace Self
             playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
-        readonly Runtime deadp = new();
+        readonly Runner deadp = new();
         void Update()
         {
             Move();
@@ -65,7 +65,7 @@ namespace Self
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                deadp.RunOnce(() =>
+                deadp.Once(() =>
                 {
                     Score.Add(Constant.Point.Spide);
                     StartCoroutine(Fade());

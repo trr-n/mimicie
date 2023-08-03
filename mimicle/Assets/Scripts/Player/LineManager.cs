@@ -1,6 +1,7 @@
 using UnityEngine;
+using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class LineManager : MonoBehaviour
     {
@@ -13,7 +14,8 @@ namespace Self
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
+            // player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
+            player = Gobject.GetWithTag<Player>(Constant.Player);
             point = GameObject.Find("gun");
             line = GetComponent<LineRenderer>();
             line.startWidth = line.endWidth = 0.075f;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Self.Utils;
 
-namespace Self
+namespace Self.Game
 {
     public class Horming0 : Bullet
     {

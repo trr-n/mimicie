@@ -3,18 +3,18 @@ using UnityEngine;
 using Self.Utils;
 using System.Collections;
 
-namespace Self
+namespace Self.Game
 {
     public sealed class Wave2 : MonoBehaviour//WaveData
     {
-        [SerializeField]
-        WaveData data;
-
         [SerializeField]
         GameObject[] enemies;
 
         [SerializeField]
         Slain slain;
+
+        [SerializeField]
+        GameObject item;
 
         float lilcSpawnY = -3.5f;
         const float Offset = 3.4f;
@@ -27,9 +27,15 @@ namespace Self
         const float BreakTime = 2f;
         Stopwatch nextSW = new();
         Stopwatch spanwSW = new(true);
-        Runtime LilC = new();
+        Runner LilC = new();
+        Runner drop = new();
 
-        Runtime UpgradeItem = new();
+        WaveData data;
+
+        void OnEnable()
+        {
+            data = transform.parent.gameObject.GetComponent<WaveData>();
+        }
 
         void Update()
         {
@@ -38,14 +44,15 @@ namespace Self
 
         void Make()
         {
-            if (data.Now != 2)
+            // if (data.ActiveWave != 2)
+            if (!data.IsActiveWave(1))
             {
                 return;
             }
 
             transform.SetPosition(X);
 
-            LilC.RunOnce(() => StartCoroutine(MakeLilC()));
+            LilC.Once(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {
@@ -53,7 +60,9 @@ namespace Self
 
                 if (nextSW.sf >= BreakTime)
                 {
-                    data.ActivateWave(((int)Activate.Third));
+                    drop.Once(() => item.Generate());
+
+                    data.ActivateWave((int)Activate.Third);
                     slain.ResetCount();
                     nextSW.Rubbish();
                 }
@@ -68,6 +77,13 @@ namespace Self
                 spanwSW.Restart();
 
                 lilcSpawnY += 8 / Offset; //04255319148936f;
+
+                if (count == 2)
+                {
+                    Vector2 ninja = new(x: Rnd.Float(-8, 8), y: Rnd.Float(-4, 4));
+                    enemies[1].Generate(ninja);
+                }
+
                 yield return new WaitForSeconds(1f);
             }
         }

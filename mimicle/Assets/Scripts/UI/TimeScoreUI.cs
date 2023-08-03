@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Self
+namespace Self.Game
 {
     public class TimeScoreUI : MonoBehaviour
     {

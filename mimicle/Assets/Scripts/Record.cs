@@ -13,7 +13,7 @@ namespace Self.Test
 {
     public class Record : MonoBehaviour
     {
-        record SaveData(string name, int time, int score);
+        record SaveData(string Name, int Time, int Score);
         // {
         //     public string name { get; init; }
         //     public int time { get; init; }
@@ -35,9 +35,9 @@ namespace Self.Test
             Save.Write(data, "huga", path);
             Save.Read<SaveData>(out var read, "huga", path);
             //! null
-            print(read.name);
-            print(read.time);
-            print(read.score);
+            print(read.Name);
+            print(read.Time);
+            print(read.Score);
 
             SaveData2 data2 = new SaveData2 { name = "hoge2", time = 112233, score = 1122333 };
             string path2 = Application.dataPath + "/aaaaa2.bin";

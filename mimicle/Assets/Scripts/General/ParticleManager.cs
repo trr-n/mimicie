@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Self
+namespace Self.Game
 {
     public class ParticleManager : MonoBehaviour
     {
         void Update()
         {
-            var particles = GameObject.FindObjectsOfType<ParticleSystem>();
+            ParticleSystem[] particles = GameObject.FindObjectsOfType<ParticleSystem>();
+
             if (particles is null)
             {
                 return;
             }
-            foreach (var i in particles)
+
+            foreach (var particle in particles)
             {
-                if (!i.isPlaying)
+                if (!particle.isPlaying)
                 {
-                    Destroy(i.gameObject);
+                    Destroy(particle.gameObject);
                 }
             }
         }
