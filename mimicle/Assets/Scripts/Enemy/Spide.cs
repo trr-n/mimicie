@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -34,34 +34,45 @@ namespace Self
         /// <summary>
         /// 死亡判定フラグ
         /// </summary>
-        bool dead;
+        bool dead = false;
 
         /// <summary>
         /// 死亡時の透明度調整用
         /// </summary>
         float alpha = 1f;
 
+        /// <summary>
+        /// 回復用
+        /// </summary>
+        HP playerHP;
+
         void Start()
         {
             spideSR = GetComponent<SpriteRenderer>();
+            playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
-        Special once = new();
+        Runtime deadp = new();
         void Update()
         {
             Move();
+
             if (transform.position.x <= -14)
             {
-                Score.Add(Values.Point.RedSpide);
+                Score.Add(Constant.Point.RedSpide);
                 Destroy(gameObject);
             }
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                once.Runner(() =>
+                deadp.RunOnce(() =>
                 {
-                    Score.Add(Values.Point.Spide);
+                    Score.Add(Constant.Point.Spide);
                     StartCoroutine(Fade());
+
+                    // 現在HPの20%回復
+                    float amount = (1 - playerHP.Ratio) * 100 / 5;
+                    playerHP.Healing(Numeric.CutAss(amount));
 
                     if (spideSR.color.a <= 0 && speed <= 0)
                     {

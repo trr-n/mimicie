@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     [Serializable]
     public class Karappoyanke : Exception

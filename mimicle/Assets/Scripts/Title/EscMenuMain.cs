@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -14,21 +14,26 @@ namespace Self
         GameObject[] buttons;
 
         CanvasGroup canvas;
+
         bool isActive = false;
         public bool IsActive => isActive;
         const float speeds = 10;
+
         enum f { fin, fout }
+
+        const string MatName = "_Blur";
 
         void Start()
         {
             canvas = GetComponent<CanvasGroup>();
             canvas.alpha = 0;
-            blur.SetFloat("_Blur", 0f);
+
+            blur.SetFloat(MatName, 0f);
         }
 
         void Update()
         {
-            if (Feed.Down(KeyCode.Escape))
+            if (Inputs.Down(KeyCode.Escape))
             {
                 if (!isActive)
                 {
@@ -53,7 +58,7 @@ namespace Self
                         yield return null;
                         alpha = Mathf.Clamp(alpha, 0, 1);
                         alpha += Time.deltaTime * speeds;
-                        blur.SetFloat("_Blur", alpha * 10);
+                        blur.SetFloat(MatName, alpha * 10);
                         canvas.alpha = alpha;
                     }
                     isActive = true;
@@ -65,7 +70,7 @@ namespace Self
                         yield return null;
                         alpha = Mathf.Clamp(alpha, 0, 1);
                         alpha -= Time.deltaTime * speeds;
-                        blur.SetFloat("_Blur", alpha * 10);
+                        blur.SetFloat(MatName, alpha * 10);
                         canvas.alpha = alpha;
                     }
                     isActive = false;

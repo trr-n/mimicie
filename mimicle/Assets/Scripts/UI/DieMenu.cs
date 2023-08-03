@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -26,8 +26,8 @@ namespace Self
         void Update()
         {
             this.stateT.text = "Dit it !";
-            this.scoreT.text = "Score: " + Score.Now;
-            this.timeT.text = "Time: " + Score.Time;
+            this.scoreT.text = "Score: " + Score.CurrentScore;
+            this.timeT.text = "Time: " + Score.CurrentTime;
             // ブラーがマックスになったらスコア表示
             if (!blur.Max)
             {

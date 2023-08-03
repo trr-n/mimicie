@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {

@@ -1,4 +1,4 @@
-using Self.Utility;
+using Self.Utils;
 using UnityEngine;
 
 namespace Self
@@ -17,32 +17,32 @@ namespace Self
         [SerializeField]
         GameObject boss;
 
+        HP bossHP;
+
         Transform playerTransform;
 
         void Start()
         {
-            foreach (var i in bossRelated)
-            {
-                i.SetActive(false);
-            }
+            bossRelated.SetActive(false);
         }
 
         void OnEnable()
         {
-            playerTransform = GameObject.FindGameObjectWithTag(Constant.Player).transform;
+            playerTransform = Gobject.GetWithTag<Transform>(Constant.Player);
+            bossHP = boss.GetComponent<HP>();
         }
 
         void Update()
         {
             Spawn();
 
-            if (boss.GetComponent<HP>().IsZero)
+            if (bossHP.IsZero)
             {
                 wdata.IsDone = true;
             }
         }
 
-        Special bossActivate = new();
+        Runtime bossActivate = new();
         void Spawn()
         {
             if (wdata.Now != 3)
@@ -50,15 +50,7 @@ namespace Self
                 return;
             }
 
-            transform.position = new();
-
-            bossActivate.Runner(() =>
-            {
-                foreach (var i in bossRelated)
-                {
-                    i.SetActive(true);
-                }
-            });
+            bossActivate.RunOnce(() => bossRelated.SetActive(true));
         }
     }
 }

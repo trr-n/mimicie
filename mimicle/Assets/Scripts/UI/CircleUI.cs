@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -37,7 +37,7 @@ namespace Self
 
             hpGauge.fillAmount = playerHp.Ratio;
             parryGauge.fillAmount = parry.Timer / 2;
-            timeT.text = Score.Time.ToString();
+            timeT.text = Score.CurrentTime.ToString();
         }
 
         void UpdateAmmoGauge()

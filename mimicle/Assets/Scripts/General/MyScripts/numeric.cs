@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public static class Numeric
     {
@@ -15,6 +15,13 @@ namespace Self.Utility
 
         public static float Round(float n, int digit = 0) => MathF.Round(n, digit);
         public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
+
+        public static int CutAss(float n)
+        {
+            string nstr = n.ToString();
+            string done = nstr.Split(".")[0];
+            return int.Parse(done);
+        }
 
         public static int Percent(float n, int digit = 0) => ((int)MathF.Round(n * 100, digit));
         public static int Percent(int w, int per) => Round(w * per / 100);

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self.Test
 {
@@ -18,7 +18,10 @@ namespace Self.Test
         void Update()
         {
             if (sw.Second() > 5)
+            {
                 sw.Restart();
+            }
+
             t.text = sw.SpentF(StopwatchFormat.second).ToString();
         }
     }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -60,7 +60,7 @@ namespace Self
         /// </summary>
         void MakeParry()
         {
-            if (cooltimer.sf >= CT && Feed.Down(Values.Key.Parry))
+            if (cooltimer.sf >= CT && Inputs.Down(Constant.Key.Parry))
             {
                 cooltimer.Reset();
                 parryObj.SetActive(true);

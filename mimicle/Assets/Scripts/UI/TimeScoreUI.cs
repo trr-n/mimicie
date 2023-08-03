@@ -11,8 +11,8 @@ namespace Self
         void Update()
         {
             score.fontSize = time.fontSize = 20;
-            score.text = $"Time: {Score.Time}";
-            time.text = $"Score: {Score.Now}";
+            score.text = $"Time: {Score.CurrentTime}";
+            time.text = $"Score: {Score.CurrentScore}";
         }
     }
 }

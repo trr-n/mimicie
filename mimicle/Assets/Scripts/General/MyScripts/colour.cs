@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public static class Colour
     {
         public static Color transparent => new(0, 0, 0, 0);
 
+        public static Color SetAlpha(this Color color, float alpha) => new(color.r, color.g, color.b, alpha);
+
         public static void SetColor(this SpriteRenderer sr, Color color) => sr.color = color;
-
         public static Color SetColor(this Color c, Color color) => c = color;
-
         public static Color SetColor(this Color color, float? red = null, float? green = null, float? blue = null, float? alpha = null)
         {
             if (red is null && green is null && blue is null && alpha is null)

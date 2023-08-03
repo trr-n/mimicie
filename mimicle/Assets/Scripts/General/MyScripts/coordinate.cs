@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public static class Coordinate
     {
@@ -86,6 +87,7 @@ namespace Self.Utility
 
         public static void SetScale(this Transform t, Vector3 scale) => t.localScale = scale;
 
-        public static bool Twins(Vector3 n1, Vector3 n2) => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);
+        public static bool Twins(Vector3 n1, Vector3 n2)
+        => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);
     }
 }

@@ -23,7 +23,8 @@ namespace Self
             {
                 i.fillAmount = hp_player.Ratio;
             }
-            timeT.text = Score.Time.ToString();
+
+            timeT.text = Score.CurrentTime.ToString();
         }
 
         public void UpdateAmmo()

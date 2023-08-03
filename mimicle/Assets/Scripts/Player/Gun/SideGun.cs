@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -14,7 +14,7 @@ namespace Self
         /// <summary>
         /// 上下の銃
         /// </summary>
-        GameObject[] sideguns = new GameObject[2];
+        readonly GameObject[] sideguns = new GameObject[2];
 
         /// <summary>
         /// 連射用
@@ -29,10 +29,7 @@ namespace Self
             for (int index = 0; index < Max; index++)
             {
                 sideguns[index] = transform.GetChild(index).gameObject;
-                if (sideguns[index] is not null)
-                {
-                    sideguns[index].SetActive(false);
-                }
+                sideguns[index]?.SetActive(false);
             }
         }
 
@@ -43,10 +40,8 @@ namespace Self
         {
             foreach (var gun in sideguns)
             {
-                // FIXME: 下の銃だけ撃てない
                 if (gun.IsActive(Active.Self) && trigger.stopwatch.sf > trigger.RapidSpeed)
                 {
-                    print(gun.name + " is enable!");
                     bullet.Generate(gun.transform.position);
                     trigger.stopwatch.Restart();
                 }

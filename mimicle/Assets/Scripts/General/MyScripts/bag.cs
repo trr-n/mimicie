@@ -2,40 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public class Bag<T>
     {
         T[] collection;
-        int length;
+        int count;
+        public int Count => count;
         int capacity;
 
         public T this[int index] => collection[index];
 
-        public int Length => length;
+        public int Length => count;
 
         public Bag()
         {
             this.capacity = 10;
             collection = new T[capacity];
-            length = 0;
+            count = 0;
         }
 
         public Bag(int capacity)
         {
             this.capacity = capacity;
             collection = new T[capacity];
-            length = 0;
+            count = 0;
         }
 
         public void Add(T item)
         {
-            if (length == capacity)
+            if (count == capacity)
             {
                 capacity += 8;
                 T[] items = new T[capacity];
 
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < count; i++)
                 {
                     items[i] = collection[i];
                 }
@@ -44,13 +45,26 @@ namespace Self.Utility
             }
 
 
-            collection[length] = item;
-            length++;
+            collection[count] = item;
+            count++;
         }
 
-        public void Remove()
+        public void Remove(int index)
         {
+            if (count <= 0)
+            {
+                return;
+            }
 
+            for (int i = 0; i < count; i++)
+            {
+                if (i != index)
+                {
+                    continue;
+                }
+            }
+
+            count--;
         }
     }
 }

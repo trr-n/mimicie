@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public enum Active { Self, Hierarchy }
 
@@ -12,8 +12,10 @@ namespace Self.Utility
             int choice = Rnd.Choice(g);
             return MonoBehaviour.Instantiate(g[choice], p, r);
         }
+
         public static GameObject Generate(this GameObject g, Vector3 p = new(), Quaternion r = new())
         => MonoBehaviour.Instantiate(g, p, r);
+
         public static GameObject Generate(this GameObject gob) => MonoBehaviour.Instantiate(gob);
 
         public static bool Compare(this Collision info, string tag) => info.gameObject.CompareTag(tag);
@@ -21,8 +23,10 @@ namespace Self.Utility
         public static bool Compare(this Collision2D info, string tag) => info.gameObject.CompareTag(tag);
         public static bool Compare(this Collider2D info, string tag) => info.CompareTag(tag);
 
-        public static T GetWithTag<T>(string tag) => Gobject.Find(tag).GetComponent<T>();
-        public static bool TryWithTag<T>(out T t, string tag) => Gobject.Find(tag).TryGetComponent<T>(out t);
+        public static GameObject GetWithTag(string tag) => Find(tag);
+        public static T GetWithTag<T>(string tag) => Find(tag).GetComponent<T>();
+        public static T GetWithTag<T>(this GameObject gob) => gob.GetComponent<T>();
+        public static bool TryGetWithTag<T>(out T t, string tag) => Find(tag).TryGetComponent<T>(out t);
 
         public static T Get<T>(this Collision2D info) => info.gameObject.GetComponent<T>();
         public static T Get<T>(this Collider2D info) => info.gameObject.GetComponent<T>();
@@ -37,7 +41,7 @@ namespace Self.Utility
         public static T Try<T>(this GameObject gob)
         {
             gob.TryGetComponent<T>(out var t);
-            return t is null ? default(T) : t;
+            return t is null ? default : t;
         }
 
         public static GameObject Find(string tag) => GameObject.FindGameObjectWithTag(tag);
@@ -50,14 +54,16 @@ namespace Self.Utility
         public static void Destroy(this Collision2D info, float lifetime = 0) => UnityEngine.GameObject.Destroy(info.gameObject, lifetime);
 
         public static bool IsActive(this GameObject gob, Active? active = null)
-        {
-            if (active is null || active == Active.Self)
-            {
-                return gob.activeSelf;
-            }
-            return gob.activeInHierarchy;
-        }
+        => active is null || active == Active.Self ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
         public static bool Exist(this GameObject obj) => obj.gameObject;
+
+        public static void SetActive(this GameObject[] gobs, bool state)
+        {
+            foreach (var i in gobs)
+            {
+                i.SetActive(state);
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
-    public static class Feed
+    public static class Inputs
     {
         public static bool Down() => Input.anyKeyDown;
         public static bool Down(int click) => Input.GetMouseButtonDown(click);

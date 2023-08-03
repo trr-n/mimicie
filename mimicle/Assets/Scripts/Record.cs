@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace System.Runtime.CompilerServices
 {
@@ -53,13 +53,13 @@ namespace Self.Test
         int n = 0;
         void Update()
         {
-            if (Feed.Down(KeyCode.Alpha1))
+            if (Inputs.Down(KeyCode.Alpha1))
                 n = 0;
-            else if (Feed.Down(KeyCode.Alpha2))
+            else if (Inputs.Down(KeyCode.Alpha2))
                 n = 1;
-            else if (Feed.Down(KeyCode.Alpha3))
+            else if (Inputs.Down(KeyCode.Alpha3))
                 n = 2;
-            else if (Feed.Down(KeyCode.Alpha4))
+            else if (Inputs.Down(KeyCode.Alpha4))
                 n = 3;
 
             Status status = n switch

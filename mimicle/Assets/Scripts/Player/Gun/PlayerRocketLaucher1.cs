@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Self.Utility;
+using Self.Utils;
 using UnityEngine;
 
 namespace Self
@@ -32,8 +32,7 @@ namespace Self
 
             direction = -transform.right;
 
-            wdata = GameObject.FindGameObjectWithTag(Constant.WaveManager)
-                .GetComponent<WaveData>();
+            wdata = Gobject.GetWithTag<WaveData>(Constant.WaveManager);
         }
 
         void Update()
@@ -129,7 +128,7 @@ namespace Self
         protected override void TakeDamage(Collision2D info)
         {
             explosionEffect.Generate(transform.position);
-            info.Get<HP>().Damage(Values.Damage.PlayerRocket);
+            info.Get<HP>().Damage(Constant.Damage.PlayerRocket);
         }
 
         void OnCollisionEnter2D(Collision2D info)

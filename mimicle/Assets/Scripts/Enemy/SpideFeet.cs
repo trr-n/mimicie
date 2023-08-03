@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -9,7 +9,7 @@ namespace Self
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
             {
-                info.Get<HP>().Damage(Values.Damage.Spide);
+                info.Get<HP>().Damage(Constant.Damage.Spide);
                 Destroy(gameObject);
             }
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Self.Utility;
+using Self.Utils;
 using UnityEngine;
 
 namespace Self
@@ -22,7 +22,7 @@ namespace Self
         {
             if (MyScene.Active() == Constant.Main)
             {
-                manager = Gobject.Find(Constant.Manager).GetComponent<GameManager>();
+                manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
             }
         }
 
@@ -40,6 +40,7 @@ namespace Self
             {
                 scroll = manager.Scrollable;
             }
+
             else
             {
                 scroll = true;
@@ -53,6 +54,7 @@ namespace Self
             foreach (var i in backgrounds)
             {
                 i.transform.Translate(Vector2.left * speed * Time.deltaTime);
+
                 if (i.transform.position.x <= -20f)
                 {
                     i.transform.position = Spawn;

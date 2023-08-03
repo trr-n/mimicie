@@ -1,8 +1,9 @@
 using SystemStopwatch = System.Diagnostics.Stopwatch;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public enum StopwatchFormat { H, h, Hour, hour, M, m, Minute, minute, S, s, Second, second, MS, ms }
+
     public sealed class Stopwatch
     {
         SystemStopwatch sw;

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
 
     public static class Render

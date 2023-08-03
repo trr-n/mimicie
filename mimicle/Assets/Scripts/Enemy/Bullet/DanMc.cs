@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -17,8 +17,8 @@ namespace Self
 
         protected override void TakeDamage(Collision2D info)
         {
-            info.Get<HP>().Damage(Values.Damage.Charger);
-            Score.Add(Values.Point.RedCharger);
+            info.Get<HP>().Damage(Constant.Damage.Charger);
+            Score.Add(Constant.Point.RedCharger);
             Destroy(gameObject);
         }
 

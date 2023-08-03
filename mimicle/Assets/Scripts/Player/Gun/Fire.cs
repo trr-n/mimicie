@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -10,8 +11,8 @@ namespace Self
         [SerializeField]
         GameObject[] bulletObjs = new GameObject[2];
 
-        // [SerializeField]
-        // AudioClip[] fireSounds;
+        [SerializeField]
+        AudioClip[] fireSounds;
 
         [SerializeField]
         Ammo ammo;
@@ -26,22 +27,20 @@ namespace Self
 
         void Start()
         {
-            speaker = this.GetComponent<AudioSource>();
-            ammo = this.GetComponent<Ammo>();
+            speaker = GetComponent<AudioSource>();
+            ammo = GetComponent<Ammo>();
         }
 
         void Update()
         {
-            //TODO playerクラスのRapidSpanをmodeに合わせて変える
-            print("mode: " + mode);
             // 通常弾
-            if (Feed.Down(KeyCode.Alpha1))
+            if (Inputs.Down(KeyCode.Alpha1))
             {
                 mode = 0;
             }
 
             // ロケラン
-            else if (Feed.Down(KeyCode.Alpha2))
+            else if (Inputs.Down(KeyCode.Alpha2))
             {
                 mode = 1;
             }
@@ -49,17 +48,30 @@ namespace Self
 
         public void Shot(int activeGrade = 0)
         {
-            ammo.Reduce();
-
             grade = activeGrade;
+            ammo.Reduce();
 
             switch (activeGrade)
             {
                 case 0:
                 case 1:
+                    try
+                    {
+                        speaker.PlayOneShot(fireSounds[activeGrade]);
+                        print("success!");
+                    }
+                    catch (Exception e) { print(e.Message); }
+
                     bulletObjs[activeGrade].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;
                 case 2:
+                    try
+                    {
+                        speaker.PlayOneShot(fireSounds[mode]);
+                        print("success!");
+                    }
+                    catch (Exception e) { print(e.Message); }
+
                     bulletObjs[mode].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;
             }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -55,7 +55,7 @@ namespace Self
 
         void ChangeSprite()
         {
-            if (Feed.Down(KeyCode.Tab))
+            if (Inputs.Down(KeyCode.Tab))
             {
                 if (renderer.Compare(logos[0]))
                 {
@@ -85,13 +85,13 @@ namespace Self
             {
                 isMouseOverOnLogo = true;
                 transform.localScale = Vector3.Lerp(transform.localScale, Scale * 1.1f, 20 * Time.deltaTime);
-                if (Feed.Down(0))
+                if (Inputs.Down(0))
                 {
                     speaker.PlayOneShot(clicks.Choice3());
                     ChangeTextsColor(clickT);
                 }
             }
-            else if (Feed.Down(KeyCode.Space))
+            else if (Inputs.Down(KeyCode.Space))
             {
                 speaker.PlayOneShot(presses.Choice3());
                 ChangeTextsColor(pressT);

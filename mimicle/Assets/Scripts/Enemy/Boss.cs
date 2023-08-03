@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using Self.Utility;
+using Self.Utils;
 using System.Collections.Generic;
 
 namespace Self
@@ -92,12 +92,12 @@ namespace Self
         /// <summary>
         /// レベル1の連射間隔
         /// </summary>
-        Special Lv1C = new();
+        Runtime Lv1C = new();
 
         /// <summary>
         /// 弾幕総合
         /// </summary>
-        (int bulletCount, Stopwatch stopwatch, Special runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
+        (int bulletCount, Stopwatch stopwatch, Runtime runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
             bulletCount: 100,
             stopwatch: new(),
             runner: new(),
@@ -113,7 +113,7 @@ namespace Self
         /// <summary>
         /// 終了用
         /// </summary>
-        Special terminated = new();
+        Runtime terminated = new();
 
         void Start()
         {
@@ -153,7 +153,7 @@ namespace Self
         {
             if (boss.hp.IsZero)
             {
-                terminated.Runner(() => manager.End());
+                terminated.RunOnce(() => manager.End());
             }
         }
 
@@ -199,7 +199,7 @@ namespace Self
 
             currentActiveLevel = 0;
 
-            Lv1C.Runner(() => StartCoroutine(Lv01()));
+            Lv1C.RunOnce(() => StartCoroutine(Lv01()));
         }
 
         IEnumerator Lv01()
@@ -228,7 +228,7 @@ namespace Self
 
             currentActiveLevel = 1;
 
-            barrage.runner.Runner(() =>
+            barrage.runner.RunOnce(() =>
             {
                 barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
@@ -290,7 +290,7 @@ namespace Self
             }
         }
 
-        Special special = new();
+        Runtime special = new();
         /// <summary>
         /// 10 ~ 30, orange: 13% homing
         /// </summary>
@@ -303,9 +303,9 @@ namespace Self
 
             currentActiveLevel = 3;
 
-            special.Runner(() =>
+            special.RunOnce(() =>
             {
-                if (Gobject.TryWithTag<Player>(out var player, Constant.Player))
+                if (Gobject.TryGetWithTag<Player>(out var player, Constant.Player))
                 {
                     if (player.CurrentGunGrade == 1)
                     {
@@ -320,7 +320,7 @@ namespace Self
         }
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
-        Special level5StopwatchRunner = new();
+        Runtime level5StopwatchRunner = new();
         /// <summary>
         /// 00 ~ 10, red: 15% homing
         /// </summary>
@@ -333,7 +333,7 @@ namespace Self
 
             currentActiveLevel = 4;
 
-            level5StopwatchRunner.Runner(() => level5Spawns.stopwatch.Start());
+            level5StopwatchRunner.RunOnce(() => level5Spawns.stopwatch.Start());
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {

@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
-    public sealed class Wave1 : MonoBehaviour//WaveData
+    public sealed class Wave1 : MonoBehaviour
     {
         [SerializeField]
         WaveData data;
 
         [SerializeField]
-        GameObject[] enemies;
+        GameObject chargerObj;
 
         [SerializeField]
         Slain slain;
@@ -24,7 +24,7 @@ namespace Self
         List<GameObject> spawned = new();
         Stopwatch nextWaveSW = new();
         Stopwatch waveSW = new();
-        Special makeChargers = new(), Saves = new();
+        Runtime makeChargers = new(), Saves = new();
 
         const float WaveLength = 15f;
         const float BreakTime = 2f;
@@ -35,12 +35,11 @@ namespace Self
 
         const int X = 15;
 
-        (Vector2 position, Special runner) upgrades;
+        (Vector2 position, Runtime runner) upgrades = (default, new());
 
         void OnEnable()
         {
             waveSW.Start();
-            upgrades.runner = new();
         }
 
         void Update()
@@ -50,13 +49,14 @@ namespace Self
                 return;
             }
 
-            makeChargers.Runner(() => { StartCoroutine(Chargers()); });
+            makeChargers.RunOnce(() => { StartCoroutine(Chargers()); });
 
             if (!(waveSW.sf >= WaveLength && spawnCount >= quota.spawn && slain.Count >= quota.slain))
             {
                 return;
             }
 
+            // chargerが残ってたらreturn
             foreach (var charger in spawned)
             {
                 if (charger)
@@ -66,7 +66,8 @@ namespace Self
             }
 
             StopCoroutine(Chargers());
-            upgrades.runner.Runner(() => upgradeItem.Generate(Vector2.zero));
+
+            upgrades.runner.RunOnce(() => upgradeItem.Generate(Vector2.zero));
 
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)
@@ -85,16 +86,20 @@ namespace Self
             while (true)
             {
                 yield return new WaitForSecondsRealtime(Spawn.Span);
+
                 offset = Spawn.Space;
-                var playerPos = GameObject.FindGameObjectWithTag(Constant.Player).transform.position;
+                Transform playerT = Gobject.GetWithTag<Transform>(Constant.Player);
+
                 for (var i = 0; i < Spawn.Count; i++)
                 {
-                    spawnCount++;
-                    spawnY = playerPos.y + offset;
-                    spawnY = Mathf.Clamp(spawnY, -4, 4);
-                    spawned.Add(enemies[0].Generate(new(X, spawnY), Quaternion.identity));
+                    spawnY = playerT.position.y + offset;
 
+                    spawnY = Mathf.Clamp(spawnY, -4, 4);
+                    spawned.Add(chargerObj.Generate(new(X, spawnY), Quaternion.identity));
+
+                    spawnCount++;
                     offset -= Spawn.Space;
+
                     yield return new WaitForSecondsRealtime(Spawn.Span / Spawn.Count);
                 }
             }

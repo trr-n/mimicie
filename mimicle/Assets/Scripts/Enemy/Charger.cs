@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 using DG.Tweening;
 
 namespace Self
@@ -62,7 +62,7 @@ namespace Self
             if (chargerHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
-                Score.Add(Values.Point.Charger);
+                Score.Add(Constant.Point.Charger);
             }
         }
 
@@ -104,8 +104,8 @@ namespace Self
         {
             if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
             {
-                info.Get<HP>().Damage(Values.Damage.Charger);
-                Score.Add(Values.Point.RedCharger);
+                info.Get<HP>().Damage(Constant.Damage.Charger);
+                Score.Add(Constant.Point.RedCharger);
                 Destroy(gameObject);
             }
         }

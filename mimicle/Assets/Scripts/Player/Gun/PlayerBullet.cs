@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -20,14 +20,9 @@ namespace Self
 
         float speed = 20;
 
-        // Fire fire;
-
         void Start()
         {
             direction = transform.right;
-            // fire = GameObject.FindGameObjectWithTag(Constant.Player)
-            //     .transform.GetChild(0).GetComponent<Fire>();
-
             audio = GetComponent<AudioSource>();
         }
 
@@ -48,8 +43,8 @@ namespace Self
             {
                 Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
                 hp.Damage(info.gameObject.name.Contains("boss") ?
-                    Numeric.Round(Values.Damage.Player[player.CurrentGunGrade] / 3, 0) :
-                    Values.Damage.Player[player.CurrentGunGrade]
+                    Numeric.Round(Constant.Damage.Player[player.CurrentGunGrade] / 3, 0) :
+                    Constant.Damage.Player[player.CurrentGunGrade]
                 );
             }
         }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -50,11 +50,11 @@ namespace Self
         // /// </summary>
         // public static string Path => path is null ? "Not yet" : path;
 
-        static (string password, string path) saveFile = (password: "mimicle", null);
+        static (string password, string path) save = (password: "mimicle", null);
         /// <summary>
         /// セーブデータの設定s
         /// </summary>
-        public static (string password, string path) SaveFile => (saveFile.password, saveFile.path is null ? "Not yet" : saveFile.path);
+        public static (string password, string path) SaveFile => (save.password, save.path is null ? "Not yet" : save.path);
 
         void Start()
         {
@@ -65,20 +65,20 @@ namespace Self
             sceneReloadPanel.color = Colour.transparent;
 
             Physics2D.gravity = Vector3.forward * 9.81f;
-            App.SetFPS(60);
+            App.SetFPS(FrameRate.Medium);
             App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
         }
 
         void Update()
         {
-            if (Feed.Pressed(Values.Key.Stop))
+            if (Inputs.Pressed(Constant.Key.Stop))
             {
                 Time.timeScale = 0;
                 Ctrlable = false;
                 Scrollable = false;
             }
 
-            else if (Feed.Released(Values.Key.Stop))
+            else if (Inputs.Released(Constant.Key.Stop))
             {
                 Time.timeScale = 1;
                 Ctrlable = true;
@@ -116,20 +116,18 @@ namespace Self
         /// </summary>
         public void End()
         {
+            App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
             Ctrlable = false;
             Scrollable = false;
             Time.timeScale = 0;
             Score.StopTimer();
 
-            ResultData data = new ResultData
-            {
-                time = 1,
-                score = 1
-            };
+            ResultData data = new(time: Score.CurrentTime, score: Score.CurrentScore);
 
-            saveFile.path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
+
+            save.path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
             // saveFile.path = Application.persistentDataPath + "/" + Temps.Raw2 + ".sav";
-            Save.Write(data, saveFile.password, saveFile.path);
+            Save.Write(data, save.password, save.path);
         }
 
         public void OpenMenuPanel()

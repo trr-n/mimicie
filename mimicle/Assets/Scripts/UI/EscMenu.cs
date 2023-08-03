@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
-using static Self.Utility.Sys;
+using Self.Utils;
+using static Self.Utils.Sys;
 
 namespace Self
 {
@@ -24,31 +24,33 @@ namespace Self
         {
             speaker.SpeakerVolumeControl(volumeT);
 
-            if (Feed.Down(Values.Key.Mute))
+            if (Inputs.Down(Constant.Key.Mute))
             {
                 speaker.MuteVolume(volumeT);
             }
 
-            if (Feed.Down(Values.Key.MChange))
+            if (Inputs.Down(Constant.Key.MChange))
             {
                 speaker.Change(songT);
             }
 
-            if (Feed.Down(KeyCode.Escape))
+            if (Inputs.Down(KeyCode.Escape))
             {
-                if (!manager.menuPanel.IsActive(Active.Hierarchy))
+                if (manager.menuPanel.IsActive(Active.Hierarchy))
                 {
-                    todayT.text = "きょうは" + Temps.Date();
-                    systemT.text =
-                        "すぺっく" +
-                        "\nOS: " + OS +
-                        "\nCPU: " + CPU +
-                        "\nGPU: " + GPU + " " + VRAM + "GB" +
-                        "\nRAM: " + RAM + "GB";
-                    manager.OpenMenuPanel();
+                    manager.CloseMenuPanel();
                     return;
                 }
-                manager.CloseMenuPanel();
+
+                todayT.text = "きょうは" + Temps.Date();
+                systemT.text =
+                    "すぺっく" +
+                    "\nOS: " + OS +
+                    "\nCPU: " + CPU +
+                    "\nGPU: " + GPU + " " + VRAM + "GB" +
+                    "\nRAM: " + RAM + "GB";
+                manager.OpenMenuPanel();
+
             }
         }
     }

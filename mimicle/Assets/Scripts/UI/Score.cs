@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -10,8 +10,8 @@ namespace Self
 
         static Stopwatch timer = new(true);
 
-        public static int Now => now;
-        public static int Time => timer.Second();
+        public static int CurrentScore => now;
+        public static int CurrentTime => timer.Second();
 
         public static void StopTimer() => timer.Stop();
         public static void StartTimer() => timer.Start();
@@ -27,9 +27,15 @@ namespace Self
         public int time { get; init; }
     }
 
-    public struct ResultData
+    public class ResultData
     {
         public int score;
         public int time;
+
+        public ResultData(int score, int time)
+        {
+            this.score = score;
+            this.time = time;
+        }
     }
 }

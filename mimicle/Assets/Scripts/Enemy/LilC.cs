@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 using DG.Tweening;
 
 namespace Self
@@ -33,7 +33,7 @@ namespace Self
         /// <summary>
         /// 死亡処理
         /// </summary>
-        Special dead = new();
+        Runtime dead = new();
 
         void Start()
         {
@@ -57,9 +57,9 @@ namespace Self
             if (lilcHP.IsZero)
             {
                 AddSlainCountAndRemove(gameObject);
-                Score.Add(Values.Point.LilC);
+                Score.Add(Constant.Point.LilC);
 
-                dead.Runner(() =>
+                dead.RunOnce(() =>
                 {
                     fx.Generate(transform.position);
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -45,7 +45,7 @@ namespace Self
             ActivateWave(Wave.First);
             wave.Set(Wave.First);
             Spawnable = true;
-            playerTransform = Gobject.Find(Constant.Player).transform;
+            playerTransform = Gobject.GetWithTag<Transform>(Constant.Player);
         }
 
         void Update()
@@ -58,7 +58,10 @@ namespace Self
         void Wave1()
         {
             if (!inProgress(Wave.First))
+            {
                 return;
+            }
+
             qset[Wave.First].timer += Time.deltaTime;
             transform.position = new(X, playerTransform.position.y);
             wave.Set(Wave.First);
@@ -129,10 +132,10 @@ namespace Self
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
                 qset[Wave.Third].timer = 0;
             if (slain.Count >= qset[Wave.Third].quota)
-                one.Runner(Final);
+                one.RunOnce(Final);
             void Final() { }
         }
-        Special one = new();
+        Runtime one = new();
 
         public bool inProgress(int wave)
         {

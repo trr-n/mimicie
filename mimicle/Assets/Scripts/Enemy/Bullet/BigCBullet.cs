@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -72,7 +72,7 @@ namespace Self
                 playerObj.GetComponent<HP>().Damage(damageAmount);
             }
 
-            Score.Add(Values.Point.RedBigCBullet);
+            Score.Add(Constant.Point.RedBigCBullet);
             Destroy(gameObject);
         }
 
@@ -83,8 +83,8 @@ namespace Self
 
         protected override void TakeDamage(Collision2D info)
         {
-            info.Get<HP>().Damage(Values.Damage.BigC);
-            Score.Add(Values.Point.RedBigCBullet);
+            info.Get<HP>().Damage(Constant.Damage.BigC);
+            Score.Add(Constant.Point.RedBigCBullet);
 
             Destroy(gameObject);
         }

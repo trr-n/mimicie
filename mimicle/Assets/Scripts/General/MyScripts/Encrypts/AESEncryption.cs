@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public class AESEncryption : IEncryption
     {

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -22,7 +22,8 @@ namespace Self
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<HP>();
+            // player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<HP>();
+            player = Gobject.GetWithTag<HP>(Constant.Player);
             mat.SetFloat(Name, 0);
         }
 
@@ -38,12 +39,6 @@ namespace Self
                     max = true;
                 }
             }
-        }
-
-        public void Reblur()
-        {
-            // mat.SetFloat(Name, 0);
-            // mat.SetFloat(Name, MaxBlur);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 using UnityEngine;
 
-namespace Self.Utility
+namespace Self.Utils
 {
     public sealed class Save
     {

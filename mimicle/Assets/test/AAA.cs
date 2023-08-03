@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 public class AAA : MonoBehaviour
 {
@@ -10,14 +10,14 @@ public class AAA : MonoBehaviour
 
     int[] n = { 1, 20, 100 };
 
-    const int C = 10000;
+    const int COUNT = 10000;
 
     KeyValuePair<int, float>[] pairs = { new(1, 1), new(20, 20), new(100, 100) };
     Pair<int, float>[] pairs2 = { new(1, 1), new(20, 20), new(100, 100) };
 
     void Start()
     {
-        for (int i = 0; i < C; i++)
+        for (int i = 0; i < COUNT; i++)
         {
             n1.Add(n[Lottery.Weighted(1, 20, 100)]);
             // n2.Add(Lottery.Weighted(pairs));

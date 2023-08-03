@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -34,12 +34,12 @@ namespace Self
 
         public void SpeakerVolumeControl(Text volumeT)
         {
-            if (Feed.Down(Values.Key.VUp))
+            if (Inputs.Down(Constant.Key.VUp))
             {
                 _volume += amount;
             }
 
-            else if (Feed.Down(Values.Key.VDown))
+            else if (Inputs.Down(Constant.Key.VDown))
             {
                 _volume -= amount;
             }

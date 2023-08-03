@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Self
 {
-    public class Values : MonoBehaviour
+    public class _Values : MonoBehaviour
     {
         public static class Damage
         {

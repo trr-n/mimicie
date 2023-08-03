@@ -1,5 +1,5 @@
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -48,8 +48,8 @@ namespace Self
         protected override void TakeDamage(Collision2D info)
         {
             // TODO make fx
-            info.Get<HP>().Damage(Values.Damage.Shuriken);
-            Score.Add(Values.Point.RedShuriken);
+            info.Get<HP>().Damage(Constant.Damage.Shuriken);
+            Score.Add(Constant.Point.RedShuriken);
             Destroy(gameObject);
         }
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Self.Utility;
+using Self.Utils;
 using System.Collections;
 
 namespace Self
@@ -16,17 +16,20 @@ namespace Self
         [SerializeField]
         Slain slain;
 
-        [SerializeField]
-        GameObject player, sidegunUpgradeItem;
+        float lilcSpawnY = -3.5f;
+        const float Offset = 3.4f;
+        const int X = 15;
 
         const int Quota = 4;
-        float lilcSpawnY = -3.5f;
-        const int X = 15;
-        const float BreakTime = 2f;
-        const float Offset = 3.4f;
-        Stopwatch nextSW = new(), spanwSW = new(true);
+
         bool isDone1 => slain.Count >= Quota;
-        Special LilC = new(), UpgradeItem = new();
+
+        const float BreakTime = 2f;
+        Stopwatch nextSW = new();
+        Stopwatch spanwSW = new(true);
+        Runtime LilC = new();
+
+        Runtime UpgradeItem = new();
 
         void Update()
         {
@@ -40,15 +43,9 @@ namespace Self
                 return;
             }
 
-            UpgradeItem.Runner(() =>
-            {
-                Vector3 playerPos = player.transform.position;
-                sidegunUpgradeItem.Generate();
-            });
-
             transform.SetPosition(X);
 
-            LilC.Runner(() => StartCoroutine(MakeLilC()));
+            LilC.RunOnce(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {

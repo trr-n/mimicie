@@ -10,28 +10,6 @@ namespace Sample
         [SerializeField]
         float[] ds;
 
-        void _Start()
-        {
-            StartCoroutine(AAA());
-
-            // var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            // ds = new float[enemies.Length];
-
-            // int j = 0;
-            // foreach (var i in enemies)
-            // {
-            //     if (i.GetComponent<HP>().Current > 0)
-            //     {
-            //         continue;
-            //     }
-
-            //     ds[j] = Vector3.Distance(transform.position, i.transform.position);
-            //     j++;
-            // }
-
-            // Debug.Log(ds.Min());
-        }
-
         void Update()
         {
             //? for --------------------------------------------------------------------
@@ -63,7 +41,6 @@ namespace Sample
             }
 
             //? with Linq --------------------------------------------------------------
-            //? 問い合わせする拡張命令
             //? 配列に対して一致するものを探して抽出できる
             var nearEnemy = enemies
                 // 指定した条件に一致するものだけ抽出
@@ -84,7 +61,7 @@ namespace Sample
             // var hogeT = hoge[0].transform.position;
             // var hogeHp = hoge[0].hp;
 
-            if (nearEnemy != null)
+            if (nearEnemy is not null)
             {
                 Debug.Log($"Linq: {nearEnemy.name}");
             }
@@ -96,7 +73,8 @@ namespace Sample
                 from enemy in enemies
                 where enemy.GetComponent<HP>().Current < 0
                 orderby Vector3.Distance(transform.position, enemy.transform.position)
-                select enemy)
+                select enemy
+                )
                 .FirstOrDefault();
 
             if (nearestEnemy != null)

@@ -1,6 +1,8 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Self.Utility;
+using Self.Utils;
 
 namespace Self
 {
@@ -8,9 +10,6 @@ namespace Self
     [RequireComponent(typeof(BoxCollider2D))]
     public class Player : MonoBehaviour
     {
-        [SerializeField]
-        Ammo ammo;
-
         [SerializeField]
         Fire gun;
 
@@ -26,8 +25,8 @@ namespace Self
         [SerializeField]
         CircleUI circleUI;
 
-        // [SerializeField]
-        // SideGun sidegun;
+        [SerializeField]
+        Image fadePanel;
 
         float time2reload = 0f;
         /// <summary>
@@ -49,7 +48,7 @@ namespace Self
         /// <summary>
         /// 移動速度
         /// </summary> 
-        float movingSpeed = 5;
+        readonly float movingSpeed = 5;
 
         /// <summary>
         /// プレイヤーのHP
@@ -59,17 +58,17 @@ namespace Self
         /// <summary>
         /// リロード用ストップウォッチ
         /// </summary>
-        Stopwatch reloadSW = new();
+        readonly Stopwatch reloadSW = new();
 
         /// <summary>
         /// 連射用ストップウォッチ
         /// </summary>
-        Stopwatch rapidSW = new(true);
+        readonly Stopwatch rapidSW = new(true);
 
         /// <summary>
         /// 被弾した時の色変更用ストップウォッチ
         /// </summary>
-        Stopwatch sw = new();
+        readonly Stopwatch sw = new();
 
         /// <summary>
         /// プレイヤーのSR
@@ -110,7 +109,7 @@ namespace Self
         /// <summary>
         /// セーブデータ書き込み用
         /// </summary>
-        Special write = new();
+        readonly Runtime write = new();
 
         int currentGunGrade = 0;
         /// <summary>
@@ -118,19 +117,24 @@ namespace Self
         /// </summary>
         public int CurrentGunGrade => currentGunGrade;
 
-        float[] RapidRate => new float[3] { 0.1f, 1, 0.7f };
+        // (float normal, float rocket) rapidRate = (0.1f, 1f);
+        float[] rates => new float[] { 0.1f, 1f };
 
-        (float distance, int damage) test;
-        [SerializeField]
-        Text distanceT, damageT;
+        Ammo ammo;
+
+        AudioSource speaker;
 
         void Awake()
         {
-            manager ??= Gobject.Find(Constant.Manager).GetComponent<GameManager>();
+            manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
+
+            speaker = GetComponent<AudioSource>();
 
             playerHP = GetComponent<HP>();
             playerSR = GetComponent<SpriteRenderer>();
             playerCol = GetComponent<BoxCollider2D>();
+
+            ammo = Gobject.GetWithTag<Ammo>(transform.GetChild(0).gameObject);
         }
 
         void Start()
@@ -140,13 +144,6 @@ namespace Self
 
         void Update()
         {
-            test.distance = 10 - Vector3.Distance(Vector3.zero, transform.position);
-            test.damage = ((int)Numeric.Round(test.distance * 10, 0));
-            distanceT.text = "distance: " + test.distance;
-            damageT.text = "damage: " + test.damage;
-
-            print("current: " + currentGunGrade);
-
             Move();
             Dead();
             Reload();
@@ -159,16 +156,16 @@ namespace Self
                 playerSR.color = Color.white;
             }
 
-            Shot();
+            Shot(Runtime.RunFunc(() => gun.Grade switch { 2 => rates[gun.Mode], _ => rates[gun.Grade] }));
         }
 
         /// <summary>
         /// 発砲
         /// </summary>
-        void Shot()
+        void Shot(float rapid)
         {
-            if (NotNinnin = !(Feed.Pressed(Values.Key.Fire) && !ammo.IsZero() &&
-                rapidSW.sf > RapidRate[currentGunGrade] && !isReloading))
+            if (NotNinnin = !(
+                Inputs.Pressed(Constant.Key.Fire) && !isReloading && !ammo.IsZero() && rapidSW.sf > rapid))
             {
                 return;
             }
@@ -190,7 +187,7 @@ namespace Self
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
-            if (Feed.Down(Values.Key.Reload))
+            if (Inputs.Down(Constant.Key.Reload))
             {
                 PreReloadRatio = ammo.Ratio;
                 ammo.Reload();
@@ -200,6 +197,7 @@ namespace Self
             if (isReloading)
             {
                 reloadSW.Start();
+
                 if (reloadSW.SecondF() >= time2reload)
                 {
                     isReloading = false;
@@ -212,17 +210,32 @@ namespace Self
         {
             if (playerHP.IsZero)
             {
-                write.Runner(() =>
-                {
-                    Score.ResetTimer();
-                    MyScene.Load();
-                });
+                write.RunOnce(() => StartCoroutine(Fade(true)));
             }
         }
 
-        void Fade()
+        IEnumerator Fade(bool fout)
         {
-            float value = 0f;
+            float alpha = 0f;
+
+            while (true)
+            {
+                yield return null;
+
+                alpha = Mathf.Clamp(alpha, 0, 1);
+                alpha = fout ? alpha += Time.deltaTime : alpha -= Time.deltaTime;
+
+                // fadePanel.color.SetAlpha(alpha);
+                fadePanel.color = new(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, alpha);
+
+                if (alpha >= 1)
+                {
+                    break;
+                }
+            }
+
+            Score.ResetTimer();
+            MyScene.Load();
         }
 
         /// <summary>
@@ -237,8 +250,8 @@ namespace Self
 
             transform.ClampPosition2(-7.95f, 8.2f, -4.12f, 4.38f);
 
-            (float h, float v) axis = (Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
-            transform.Translate(new Vector2(axis.h, axis.v) * movingSpeed * Time.deltaTime);
+            Vector2 move = new(Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
+            transform.Translate(move * movingSpeed * Time.deltaTime);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -246,14 +259,17 @@ namespace Self
             if (info.Compare(Constant.UpgradeItem) && currentGunGrade <= 2)
             {
                 currentGunGrade++;
-
-                // TODO make fx
                 info.Destroy();
+
                 return;
             }
 
             if (!parry.IsParrying)
             {
+                if (damageSE is not null)
+                {
+                    speaker.RandomPlayOneShot(damageSE);
+                }
                 sw.Restart();
                 playerSR.SetColor(Color.red);
             }
