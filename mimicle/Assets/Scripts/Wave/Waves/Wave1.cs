@@ -35,7 +35,7 @@ namespace Self.Game
 
         const int X = 15;
 
-        (Vector2 position, Runner runner) upgrades = (default, new());
+        readonly Runner upg = new();
 
         void OnEnable()
         {
@@ -70,7 +70,7 @@ namespace Self.Game
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)
             {
-                upgrades.runner.Once(() => upgradeItem.Generate(Vector2.zero));
+                upg.Once(() => upgradeItem.Generate(Vector2.zero));
 
                 slain.ResetCount();
                 data.ActivateWave((int)Activate.Second);

@@ -57,6 +57,7 @@ namespace Self.Game
         void Explosion()
         {
             var closers = GetClosersArr();
+
             if (closers is null)
             {
                 explosionEffect.Generate(transform.position);
@@ -91,8 +92,8 @@ namespace Self.Game
                 from enemy in enemies
                 where Vector2.Distance(enemy.transform.position, transform.position) < damage.Range
                 where enemy.GetComponent<HP>()
-                // bossに攻撃できると他の敵無視してクリアできちゃうから除外
-                where !enemy.gameObject.name.Contains("boss")
+                // // bossに攻撃できると他の敵無視してクリアできちゃうから除外
+                // where !enemy.gameObject.name.Contains("boss")
                 select enemy;
 
             return closers.ToArray();

@@ -48,7 +48,8 @@ namespace Self.Game
         /// <summary>
         /// 移動速度
         /// </summary> 
-        readonly float movingSpeed = 5;
+        // readonly float movingSpeed = 5;
+        (float basis, float reduct) move => (5, 0.9f);
 
         /// <summary>
         /// プレイヤーのHP
@@ -167,7 +168,7 @@ namespace Self.Game
         void Shot(float rapid)
         {
             if (NotNinnin = !(
-                Inputs.Pressed(Constant.Key.Fire) && !isReloading && !ammo.IsZero() && rapidSW.sf > rapid))
+                Inputs.Pressed(Constant.Fire) && !isReloading && !ammo.IsZero() && rapidSW.sf > rapid))
             {
                 return;
             }
@@ -189,7 +190,7 @@ namespace Self.Game
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
-            if (Inputs.Down(Constant.Key.Reload))
+            if (Inputs.Down(Constant.Reload))
             {
                 PreReloadRatio = ammo.Ratio;
                 ammo.Reload();
@@ -253,7 +254,7 @@ namespace Self.Game
             transform.ClampPosition2(-7.95f, 8.2f, -4.12f, 4.38f);
 
             Vector2 move = new(Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
-            transform.Translate(move * movingSpeed * Time.deltaTime);
+            transform.Translate(move * this.move.basis * Time.deltaTime);
         }
 
         void OnCollisionEnter2D(Collision2D info)

@@ -21,25 +21,30 @@ namespace Self.Game
         int playingIndex = 0;
         int pressCounter = 0;
 
-        void Start()
+        string title;
+        public string Title => title;
+
+        void Awake()
         {
             speaker = GetComponent<AudioSource>();
             playingIndex = Rnd.Choice(musics);
             speaker.clip = musics[playingIndex];
             speaker.loop = true;
             speaker.Play();
+
+            title = speaker.clip.name;
         }
 
         string VText(float _percentage) => $"おんりょう{_percentage}%";
 
         public void SpeakerVolumeControl(Text volumeT)
         {
-            if (Inputs.Down(Constant.Key.VUp))
+            if (Inputs.Down(Constant.VUp))
             {
                 _volume += amount;
             }
 
-            else if (Inputs.Down(Constant.Key.VDown))
+            else if (Inputs.Down(Constant.VDown))
             {
                 _volume -= amount;
             }
@@ -69,6 +74,7 @@ namespace Self.Game
         public void Change(Text songT)
         {
             playingIndex++;
+
             if (playingIndex >= musics.Length)
             {
                 playingIndex = 0;

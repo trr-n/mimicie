@@ -78,7 +78,7 @@ namespace Self.Game
 
                 lilcSpawnY += 8 / Offset; //04255319148936f;
 
-                if (count == 2)
+                if (count % 2 == 0)
                 {
                     Vector2 ninja = new(x: Rnd.Float(-8, 8), y: Rnd.Float(-4, 4));
                     enemies[1].Generate(ninja);

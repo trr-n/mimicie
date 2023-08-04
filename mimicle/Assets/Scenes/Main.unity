@@ -1202,8 +1202,8 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 100
 --- !u!222 &566802822
@@ -1751,11 +1751,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6749372276752705818, guid: baeeefad58b82a44cad21441ea245fcd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.581669
+      value: 11.07
       objectReference: {fileID: 0}
     - target: {fileID: 6749372276752705818, guid: baeeefad58b82a44cad21441ea245fcd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.1967015
+      value: -2.56
       objectReference: {fileID: 0}
     - target: {fileID: 6749372276752705818, guid: baeeefad58b82a44cad21441ea245fcd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2685,7 +2685,6 @@ MonoBehaviour:
   volumeT: {fileID: 59496662}
   songT: {fileID: 344630186}
   speaker: {fileID: 1895085141}
-  manager: {fileID: 1895085138}
 --- !u!114 &1601746605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5148,8 +5147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288c20d58d9acb948b1760c59054b210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startWave: 2
-  scroll: {fileID: 2085353088}
   sceneReloadPanel: {fileID: 1275052278}
   menuPanel: {fileID: 649628731}
 --- !u!4 &1895085140
@@ -5858,17 +5855,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2495686367454873726, guid: 8f2fbf2302286694793851e5b501da07, type: 3}
   m_PrefabInstance: {fileID: 2495686367114509825}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2085353088 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2495686367454873729, guid: 8f2fbf2302286694793851e5b501da07, type: 3}
-  m_PrefabInstance: {fileID: 2495686367114509825}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe7e7e6700fd78d41a382863798556f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &673241856021405133
 PrefabInstance:
   m_ObjectHideFlags: 0

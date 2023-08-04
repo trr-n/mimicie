@@ -60,7 +60,7 @@ namespace Self.Game
         /// </summary>
         void MakeParry()
         {
-            if (cooltimer.sf >= CT && Inputs.Down(Constant.Key.Parry))
+            if (cooltimer.sf >= CT && Inputs.Down(Constant.Parry))
             {
                 cooltimer.Reset();
                 parryObj.SetActive(true);

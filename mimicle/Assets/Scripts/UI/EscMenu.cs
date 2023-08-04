@@ -13,8 +13,14 @@ namespace Self.Game
         [SerializeField]
         Speaker speaker;
 
-        [SerializeField]
+        // [SerializeField]
         GameManager manager;
+
+        void Start()
+        {
+            manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
+            songT.text = speaker.Title;
+        }
 
         void Update()
         {
@@ -30,7 +36,7 @@ namespace Self.Game
                 speaker.Change(songT);
             }
 
-            if (Inputs.Down(KeyCode.Escape))
+            if (Inputs.Down(Constant.Menu))
             {
                 if (manager.menuPanel.IsActive(Active.Hierarchy))
                 {
@@ -39,14 +45,15 @@ namespace Self.Game
                 }
 
                 todayT.text = "きょうは" + Temps.Date();
+
                 systemT.text =
                     "すぺっく" +
                     "\nOS: " + OS +
                     "\nCPU: " + CPU +
                     "\nGPU: " + GPU + " " + VRAM + "GB" +
                     "\nRAM: " + RAM + "GB";
-                manager.OpenMenuPanel();
 
+                manager.OpenMenuPanel();
             }
         }
     }

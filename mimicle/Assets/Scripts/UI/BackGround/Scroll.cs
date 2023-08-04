@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Collections.Concurrent;
 using Self.Utils;
 using UnityEngine;
 
@@ -15,7 +13,7 @@ namespace Self.Game
         GameObject[] backgrounds;
 
         float speed = 3;
-        Vector2 Spawn => new Vector2(20f, 0);
+        Vector2 Spawn => new(20f, 0);
         bool scroll = false;
 
         void Awake()

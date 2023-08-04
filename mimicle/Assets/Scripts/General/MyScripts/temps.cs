@@ -15,27 +15,26 @@ namespace Self.Utils
         //     return String.Join(null, nowArray);
         // }
 
-        // public static string Raw2 => Typing.Replace((Date() + Time()), "/  :", "");
         public static string Raw2 => (Date() + Time()).ReplaceAtOnce("/  :", "");
 
         public static string Date(TempsFormat style = TempsFormat.Standard)
         {
-            switch (style)
+            return style switch
             {
-                case TempsFormat.Standard: return $"{DateTime.Now.Year}/{DateTime.Now.Month}/{DateTime.Now.Day}";
-                case TempsFormat.Rebirth: return $"{DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}";
-                default: throw null;
-            }
+                TempsFormat.Standard => $"{DateTime.Now.Year}/{DateTime.Now.Month}/{DateTime.Now.Day}",
+                TempsFormat.Rebirth => $"{DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}",
+                _ => throw null,
+            };
         }
 
         public static string Time(TempsFormat style = TempsFormat.Standard)
         {
-            switch (style)
+            return style switch
             {
-                case TempsFormat.Standard: return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
-                case TempsFormat.Rebirth: return $"{DateTime.Now.Second}:{DateTime.Now.Minute}:{DateTime.Now.Hour}";
-                default: throw null;
-            }
+                TempsFormat.Standard => $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}",
+                TempsFormat.Rebirth => $"{DateTime.Now.Second}:{DateTime.Now.Minute}:{DateTime.Now.Hour}",
+                _ => throw null,
+            };
         }
     }
 }

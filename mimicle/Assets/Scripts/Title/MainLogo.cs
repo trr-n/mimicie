@@ -55,7 +55,7 @@ namespace Self.Game
 
         void ChangeSprite()
         {
-            if (Inputs.Down(KeyCode.Tab))
+            if (Inputs.Down(Constant.ChangeLogo))
             {
                 if (renderer.Compare(logos[0]))
                 {
@@ -91,7 +91,7 @@ namespace Self.Game
                     ChangeTextsColor(clickT);
                 }
             }
-            else if (Inputs.Down(KeyCode.Space))
+            else if (Inputs.Down(Constant.Fire))
             {
                 speaker.PlayOneShot(presses.Choice3());
                 ChangeTextsColor(pressT);

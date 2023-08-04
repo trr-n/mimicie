@@ -33,7 +33,7 @@ namespace Self.Game
 
         void Update()
         {
-            if (Inputs.Down(KeyCode.Escape))
+            if (Inputs.Down(Constant.Menu))
             {
                 if (!isActive)
                 {

@@ -19,8 +19,13 @@ namespace Self.Utils
 
     public class Pairs<TKey, TValue>
     {
-        TKey[] keys;
-        TValue[] values;
+        public TKey[] keys;
+        public TValue[] values;
+
+        /// <summary>
+        /// 要素数
+        /// </summary>
+        int count;
 
         int capacity;
 

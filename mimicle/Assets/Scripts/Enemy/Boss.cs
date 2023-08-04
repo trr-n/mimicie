@@ -116,6 +116,8 @@ namespace Self.Game
         /// </summary>
         Runner terminate = new();
 
+        const int MaxHP = 3000;
+
         void Start()
         {
             collider = GetComponent<PolygonCollider2D>();
@@ -133,7 +135,7 @@ namespace Self.Game
         void OnEnable()
         {
             boss.hp = GetComponent<HP>();
-            boss.hp.SetMax(5000);
+            boss.hp.SetMax(MaxHP);
             boss.hp.Reset();
 
             bossr = GetComponent<SpriteRenderer>();
@@ -258,17 +260,15 @@ namespace Self.Game
                     }
                 }
 
-                (float Max, float Min) = (120, 60);
+                (float Max, float Min) range = (120, 60);
 
-                if (point.transform.eulerAngles.z > Max || point.transform.eulerAngles.z < Min)
+                if (point.transform.eulerAngles.z > range.Max || point.transform.eulerAngles.z < range.Min)
                 {
                     // 逆回転
                     barrage.speed.rotate *= -1;
                 }
 
-                Vector3 rotate
-                // = new(0, 0, barrage.speed.basis * barrage.speed.rotate * Time.deltaTime);
-                = Coordinate.Z * barrage.speed.basis * barrage.speed.rotate * Time.deltaTime;
+                Vector3 rotate = Coordinate.Z * barrage.speed.basis * barrage.speed.rotate * Time.deltaTime;
                 point.transform.Rotate(rotate);
             }
         }

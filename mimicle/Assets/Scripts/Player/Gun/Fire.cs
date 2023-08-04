@@ -25,6 +25,9 @@ namespace Self.Game
         int grade = 0;
         public int Grade => grade;
 
+        bool isFiring = false;
+        public bool IsFiring => isFiring;
+
         void Start()
         {
             speaker = GetComponent<AudioSource>();
@@ -34,13 +37,13 @@ namespace Self.Game
         void Update()
         {
             // 通常弾
-            if (Inputs.Down(KeyCode.Alpha1))
+            if (Inputs.Down(Constant.ChangeWeapon1))
             {
                 mode = 0;
             }
 
             // ロケラン
-            else if (Inputs.Down(KeyCode.Alpha2))
+            else if (Inputs.Down(Constant.ChangeWeapon2))
             {
                 mode = 1;
             }
@@ -48,6 +51,8 @@ namespace Self.Game
 
         public void Shot(int activeGrade = 0)
         {
+            isFiring = true;
+
             grade = activeGrade;
             ammo.Reduce();
 
@@ -55,12 +60,7 @@ namespace Self.Game
             {
                 case 0:
                 case 1:
-                    try
-                    {
-                        speaker.PlayOneShot(fireSounds[activeGrade]);
-                        print("success!");
-                    }
-                    catch (Exception e) { print(e.Message); }
+                    speaker.PlayOneShot(fireSounds[activeGrade]);
 
                     bulletObjs[activeGrade].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;

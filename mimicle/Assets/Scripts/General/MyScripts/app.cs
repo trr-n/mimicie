@@ -11,8 +11,8 @@ namespace Self.Utils
     public static class App
     {
         public static void SetFPS(int fps = -1) => targetFrameRate = fps;
-        public static void SetFPS(FrameRate fps) => targetFrameRate = ((int)fps);
-        public static float GetFPS() => Mathf.Floor(1 / Time.deltaTime);
+        public static void SetFPS(FrameRate fps) => targetFrameRate = (int)fps;
+        public static float GetFPS => Mathf.Floor(1 / Time.deltaTime);
 
         public static void SetCursorStatus(CursorAppearance appear, CursorRangeOfMotion rangeOfMotion)
         {

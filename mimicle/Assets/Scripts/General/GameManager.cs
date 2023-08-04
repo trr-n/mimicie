@@ -8,12 +8,6 @@ namespace Self.Game
     public sealed class GameManager : MonoBehaviour
     {
         [SerializeField]
-        int startWave = 0;
-
-        [SerializeField]
-        Scroll scroll;
-
-        [SerializeField]
         Image sceneReloadPanel;
 
         public GameObject menuPanel;
@@ -38,18 +32,6 @@ namespace Self.Game
         /// </summary>
         public bool IsDead { get; set; }
 
-        // static string password = "mimicle";
-        // /// <summary>
-        // /// セーブ用パスワード
-        // /// </summary>
-        // public static string Password => password;
-
-        // static string path = null;
-        // /// <summary>
-        // /// セーブファイルのパス
-        // /// </summary>
-        // public static string Path => path is null ? "Not yet" : path;
-
         static (string password, string path) save = (password: "mimicle", null);
         /// <summary>
         /// セーブデータの設定s
@@ -69,37 +51,16 @@ namespace Self.Game
             App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
         }
 
-        void Update()
-        {
-            if (Inputs.Pressed(Constant.Key.Stop))
-            {
-                Time.timeScale = 0;
-                Ctrlable = false;
-                Scrollable = false;
-            }
-
-            else if (Inputs.Released(Constant.Key.Stop))
-            {
-                Time.timeScale = 1;
-                Ctrlable = true;
-                Scrollable = true;
-            }
-        }
-
         /// <summary>
         /// プレイヤーの死亡処理
         /// 複数回実行禁止
         /// </summary>
-        public void PlayerIsDeath()
-        {
-            StartCoroutine(PlayerIsDeadCoroutine());
-        }
+        public void PlayerIsDeath() => StartCoroutine(PlayerIsDeadCoroutine());
 
         IEnumerator PlayerIsDeadCoroutine()
         {
             Score.ResetTimer();
 
-            // TODO シーンリセット演出追加,スコアは表示しない
             float fadeAlpha = 0f;
             float alphaIncAmount = 0.02f;
             while (fadeAlpha >= 1)
@@ -112,7 +73,6 @@ namespace Self.Game
 
         /// <summary>
         /// クリア処理<br/>
-        /// ! ファイル名を現在時刻にしてるから **複数回実行禁止**
         /// </summary>
         public void End()
         {
@@ -121,13 +81,6 @@ namespace Self.Game
             Scrollable = false;
             Time.timeScale = 0;
             Score.StopTimer();
-
-            ResultData data = new(time: Score.CurrentTime, score: Score.CurrentScore);
-
-
-            save.path = Application.dataPath + "/" + Temps.Raw2 + ".sav";
-            // saveFile.path = Application.persistentDataPath + "/" + Temps.Raw2 + ".sav";
-            Save.Write(data, save.password, save.path);
         }
 
         public void OpenMenuPanel()

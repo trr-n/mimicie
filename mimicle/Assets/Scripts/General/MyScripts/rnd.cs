@@ -17,7 +17,7 @@ namespace Self.Utils
             var charaArr = count is null ? new char[Int(2, 16)] : new char[((int)count)];
             for (int i = 0; i < charaArr.Length; i++)
             {
-                charaArr[i] = characters[new System.Random().Next(characters.Length)];
+                charaArr[i] = characters[new Random().Next(characters.Length)];
             }
             return charaArr.ToString();
         }

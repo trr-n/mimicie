@@ -21,7 +21,6 @@ namespace Self.Game
         RectTransform corectransform;
         Vector3 Offset => new(0, 2);
 
-
         void Start()
         {
             Canvas.ForceUpdateCanvases();
@@ -31,7 +30,13 @@ namespace Self.Game
         void Update()
         {
             Position();
+            UpdateBossUI();
         }
+
+        // void LateUpdate()
+        // {
+        //     UpdateBossUI();
+        // }
 
         void Position()
         {
