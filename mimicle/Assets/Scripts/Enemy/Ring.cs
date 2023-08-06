@@ -29,7 +29,7 @@ namespace Self.Game
 
         protected override void Move()
         {
-            transform.Translate(direction * speed.move * Time.deltaTime, Space.World);
+            transform.Translate(Time.deltaTime * speed.move * direction, Space.World);
             transform.Rotate(new(0, 0, speed.rotate * Time.deltaTime));
         }
 

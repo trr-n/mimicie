@@ -26,12 +26,12 @@ namespace Self.Game
         readonly Stopwatch waveSW = new();
         readonly Runner makeChargers = new();
 
-        const float WaveLength = 15f;
-        const float BreakTime = 2f;
+        readonly float WaveLength = 15f;
+        readonly float BreakTime = 2f;
 
         int spawnCount = 0;
         (int Count, float Span, float Space) Spawn => (3, 2, 1.5f);
-        (int Spawn, int Slain) Quota => (Spawn.Count * 5, Spawn.Count * 3); // ノルマ
+        (int Spawn, int Slain) Quota => (Spawn.Count * 5, Spawn.Count * 3);
 
         const int X = 15;
 
@@ -44,13 +44,12 @@ namespace Self.Game
 
         void Update()
         {
-            // if (data.ActiveWave != 1)
             if (!data.IsActiveWave(0))
             {
                 return;
             }
 
-            makeChargers.Once(() => { StartCoroutine(Chargers()); });
+            makeChargers.RunOnce(() => { StartCoroutine(Chargers()); });
 
             if (!(waveSW.sf >= WaveLength && spawnCount >= Quota.Spawn && slain.Count >= Quota.Slain))
             {
@@ -70,7 +69,7 @@ namespace Self.Game
             nextWaveSW.Start();
             if (nextWaveSW.SecondF() >= BreakTime)
             {
-                upg.Once(() => upgradeItem.Generate(Vector2.zero));
+                upg.RunOnce(() => upgradeItem.Generate(Vector2.zero));
 
                 slain.ResetCount();
                 data.ActivateWave((int)Activate.Second);
@@ -81,7 +80,7 @@ namespace Self.Game
         IEnumerator Chargers()
         {
             spawnCount = 0;
-            float offset = 0f, spawnY = 0f;
+            float offset, spawnY;
 
             while (true)
             {
@@ -90,7 +89,7 @@ namespace Self.Game
                 offset = Spawn.Space;
                 Transform playerT = Gobject.GetWithTag<Transform>(Constant.Player);
 
-                for (var count = 0; count < Spawn.Count; count++)
+                for (ushort count = 0; count < Spawn.Count; count++)
                 {
                     spawnY = playerT.position.y + offset;
 

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Self.Utils;
-using DG.Tweening;
 
 namespace Self.Game
 {
@@ -14,24 +13,18 @@ namespace Self.Game
         /// </summary>
         HP chargerHP;
 
-        new BoxCollider2D collider;
-        new SpriteRenderer renderer;
+        SpriteRenderer sr;
 
         /// <summary>
         /// 加速比
         /// </summary>
-        float accelRatio = 1.002f;
+        readonly float accelRatio = 1.002f;
 
         enum MovingType { Straight, Circular, Stiffly }
         /// <summary>
         /// 移動タイプ
         /// </summary>
         MovingType style = MovingType.Straight;
-
-        /// <summary>
-        /// 初期座標
-        /// </summary>
-        Vector3 SpawnPos;
 
         /// <summary>
         /// 移動
@@ -48,14 +41,17 @@ namespace Self.Game
             chargerHP = GetComponent<HP>();
             chargerHP.Reset();
 
-            collider = GetComponent<BoxCollider2D>();
-            style = (MovingType)Rnd.Int(max: style.GetEnumLength());
-            SpawnPos = transform.position;
-            renderer = GetComponent<SpriteRenderer>();
+            style = (MovingType)Rand.Int(max: style.GetEnumLength());
+            sr = GetComponent<SpriteRenderer>();
         }
 
         void Update()
         {
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
             Move();
             Left(gameObject);
 
@@ -71,41 +67,41 @@ namespace Self.Game
             switch (style)
             {
                 case MovingType.Straight:
-                    renderer.SetColor(Color.gray);
+                    sr.SetColor(Color.gray);
 
                     move.x *= accelRatio;
-                    transform.Translate(Vector2.left * move.x * Time.deltaTime);
-
+                    transform.Translate(move.x * Time.deltaTime * Vector2.left);
                     break;
 
                 case MovingType.Circular:
-                    renderer.SetColor(Color.red);
+                    sr.SetColor(Color.red);
 
                     cir *= accelRatio;
-                    transform.Translate(Vector2.left * move.x * Time.deltaTime);
+                    transform.Translate(move.x * Time.deltaTime * Vector2.left);
                     transform.position = new(transform.position.x, cir * Mathf.Sin(Time.time * 10));
-
                     break;
 
                 case MovingType.Stiffly:
-                    renderer.SetColor(Color.blue);
+                    sr.SetColor(Color.blue);
 
-                    if (transform.position.y >= 4.5f || transform.position.y <= -4.5f)
+                    float border = 4.5f;
+                    if (transform.position.y >= border || transform.position.y <= -border)
                     {
                         move.y *= -1;
                     }
-                    transform.Translate(new Vector2(-move.x, move.y) * Time.deltaTime);
 
+                    transform.Translate(new Vector2(-move.x, move.y) * Time.deltaTime);
                     break;
             }
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 info.Get<HP>().Damage(Constant.Damage.Charger);
                 Score.Add(Constant.Point.RedCharger);
+
                 Destroy(gameObject);
             }
         }

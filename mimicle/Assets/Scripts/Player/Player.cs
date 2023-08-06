@@ -43,13 +43,13 @@ namespace Self.Game
         /// <summary>
         /// リロードの進捗
         /// </summary>
+        [NonSerialized]
         public float ReloadProgress;
 
         /// <summary>
         /// 移動速度
         /// </summary> 
-        // readonly float movingSpeed = 5;
-        (float basis, float reduct) move => (5, 0.9f);
+        readonly (float basis, float reduct, float shoot) move = (5, 0.9f, 0.7f);
 
         /// <summary>
         /// プレイヤーのHP
@@ -84,6 +84,7 @@ namespace Self.Game
         /// <summary>
         /// 忍者がにんにんしてたらFalse
         /// </summary>
+        [NonSerialized]
         public bool NotNinnin = false;
 
         RaycastHit2D hit;
@@ -105,6 +106,7 @@ namespace Self.Game
         /// <summary>
         /// 残弾数の割合
         /// </summary>
+        [NonSerialized]
         public float PreReloadRatio = 0f;
 
         /// <summary>
@@ -112,14 +114,16 @@ namespace Self.Game
         /// </summary>
         readonly Runner write = new();
 
-        int currentGunGrade = 0;
+        ushort currentGunGrade = 0;
         /// <summary>
         /// 現在の銃のグレード
         /// </summary>
-        public int CurrentGunGrade => currentGunGrade;
+        public ushort CurrentGunGrade => currentGunGrade;
 
-        // (float normal, float rocket) rapidRate = (0.1f, 1f);
-        float[] rates => new float[] { 0.1f, 1f };
+        /// <summary>
+        /// 0: normal<br/> 1: rocket launcher
+        /// </summary>
+        readonly float[] rates = { 0.1f, 1f };
 
         Ammo ammo;
 
@@ -152,14 +156,18 @@ namespace Self.Game
             Reload();
 
             hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, detectLayers);
-            playerCol.isTrigger = parry.IsParrying;
+            playerCol.isTrigger = parry.IsParry;
 
             if (sw.sf >= 0.2f)
             {
                 playerSR.color = Color.white;
             }
 
-            Shot(Runner.Function(() => gun.Grade switch { 2 => rates[gun.Mode], _ => rates[gun.Grade] }));
+            Shot(gun.Grade switch
+            {
+                2 => rates[gun.Mode],
+                _ => rates[gun.Grade]
+            });
         }
 
         /// <summary>
@@ -213,7 +221,7 @@ namespace Self.Game
         {
             if (playerHP.IsZero)
             {
-                write.Once(() => StartCoroutine(Fade(true)));
+                write.RunOnce(() => StartCoroutine(Fade(true)));
             }
         }
 
@@ -254,7 +262,7 @@ namespace Self.Game
             transform.ClampPosition2(-7.95f, 8.2f, -4.12f, 4.38f);
 
             Vector2 move = new(Input.GetAxisRaw(Constant.Horizontal), Input.GetAxisRaw(Constant.Vertical));
-            transform.Translate(move * this.move.basis * Time.deltaTime);
+            transform.Translate(Time.deltaTime * this.move.basis * move);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -267,13 +275,13 @@ namespace Self.Game
                 return;
             }
 
-            if (!parry.IsParrying)
+            if (!parry.IsParry)
             {
                 try
                 {
                     speaker.RandomPlayOneShot(damageSE);
                 }
-                catch (Exception e) { print(e.Message); }
+                catch { }
                 sw.Restart();
                 playerSR.SetColor(Color.red);
             }

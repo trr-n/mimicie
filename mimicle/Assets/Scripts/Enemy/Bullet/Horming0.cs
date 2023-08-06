@@ -7,9 +7,8 @@ namespace Self.Game
     public class Horming0 : Bullet
     {
         /// <summary>
-        /// 現在のレベル、ダメージ
+        /// ダメージ量
         /// </summary>
-        // (int level, int damage) current;
         int damageAmount = 0;
 
         Boss boss;
@@ -20,21 +19,17 @@ namespace Self.Game
         /// </summary>
         HP playerHp;
 
-        int[] DamagePercentages => new int[] { 0, 7, 9, 11, 15 };
-        Color[] colors => new Color[] { Color.white, new(0.21f, 0.98f, 0.4f), new(0.87f, 0.98f, 0.21f), new(0.98f, 0.66f, 0.21f), new(0.98f, 0.21f, 0.6f) };
+        readonly Color[] colors = new Color[] {
+            Color.white,
+            new(0.21f, 0.98f, 0.4f),
+            new(0.87f, 0.98f, 0.21f),
+            new(0.98f, 0.66f, 0.21f),
+            new(0.98f, 0.21f, 0.6f)
+        };
 
         SpriteRenderer sr;
         Quaternion rotate;
 
-        // /// <summary>
-        // /// 基礎速度
-        // /// </summary>
-        // float speed = 12f;
-
-        // /// <summary>
-        // /// 加速比
-        // /// </summary>
-        // float accelRatio = 1.002f;
         (float basis, float accel) speed = (12f, 1.002f);
 
         /// <summary>
@@ -45,11 +40,15 @@ namespace Self.Game
         /// <summary>
         /// プレイヤーを検知する距離
         /// </summary>
-        float detect = 5f;
+        readonly float[] detects = { 5f, 4f, 3.5f, 3f, 2.2f };
+
+        int hitCount = 0;
+        readonly int[] DestroyHitCount = { 1, 2, 3, 3, 4 };
 
         void Start()
         {
-            boss = GameObject.Find("boss 1").GetComponent<Boss>();
+            // boss = GameObject.Find("boss 1").GetComponent<Boss>();
+            boss = Gobject.GetWithName<Boss>("boss 1");
 
             player = GameObject.FindGameObjectWithTag(Constant.Player);
             playerHp = player.GetComponent<HP>();
@@ -63,59 +62,52 @@ namespace Self.Game
             OutOfScreen(gameObject);
         }
 
+        void Set(int level)
+        {
+            damageAmount = Numeric.Percent(playerHp.Now, Constant.Damage.Horming[level]);
+            sr.SetColor(colors[level]);
+        }
+
         protected override void Move(float speed)
         {
             switch (boss.CurrentActiveLevel)
             {
-                case 1:
-                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[1]);
-                    sr.SetColor(colors[1]);
-                    break;
-
-                case 2:
-                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[2]);
-                    sr.SetColor(colors[2]);
-                    break;
-
-                case 3:
-                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[3]);
-                    sr.SetColor(colors[3]);
-                    break;
-
-                case 4:
-                    damageAmount = Numeric.Percent(playerHp.Now, DamagePercentages[4]);
-                    sr.SetColor(colors[4]);
-                    break;
-
                 case 0:
-                default:
-                    damageAmount = DamagePercentages[0];
-                    sr.SetColor(colors[0]);
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    Set(boss.CurrentActiveLevel);
                     break;
+                default:
+                    throw new System.IndexOutOfRangeException();
             }
 
-            if (Vector3.Distance(transform.position, player.transform.position) <= detect)
+            if (Vector3.Distance(transform.position, player.transform.position) <= detects[boss.CurrentActiveLevel])
             {
                 isClose = false;
             }
 
-            var dir = player.transform.position - transform.position;
-            rotate = isClose ? Quaternion.FromToRotation(Vector2.up, dir) : Quaternion.Euler(0, 0, transform.eulerAngles.z);
+            Vector3 dir = player.transform.position - transform.position;
+            rotate = isClose ?
+                Quaternion.FromToRotation(Vector2.up, dir) : Quaternion.Euler(0, 0, transform.eulerAngles.z);
 
             transform.SetRotation(z: rotate.z, w: rotate.w);
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            transform.Translate(Time.deltaTime * speed * Vector2.up);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
             info.Get<HP>().Damage(damageAmount);
-            Score.Add(DamagePercentages[4] * -2);
+            // 現在のダメージ量の2倍スコア減らす
+            Score.Add(-(Constant.Damage.Horming[4] * 2));
+
             Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 TakeDamage(info);
             }
@@ -123,7 +115,14 @@ namespace Self.Game
             if (info.Compare(Constant.Bullet))
             {
                 Destroy(info.gameObject);
-                Destroy(gameObject);
+
+                if (hitCount > DestroyHitCount[boss.CurrentActiveLevel])
+                {
+                    Destroy(gameObject);
+                    return;
+                }
+
+                hitCount++;
             }
         }
     }

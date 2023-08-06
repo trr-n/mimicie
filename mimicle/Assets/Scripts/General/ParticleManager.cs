@@ -8,7 +8,7 @@ namespace Self.Game
     {
         void Update()
         {
-            ParticleSystem[] particles = GameObject.FindObjectsOfType<ParticleSystem>();
+            ParticleSystem[] particles = FindObjectsOfType<ParticleSystem>();
 
             if (particles is null)
             {

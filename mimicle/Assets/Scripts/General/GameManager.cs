@@ -5,7 +5,7 @@ using Self.Utils;
 
 namespace Self.Game
 {
-    public sealed class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         [SerializeField]
         Image sceneReloadPanel;
@@ -32,42 +32,43 @@ namespace Self.Game
         /// </summary>
         public bool IsDead { get; set; }
 
-        static (string password, string path) save = (password: "mimicle", null);
+        bool isEnd = false;
         /// <summary>
-        /// セーブデータの設定s
+        /// クリアしたらtrue
         /// </summary>
-        public static (string password, string path) SaveFile => (save.password, save.path is null ? "Not yet" : save.path);
+        public bool IsEnd => isEnd;
 
         void Start()
         {
             Score.StartTimer();
+
             Ctrlable = true;
             Scrollable = true;
             IsDead = false;
-            sceneReloadPanel.color = Colour.transparent;
+            sceneReloadPanel.color = Colour.Transparent;
 
-            Physics2D.gravity = Vector3.forward * 9.81f;
             App.SetFPS(FrameRate.Medium);
             App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
+            App.SetGravity(0 * Coordinate.Z);
         }
 
         /// <summary>
         /// プレイヤーの死亡処理
         /// 複数回実行禁止
         /// </summary>
-        public void PlayerIsDeath() => StartCoroutine(PlayerIsDeadCoroutine());
+        public void PlayerIsDeath() => StartCoroutine(PlayerDeadCoroutine());
 
-        IEnumerator PlayerIsDeadCoroutine()
+        IEnumerator PlayerDeadCoroutine()
         {
             Score.ResetTimer();
 
             float fadeAlpha = 0f;
             float alphaIncAmount = 0.02f;
+
             while (fadeAlpha >= 1)
             {
-                yield return null;
-
                 fadeAlpha += alphaIncAmount * Time.unscaledDeltaTime;
+                yield return null;
             }
         }
 
@@ -76,9 +77,11 @@ namespace Self.Game
         /// </summary>
         public void End()
         {
-            App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
             Ctrlable = false;
             Scrollable = false;
+
+            App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
+            isEnd = true;
             Time.timeScale = 0;
             Score.StopTimer();
         }

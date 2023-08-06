@@ -13,7 +13,7 @@ namespace Self.Game
         /// <summary>
         /// 移動速度
         /// </summary>
-        float speed = 10;
+        const float speed = 10;
 
         /// <summary>
         /// 進行方向
@@ -23,12 +23,7 @@ namespace Self.Game
         /// <summary>
         /// 加速比
         /// </summary>
-        float accelarationRatio = 1.001f;
-
-        /// <summary>
-        /// プレイヤーの弾があたったらTrue
-        /// </summary>
-        bool isHitPlayerBullet;
+        const float AccelRatio = 1.001f;
 
         void Start()
         {
@@ -48,20 +43,21 @@ namespace Self.Game
 
         protected override void Move(float speed)
         {
-            speed *= accelarationRatio;
+            speed *= AccelRatio;
             transform.Translate(direction.normalized * speed * Time.deltaTime);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
             info.Try<HP>(out var hp);
-            hp.Damage(((int)Numeric.Round(hp.Now / 50)));
+            // 現在HPの2%のダメージ
+            hp.Damage(Numeric.Round(hp.Now / 50));
             Destroy(gameObject);
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 TakeDamage(info);
             }

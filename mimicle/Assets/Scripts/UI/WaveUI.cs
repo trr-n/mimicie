@@ -20,7 +20,7 @@ namespace Self.Game
 
         public void UpdateUI()
         {
-            now.text = wave.Now4UI.ToString();
+            now.text = wave.Current4UI.ToString();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Self.Utils
     public static class Gobject
     {
         public static GameObject Generate(this GameObject[] g, Vector3 p = new(), Quaternion r = new())
-        => Object.Instantiate(g[Rnd.Choice(g)], p, r);
+        => Object.Instantiate(g[Rand.Choice(g)], p, r);
 
         public static GameObject Generate(this GameObject g, Vector3 p = new(), Quaternion r = new())
         => Object.Instantiate(g, p, r);
@@ -27,7 +27,7 @@ namespace Self.Utils
 
         public static T GetWithTag<T>(string tag) => Find(tag).GetComponent<T>();
         public static T GetWithTag<T>(this GameObject gob) => gob.GetComponent<T>();
-        public static bool TryGetWithTag<T>(out T t, string tag) => Find(tag).TryGetComponent<T>(out t);
+        public static bool TryGetWithTag<T>(out T t, string tag) => Find(tag).TryGetComponent(out t);
 
         public static T GetWithName<T>(string name) => GameObject.Find(name).GetComponent<T>();
 
@@ -36,14 +36,14 @@ namespace Self.Utils
         public static T Get<T>(this Collision info) => info.gameObject.GetComponent<T>();
         public static T Get<T>(this Collider info) => info.gameObject.GetComponent<T>();
 
-        public static bool Try<T>(this Collision2D info, out T t) => info.gameObject.TryGetComponent<T>(out t);
-        public static bool Try<T>(this Collider2D info, out T t) => info.gameObject.TryGetComponent<T>(out t);
-        public static bool Try<T>(this Collision info, out T t) => info.gameObject.TryGetComponent<T>(out t);
-        public static bool Try<T>(this Collider info, out T t) => info.gameObject.TryGetComponent<T>(out t);
-        public static bool Try<T>(this GameObject gob, out T t) => gob.TryGetComponent<T>(out t);
+        public static bool Try<T>(this Collision2D info, out T t) => info.gameObject.TryGetComponent(out t);
+        public static bool Try<T>(this Collider2D info, out T t) => info.gameObject.TryGetComponent(out t);
+        public static bool Try<T>(this Collision info, out T t) => info.gameObject.TryGetComponent(out t);
+        public static bool Try<T>(this Collider info, out T t) => info.gameObject.TryGetComponent(out t);
+        public static bool Try<T>(this GameObject gob, out T t) => gob.TryGetComponent(out t);
         public static T Try<T>(this GameObject gob)
         {
-            gob.TryGetComponent<T>(out var t);
+            gob.TryGetComponent(out T t);
             return t is null ? default : t;
         }
 
@@ -60,7 +60,7 @@ namespace Self.Utils
         => active is null || active == Active.Self ? gob.activeSelf : gob.activeInHierarchy;
         public static bool IsActive(this Text text) => text.IsActive();
 
-        public static void SetActive(this GameObject[] gobs, bool state)
+        public static void SetActives(this GameObject[] gobs, bool state)
         {
             foreach (var gob in gobs)
             {

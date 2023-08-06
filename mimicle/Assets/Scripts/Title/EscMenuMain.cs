@@ -48,7 +48,8 @@ namespace Self.Game
 
         IEnumerator Fade(f ff)
         {
-            float alpha = 0f;
+            float alpha;
+
             switch (ff)
             {
                 case f.fin:
@@ -63,6 +64,7 @@ namespace Self.Game
                     }
                     isActive = true;
                     break;
+
                 case f.fout:
                     alpha = 1f;
                     while (alpha >= 0)

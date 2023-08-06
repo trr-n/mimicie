@@ -2,7 +2,7 @@ Shader "Custom/Blur"
 {
     Properties
     {
-        _MainTex("Texture", 2D) = "white" {}
+        _MainTex("Texture", 2D) = "black" {}
         _Blur("Blur", Float) = 10
     }
     SubShader

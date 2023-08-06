@@ -12,7 +12,7 @@ namespace Self.Game
         [SerializeField]
         GameObject[] backgrounds;
 
-        float speed = 3;
+        readonly float speed = 3;
         Vector2 Spawn => new(20f, 0);
         bool scroll = false;
 
@@ -51,7 +51,7 @@ namespace Self.Game
 
             foreach (var i in backgrounds)
             {
-                i.transform.Translate(Vector2.left * speed * Time.deltaTime);
+                i.transform.Translate(Time.deltaTime * speed * Vector2.left);
 
                 if (i.transform.position.x <= -20f)
                 {

@@ -17,13 +17,13 @@ namespace Self.Utils
             float[] cumulativeWeights = new float[weights.Length];
 
             float totalWeight = 0f;
-            for (int i = 0; i < weights.Length; i++)
+            for (int index = 0; index < weights.Length; index++)
             {
-                totalWeight += weights[i];
-                cumulativeWeights[i] = totalWeight;
+                totalWeight += weights[index];
+                cumulativeWeights[index] = totalWeight;
             }
 
-            float rndNum = Rnd.Float(max: totalWeight);
+            float rand = Rand.Float(max: totalWeight);
 
             int min = 0, max = cumulativeWeights.Length - 1;
             while (min < max)
@@ -31,7 +31,7 @@ namespace Self.Utils
                 int center = (min + max) / 2;
                 float centerPoint = cumulativeWeights[center];
 
-                if (rndNum > centerPoint)
+                if (rand > centerPoint)
                 {
                     min = center + 1;
                 }
@@ -39,7 +39,7 @@ namespace Self.Utils
                 else
                 {
                     float pre = center > 0 ? cumulativeWeights[center - 1] : 0;
-                    if (rndNum >= pre)
+                    if (rand >= pre)
                     {
                         return center;
                     }

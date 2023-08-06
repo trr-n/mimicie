@@ -9,7 +9,6 @@ namespace Self.Game
         AudioClip parrySE;
 
         new AudioSource audio;
-        new Collider2D collider;
 
         void Start()
         {

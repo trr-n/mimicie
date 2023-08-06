@@ -36,7 +36,7 @@ namespace Self.Game
                 speaker.Change(songT);
             }
 
-            if (Inputs.Down(Constant.Menu))
+            if (Inputs.Down(Constant.Menu) && !manager.IsEnd)
             {
                 if (manager.menuPanel.IsActive(Active.Hierarchy))
                 {

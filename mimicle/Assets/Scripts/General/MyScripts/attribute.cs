@@ -3,7 +3,7 @@
 namespace Self.Utils
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
-    public class WarningAttribute : Attribute
+    public sealed class WarningAttribute : Attribute
     {
         string warningPoint;
 

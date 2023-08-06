@@ -34,12 +34,12 @@ namespace Self.Game
 
         protected override void Move(float speed)
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(Time.deltaTime * speed * direction);
         }
 
         protected override void TakeDamage(Collision2D info)
         {
-            if (info.Try<HP>(out var hp))
+            if (info.Try(out HP hp))
             {
                 // Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
                 Player player = Gobject.GetWithTag<Player>(Constant.Player);

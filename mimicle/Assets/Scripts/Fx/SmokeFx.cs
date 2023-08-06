@@ -5,7 +5,7 @@ namespace Self.Game
 {
     public class SmokeFx : MonoBehaviour
     {
-        Stopwatch effectStopwatch = new(true);
+        readonly Stopwatch effectStopwatch = new(true);
 
         void Update()
         {

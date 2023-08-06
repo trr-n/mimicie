@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Self.Utils
 {
-    public class Bag<T>
+    public sealed class Bag<T>
     {
         T[] collection;
         int count;

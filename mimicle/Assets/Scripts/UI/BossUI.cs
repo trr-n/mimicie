@@ -19,7 +19,8 @@ namespace Self.Game
         HP bossHp;
 
         RectTransform corectransform;
-        Vector3 Offset => new(0, 2);
+
+        readonly Vector3 Offset = 2 * Coordinate.Y;
 
         void Start()
         {
@@ -33,17 +34,13 @@ namespace Self.Game
             UpdateBossUI();
         }
 
-        // void LateUpdate()
-        // {
-        //     UpdateBossUI();
-        // }
-
         void Position()
         {
             if (!boss.IsActive(Active.Self))
             {
                 return;
             }
+
             corectransform.transform.position = boss.transform.position + Offset;
         }
 

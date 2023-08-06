@@ -7,7 +7,7 @@ namespace Self.Game
     {
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 info.Get<HP>().Damage(Constant.Damage.Spide);
                 Destroy(gameObject);

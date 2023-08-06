@@ -29,6 +29,11 @@ namespace Self.Game
 
         void Update()
         {
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
             Move();
 
             if (bigcHP.IsZero)
@@ -39,15 +44,16 @@ namespace Self.Game
 
         protected override void Move()
         {
-            transform.Translate(Vector2.left * speeds.move * Time.deltaTime, Space.World);
+            transform.Translate(Time.deltaTime * speeds.move * Vector2.left, Space.World);
             transform.Rotate(0, 0, speeds.rotation * Time.deltaTime);
         }
 
         IEnumerator Attack()
         {
-            while (true)
+            while (Time.timeScale != 0)
             {
                 yield return new WaitForSeconds(speeds.rotation / 360);
+
                 bullet.Generate(transform.position, transform.rotation);
             }
         }

@@ -7,7 +7,6 @@ namespace Self.Game
 
     public class WaveData : MonoBehaviour
     {
-        [SerializeField]
         public Activate waves = Activate.First;
 
         [SerializeField]
@@ -19,19 +18,19 @@ namespace Self.Game
         int max = 0;
         public int Max => max;
 
-        int now4ui = 0;
+        int current4ui = 0;
 
-        public int Now4UI => now4ui;
-        public int ActiveWave => now4ui - 1;
+        public int Current4UI => current4ui;
+        public int CurrentActive => current4ui - 1;
 
         public bool IsDone { get; set; }
 
-        public bool IsActiveWave(int wave) => wave == ActiveWave;
+        public bool IsActiveWave(int wave) => wave == CurrentActive;
 
         void Start()
         {
             max = waveObjs.Length;
-            now4ui = (int)waves;
+            current4ui = (int)waves;
 
             ActivateWave((int)waves);
             waveUI.Start();
@@ -39,12 +38,12 @@ namespace Self.Game
 
         public void Next()
         {
-            now4ui = ((int)waves) + 1;
-            waveObjs[now4ui - 1].SetActive(true);
+            current4ui = ((int)waves) + 1;
+            waveObjs[current4ui - 1].SetActive(true);
 
-            for (int index = 0; index < waveObjs.Length; index++)
+            for (ushort index = 0; index < waveObjs.Length; index++)
             {
-                if (now4ui - 1 != index)
+                if (current4ui - 1 != index)
                 {
                     waveObjs[index].SetActive(false);
                 }
@@ -54,10 +53,10 @@ namespace Self.Game
         public void ActivateWave(int n)
         {
             waveObjs[n].SetActive(true);
-            now4ui = n + 1;
+            current4ui = n + 1;
             waveUI.UpdateUI();
 
-            for (var index = 0; index < waveObjs.Length; index++)
+            for (ushort index = 0; index < waveObjs.Length; index++)
             {
                 if (index != n)
                 {

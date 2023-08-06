@@ -8,10 +8,10 @@ namespace Self.Utils
     {
         public static IEnumerator Animation(this Sprite[] sprites, SpriteRenderer sr, float span = 0.5f)
         {
-            int i = 0;
+            int count = 0;
             while (true)
             {
-                sr.sprite = sprites[i >= sprites.Length - 1 ? 0 : i + 1];
+                sr.sprite = sprites[count >= sprites.Length - 1 ? 0 : count + 1];
                 yield return new WaitForSeconds(span);
             }
         }
@@ -19,7 +19,7 @@ namespace Self.Utils
         public static bool Compare(this SpriteRenderer sr, Sprite sprite) => sr.sprite == sprite;
 
         public static void SetSprite(this SpriteRenderer sr, Sprite sprite) => sr.sprite = sprite;
-        public static void SetSprite2(this SpriteRenderer sr, Sprite[] sprites) => sr.sprite = sprites.Choice3();
+        public static void SetSprite(this SpriteRenderer sr, Sprite[] sprites) => sr.sprite = sprites.Choice3();
 
         public static Vector2 GetSpriteSize(this SpriteRenderer sr) => sr.bounds.size;
     }

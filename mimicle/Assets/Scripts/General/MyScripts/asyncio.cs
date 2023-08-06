@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Urchin.Extend
 {
-    public static class Asyncio
+    public sealed class Asyncio
     {
     }
 }

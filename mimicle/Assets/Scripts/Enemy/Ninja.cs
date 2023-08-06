@@ -30,7 +30,7 @@ namespace Self.Game
         /// <summary>
         /// 移動するまで計測するストップウォッチ
         /// </summary>
-        Stopwatch moveStopwatch = new();
+        readonly Stopwatch moveStopwatch = new();
 
         GameObject playerObj;
         Player player;
@@ -76,12 +76,16 @@ namespace Self.Game
 
         void Update()
         {
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
             Move();
             ThrowShuriken();
 
             if (ninjaHP.IsZero)
             {
-                // deadEffect.Generate(transform.position);
                 Destroy(gameObject);
             }
         }
@@ -105,10 +109,13 @@ namespace Self.Game
         {
             yield return null;
 
-            shurikenRotationZ = Vector3.Angle(-transform.right, playerObj.transform.position - transform.position) - shuriken.Range / 2;
-            for (int throwCount = 0; throwCount < shuriken.Count; throwCount++)
+            shurikenRotationZ = Vector3.Angle(
+                -transform.right, playerObj.transform.position - transform.position) - shuriken.Range / 2;
+            for (ushort throwCount = 0; throwCount < shuriken.Count; throwCount++)
             {
-                float spawnRotationZ = playerObj.transform.position.y > transform.position.y ? -shurikenRotationZ : shurikenRotationZ;
+                float spawnRotationZ = playerObj.transform.position.y > transform.position.y ?
+                    -shurikenRotationZ : shurikenRotationZ;
+
                 shurikenObj.Generate(transform.position, Quaternion.Euler(0, 0, spawnRotationZ));
 
                 shurikenRotationZ += shuriken.Range / shuriken.Count + shuriken.Offset;
@@ -133,8 +140,8 @@ namespace Self.Game
 
             if (moveStopwatch.sf >= timing.Teleport && isNinning)
             {
-                int x = Rnd.Int((int)Numeric.Round(playerObj.transform.position.x + 2, 0), 8);
-                transform.position = new(x, Rnd.Float(-4, 4), 1);
+                int x = Rand.Int((int)Numeric.Round(playerObj.transform.position.x + 2, 0), 8);
+                transform.position = new(x, Rand.Float(-4, 4), 1);
                 moveStopwatch.Reset();
                 isNinning = false;
             }

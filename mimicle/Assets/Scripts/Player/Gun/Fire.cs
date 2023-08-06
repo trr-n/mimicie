@@ -61,7 +61,6 @@ namespace Self.Game
                 case 0:
                 case 1:
                     speaker.PlayOneShot(fireSounds[activeGrade]);
-
                     bulletObjs[activeGrade].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;
                 case 2:

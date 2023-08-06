@@ -8,7 +8,7 @@ namespace Self.Utils
     {
         bool flag0;
         /// <summary>actionを一回実行</summary>
-        public void Once(params Action[] actions)
+        public void RunOnce(params Action[] actions)
         {
             try
             {

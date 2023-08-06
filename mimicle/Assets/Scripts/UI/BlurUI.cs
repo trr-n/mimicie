@@ -11,32 +11,39 @@ namespace Self.Game
         [SerializeField]
         HP boss;
 
-        HP player;
+        // HP player;
 
-        const string Name = "_Blur";
+        const string Blur = "_Blur";
 
         float blur = 0;
-        bool max = false;
-        public bool Max => max;
-        const float MaxBlur = 10f;
+        const float MaxBlur = 30f;
+
+        bool isDone = false;
+        public bool IsDone => isDone;
+
+        GameManager manager;
+
+        void Awake()
+        {
+            mat.SetFloat(Blur, 0);
+        }
 
         void Start()
         {
-            // player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<HP>();
-            player = Gobject.GetWithTag<HP>(Constant.Player);
-            mat.SetFloat(Name, 0);
+            manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
         }
 
         void Update()
         {
-            if (player.IsZero || boss.IsZero)
+            if (boss.IsZero && manager.IsEnd)
             {
                 blur = Numeric.Clamp(blur, 0, MaxBlur);
-                // mat.SetFloat(Name, blur += Time.unscaledDeltaTime * MaxBlur);
                 blur += Time.unscaledDeltaTime * MaxBlur;
+                mat.SetFloat(Blur, blur);
+
                 if (blur >= MaxBlur)
                 {
-                    max = true;
+                    isDone = true;
                 }
             }
         }

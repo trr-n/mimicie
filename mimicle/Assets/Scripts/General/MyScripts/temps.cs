@@ -7,15 +7,7 @@ namespace Self.Utils
 
     public static class Temps
     {
-        // public static string Raw()
-        // {
-        //     string now = Date() + Time();
-        //     string[] _0 = now.Split("/");////new[] { "/", " ", ":" });
-        //     string[] nowArray = String.Join(null, _0).Split(":");
-        //     return String.Join(null, nowArray);
-        // }
-
-        public static string Raw2 => (Date() + Time()).ReplaceAtOnce("/  :", "");
+        public static string Raw => (Date() + Time()).ReplaceAtOnce("/  :", "");
 
         public static string Date(TempsFormat style = TempsFormat.Standard)
         {

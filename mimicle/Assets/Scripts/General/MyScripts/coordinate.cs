@@ -8,6 +8,7 @@ namespace Self.Utils
         public static Vector3 X => new(1, 0, 0);
         public static Vector3 Y => new(0, 1, 0);
         public static Vector3 Z => new(0, 0, 1);
+        public static Vector4 W => new(0, 0, 0, 1);
 
         public static void SetPosition(this Transform t, double? x = null, double? y = null, double? z = null)
         {
@@ -15,7 +16,8 @@ namespace Self.Utils
             {
                 throw new Karappoyanke();
             }
-            t.position = new(x is null ? t.position.x : (float)x, y is null ? t.position.y : (float)y, z is null ? t.position.z : (float)z);
+            t.position = new(x is null ?
+                t.position.x : (float)x, y is null ? t.position.y : (float)y, z is null ? t.position.z : (float)z);
         }
 
         public static void SetPosition(this Transform t, Vector3 position) => t.position = position;

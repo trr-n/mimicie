@@ -53,20 +53,20 @@ namespace Self
         Ring = "Ring",
         Canvas = "Canvas";
 
-        public static class Damage
+        public readonly struct Damage
         {
             public static int[] Player = { 25, 30, 35 };
             public static int PlayerRocket = 33;
-            // public static int MiniPlayer = 5;
             public static int Charger = 5;
             public static int LilC = 10;
             public static int BigC = 5;
-            public static int Spide = 24;
-            public static int Shuriken = 15;
-            public static int Ring = 49;
+            public static int Spide = 19;
+            public static int Shuriken = 11;
+            public static int Ring = 38;
+            public static int[] Horming = { 0, 7, 9, 11, 15 };
         }
 
-        public static class Point
+        public readonly struct Point
         {
             public static int Charger = 100;
             public static int LilC = 500;
@@ -84,7 +84,7 @@ namespace Self
             public static int RedShuriken = -10;
         }
 
-        public static class Key
+        public readonly struct Key
         {
             public static KeyCode Reload = KeyCode.LeftShift;
             public static KeyCode Fire = KeyCode.Space;

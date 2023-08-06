@@ -27,7 +27,7 @@ namespace Self.Game
         void Awake()
         {
             speaker = GetComponent<AudioSource>();
-            playingIndex = Rnd.Choice(musics);
+            playingIndex = Rand.Choice(musics);
             speaker.clip = musics[playingIndex];
             speaker.loop = true;
             speaker.Play();

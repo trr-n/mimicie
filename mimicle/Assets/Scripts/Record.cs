@@ -39,7 +39,7 @@ namespace Self.Test
             print(read.Time);
             print(read.Score);
 
-            SaveData2 data2 = new SaveData2 { name = "hoge2", time = 112233, score = 1122333 };
+            SaveData2 data2 = new() { name = "hoge2", time = 112233, score = 1122333 };
             string path2 = Application.dataPath + "/aaaaa2.bin";
             Save.Write(data2, "a", path2);
             // Save.Read<SaveData2>(out var read2, "a", path2);
@@ -50,7 +50,8 @@ namespace Self.Test
         }
 
         enum Status { A, B, C }
-        int n = 0;
+        ushort n = 0;
+
         void Update()
         {
             if (Inputs.Down(KeyCode.Alpha1))

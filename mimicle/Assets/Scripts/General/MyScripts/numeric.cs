@@ -14,7 +14,13 @@ namespace Self.Utils
         public static int Clamp01(int n) => Clamp(n, 0, 1);
 
         public static float Round(float n, int digit = 0) => MathF.Round(n, digit);
-        public static int Round(int n, int digit = 0) => ((int)MathF.Round(n, digit));
+        public static int Round(int n, int digit = 0) => (int)MathF.Round(n, digit);
+
+        public static float FocusSin(float min, float max)
+        {
+            float sin01 = (Mathf.Sin(Time.time) / 2) + 0.5f + min;
+            return sin01 * max;
+        }
 
         public static int Cutail(float n)
         {
@@ -23,19 +29,20 @@ namespace Self.Utils
             return int.Parse(done);
         }
 
-        public static int Percent(float n, int digit = 0) => ((int)MathF.Round(n * 100, digit));
+        public static int Percent(float n, int digit = 0) => (int)MathF.Round(n * 100, digit);
         public static int Percent(int w, int per) => Round(w * per / 100);
 
         public static float Ratio(float w, float t) => (float)w / t;
         public static bool Twins(this float n1, float n2) => Mathf.Approximately(n1, n2);
-        public static bool IsPrime(int n)
+
+        public static bool IsPrime(uint n)
         {
             if (n < 2 || (n % 2 == 0 && n != 2))
             {
                 return false;
             }
 
-            for (int i = 2; i < Mathf.Sqrt(n); i++)
+            for (ushort i = 2; i < Mathf.Sqrt(n); i++)
             {
                 if (n % i == 0)
                 {
@@ -44,6 +51,7 @@ namespace Self.Utils
             }
             return true;
         }
+
         public static int GetEnumLength<T>(this T t) => Enum.GetNames(typeof(T)).Length;
     }
 }

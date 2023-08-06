@@ -54,55 +54,25 @@ namespace Self.Utils
         public string Spent() => sw.Elapsed.ToString();
         public int Spent(StopwatchFormat style)
         {
-            switch (style)
+            return style switch
             {
-                case StopwatchFormat.H:
-                case StopwatchFormat.h:
-                case StopwatchFormat.Hour:
-                case StopwatchFormat.hour:
-                    return Hour();
-                case StopwatchFormat.M:
-                case StopwatchFormat.m:
-                case StopwatchFormat.Minute:
-                case StopwatchFormat.minute:
-                    return Minute();
-                case StopwatchFormat.S:
-                case StopwatchFormat.s:
-                case StopwatchFormat.Second:
-                case StopwatchFormat.second:
-                    return Second();
-                case StopwatchFormat.MS:
-                case StopwatchFormat.ms:
-                    return MSecond();
-                default:
-                    return -1;
-            }
+                StopwatchFormat.H or StopwatchFormat.h or StopwatchFormat.Hour or StopwatchFormat.hour => Hour(),
+                StopwatchFormat.M or StopwatchFormat.m or StopwatchFormat.Minute or StopwatchFormat.minute => Minute(),
+                StopwatchFormat.S or StopwatchFormat.s or StopwatchFormat.Second or StopwatchFormat.second => Second(),
+                StopwatchFormat.MS or StopwatchFormat.ms => MSecond(),
+                _ => -1,
+            };
         }
         public float SpentF(StopwatchFormat style)
         {
-            switch (style)
+            return style switch
             {
-                case StopwatchFormat.H:
-                case StopwatchFormat.h:
-                case StopwatchFormat.Hour:
-                case StopwatchFormat.hour:
-                    return HourF();
-                case StopwatchFormat.M:
-                case StopwatchFormat.m:
-                case StopwatchFormat.Minute:
-                case StopwatchFormat.minute:
-                    return MinuteF();
-                case StopwatchFormat.S:
-                case StopwatchFormat.s:
-                case StopwatchFormat.Second:
-                case StopwatchFormat.second:
-                    return SecondF();
-                case StopwatchFormat.MS:
-                case StopwatchFormat.ms:
-                    return MSecondF();
-                default:
-                    return -1f;
-            }
+                StopwatchFormat.H or StopwatchFormat.h or StopwatchFormat.Hour or StopwatchFormat.hour => HourF(),
+                StopwatchFormat.M or StopwatchFormat.m or StopwatchFormat.Minute or StopwatchFormat.minute => MinuteF(),
+                StopwatchFormat.S or StopwatchFormat.s or StopwatchFormat.Second or StopwatchFormat.second => SecondF(),
+                StopwatchFormat.MS or StopwatchFormat.ms => MSecondF(),
+                _ => -1f,
+            };
         }
     }
 }

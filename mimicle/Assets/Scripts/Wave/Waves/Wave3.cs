@@ -15,18 +15,16 @@ namespace Self.Game
         [SerializeField]
         HP bossHP;
 
-        GameObject boss;
         WaveData data;
 
         void Start()
         {
-            bossRelated.SetActive(false);
+            bossRelated.SetActives(false);
         }
 
         void OnEnable()
         {
             data = transform.parent.gameObject.GetComponent<WaveData>();
-            // bossHP = boss.GetComponent<HP>();
         }
 
         void Update()
@@ -47,7 +45,7 @@ namespace Self.Game
                 return;
             }
 
-            bossActivate.Once(() => bossRelated.SetActive(true));
+            bossActivate.RunOnce(() => bossRelated.SetActives(true));
         }
     }
 }

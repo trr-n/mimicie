@@ -2,8 +2,6 @@
 using UnityEngine;
 using DG.Tweening;
 using Self.Utils;
-using System.Collections.Generic;
-using UnityEngine.UI;
 
 namespace Self.Game
 {
@@ -14,17 +12,12 @@ namespace Self.Game
         GameObject[] bullets;
 
         [SerializeField]
-        [Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide")]
-        /// <summary>
-        /// 0: charger<br/>
-        /// 1: lilc<br/>
-        /// 2: bigc<br/>
-        /// 3: spide<br/>
-        /// 4: ninja<br/>
-        /// </summary>
+        [Tooltip("0: charger\n1: lilc\n2: bigc\n3: spide\n4: ninja\n5: ring")]
+        /// <summary>0: charger<br/>1: lilc<br/>2: bigc<br/>3: spide<br/>4: ninja<br/>5: ring</summary>
         GameObject[] mobs;
 
         [SerializeField]
+        [Tooltip("銃口")]
         GameObject point;
 
         [SerializeField]
@@ -33,19 +26,22 @@ namespace Self.Game
         [SerializeField]
         DieMenu finishedPanel;
 
-        [SerializeField]
         GameManager manager;
 
         /// <summary>
         /// 初期値たち
         /// </summary>
-        (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial => (
-            Quaternion.Euler(0, 0, 0), new(7.75f, 0, 1), new(3, 3, 3), Color.green);
+        readonly (Quaternion rotation, Vector3 position, Vector3 scale, Color color) initial = (
+            rotation: Quaternion.Euler(0, 0, 0),
+            position: new(7.75f, 0, 1),
+            scale: new(3, 3, 3),
+            color: Color.green
+        );
 
-        new PolygonCollider2D collider;
-        bool collide = true;
+        PolygonCollider2D col;
+        bool colTrigger = true;
 
-        SpriteRenderer bossr;
+        SpriteRenderer sr;
 
         /// <summary>
         /// HPたち
@@ -57,18 +53,19 @@ namespace Self.Game
         /// アクティブなレベル
         /// </summary>
         public int CurrentActiveLevel => currentActiveLevel;
-        enum Level { First = 0, Second, Third, Fourth, Fifth }
 
-        bool isStartedBossBattle = false;
+        (ushort First, ushort Second, ushort Third, ushort Fourth, ushort Fifth) Level => (0, 1, 2, 3, 4);
+
+        bool isStarted = false;
         /// <summary>
         /// ボス戦(ウェーブ3)が始まったらTrue
         /// </summary>
-        public bool IsStartedBossBattle => isStartedBossBattle;
+        public bool IsStarted => isStarted;
 
         /// <summary>
         /// レベル1 のやつ
         /// </summary>
-        (int Bullets, float Range) level1Rapids => (5, 1.25f);
+        readonly (int Bullets, float Range) Level1Rapids = (5, 1.25f);
 
         /// <summary>
         /// 初期座標に向かうときの移動速度
@@ -78,33 +75,40 @@ namespace Self.Game
         /// <summary>
         /// spideのスポーン間隔計測用ストップウォッチ
         /// </summary>
-        Stopwatch spideSW = new();
+        readonly Stopwatch spideSW = new();
 
         /// <summary>
         /// ホーミング弾連射用ストップウォッチ
         /// </summary>
-        Stopwatch hormingSW = new();
+        readonly Stopwatch hormingSW = new();
 
         /// <summary>
         /// 連射速度, 出現時間
         /// </summary>
-        (float spide, float[] horming) span = (spide: 5, horming: new float[] { 5.5f, 4.5f, 4f, 3f, 2f });
+        (float spide, float[] horming) span = (
+            spide: 5,
+            horming: new float[] { 2f, 1.5f, 1.3f, 1f, 0.8f }
+        );
 
         /// <summary>
         /// レベル1の連射間隔
         /// </summary>
-        Runner Lv1C = new();
+        readonly Runner Lv1C = new();
 
         /// <summary>
         /// 弾幕総合
         /// </summary>
-        (int bulletCount, Stopwatch stopwatch, Runner runner, bool during, (float rotate, float basis, float rapid) speed) barrage = (
-            bulletCount: 100,
-            stopwatch: new(),
-            runner: new(),
-            during: false,
-            speed: (rotate: 1, basis: 30f, rapid: 0.2f)
-        );
+        readonly struct Barrage
+        {
+            public static int bulletCount = 100;
+            public static Stopwatch stopwatch = new();
+            public static Runner runner = new();
+            public static bool during = false;
+            public static float rotate = 1;
+            public static float basis = 30;
+            public static float rapid = 0.2f;
+            public static (float min, float max) range = (60, 120);
+        }
 
         /// <summary>
         /// 角度調整しやすいようにちょっと傾ける
@@ -114,18 +118,27 @@ namespace Self.Game
         /// <summary>
         /// 終了用
         /// </summary>
-        Runner terminate = new();
+        readonly Runner terminate = new();
 
+        /// <summary>
+        /// 最大HP
+        /// </summary>
         const int MaxHP = 3000;
+
+        /// <summary>
+        /// ninjaが生成可能ならtrue
+        /// </summary>
+        bool ninjable = true;
 
         void Start()
         {
-            collider = GetComponent<PolygonCollider2D>();
-            collider.isTrigger = true;
+            col = GetComponent<PolygonCollider2D>();
+            col.isTrigger = true;
 
-            player.hp = Gobject.Find(Constant.Player).GetComponent<HP>();
+            player.hp = Gobject.GetWithTag<HP>(Constant.Player);
+            manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
 
-            transform.position = new(12, 0, 0);
+            transform.SetPosition(x: 12f);
             transform.SetRotation(initial.rotation);
             transform.SetScale(initial.scale);
 
@@ -138,8 +151,8 @@ namespace Self.Game
             boss.hp.SetMax(MaxHP);
             boss.hp.Reset();
 
-            bossr = GetComponent<SpriteRenderer>();
-            bossr.color = initial.color;
+            sr = GetComponent<SpriteRenderer>();
+            sr.color = initial.color;
 
             transform.DOMove(initial.position, PosLerpSpeed).SetEase(Ease.OutCubic);
         }
@@ -159,7 +172,7 @@ namespace Self.Game
         {
             if (boss.hp.IsZero)
             {
-                terminate.Once(() => manager.End());
+                terminate.RunOnce(() => manager.End());
             }
         }
 
@@ -168,20 +181,27 @@ namespace Self.Game
         /// </summary>
         void Both()
         {
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
             if (!Coordinate.Twins(transform.position, initial.position))
             {
                 if (boss.hp.Now != boss.hp.Max)
                 {
                     boss.hp.Reset();
                 }
+
                 return;
             }
 
-            isStartedBossBattle = true;
-            if (collide)
+            isStarted = true;
+
+            if (colTrigger)
             {
-                collider.isTrigger = false;
-                collide = false;
+                col.isTrigger = false;
+                colTrigger = false;
             }
 
             boss.remain = Numeric.Percent(boss.hp.Ratio);
@@ -197,138 +217,122 @@ namespace Self.Game
             Lv5();
         }
 
-        /// <summary>
-        /// 75 ~ 100, blue: 5% not homing, fire every second 
-        /// </summary>
         void Lv1()
         {
-            if (!isActiveLevel((int)Level.First))
+            if (!IsCurrentActiveLevel(Level.First))
             {
                 return;
             }
 
             currentActiveLevel = 0;
 
-            Lv1C.Once(() => StartCoroutine(Lv01()));
+            Lv1C.RunOnce(() => StartCoroutine(Lv01()));
         }
 
         IEnumerator Lv01()
         {
-            while (isActiveLevel((int)Level.First))
+            while (IsCurrentActiveLevel(Level.First))
             {
-                yield return new WaitForSeconds(level1Rapids.Range * 1.5f);
+                yield return new WaitForSeconds(Level1Rapids.Range * 1.5f);
 
-                for (int count = 0; count < level1Rapids.Bullets; count++)
+                for (ushort count = 0; count < Level1Rapids.Bullets; count++)
                 {
-                    bullets[0].Generate(point.transform.position, Quaternion.identity);
-                    yield return new WaitForSeconds(level1Rapids.Range / level1Rapids.Bullets);
+                    bullets[0].Generate(point.transform.position);
+                    yield return new WaitForSeconds(Level1Rapids.Range / Level1Rapids.Bullets);
                 }
             }
         }
 
-        /// <summary>
-        /// 弾幕
-        /// </summary>
         void Lv2()
         {
-            if (!isActiveLevel((int)Level.Second))
+            if (!IsCurrentActiveLevel(Level.Second))
             {
                 return;
             }
 
             currentActiveLevel = 1;
 
-            barrage.runner.Once(() =>
+            Barrage.runner.RunOnce(() =>
             {
-                barrage.during = true;
+                Barrage.during = true;
                 point.transform.eulerAngles = new(0, 0, 120);
-                barrage.stopwatch.Start();
+                Barrage.stopwatch.Start();
             });
 
-            if (barrage.during)
+            if (Barrage.during)
             {
-                for (int count = 0; count < barrage.bulletCount && barrage.stopwatch.sf > barrage.speed.rapid; count++)
+                for (ushort count = 0; count < Barrage.bulletCount && Barrage.stopwatch.sf > Barrage.rapid; count++)
                 {
                     bullets[1].Generate(point.transform.position, BarrageRotationOffset);
-                    barrage.stopwatch.Restart();
+                    Barrage.stopwatch.Restart();
 
                     if (count >= 100)
                     {
-                        barrage.during = false;
+                        Barrage.during = false;
                         point.transform.eulerAngles = Vector3.zero;
                         break;
                     }
                 }
 
-                (float Max, float Min) range = (120, 60);
-
-                if (point.transform.eulerAngles.z > range.Max || point.transform.eulerAngles.z < range.Min)
+                float anglez = point.transform.eulerAngles.z;
+                if (anglez > Barrage.range.max || anglez < Barrage.range.min)
                 {
                     // 逆回転
-                    barrage.speed.rotate *= -1;
+                    Barrage.rotate *= -1;
                 }
 
-                Vector3 rotate = Coordinate.Z * barrage.speed.basis * barrage.speed.rotate * Time.deltaTime;
-                point.transform.Rotate(rotate);
+                Vector3 rotate = Barrage.basis * Barrage.rotate * Coordinate.Z;
+                point.transform.Rotate(rotate * Time.deltaTime);
             }
         }
 
-        bool ninjable = true;
-        readonly List<GameObject> ninjas = new();
-
         /// <summary>
-        /// 30 ~ 50, yellow: 9% homing
+        /// Lv3で出したninjaをいれておくための
         /// </summary>
+        GameObject ninjaObj;
+
         void Lv3()
         {
-            if (!isActiveLevel((int)Level.Third))
+            if (!IsCurrentActiveLevel(Level.Third))
             {
                 return;
             }
 
             currentActiveLevel = 2;
 
-            print("ninjable:" + ninjable);
-
             if (ninjable)
             {
-                float spanwPosX = Rnd.Float(player.hp.gameObject.transform.position.x, 5);
-                ninjas.Add(mobs[4].Generate(new Vector2(spanwPosX, transform.position.y), Quaternion.identity));
+                float spawnPosX = Rand.Float(player.hp.gameObject.transform.position.x, 5);
+                ninjaObj = mobs[4].Generate(new(spawnPosX, transform.position.y));
 
                 ninjable = false;
             }
 
-            if (ninjas.Count <= 0)
+            if (ninjaObj == null)
             {
                 ninjable = true;
             }
         }
 
-        Runner special = new();
-        /// <summary>
-        /// 10 ~ 30, orange: 13% homing
-        /// </summary>
+        readonly Runner special = new();
         void Lv4()
         {
-            if (!isActiveLevel((int)Level.Fourth))
+            if (!IsCurrentActiveLevel(Level.Fourth))
             {
                 return;
             }
 
             currentActiveLevel = 3;
 
-            special.Once(() =>
+            special.RunOnce(() =>
             {
-                if (Gobject.TryGetWithTag<Player>(out var player, Constant.Player))
+                if (Gobject.TryGetWithTag(out Player player, Constant.Player))
                 {
-                    if (player.CurrentGunGrade == 1)
+                    if (player.CurrentGunGrade == 1 &&
+                        mobs[3].Generate().TryGetComponent(out Spide spide))
                     {
-                        mobs[3].Generate().TryGetComponent<Spide>(out var spide);
-                        if (spide is not null)
-                        {
-                            int activate = Lottery.Weighted(1, 25, 50);
-                            spide.SetLevel(activate);
-                        }
+                        int activate = Lottery.Weighted(1, 25, 50);
+                        spide.SetLevel(activate);
                     }
                 }
             });
@@ -336,25 +340,22 @@ namespace Self.Game
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
         readonly Runner l5runner = new();
-        /// <summary>
-        /// 00 ~ 10, red: 15% homing
-        /// </summary>
         void Lv5()
         {
-            if (!isActiveLevel((int)Level.Fifth))
+            if (!IsCurrentActiveLevel(Level.Fifth))
             {
                 return;
             }
 
             currentActiveLevel = 4;
 
-            l5runner.Once(() => level5Spawns.stopwatch.Start());
+            l5runner.RunOnce(() => level5Spawns.stopwatch.Start());
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                // int index = Lottery.Weighted(5, 4, 3, 2, 1);
-                // mobs[index].Generate(transform.position, Quaternion.identity);
-                mobs.Generate(transform.position, Quaternion.identity);
+                short index = (short)Rand.Int(0, mobs.Length - 1);
+                mobs[index].Generate(transform.position, Quaternion.identity);
+
                 level5Spawns.stopwatch.Restart();
             }
         }
@@ -378,10 +379,10 @@ namespace Self.Game
         {
             if (spideSW.SecondF() >= span.spide)
             {
-                mobs[3].Generate().GetComponent<Spide>()
-                    .SetLevel(Lottery.Weighted(1, 0.5f, 0.25f));
-                span.spide = Rnd.Int(20, 30);
+                int level = Lottery.Weighted(1, 0.5f, 0.25f);
+                mobs[3].Generate().GetComponent<Spide>().SetLevel(level);
 
+                span.spide = Rand.Int(20, 30);
                 spideSW.Restart();
             }
         }
@@ -389,18 +390,19 @@ namespace Self.Game
         /// <summary>
         /// レベル_levelがアクティブならTrue
         /// </summary>
-        public bool isActiveLevel(int _level)
+        public bool IsCurrentActiveLevel(ushort level)
         {
-            int[] borders = { 100, 80, 60, 40, 20 };
-            switch (_level)
+            ushort[] borders = { 100, 80, 60, 40, 20 };
+
+            return level switch
             {
-                case 0: return boss.remain >= borders[0];
-                case 1: return boss.remain >= borders[1] && boss.remain < borders[0];
-                case 2: return boss.remain >= borders[2] && boss.remain < borders[1];
-                case 3: return boss.remain >= borders[3] && boss.remain < borders[2];
-                case 4: return boss.remain >= borders[4] && boss.remain < borders[3];
-                default: throw new System.Exception();
-            }
+                0 => boss.remain >= borders[0],
+                1 => boss.remain >= borders[1] && boss.remain < borders[0],
+                2 => boss.remain >= borders[2] && boss.remain < borders[1],
+                3 => boss.remain >= borders[3] && boss.remain < borders[2],
+                4 => boss.remain >= borders[4] && boss.remain < borders[3],
+                _ => throw new System.Exception(),
+            };
         }
 
         /// <summary>
@@ -410,7 +412,7 @@ namespace Self.Game
         {
             // 100 ≧ hue ≧ 0
             float hue = boss.hp.Ratio / 360 * 100;
-            bossr.color = Color.HSVToRGB(hue, 1, 1);
+            sr.color = Color.HSVToRGB(hue, 1, 1);
         }
 
         void OnCollisionEnter2D(Collision2D info)

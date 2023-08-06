@@ -21,11 +21,6 @@ namespace Self.Game
         Vector2 firstPosition;
 
         /// <summary>
-        /// 
-        /// </summary>
-        Vector2 direction;
-
-        /// <summary>
         /// 連射用
         /// </summary>
         (float Span, Stopwatch sw) rapid = (2, new(true));
@@ -33,7 +28,9 @@ namespace Self.Game
         /// <summary>
         /// 死亡処理
         /// </summary>
-        Runner dead = new();
+        readonly Runner dead = new();
+
+        readonly Vector3 Offset = new(-0.75f, 0);
 
         void Start()
         {
@@ -46,11 +43,16 @@ namespace Self.Game
 
         void Update()
         {
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
             Left(gameObject);
 
             if (rapid.sw.sf >= rapid.Span)
             {
-                bullet.Generate(transform.position + new Vector3(-0.75f, 0), Quaternion.identity);
+                bullet.Generate(transform.position + Offset, Quaternion.identity);
                 rapid.sw.Restart();
             }
 
@@ -59,21 +61,20 @@ namespace Self.Game
                 AddSlainCountAndRemove(gameObject);
                 Score.Add(Constant.Point.LilC);
 
-                dead.Once(() =>
+                dead.RunOnce(() =>
                 {
                     fx.Generate(transform.position);
 
-                    // GameObject.FindGameObjectWithTag(Constant.Player).TryGetComponent<HP>(out var playerHp);
                     HP playerHp = Gobject.GetWithTag<HP>(Constant.Player);
-                    playerHp.Healing((int)MathF.Round((playerHp.Max - playerHp.Now) / 2, 0));
+                    int amount = Numeric.Round((playerHp.Max - playerHp.Now) / 2, 0);
+                    playerHp.Healing(amount);
                 });
             }
         }
 
         protected override void Move()
         {
-            firstPosition = new(Rnd.Int(3, 6), transform.position.y);
-            direction = firstPosition - (Vector2)transform.position;
+            firstPosition = new(Rand.Int(3, 6), transform.position.y);
             transform.DOMove(firstPosition, 10).SetEase(Ease.OutCubic);
         }
     }

@@ -136,7 +136,7 @@ namespace Self.Game
         {
             qset[Wave.Third].timer += Time.deltaTime;
 
-            if (!inProgress(Wave.Third) && !boss.IsStartedBossBattle) // && !Spawnable)
+            if (!inProgress(Wave.Third) && !boss.IsStarted) // && !Spawnable)
                 return;
             "Wave3".show();
             if (!StartWave3)
@@ -145,7 +145,7 @@ namespace Self.Game
             if (qset[Wave.Third].timer >= qset[Wave.Third].quota)
                 qset[Wave.Third].timer = 0;
             if (slain.Count >= qset[Wave.Third].quota)
-                one.Once(Final);
+                one.RunOnce(Final);
             void Final() { }
         }
         Runner one = new();

@@ -8,41 +8,53 @@ namespace Self.Game
         [SerializeField]
         GameObject parryObj;
 
+        [SerializeField]
+        WaveData wdata;
+
         /// <summary>
-        /// クールタイム
+        /// クールタイム(秒)
         /// </summary>
-        const float CT = 2;
+        // public float CT => 2f;
+
+        public readonly float[] CTs = { 1.5f, 1.25f, 1f };
 
         /// <summary>
         /// 持続時間
         /// </summary>
-        float duration = 0.5f;
+        const float Duration = 0.5f;
 
         /// <summary>
         /// クールタイム計測用ストップウォッチ
         /// </summary>
-        Stopwatch cooltimer = new(true);
+        readonly Stopwatch cooltimer = new(true);
 
         /// <summary>
         /// 持続時間計測用ストップウォッチ
         /// </summary>
-        Stopwatch durationTimer = new();
+        readonly Stopwatch durationSW = new();
 
         /// <summary>
         /// クールタイム表示用
         /// </summary>
-        public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CT);
+        // public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CT);
+        public float Timer => Mathf.Clamp(cooltimer.SecondF(), 0, CTs[wdata.CurrentActive]);
 
         /// <summary>
         /// クールタイム中ならTrue
         /// </summary>
-        public bool isRecasting => cooltimer.isRunning;
+        public bool IsRecasting => cooltimer.isRunning;
 
         bool isParrying = false;
         /// <summary>
         /// パリィ中ならTrue
         /// </summary>
-        public bool IsParrying => isParrying;
+        public bool IsParry => isParrying;
+
+        ushort count = 0;
+        public ushort Count => count;
+
+        [SerializeField]
+        UnityEngine.UI.Text debug;
 
         void Start()
         {
@@ -51,6 +63,11 @@ namespace Self.Game
 
         void Update()
         {
+            if (debug != null)
+            {
+                debug.text = "CT: " + CTs[wdata.CurrentActive] + "\nNow: " + Timer;
+            }
+
             MakeParry();
             isParrying = parryObj.IsActive(Active.Self);
         }
@@ -60,21 +77,23 @@ namespace Self.Game
         /// </summary>
         void MakeParry()
         {
-            if (cooltimer.sf >= CT && Inputs.Down(Constant.Parry))
+            if (cooltimer.sf >= CTs[wdata.CurrentActive] && Inputs.Down(Constant.Parry))
             {
+                count++;
+
                 cooltimer.Reset();
                 parryObj.SetActive(true);
-                durationTimer.Start();
+                durationSW.Start();
             }
 
-            if (durationTimer.isRunning && durationTimer.sf >= duration)
+            if (durationSW.isRunning && durationSW.sf >= Duration)
             {
                 parryObj.SetActive(false);
-                durationTimer.Reset();
+                durationSW.Reset();
                 cooltimer.Start();
             }
 
-            if (cooltimer.isRunning && cooltimer.sf >= CT)
+            if (cooltimer.isRunning && cooltimer.sf >= CTs[wdata.CurrentActive])
             {
                 cooltimer.Stop();
             }

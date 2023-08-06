@@ -15,33 +15,48 @@ namespace Self.Game
         Text stateT, scoreT, timeT;
 
         CanvasGroup canvas;
-        float a = 0f;
+        float alpha = 0f;
+
+        (int Score, int Time) finals;
+
+        void OnEnable()
+        {
+            finals.Score = Score.CurrentScore;
+            finals.Time = Score.CurrentTime;
+        }
 
         void Start()
         {
             canvas = GetComponent<CanvasGroup>();
             canvas.alpha = 0;
+
+            stateT.text = "Dit it !";
         }
 
         void Update()
         {
-            this.stateT.text = "Dit it !";
-            this.scoreT.text = "Score: " + Score.CurrentScore;
-            this.timeT.text = "Time: " + Score.CurrentTime;
-            // ブラーがマックスになったらスコア表示
-            if (!blur.Max)
+            if (scoreT == null)
             {
                 return;
             }
 
-            a = Mathf.Clamp(a, 0, 1);
-            a += Time.unscaledDeltaTime * 10;
-            canvas.alpha = a;
+            scoreT.text = "Score: " + finals.Score;
+            timeT.text = "Time: " + finals.Time;
 
-            if (Numeric.Twins(1, a))
+            // ブラーがマックスになったらスコア表示
+            if (!blur.IsDone)
             {
-                a = 1;
-                // blur.Reblur();
+                return;
+            }
+
+            alpha = Mathf.Clamp01(alpha);
+
+            alpha += Time.unscaledDeltaTime * 10;
+            canvas.alpha = alpha;
+
+            if (Numeric.Twins(1, alpha))
+            {
+                alpha = 1;
             }
         }
     }

@@ -2,21 +2,21 @@ using UnityEngine;
 
 namespace Self.Utils
 {
-    public enum LogType { Standard, Warning, Error }
+    public enum LogFormat { Standard, Warning, Error }
     public static class log
     {
         static void show(this object msg) => Debug.Log($"<color=white>{msg}</color>");
         static void warn(this object msg) => Debug.LogWarning($"<color=yellow>{msg}</color>");
         static void error(this object msg) => Debug.LogError($"<color=red>{msg}</color>");
 
-        public static void show(this object msg, LogType style = LogType.Standard)
+        public static void show(this object msg, LogFormat style = LogFormat.Standard)
         {
 
             switch (style)
             {
-                case LogType.Standard: msg.show(); break;
-                case LogType.Warning: msg.warn(); break;
-                case LogType.Error: msg.error(); break;
+                case LogFormat.Standard: msg.show(); break;
+                case LogFormat.Warning: msg.warn(); break;
+                case LogFormat.Error: msg.error(); break;
             }
         }
 

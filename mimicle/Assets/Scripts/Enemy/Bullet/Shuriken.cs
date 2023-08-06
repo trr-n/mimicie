@@ -10,16 +10,11 @@ namespace Self.Game
         /// </summary>
         Vector3 direction;
 
-        /// <summary>
-        /// 
-        /// </summary>
         (float move, float rotate) speeds = (10, 10);
 
         TrailRenderer trail;
 
         SpriteRenderer sr;
-
-        bool teleport;
 
         void Start()
         {
@@ -41,7 +36,7 @@ namespace Self.Game
 
         protected override void Move(float speed)
         {
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            transform.Translate(Time.deltaTime * speed * direction, Space.World);
             transform.Rotate(Vector3.forward * speeds.rotate);
         }
 
@@ -54,7 +49,7 @@ namespace Self.Game
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 TakeDamage(info);
             }

@@ -16,11 +16,6 @@ namespace Self.Game
         (float basis, float Reduct) speed = (5, 0.03f);
 
         /// <summary>
-        /// 弾の生成座標
-        /// </summary>
-        Vector2 SpawnedPosition;
-
-        /// <summary>
         /// 進行方向
         /// </summary>
         Vector2 direction;
@@ -33,7 +28,6 @@ namespace Self.Game
         void Start()
         {
             direction = -transform.right;
-            SpawnedPosition = transform.position;
             playerObj = Gobject.Find(Constant.Player);
         }
 
@@ -87,7 +81,7 @@ namespace Self.Game
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 ExplosionDamage();
                 TakeDamage(info);

@@ -14,7 +14,7 @@ namespace Self.Game
         [SerializeField]
         GameObject[] effects;
 
-        SpriteRenderer spideSR;
+        SpriteRenderer sr;
 
         /// <summary>
         /// アクティブなレベル
@@ -29,7 +29,7 @@ namespace Self.Game
         /// <summary>
         /// 回転速度
         /// </summary>
-        int[] rotationSpeed => new int[] { 50, 90, 120 };
+        readonly int[] rotationSpeed = { 50, 90, 120 };
 
         /// <summary>
         /// 死亡判定フラグ
@@ -48,7 +48,8 @@ namespace Self.Game
 
         void Start()
         {
-            spideSR = GetComponent<SpriteRenderer>();
+            sr = GetComponent<SpriteRenderer>();
+
             playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
@@ -65,7 +66,7 @@ namespace Self.Game
 
             if (!(transform.GetChild(activeLevel).childCount > 0) || dead)
             {
-                deadp.Once(() =>
+                deadp.RunOnce(() =>
                 {
                     Score.Add(Constant.Point.Spide);
                     StartCoroutine(Fade());
@@ -74,7 +75,7 @@ namespace Self.Game
                     float amount = (1 - playerHP.Ratio) * 100 / 5;
                     playerHP.Healing(Numeric.Cutail(amount));
 
-                    if (spideSR.color.a <= 0 && speed <= 0)
+                    if (sr.color.a <= 0 && speed <= 0)
                     {
                         effects.Generate(transform.position);
                         Destroy(gameObject);
@@ -85,10 +86,10 @@ namespace Self.Game
 
         IEnumerator Fade()
         {
-            while (spideSR.color.a > 0)
+            while (sr.color.a > 0)
             {
                 yield return null;
-                spideSR.color = new Color(spideSR.color.r, spideSR.color.g, spideSR.color.b, alpha);
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
                 alpha -= 0.02f;
                 speed -= 0.02f;
             }
@@ -109,12 +110,10 @@ namespace Self.Game
             }
             catch (System.IndexOutOfRangeException)
             {
-                // activeLevel = levels.Length - 1;
-                // levels[activeLevel].SetActive(true);
                 levels.Last().SetActive(true);
             }
 
-            for (int index = 0; index < levels.Length; index++)
+            for (ushort index = 0; index < levels.Length; index++)
             {
                 if (activeLevel != index)
                 {
@@ -125,7 +124,7 @@ namespace Self.Game
 
         protected override void Move()
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
+            transform.position += Time.deltaTime * speed * Vector3.left;
             transform.Rotate(0, 0, rotationSpeed[activeLevel] * Time.deltaTime);
         }
 

@@ -8,16 +8,20 @@ namespace Self.Utils
     public enum CursorAppearance { Invisible, Visible }
     public enum CursorRangeOfMotion { InScene = CursorLockMode.Confined, Fixed = CursorLockMode.Locked, Limitless = CursorLockMode.None }
 
-    public static class App
+    public class App
     {
         public static void SetFPS(int fps = -1) => targetFrameRate = fps;
         public static void SetFPS(FrameRate fps) => targetFrameRate = (int)fps;
         public static float GetFPS => Mathf.Floor(1 / Time.deltaTime);
+
+        public static void SetGravity(Vector3 gravity) => Physics2D.gravity = gravity;
 
         public static void SetCursorStatus(CursorAppearance appear, CursorRangeOfMotion rangeOfMotion)
         {
             visible = appear == CursorAppearance.Visible;
             lockState = (CursorLockMode)rangeOfMotion;
         }
+
+        public static bool CurrentTimeScale(float scale) => Time.timeScale == scale;
     }
 }

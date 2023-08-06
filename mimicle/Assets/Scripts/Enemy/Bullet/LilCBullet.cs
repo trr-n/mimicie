@@ -8,7 +8,7 @@ namespace Self.Game
         /// <summary>
         /// 移動速度
         /// </summary>
-        float speed = 20;
+        readonly float speed = 20;
 
         Transform playerTransform;
 
@@ -31,7 +31,7 @@ namespace Self.Game
 
         protected override void Move(float speed)
         {
-            transform.Translate(direction.normalized * speed * Time.deltaTime);
+            transform.Translate(Time.deltaTime * speed * direction.normalized);
         }
 
         protected override void TakeDamage(Collision2D info)
@@ -43,7 +43,7 @@ namespace Self.Game
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParrying)
+            if (info.Compare(Constant.Player) && !info.Get<Parry>().IsParry)
             {
                 TakeDamage(info);
             }

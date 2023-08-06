@@ -17,6 +17,7 @@ namespace Self.Game
         GameObject item;
 
         float lilcSpawnY = -3.5f;
+        float lilcSpawnSpan = 1f;
         const float Offset = 3.4f;
         const int X = 15;
 
@@ -25,10 +26,10 @@ namespace Self.Game
         bool isDone1 => slain.Count >= Quota;
 
         const float BreakTime = 2f;
-        Stopwatch nextSW = new();
-        Stopwatch spanwSW = new(true);
-        Runner LilC = new();
-        Runner drop = new();
+        readonly Stopwatch nextSW = new();
+        readonly Stopwatch spanwSW = new(true);
+        readonly Runner LilC = new();
+        readonly Runner drop = new();
 
         WaveData data;
 
@@ -44,7 +45,6 @@ namespace Self.Game
 
         void Make()
         {
-            // if (data.ActiveWave != 2)
             if (!data.IsActiveWave(1))
             {
                 return;
@@ -52,7 +52,7 @@ namespace Self.Game
 
             transform.SetPosition(X);
 
-            LilC.Once(() => StartCoroutine(MakeLilC()));
+            LilC.RunOnce(() => StartCoroutine(MakeLilC()));
 
             if (isDone1)
             {
@@ -60,7 +60,7 @@ namespace Self.Game
 
                 if (nextSW.sf >= BreakTime)
                 {
-                    drop.Once(() => item.Generate());
+                    drop.RunOnce(() => item.Generate());
 
                     data.ActivateWave((int)Activate.Third);
                     slain.ResetCount();
@@ -71,7 +71,7 @@ namespace Self.Game
 
         IEnumerator MakeLilC()
         {
-            for (int count = 0; count < 4; count++)
+            for (ushort count = 0; count < 4; count++)
             {
                 enemies[0].Generate(new(X, lilcSpawnY));
                 spanwSW.Restart();
@@ -80,11 +80,11 @@ namespace Self.Game
 
                 if (count % 2 == 0)
                 {
-                    Vector2 ninja = new(x: Rnd.Float(-8, 8), y: Rnd.Float(-4, 4));
-                    enemies[1].Generate(ninja);
+                    Vector2 lilc = new(x: Rand.Float(-8, 8), y: Rand.Float(-4, 4));
+                    enemies[1].Generate(lilc);
                 }
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(lilcSpawnSpan);
             }
         }
     }

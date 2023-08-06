@@ -57,7 +57,7 @@ namespace Self.Game
                 return;
             }
 
-            for (int count = 0; count <= max; count++)
+            for (ushort count = 0; count <= max; count++)
             {
                 remain = Mathf.Clamp(remain, 0, max);
                 remain++;
