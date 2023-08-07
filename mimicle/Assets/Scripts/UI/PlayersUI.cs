@@ -17,6 +17,9 @@ namespace Self.Game
         Image ammoGauge;
 
         [SerializeField]
+        Image ammoGaugeBackground;
+
+        [SerializeField]
         Image ammoSymbol;
 
         [SerializeField]
@@ -32,6 +35,7 @@ namespace Self.Game
         Ammo ammo;
 
         RectTransform ammoGaugeRT;
+        RectTransform ammoGaugeBGRT;
 
         float timerf;
         #endregion
@@ -40,6 +44,9 @@ namespace Self.Game
         [Header("parry")]
         [SerializeField]
         Image parryGauge;
+
+        [SerializeField]
+        Image parryGaugeBackground;
 
         [SerializeField]
         Image parrySymbol;
@@ -57,6 +64,9 @@ namespace Self.Game
         Parry parry;
 
         readonly (Color active, Color inactive) parrySymbolColor = (Color.white, Color.gray);
+
+        RectTransform parryGaugeRT;
+        RectTransform parryGaugeBGRT;
         #endregion
 
         #region hp
@@ -72,9 +82,15 @@ namespace Self.Game
 
         [SerializeField]
         Text hpCurrentT;
-        #endregion
 
-        RectTransform parryGaugeRT;
+        [SerializeField]
+        Image hpAlertPanel;
+
+        Color hpAlertPanelColor;
+        float alertAlpha = 0;
+        // percentage
+        const float alertBorder = 0.2f;
+        #endregion
 
         GameObject playerObj;
         Player player;
@@ -93,38 +109,41 @@ namespace Self.Game
             hpMaxT.SetText("/ " + playerHP.Max);
 
             ammoGaugeRT = ammoGauge.GetComponent<RectTransform>();
+            ammoGaugeBGRT = ammoGaugeBackground.GetComponent<RectTransform>();
+
             parryGaugeRT = parryGauge.GetComponent<RectTransform>();
+            parryGaugeBGRT = parryGaugeBackground.GetComponent<RectTransform>();
 
             playerObj = Gobject.Find(Constant.Player);
             player = playerObj.GetComponent<Player>();
+
+            alertAlpha = 0;
+            hpAlertPanelColor = hpAlertPanel.color;
+            hpAlertPanelColor.a = alertAlpha;
+            hpAlertPanel.color = hpAlertPanelColor;
         }
 
         void Update()
         {
             GaugePosition();
+        }
 
+        void LateUpdate()
+        {
             AmmoGauge();
             ParryGauge();
             HPGauge();
-        }
-
-        void HPGauge()
-        {
-            float t = playerHP.Ratio * playerHP.Max;
-            hpCurrentT.SetText(t);
-
-            hpGauge.fillAmount = playerHP.Ratio;
-
-            float hue = playerHP.Ratio / 360 * 100;
-            hpGauge.color = Color.HSVToRGB(hue, 1, 1);
+            AlertPanel();
         }
 
         void GaugePosition()
         {
             Vector3 ammo = playerObj.transform.position + GaugeOffset.Bullet;
             ammoGaugeRT.transform.position = ammo;
+            ammoGaugeBGRT.transform.position = ammo;
 
             parryGaugeRT.transform.position = ammo + GaugeOffset.Parry;
+            parryGaugeBGRT.transform.position = parryGaugeRT.transform.position;
         }
 
         void ParryGauge()
@@ -172,6 +191,25 @@ namespace Self.Game
             {
                 ammoGauge.fillAmount = Mathf.Lerp(player.PreReloadRatio, 1, timerf / player.Time2Reload);
             }
+        }
+
+        void HPGauge()
+        {
+            float t = playerHP.Ratio * playerHP.Max;
+            hpCurrentT.SetText(t);
+
+            hpGauge.fillAmount = playerHP.Ratio;
+
+            float hue = playerHP.Ratio / 360 * 100;
+            hpGauge.color = Color.HSVToRGB(hue, 1, 1);
+        }
+
+        void AlertPanel()
+        {
+            // 0-0.5を往復させる
+            alertAlpha = playerHP.Ratio >= alertBorder ? 0 : (Mathf.Sin(Time.time * 3) / 2 + 0.5f) * 0.5f;
+            hpAlertPanelColor.a = alertAlpha;
+            hpAlertPanel.color = hpAlertPanelColor;
         }
     }
 }

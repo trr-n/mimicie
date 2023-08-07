@@ -198,7 +198,7 @@ namespace Self.Game
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
-            if (Inputs.Down(Constant.Reload))
+            if (Inputs.Down(Constant.Reload)) // && ammo.Ratio <= 0.5f)
             {
                 PreReloadRatio = ammo.Ratio;
                 ammo.Reload();

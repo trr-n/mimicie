@@ -40,7 +40,7 @@ namespace Self.Game
         /// <summary>
         /// クールタイム表示用
         /// </summary>
-        public float Timer => Mathf.Clamp(cooltimer.SecondF(), 0, CTs[wdata.CurrentActive]);
+        public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CTs[wdata.CurrentActive]);
 
         /// <summary>
         /// クールタイム中ならTrue

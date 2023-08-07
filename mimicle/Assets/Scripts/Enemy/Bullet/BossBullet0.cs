@@ -44,7 +44,7 @@ namespace Self.Game
         protected override void Move(float speed)
         {
             speed *= AccelRatio;
-            transform.Translate(direction.normalized * speed * Time.deltaTime);
+            transform.Translate(Time.deltaTime * speed * direction.normalized);
         }
 
         protected override void TakeDamage(Collision2D info)

@@ -64,12 +64,8 @@ namespace Self.Game
                     bulletObjs[activeGrade].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;
                 case 2:
-                    try
-                    {
-                        speaker.PlayOneShot(fireSounds[mode]);
-                        print("success!");
-                    }
-                    catch (Exception e) { print(e.Message); }
+                    speaker.PlayOneShot(fireSounds[mode]);
+                    // print("success!");
 
                     bulletObjs[mode].Generate(transform.position, Quaternion.Euler(0, 0, 180));
                     break;

@@ -35,14 +35,7 @@ namespace Self.Game
         {
             if (Inputs.Down(Constant.Menu))
             {
-                if (!isActive)
-                {
-                    StartCoroutine(Fade(f.fin));
-                }
-                else
-                {
-                    StartCoroutine(Fade(f.fout));
-                }
+                StartCoroutine(isActive ? Fade(f.fout) : Fade(f.fin));
             }
         }
 

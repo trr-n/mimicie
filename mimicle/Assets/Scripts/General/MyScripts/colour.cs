@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Self.Utils
 {
@@ -7,6 +8,8 @@ namespace Self.Utils
         public static Color Transparent => new(0, 0, 0, 0);
 
         public static Color SetAlpha(this Color color, float alpha) => new(color.r, color.g, color.b, alpha);
+        public static Color SetAlpha(this Image image, float alpha) => new(image.color.r, image.color.g, image.color.b, alpha);
+        public static Color SetAlpha(this SpriteRenderer sr, float alpha) => new(sr.color.r, sr.color.g, sr.color.b, alpha);
 
         public static void SetColor(this SpriteRenderer sr, Color color) => sr.color = color;
         public static Color SetColor(this Color c, Color color) => c = color;

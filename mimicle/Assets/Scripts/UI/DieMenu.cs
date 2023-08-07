@@ -42,6 +42,7 @@ namespace Self.Game
 
             scoreT.text = "Score: " + finals.Score;
             timeT.text = "Time: " + finals.Time;
+            stateT.color = Color.HSVToRGB(Time.unscaledTime % 1, 1, 1);
 
             // ブラーがマックスになったらスコア表示
             if (!blur.IsDone)
