@@ -176,7 +176,7 @@ namespace Self.Game
         void Shot(float rapid)
         {
             if (NotNinnin = !(
-                Inputs.Pressed(Constant.Fire) && !isReloading && !ammo.IsZero() && rapidSW.sf > rapid))
+                Inputs.Pressed(Constant.Fire) && !isReloading && !ammo.IsZero && rapidSW.sf > rapid))
             {
                 return;
             }

@@ -8,11 +8,15 @@ namespace Self.Game
         [SerializeField]
         AudioClip parrySE;
 
+        HP playerHP;
+
         new AudioSource audio;
 
         void Start()
         {
             audio = GetComponent<AudioSource>();
+
+            playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -20,6 +24,11 @@ namespace Self.Game
             if (info.Compare(Constant.EnemyBullet))
             {
                 audio.PlayOneShot(parrySE);
+
+                // 成功したら5%回復
+                int amount = Numeric.Percent(playerHP.Max, 5);
+                playerHP.Healing(amount);
+
                 info.Destroy();
             }
         }

@@ -9,11 +9,18 @@ namespace Self.Game
     public class PlayersUI : MonoBehaviour
     {
         [SerializeField]
-        WaveData wdata;
+        WaveData wave;
 
-        [Header("Ammo")]
+        #region ammo
+        [Header("ammo")]
         [SerializeField]
         Image ammoGauge;
+
+        [SerializeField]
+        Image ammoSymbol;
+
+        [SerializeField]
+        Image ammoStatus;
 
         [SerializeField]
         Text ammoCurrentT;
@@ -27,32 +34,63 @@ namespace Self.Game
         RectTransform ammoGaugeRT;
 
         float timerf;
+        #endregion
 
-        [Header("Parry")]
+        #region parry
+        [Header("parry")]
         [SerializeField]
         Image parryGauge;
 
         [SerializeField]
+        Image parrySymbol;
+
+        [SerializeField]
+        Image parryStatus;
+
+        [SerializeField]
+        Text parryCurrentT;
+
+        [SerializeField]
+        Text parryMaxT;
+
+        [SerializeField]
         Parry parry;
 
-        [Header("Player")]
+        readonly (Color active, Color inactive) parrySymbolColor = (Color.white, Color.gray);
+        #endregion
+
+        #region hp
+        [Header("hp")]
         [SerializeField]
         Image hpGauge;
 
         [SerializeField]
         HP playerHP;
 
+        [SerializeField]
+        Text hpMaxT;
+
+        [SerializeField]
+        Text hpCurrentT;
+        #endregion
+
         RectTransform parryGaugeRT;
 
         GameObject playerObj;
         Player player;
 
-        (Vector3 Bullet, Vector3 Parry) Offset => (-1 * Coordinate.X, -0.5f * Coordinate.X);
+        (Vector3 Bullet, Vector3 Parry) GaugeOffset => (-1 * Coordinate.Y, -0.5f * Coordinate.Y);
 
         void Start()
         {
-            ammoMaxT.text = "/ " + ammo.Max;
-            ammoCurrentT.text = ammo.Max.ToString();
+            ammoCurrentT.SetText(ammo.Max);
+            ammoMaxT.SetText("/ " + ammo.Max);
+
+            parryCurrentT.SetText(parry.Now);
+            parryMaxT.SetText("/ " + parry.Now);
+
+            hpCurrentT.SetText(playerHP.Max);
+            hpMaxT.SetText("/ " + playerHP.Max);
 
             ammoGaugeRT = ammoGauge.GetComponent<RectTransform>();
             parryGaugeRT = parryGauge.GetComponent<RectTransform>();
@@ -72,6 +110,9 @@ namespace Self.Game
 
         void HPGauge()
         {
+            float t = playerHP.Ratio * playerHP.Max;
+            hpCurrentT.SetText(t);
+
             hpGauge.fillAmount = playerHP.Ratio;
 
             float hue = playerHP.Ratio / 360 * 100;
@@ -80,15 +121,20 @@ namespace Self.Game
 
         void GaugePosition()
         {
-            Vector3 ammo = playerObj.transform.position + Offset.Bullet;
+            Vector3 ammo = playerObj.transform.position + GaugeOffset.Bullet;
             ammoGaugeRT.transform.position = ammo;
 
-            parryGaugeRT.transform.position = ammo + Offset.Parry;
+            parryGaugeRT.transform.position = ammo + GaugeOffset.Parry;
         }
 
         void ParryGauge()
         {
-            parryGauge.fillAmount = parry.Timer / parry.CTs[wdata.CurrentActive];
+            parryStatus.enabled = parry.Disable;
+
+            parrySymbol.color = parry.Disable ? parrySymbolColor.inactive : parrySymbolColor.active;
+
+            parryCurrentT.SetText(parry.Timer);
+            parryGauge.fillAmount = parry.Timer / parry.CTs[wave.CurrentActive];
 
             if (parry.IsParry)
             {
@@ -103,8 +149,12 @@ namespace Self.Game
 
         void AmmoGauge()
         {
+            ammoSymbol.color = Color.HSVToRGB(Time.unscaledTime, 1, 1);
+
+            ammoStatus.enabled = ammo.IsZero || player.IsReloading;
+
             int ammoCount = Numeric.Cutail(ammoGauge.fillAmount * ammo.Max);
-            ammoCurrentT.text = ammoCount.ToString();
+            ammoCurrentT.SetText(ammoCount);
 
             float hue = ammo.Ratio / 360 * 100;
             ammoGauge.color = Color.HSVToRGB(hue, 1, 1);

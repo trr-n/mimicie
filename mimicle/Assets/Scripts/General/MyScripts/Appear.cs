@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Self.Utils
 {
 
-    public static class Render
+    public static class Appear
     {
         public static IEnumerator Animation(this Sprite[] sprites, SpriteRenderer sr, float span = 0.5f)
         {
@@ -22,5 +23,7 @@ namespace Self.Utils
         public static void SetSprite(this SpriteRenderer sr, Sprite[] sprites) => sr.sprite = sprites.Choice3();
 
         public static Vector2 GetSpriteSize(this SpriteRenderer sr) => sr.bounds.size;
+
+        public static string SetText(this Text text, object obj) => text.text = obj.ToString();
     }
 }

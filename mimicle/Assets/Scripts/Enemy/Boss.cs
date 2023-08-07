@@ -340,6 +340,7 @@ namespace Self.Game
 
         (float Span, Stopwatch stopwatch) level5Spawns = (Span: 1.3f, stopwatch: new());
         readonly Runner l5runner = new();
+
         void Lv5()
         {
             if (!IsCurrentActiveLevel(Level.Fifth))
@@ -353,7 +354,7 @@ namespace Self.Game
 
             if (level5Spawns.stopwatch.sf > boss.hp.Ratio * level5Spawns.Span)
             {
-                short index = (short)Rand.Int(0, mobs.Length - 1);
+                int index = Rand.Int(0, mobs.Length - 1);
                 mobs[index].Generate(transform.position, Quaternion.identity);
 
                 level5Spawns.stopwatch.Restart();

@@ -16,7 +16,11 @@ namespace Self.Game
         /// </summary>
         // public float CT => 2f;
 
-        public readonly float[] CTs = { 1.5f, 1.25f, 1f };
+        public float[] CTs => new float[] { 1.5f, 1.25f, 1f };
+
+        public float Now => CTs[wdata.CurrentActive];
+
+        public bool Disable => !(Timer >= Now);
 
         /// <summary>
         /// 持続時間
@@ -36,7 +40,6 @@ namespace Self.Game
         /// <summary>
         /// クールタイム表示用
         /// </summary>
-        // public float Timer => Mathf.Clamp(cooltimer.SecondF(1), 0, CT);
         public float Timer => Mathf.Clamp(cooltimer.SecondF(), 0, CTs[wdata.CurrentActive]);
 
         /// <summary>

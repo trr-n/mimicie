@@ -35,7 +35,7 @@ namespace Self.Utils
         public static float Ratio(float w, float t) => (float)w / t;
         public static bool Twins(this float n1, float n2) => Mathf.Approximately(n1, n2);
 
-        public static bool IsPrime(uint n)
+        public static bool IsPrime(int n)
         {
             if (n < 2 || (n % 2 == 0 && n != 2))
             {

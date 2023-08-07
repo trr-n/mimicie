@@ -27,7 +27,7 @@ namespace Self.Game
         /// <summary>
         /// 残弾数が0ならTrue
         /// </summary>
-        public bool IsZero() => remain <= 0;
+        public bool IsZero => remain <= 0;
 
         /// <summary>
         /// 残弾数がmaxならtrue
