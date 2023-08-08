@@ -275,7 +275,7 @@ namespace Self.Game
                 }
 
                 float anglez = point.transform.eulerAngles.z;
-                if (anglez > Barrage.range.max || anglez < Barrage.range.min)
+                if (anglez >= Barrage.range.max || anglez <= Barrage.range.min)
                 {
                     // 逆回転
                     Barrage.rotate *= -1;
