@@ -19,6 +19,7 @@ TagManager:
   - Upgrade
   - Ring
   - Canvas
+  - RocketLauncher
   layers:
   - Default
   - TransparentFX

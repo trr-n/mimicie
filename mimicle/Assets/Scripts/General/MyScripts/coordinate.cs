@@ -95,5 +95,7 @@ namespace Self.Utils
 
         public static bool Twins(Vector3 n1, Vector3 n2)
         => Mathf.Approximately(n1.x, n2.x) && Mathf.Approximately(n1.y, n2.y) && Mathf.Approximately(n1.z, n2.z);
+
+        public static Quaternion ToQ(this Vector3 rotation) => Quaternion.Euler(rotation.x, rotation.y, rotation.z);
     }
 }

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using static UnityEngine.Application;
+using static UnityEngine.QualitySettings;
 using static UnityEngine.Cursor;
 
 namespace Self.Utils
@@ -11,7 +13,19 @@ namespace Self.Utils
     public class App
     {
         public static void SetFPS(int fps = -1) => targetFrameRate = fps;
-        public static void SetFPS(FrameRate fps) => targetFrameRate = (int)fps;
+        public static void SetFPS(FrameRate fps)
+        {
+            switch (fps)
+            {
+                case FrameRate.VSync:
+                    vSyncCount = 1;
+                    break;
+                default:
+                    vSyncCount = 0;
+                    targetFrameRate = (int)fps;
+                    break;
+            }
+        }
         public static float GetFPS => Mathf.Floor(1 / Time.deltaTime);
 
         public static void SetGravity(Vector3 gravity) => Physics2D.gravity = gravity;

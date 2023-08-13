@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d8ac9a12287e841bfac9e83f080cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves: 2
+  waves: 0
   waveObjs:
   - {fileID: 286884585}
   - {fileID: 1736559679}
@@ -6535,7 +6535,7 @@ GameObject:
   - component: {fileID: 1940717239}
   - component: {fileID: 1940717240}
   m_Layer: 5
-  m_Name: death_panel
+  m_Name: final_panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7192,7 +7192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 673241856300152028, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.93
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 673241856300152028, guid: 236804681cdf7b144b9a84d5717a313c, type: 3}
       propertyPath: m_LocalPosition.y

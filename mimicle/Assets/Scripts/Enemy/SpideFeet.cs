@@ -13,7 +13,7 @@ namespace Self.Game
                 Destroy(gameObject);
             }
 
-            if (info.Compare(Constant.Bullet))
+            if (info.Compare(Constant.PlayerBullet))
             {
                 Destroy(info.gameObject);
                 Destroy(gameObject);

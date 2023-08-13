@@ -14,8 +14,7 @@ namespace Self
 
         public static readonly string
         Main = "Main",
-        Title = "Title",
-        Final = "Final";
+        Title = "Title";
 
         public static readonly string
         Horizontal = "Horizontal",
@@ -43,7 +42,8 @@ namespace Self
         Manager = "Manager",
         Charger = "Charger",
         LilC = "LilC",
-        Bullet = "Bullet",
+        PlayerBullet = "Bullet",
+        PlayerRocket = "RocketLauncher",
         Logo = "Logo",
         Boss = "Boss",
         TriggerZone = "TriggerArea",
@@ -62,7 +62,7 @@ namespace Self
             public static int BigC = 5;
             public static int Spide = 19;
             public static int Shuriken = 11;
-            public static int Ring = 38;
+            public static int Ring = 33;
             public static int[] Horming = { 0, 7, 9, 11, 15 };
         }
 

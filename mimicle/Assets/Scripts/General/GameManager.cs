@@ -48,8 +48,13 @@ namespace Self.Game
             sceneReloadPanel.color = Colour.Transparent;
 
             App.SetFPS(FrameRate.Medium);
-            App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
-            App.SetGravity(0 * Coordinate.Z);
+            // App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
+            App.SetGravity(Vector3.zero);
+        }
+
+        void Update()
+        {
+            print(App.GetFPS);
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace Self.Game
             Ctrlable = false;
             Scrollable = false;
 
-            App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
+            // App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
             isEnd = true;
             Time.timeScale = 0;
             Score.StopTimer();
@@ -89,6 +94,7 @@ namespace Self.Game
         public void OpenMenuPanel()
         {
             menuPanel.SetActive(true);
+            // App.SetCursorStatus(CursorAppearance.Visible, CursorRangeOfMotion.Limitless);
             Score.StopTimer();
             Ctrlable = false;
             Scrollable = false;
@@ -99,6 +105,7 @@ namespace Self.Game
         public void CloseMenuPanel()
         {
             menuPanel.SetActive(false);
+            // App.SetCursorStatus(CursorAppearance.Invisible, CursorRangeOfMotion.Fixed);
             Score.StartTimer();
             Ctrlable = true;
             Scrollable = true;

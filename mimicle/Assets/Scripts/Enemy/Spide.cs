@@ -131,7 +131,7 @@ namespace Self.Game
         void OnCollisionEnter2D(Collision2D info)
         {
             // 弾が中心の丸にあたったら脂肪
-            if (info.Compare(Constant.Bullet))
+            if (info.Compare(Constant.PlayerBullet))
             {
                 dead = true;
             }

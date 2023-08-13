@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using Self.Utils;
+using System;
 
 namespace Self.Game
 {
@@ -243,6 +244,7 @@ namespace Self.Game
             }
         }
 
+        int forRing = 0;
         void Lv2()
         {
             if (!IsCurrentActiveLevel(Level.Second))
@@ -255,14 +257,21 @@ namespace Self.Game
             Barrage.runner.RunOnce(() =>
             {
                 Barrage.during = true;
-                point.transform.eulerAngles = new(0, 0, 120);
+                point.transform.eulerAngles = Coordinate.Z * 120;
                 Barrage.stopwatch.Start();
             });
 
             if (Barrage.during)
             {
-                for (ushort count = 0; count < Barrage.bulletCount && Barrage.stopwatch.sf > Barrage.rapid; count++)
+                for (int count = 0; count < Barrage.bulletCount && Barrage.stopwatch.sf > Barrage.rapid; count++)
                 {
+                    forRing++;
+                    if (forRing % 35 == 0 || forRing == Barrage.bulletCount - 1)
+                    {
+                        Vector3 rotation = Coordinate.Z * Rand.Float(max: 360);
+                        mobs[^1].Generate(point.transform.position, rotation.ToQ());
+                    }
+
                     bullets[1].Generate(point.transform.position, BarrageRotationOffset);
                     Barrage.stopwatch.Restart();
 
@@ -373,6 +382,10 @@ namespace Self.Game
             }
         }
 
+        void SpawnRing()
+        {
+        }
+
         /// <summary>
         /// spide生成
         /// </summary>
@@ -402,7 +415,7 @@ namespace Self.Game
                 2 => boss.remain >= borders[2] && boss.remain < borders[1],
                 3 => boss.remain >= borders[3] && boss.remain < borders[2],
                 4 => boss.remain >= borders[4] && boss.remain < borders[3],
-                _ => throw new System.Exception(),
+                _ => throw new Exception()
             };
         }
 
@@ -418,7 +431,7 @@ namespace Self.Game
 
         void OnCollisionEnter2D(Collision2D info)
         {
-            if (info.Compare(Constant.Bullet))
+            if (info.Compare(Constant.PlayerBullet))
             {
                 UpdateEyeColor();
                 bossUI.UpdateBossUI();

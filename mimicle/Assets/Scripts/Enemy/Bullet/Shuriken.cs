@@ -54,7 +54,7 @@ namespace Self.Game
                 TakeDamage(info);
             }
 
-            if (info.Compare(Constant.Bullet))
+            if (info.Compare(Constant.PlayerBullet))
             {
                 info.Destroy();
             }

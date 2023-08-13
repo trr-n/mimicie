@@ -10,7 +10,7 @@ namespace Self.Game
         /// <summary>
         /// 速度
         /// </summary>
-        (float rotate, float move) speed = (rotate: 50f, move: 0.5f);
+        (float rotate, float move) speed = (rotate: 75f, move: 2f);
 
         /// <summary>
         /// 進行方向
@@ -19,7 +19,7 @@ namespace Self.Game
 
         void Start()
         {
-            direction = -transform.right;
+            direction = Vector2.left;
         }
 
         void Update()
@@ -30,7 +30,7 @@ namespace Self.Game
         protected override void Move()
         {
             transform.Translate(Time.deltaTime * speed.move * direction, Space.World);
-            transform.Rotate(new(0, 0, speed.rotate * Time.deltaTime));
+            transform.Rotate(Time.deltaTime * speed.rotate * Coordinate.Z);
         }
 
         void OnCollisionEnter2D(Collision2D info)
@@ -38,6 +38,11 @@ namespace Self.Game
             if (info.Compare(Constant.Player))
             {
                 info.Get<HP>().Damage(Constant.Damage.Ring);
+            }
+
+            if (info.Compare(Constant.PlayerBullet))
+            {
+                info.Destroy();
             }
         }
     }
