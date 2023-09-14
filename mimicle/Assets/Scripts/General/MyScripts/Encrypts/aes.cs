@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Self.Utils
 {
-    public class AESEncryption : IEncryption
+    public class AES : IEncryption
     {
         // TODO make aes encryption
         public byte[] Decrypt(byte[] src)

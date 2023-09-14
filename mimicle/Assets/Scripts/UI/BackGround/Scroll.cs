@@ -1,24 +1,34 @@
-using Self.Utils;
+﻿using Self.Utils;
 using UnityEngine;
 
 namespace Self.Game
 {
     public class Scroll : MonoBehaviour
     {
-        // [SerializeField]
-        GameManager manager;
         [SerializeField]
         Color[] colors;
+
         [SerializeField]
         GameObject[] backgrounds;
 
+        GameManager manager;
+
+        /// <summary>
+        /// スクロールの速度
+        /// </summary>
         readonly float speed = 3;
+
+        /// <summary>
+        /// 背景オブジェクトのセイセイ座標
+        /// </summary>
         Vector2 Spawn => new(20f, 0);
-        bool scroll = false;
+
+        // 背景を動かすか
+        bool scrollable = false;
 
         void Awake()
         {
-            if (MyScene.Active() == Constant.Main)
+            if (MyScene.active == Constant.Main)
             {
                 manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
             }
@@ -34,28 +44,26 @@ namespace Self.Game
 
         void Update()
         {
-            if (MyScene.Active() == Constant.Main)
-            {
-                scroll = manager.Scrollable;
-            }
+            // Mainシーン(ゲームのしーん)だったらマネジャー次第
+            if (MyScene.active == Constant.Main) { scrollable = manager.Scrollable; }
 
-            else
-            {
-                scroll = true;
-            }
+            // Titleシーンなら問答無用で無賃労働
+            else { scrollable = true; }
 
-            if (!scroll)
-            {
-                return;
-            }
+            // スクロース
+            if (!scrollable) { return; }
 
             foreach (var i in backgrounds)
             {
                 i.transform.Translate(Time.deltaTime * speed * Vector2.left);
 
+                // 逃げ切ったと思わせといて
                 if (i.transform.position.x <= -20f)
                 {
+                    // 引き戻して
                     i.transform.position = Spawn;
+
+                    // 色をランダムに変える
                     i.GetComponent<SpriteRenderer>().color = colors.Choice3();
                 }
             }

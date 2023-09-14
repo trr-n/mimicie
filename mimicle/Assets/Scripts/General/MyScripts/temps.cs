@@ -7,7 +7,7 @@ namespace Self.Utils
 
     public static class Temps
     {
-        public static string Raw => (Date() + Time()).ReplaceAtOnce("/  :", "");
+        public static string Raw => (Date() + Time()).ReplaceLump("/  :", "");
 
         public static string Date(TempsFormat style = TempsFormat.Standard)
         {

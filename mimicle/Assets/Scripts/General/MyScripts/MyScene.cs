@@ -7,9 +7,9 @@ namespace Self.Utils
     {
         public static void Load(string name) => LoadScene(name);
         public static void Load(int index) => LoadScene(index);
-        public static void Load() => LoadScene(Active());
+        public static void Load() => LoadScene(active);
 
-        public static string Active() => GetActiveScene().name;
+        public static string active => GetActiveScene().name;
 
         public static AsyncOperation LoadAsync(string name) => LoadSceneAsync(name);
         public static AsyncOperation LoadAsync(int index) => LoadSceneAsync(index);

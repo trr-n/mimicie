@@ -134,18 +134,16 @@ namespace Self.Game
         void Awake()
         {
             manager = Gobject.GetWithTag<GameManager>(Constant.Manager);
-
             speaker = GetComponent<AudioSource>();
-
             playerHP = GetComponent<HP>();
             playerSR = GetComponent<SpriteRenderer>();
             playerCol = GetComponent<BoxCollider2D>();
-
             ammo = Gobject.GetWithTag<Ammo>(transform.GetChild(0).gameObject);
         }
 
         void Start()
         {
+            // 初手弾切れ防止用にリロード
             ammo.Reload();
         }
 
@@ -156,18 +154,15 @@ namespace Self.Game
             Reload();
 
             hit = Physics2D.Raycast(transform.position, Vector2.right, 20.48f, detectLayers);
+
+            // ぱりぃ中は本体の当たり判定をなくす
             playerCol.isTrigger = parry.IsParry;
 
-            if (sw.sf >= 0.2f)
-            {
-                playerSR.color = Color.white;
-            }
+            // ダメージ食らったら0.2秒間からだをまっかっかに
+            if (sw.sf >= 0.2f) { playerSR.color = Color.white; }
 
-            Shot(gun.Grade switch
-            {
-                2 => rates[gun.Mode],
-                _ => rates[gun.Grade]
-            });
+            // グレードに合わせてぶきを変える
+            Shot(gun.Grade switch { 2 => rates[gun.Mode], _ => rates[gun.Grade] });
         }
 
         /// <summary>
@@ -175,13 +170,15 @@ namespace Self.Game
         /// </summary>
         void Shot(float rapid)
         {
-            if (NotNinnin = !(
-                Inputs.Pressed(Constant.Fire) && !isReloading && !ammo.IsZero && rapidSW.sf > rapid))
-            {
-                return;
-            }
+            // 射撃ボタンが押されてて、リロード中じゃなくて、タマがまだ残ってて、タマが打てる状況だったら、というのがすべて違った場合のみお前を通す。それ以外はカエッテーッ
+            if (NotNinnin =
+                !(Inputs.Pressed(Constant.Fire) && !isReloading && !ammo.IsZero && rapidSW.sf > rapid))
+            { return; }
 
+            // 美人が八方から発砲
             gun.Shot(currentGunGrade);
+
+            // 連射させまいと言わんばかりの勢いでタイマーをリスタート
             rapidSW.Restart();
         }
 
@@ -190,6 +187,7 @@ namespace Self.Game
         /// </summary>
         void Reload()
         {
+            // リロードの進捗
             ReloadProgress = reloadSW.sf / time2reload;
 
             if (!isReloading)
@@ -198,10 +196,15 @@ namespace Self.Game
                 time2reload = (1 - ammo.Ratio) * MaxReloadTime;
             }
 
+            // リロードボタンが押されたら
             if (Inputs.Down(Constant.Reload)) // && ammo.Ratio <= 0.5f)
             {
                 PreReloadRatio = ammo.Ratio;
+
+                // リロード
                 ammo.Reload();
+
+                // リロード中ですよー
                 isReloading = true;
             }
 
@@ -217,13 +220,10 @@ namespace Self.Game
             }
         }
 
-        void Dead()
-        {
-            if (playerHP.IsZero)
-            {
-                write.RunOnce(() => StartCoroutine(Fade(true)));
-            }
-        }
+        /// <summary>
+        /// 脂肪の処理
+        /// </summary>
+        void Dead() { if (playerHP.IsZero) { write.RunOnce(() => StartCoroutine(Fade(true))); } }
 
         IEnumerator Fade(bool fout)
         {
@@ -239,13 +239,14 @@ namespace Self.Game
                 // fadePanel.color.SetAlpha(alpha);
                 fadePanel.color = new(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, alpha);
 
-                if (alpha >= 1)
-                {
-                    break;
-                }
+                // 透明度が1以上になったらオワリ！それ以上はヤメテー！！
+                if (alpha >= 1) { break; }
             }
 
+            // ゲーム計測用の止まれ見ろリセット
             Score.ResetTimer();
+
+            // シーンリロード
             MyScene.Load();
         }
 

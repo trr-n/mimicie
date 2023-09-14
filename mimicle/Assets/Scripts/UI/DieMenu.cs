@@ -14,43 +14,44 @@ namespace Self.Game
         [SerializeField]
         Text stateT, scoreT, timeT;
 
-        CanvasGroup canvas;
+        CanvasGroup cGroup;
         float alpha = 0f;
 
-        (int Score, int Time) finals = (0, 0);
-
-        readonly string[] StateTexts = { "Did it!", "Complete!", "Well done!", "YOUR ARE GOAT!" };
+        string[] StateTexts => new[] {
+            "Did it!",
+            "Complete!",
+            "Well done!",
+            "GOAT!",
+            "Special!",
+            "Thanks for playing!"
+        };
 
         void OnEnable()
         {
-            finals.Score = Score.CurrentScore;
-            finals.Time = Score.CurrentTime;
-
-            stateT.text = StateTexts.Choice3();
+            stateT.SetText(StateTexts.Choice3());
+            scoreT.SetText("Score: " + Score.CurrentScore);
+            timeT.SetText("Time: " + Score.CurrentTime);
         }
 
         void Start()
         {
-            canvas = GetComponent<CanvasGroup>();
-            canvas.alpha = 0;
+            cGroup = GetComponent<CanvasGroup>();
+            cGroup.alpha = 0;
         }
 
         void Update()
         {
-            scoreT.SetText("Score: " + finals.Score);
-            timeT.SetText("Time: " + finals.Time);
+            // scoreT.SetText("Score: " + finals.Score);
+            // timeT.SetText("Time: " + finals.Time);
             // stateT.color = Color.HSVToRGB(Time.unscaledTime * 5 % 1, 1, 1);
-            stateT.SetColor(Color.HSVToRGB(Time.unscaledTime * 5 % 1, 1, 1));
+            stateT.color = Color.HSVToRGB(Time.unscaledTime * 5 % 1, 1, 1);
 
-            if (!blur.IsDone)
-            {
-                return;
-            }
+            if (!blur.IsDone) return;
 
             alpha = Mathf.Clamp01(alpha);
 
             alpha += Time.unscaledDeltaTime * 10;
-            canvas.alpha = alpha;
+            cGroup.alpha = alpha;
 
             if (Numeric.Twins(1, alpha))
             {

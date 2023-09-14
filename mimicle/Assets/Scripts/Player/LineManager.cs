@@ -1,8 +1,10 @@
 using UnityEngine;
 using Self.Utils;
+using System;
 
 namespace Self.Game
 {
+    [Obsolete]
     public class LineManager : MonoBehaviour
     {
         [SerializeField]

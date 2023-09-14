@@ -19,6 +19,7 @@ namespace Self.Game
 
         void Start()
         {
+            // ボス関連のものを非表示に
             bossRelated.SetActives(false);
         }
 
@@ -31,8 +32,10 @@ namespace Self.Game
         {
             Spawn();
 
+            // ぼすのHPが0になったら
             if (bossHP.IsZero)
             {
+                // ゲームクリアのスイッチオン
                 data.IsDone = true;
             }
         }
@@ -40,11 +43,10 @@ namespace Self.Game
         readonly Runner bossActivate = new();
         void Spawn()
         {
-            if (!data.IsActiveWave(2))
-            {
-                return;
-            }
+            // ウェーブ2がアクティブじゃなかったらリターン
+            if (!data.IsActiveWave(2)) return;
 
+            // ボス関連のやつを表示する
             bossActivate.RunOnce(() => bossRelated.SetActives(true));
         }
     }

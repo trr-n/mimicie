@@ -15,7 +15,6 @@ namespace Self.Game
         void Start()
         {
             audio = GetComponent<AudioSource>();
-
             playerHP = Gobject.GetWithTag<HP>(Constant.Player);
         }
 
@@ -23,12 +22,14 @@ namespace Self.Game
         {
             if (info.Compare(Constant.EnemyBullet))
             {
+                // 音鳴らす
                 audio.PlayOneShot(parrySE);
 
                 // 成功したら5%回復
                 int amount = Numeric.Percent(playerHP.Max, 5);
                 playerHP.Healing(amount);
 
+                // タマ消す
                 info.Destroy();
             }
         }

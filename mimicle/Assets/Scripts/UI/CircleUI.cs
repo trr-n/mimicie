@@ -13,7 +13,8 @@ namespace Self.Game
 
         void Update()
         {
-            timeT.text = Score.CurrentTime.ToString();
+            // timeT.SetText(Numeric.Cutail(Score.CurrentTime));
+            timeT.SetText(Score.CurrentTime);
         }
     }
 }

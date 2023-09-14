@@ -161,7 +161,7 @@ namespace Self.Game
         void Update()
         {
             Both();
-            Dead();
+            Die();
 
             bossUI.UpdateBossUI();
         }
@@ -169,8 +169,13 @@ namespace Self.Game
         /// <summary>
         /// 死亡処理
         /// </summary>
-        void Dead()
+        void Die()
         {
+#if DEBUG
+            if (Inputs.Down(KeyCode.F1))
+                boss.hp.Damage(boss.hp.Max);
+#endif
+
             if (boss.hp.IsZero)
             {
                 terminate.RunOnce(() => manager.End());
@@ -302,23 +307,27 @@ namespace Self.Game
 
         void Lv3()
         {
-            if (!IsCurrentActiveLevel(Level.Third))
-            {
-                return;
-            }
+            // ウェーブ3がアクティブだったらリターンしない
+            if (!IsCurrentActiveLevel(Level.Third)) return;
 
             currentActiveLevel = 2;
 
+            // ninjaが生成可能なら
             if (ninjable)
             {
+                // ninjaのX座標
                 float spawnPosX = Rand.Float(player.hp.gameObject.transform.position.x, 5);
+
+                // ninjaを生成
                 ninjaObj = mobs[4].Generate(new(spawnPosX, transform.position.y));
 
                 ninjable = false;
             }
 
+            // ninjaがぬるだったら(倒されていたら)
             if (ninjaObj == null)
             {
+                // 生成可能に
                 ninjable = true;
             }
         }
@@ -326,21 +335,20 @@ namespace Self.Game
         readonly Runner special = new();
         void Lv4()
         {
-            if (!IsCurrentActiveLevel(Level.Fourth))
-            {
-                return;
-            }
+            // 4さん、アクティブ、です、かー？
+            if (!IsCurrentActiveLevel(Level.Fourth)) return;
 
             currentActiveLevel = 3;
 
+            // 特別な処理を一回だけ実行
             special.RunOnce(() =>
             {
-                if (Gobject.TryGetWithTag(out Player player, Constant.Player))
+                if (Gobject.TryWithTag(out Player player, Constant.Player))
                 {
-                    if (player.CurrentGunGrade == 1 &&
-                        mobs[3].Generate().TryGetComponent(out Spide spide))
+                    var mob3 = mobs[3].Generate();
+                    if (player.CurrentGunGrade == 1 && mob3.TryGetComponent(out Spide spide))
                     {
-                        int activate = Lottery.Weighted(1, 25, 50);
+                        var activate = Lottery.Weighted(1, 25, 50);
                         spide.SetLevel(activate);
                     }
                 }

@@ -73,8 +73,7 @@ namespace Sample
                 from enemy in enemies
                 where enemy.GetComponent<HP>().Current < 0
                 orderby Vector3.Distance(transform.position, enemy.transform.position)
-                select enemy
-                )
+                select enemy)
                 .FirstOrDefault();
 
             if (nearestEnemy != null)

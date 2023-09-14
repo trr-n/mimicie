@@ -8,12 +8,10 @@ namespace Self.Game
     {
         void Update()
         {
-            ParticleSystem[] particles = FindObjectsOfType<ParticleSystem>();
+            var particles = FindObjectsOfType<ParticleSystem>();
 
-            if (particles is null)
-            {
-                return;
-            }
+            // particlesがからっぽやったら帰る
+            if (particles is null) { return; }
 
             foreach (var particle in particles)
             {

@@ -1407,7 +1407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 25.634998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &566802821
@@ -1437,7 +1437,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 52
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d8ac9a12287e841bfac9e83f080cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves: 0
+  waves: 2
   waveObjs:
   - {fileID: 286884585}
   - {fileID: 1736559679}
@@ -3553,6 +3553,7 @@ GameObject:
   - component: {fileID: 1601746599}
   - component: {fileID: 1601746604}
   - component: {fileID: 1601746605}
+  - component: {fileID: 1601746606}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -3685,6 +3686,18 @@ MonoBehaviour:
   gauge: {fileID: 477931474}
   text: {fileID: 1498237240}
   bossHp: {fileID: 1993262159}
+--- !u!114 &1601746606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601746598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727a07d2f072d554897d58cc2cd6fd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1642189657
 PrefabInstance:
   m_ObjectHideFlags: 0

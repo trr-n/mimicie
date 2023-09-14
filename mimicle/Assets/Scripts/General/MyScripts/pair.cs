@@ -30,10 +30,7 @@ namespace Self.Utils
 
         public Pairs() { }
 
-        public object this[int index]
-        {
-            get { return new Pairs<TKey, TValue>[index]; }
-        }
+        public object this[int index] => new Pairs<TKey, TValue>[index];
 
         public Pairs(int capacity)
         {
@@ -68,24 +65,19 @@ namespace Self.Utils
 
         public void Remove(int removeIndex)
         {
-            if (removeIndex > count)
-            {
-                throw new IndexOutOfRangeException();
-            }
+            if (removeIndex > count) throw new IndexOutOfRangeException();
 
             TKey[] keys = new TKey[capacity];
             TValue[] values = new TValue[capacity];
 
             for (int index = 0; index < count - 1; index++)
             {
-                if (index == removeIndex)
-                {
-                    continue;
-                }
+                if (index == removeIndex) continue;
 
                 keys[index] = this.keys[index];
                 values[index] = this.values[index];
             }
+
             this.keys = keys;
             this.values = values;
             count--;

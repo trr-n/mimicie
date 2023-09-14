@@ -84,22 +84,21 @@ namespace Self.Game
             ChangeSprite();
         }
 
+        /// <summary>
+        /// 始めるか始めないかは、あなた次第。
+        /// </summary>
         void ChangeSprite()
         {
             if (Inputs.Down(Constant.ChangeLogo))
             {
-                if (sr.Compare(logos[0]))
-                {
-                    sr.SetSprite(logos[1]);
-                }
-
-                else if (sr.Compare(logos[1]))
-                {
-                    sr.SetSprite(logos[0]);
-                }
+                if (sr.Compare(logos[0])) { sr.SetSprite(logos[1]); }
+                else if (sr.Compare(logos[1])) { sr.SetSprite(logos[0]); }
             }
         }
 
+        /// <summary>
+        /// ロゴ回転
+        /// </summary>
         void Rotation()
         {
             if (isMouseOverOnLogo)
@@ -112,41 +111,69 @@ namespace Self.Game
             transform.Rotate(new(0, 0, speeds.LogoRotate * Time.deltaTime));
         }
 
+        /// <summary>
+        /// カーソルがロゴを触っていたら
+        /// </summary>
         void MouseOver()
         {
             Vector3 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // カーソルのいちに例のごとくレイをﾁｭｲｰﾝ
             var hit = Physics2D.Raycast(cursorPos, Vector2.up, 1);
 
+            // ロゴにふれていたら
             if (hit && hit.collider.gameObject.name == Constant.Logo)
             {
+                // 触れてるアピール
                 isMouseOverOnLogo = true;
+
+                // サイズを10%でかくする
                 transform.localScale = Vector3.Lerp(transform.localScale, scale * 1.1f, 20 * Time.deltaTime);
 
+                // 左指でポチッとされたら
                 if (Inputs.Down(0))
                 {
+                    // ポチ音ならす
                     speaker.PlayOneShot(clicks.Choice3());
+
+                    // テキストの色変える
                     ChangeTextsColor(clickT);
                 }
             }
 
+            // シャゲキンTV始まったら
             else if (Inputs.Down(Constant.Fire))
             {
+                // 打鍵音を遊ぶ
                 speaker.PlayOneShot(presses.Choice3());
+
+                // もじいろあいちぇんじ
                 ChangeTextsColor(pressT);
             }
 
+            // カーソルがふれてなかったら
             if (!(hit && hit.collider.gameObject.name == Constant.Logo))
             {
+                // 触れてないから流石に触れてるアピールはしない
                 isMouseOverOnLogo = false;
+
+                // 触れてるアピールはしないけど回転して存在をアピールする
                 transform.localScale = Vector3.Lerp(transform.localScale, scale, 30 * Time.deltaTime);
             }
 
+            // お洒落たら
             if (isActivated)
             {
+                // 遷移するまで計測するやつスタート
                 transitionTimer.Start();
-                if (transitionTimer.SecondF() >= clickToTransition && timerFlag)
+
+                // 遷移あじまるあじまる
+                if (transitionTimer.sf >= clickToTransition && timerFlag)
                 {
+                    // 色褪せてもらう
                     StartCoroutine(FadingOutPanel());
+
+                    // OFF.
                     timerFlag = false;
                 }
             }

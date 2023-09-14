@@ -7,13 +7,12 @@ namespace Self.Game
         [SerializeField]
         int max = 10;
 
-        int remain;
-
         /// <summary>
         /// 最大装弾数
         /// </summary>
         public int Max => max;
 
+        int remain;
         /// <summary>
         /// 残弾数
         /// </summary>
@@ -40,11 +39,7 @@ namespace Self.Game
         public void Reduce(int amount = 1)
         {
             remain -= amount;
-
-            if (remain <= 0)
-            {
-                remain = 0;
-            }
+            if (remain <= 0) { remain = 0; }
         }
 
         /// <summary>
@@ -52,10 +47,7 @@ namespace Self.Game
         /// </summary>
         public void Reload()
         {
-            if (IsMax())
-            {
-                return;
-            }
+            if (IsMax()) { return; }
 
             for (ushort count = 0; count <= max; count++)
             {
@@ -63,10 +55,7 @@ namespace Self.Game
                 remain++;
             }
 
-            if (remain >= 10)
-            {
-                remain = max;
-            }
+            if (remain >= 10) { remain = max; }
         }
     }
 }

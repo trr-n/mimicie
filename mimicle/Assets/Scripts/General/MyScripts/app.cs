@@ -1,8 +1,5 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using static UnityEngine.Application;
-using static UnityEngine.QualitySettings;
-using static UnityEngine.Cursor;
 
 namespace Self.Utils
 {
@@ -13,29 +10,21 @@ namespace Self.Utils
     public class App
     {
         public static void SetFPS(int fps = -1) => targetFrameRate = fps;
-        public static void SetFPS(FrameRate fps)
-        {
-            switch (fps)
-            {
-                case FrameRate.VSync:
-                    vSyncCount = 1;
-                    break;
-                default:
-                    vSyncCount = 0;
-                    targetFrameRate = (int)fps;
-                    break;
-            }
-        }
+        public static void SetFPS(FrameRate fps) => targetFrameRate = (int)fps;
         public static float GetFPS => Mathf.Floor(1 / Time.deltaTime);
 
         public static void SetGravity(Vector3 gravity) => Physics2D.gravity = gravity;
+        public static Vector2 GetGravity => Physics2D.gravity;
 
         public static void SetCursorStatus(CursorAppearance appear, CursorRangeOfMotion rangeOfMotion)
         {
-            visible = appear == CursorAppearance.Visible;
-            lockState = (CursorLockMode)rangeOfMotion;
+            Cursor.visible = appear == CursorAppearance.Visible;
+            Cursor.lockState = (CursorLockMode)rangeOfMotion;
         }
 
+        public static float GetTimeScale => Time.timeScale;
         public static bool CurrentTimeScale(float scale) => Time.timeScale == scale;
+
+        public static string GetDevice => platform.ToString();
     }
 }

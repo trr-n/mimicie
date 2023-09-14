@@ -1,15 +1,19 @@
+// ■■■■■■■■■■■■■■■■■■■■■■■■
+// 学校提供平成大学スクリプト
+// ■■■■■■■■■■■■■■■■■■■■■■■■
+
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Self.Utils
 {
-    public class RijndaelEncryption : IEncryption
+    public class Rijndael : IEncryption
     {
         readonly string password;
         readonly (int bufferKey, int block, int key) size;
 
-        public RijndaelEncryption(
+        public Rijndael(
             string password, int bufferKey = 32, int blockSize = 256, int keySize = 256)
         {
             this.password = password;
@@ -20,11 +24,13 @@ namespace Self.Utils
 
         public byte[] Encrypt(byte[] src)
         {
-            RijndaelManaged rijndaelManaged = new();
-            rijndaelManaged.BlockSize = size.block;
-            rijndaelManaged.KeySize = size.key;
-            rijndaelManaged.Mode = CipherMode.CBC;
-            rijndaelManaged.Padding = PaddingMode.PKCS7;
+            RijndaelManaged rijndaelManaged = new()
+            {
+                BlockSize = size.block,
+                KeySize = size.key,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7
+            };
 
             Rfc2898DeriveBytes deriveBytes = new(password, size.bufferKey);
             byte[] salt = deriveBytes.Salt;
@@ -45,13 +51,16 @@ namespace Self.Utils
 
         public byte[] Decrypt(byte[] src)
         {
-            RijndaelManaged rijndaelManaged = new();
-            rijndaelManaged.BlockSize = size.block;
-            rijndaelManaged.KeySize = size.key;
-            rijndaelManaged.Mode = CipherMode.CBC;
-            rijndaelManaged.Padding = PaddingMode.PKCS7;
+            RijndaelManaged rijndaelManaged = new()
+            {
+                BlockSize = size.block,
+                KeySize = size.key,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7
+            };
 
             List<byte> compile = new(src);
+
             List<byte> salt = compile.GetRange(0, size.bufferKey);
             rijndaelManaged.IV = compile.GetRange(size.bufferKey, size.bufferKey).ToArray();
 
@@ -60,10 +69,8 @@ namespace Self.Utils
 
             int index = size.bufferKey * 2, count = compile.Count - (size.bufferKey * 2);
             byte[] plain = compile.GetRange(index, count).ToArray();
-            using (ICryptoTransform decrypt = rijndaelManaged.CreateDecryptor(rijndaelManaged.Key, rijndaelManaged.IV))
-            {
-                return decrypt.TransformFinalBlock(plain, 0, plain.Length);
-            }
+            using ICryptoTransform decrypt = rijndaelManaged.CreateDecryptor(rijndaelManaged.Key, rijndaelManaged.IV);
+            return decrypt.TransformFinalBlock(plain, 0, plain.Length);
         }
 
         public string DecryptToString(byte[] src) => Encoding.UTF8.GetString(Decrypt(src));

@@ -56,9 +56,6 @@ namespace Self.Game
         ushort count = 0;
         public ushort Count => count;
 
-        [SerializeField]
-        UnityEngine.UI.Text debug;
-
         void Start()
         {
             parryObj.SetActive(false);
@@ -66,11 +63,6 @@ namespace Self.Game
 
         void Update()
         {
-            if (debug != null)
-            {
-                debug.text = "CT: " + CTs[wdata.CurrentActive] + "\nNow: " + Timer;
-            }
-
             MakeParry();
             isParrying = parryObj.IsActive(Active.Self);
         }
@@ -80,24 +72,39 @@ namespace Self.Game
         /// </summary>
         void MakeParry()
         {
+            // クールタイムおわってて、パリィボタン押されたら
             if (cooltimer.sf >= CTs[wdata.CurrentActive] && Inputs.Down(Constant.Parry))
             {
+                // カウントアーップ！
                 count++;
 
+                // タイマーリセット
                 cooltimer.Reset();
+
+                // ぱりーの表示
                 parryObj.SetActive(true);
+
+                // 持続時間計測用ストップウォッチスタート
                 durationSW.Start();
             }
 
+            // 持続中じゃなかったら
             if (durationSW.isRunning && durationSW.sf >= Duration)
             {
+                // ぱりー非表示に
                 parryObj.SetActive(false);
+
+                // 持続時間計測すとっぷうぉっちリセット
                 durationSW.Reset();
+
+                // ぱりぃーークールタイム計測かいし
                 cooltimer.Start();
             }
 
+            // クールタイマーランニング中で、上限以上だったら
             if (cooltimer.isRunning && cooltimer.sf >= CTs[wdata.CurrentActive])
             {
+                // タイマー停止
                 cooltimer.Stop();
             }
         }

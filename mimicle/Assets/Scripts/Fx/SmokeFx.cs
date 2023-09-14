@@ -7,12 +7,7 @@ namespace Self.Game
     {
         readonly Stopwatch effectStopwatch = new(true);
 
-        void Update()
-        {
-            if (effectStopwatch.sf >= 1.5f)
-            {
-                GetComponent<ParticleSystem>().Stop();
-            }
-        }
+        // スモーカーが現れてから1.5秒たったら処刑
+        void Update() { if (effectStopwatch.sf >= 1.5f) { GetComponent<ParticleSystem>().Stop(); } }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Self.Utils
@@ -53,5 +55,7 @@ namespace Self.Utils
         }
 
         public static int GetEnumLength<T>(this T t) => Enum.GetNames(typeof(T)).Length;
+
+        public static float g => 9.81f;
     }
 }

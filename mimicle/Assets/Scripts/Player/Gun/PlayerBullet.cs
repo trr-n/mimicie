@@ -14,10 +14,13 @@ namespace Self.Game
         new AudioSource audio;
 
         /// <summary>
-        /// 進行方向
+        /// 弾の進行方向
         /// </summary>
         Vector2 direction;
 
+        /// <summary>
+        /// 弾速
+        /// </summary>
         readonly float speed = 20;
 
         void Start()
@@ -32,36 +35,39 @@ namespace Self.Game
             Move(speed);
         }
 
-        protected override void Move(float speed)
-        {
-            transform.Translate(Time.deltaTime * speed * direction);
-        }
+        protected override void Move(float speed) => transform.Translate(Time.deltaTime * speed * direction);
 
         protected override void TakeDamage(Collision2D info)
         {
+            // HPをもつ敵にあたったら
             if (info.Try(out HP hp))
             {
-                // Player player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
-                Player player = Gobject.GetWithTag<Player>(Constant.Player);
-                hp.Damage(info.gameObject.name.Contains("boss") ?
+                var player = Gobject.GetWithTag<Player>(Constant.Player);
+                // 当たった相手がボスだったら三分の一のダメージじゃなかったらそのまま
+                int amount = info.Contain("boss") ?
                     Numeric.Round(Constant.Damage.Player[player.CurrentGunGrade] / 3, 0) :
-                    Constant.Damage.Player[player.CurrentGunGrade]
-                );
+                    Constant.Damage.Player[player.CurrentGunGrade];
+
+                hp.Damage(amount);
             }
         }
 
         void OnCollisionEnter2D(Collision2D info)
         {
+            // てきにあたったら
             if (info.Compare(Constant.Enemy))
             {
-                try
-                {
-                    audio.PlayOneShot(hitSounds.Choice3());
-                }
+                // 音をならす
+                try { audio.PlayOneShot(hitSounds.Choice3()); }
                 catch { }
+
+                // えふぇくとを出す
                 effect.Generate(transform.position, Quaternion.identity);
 
+                // ダメージを与える
                 TakeDamage(info);
+
+                // じさつ
                 Destroy(gameObject);
             }
         }

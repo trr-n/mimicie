@@ -52,11 +52,6 @@ namespace Self.Game
             App.SetGravity(Vector3.zero);
         }
 
-        void Update()
-        {
-            print(App.GetFPS);
-        }
-
         /// <summary>
         /// プレイヤーの死亡処理
         /// 複数回実行禁止

@@ -13,7 +13,7 @@ namespace Self.Game
 
         public static int CurrentScore => now;
 
-        public static int CurrentTime => Numeric.Cutail(timer.sf);
+        public static float CurrentTime => timer.sf;
 
         public static void StopTimer() => timer.Stop();
         public static void StartTimer() => timer.Start();
@@ -26,18 +26,16 @@ namespace Self.Game
     public class ResultData
     {
         public int score;
-        public int time;
-        public int parryUseCount;
-        public int parrySuccessCount;
+        public float time;
+        // public int parryUseCount;
+        // public int parrySuccessCount;
 
-        public ResultData() { }
-
-        public ResultData(int score, int time, int parryUseCount, int parrySuccessCount)
+        public ResultData(int score, float time)//, int parryUsedCount, int parrySuccessCount)
         {
             this.score = score;
             this.time = time;
-            this.parryUseCount = parryUseCount;
-            this.parrySuccessCount = parrySuccessCount;
+            // this.parryUseCount = parryUsedCount;
+            // this.parrySuccessCount = parrySuccessCount;
         }
     }
 }

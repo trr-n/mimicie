@@ -17,7 +17,7 @@ namespace Self.Test
 
         void Update()
         {
-            if (sw.Second() > 5)
+            if (sw.s > 5)
             {
                 sw.Restart();
             }

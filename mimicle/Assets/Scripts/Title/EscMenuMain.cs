@@ -10,6 +10,7 @@ namespace Self.Game
     {
         [SerializeField]
         Material blur;
+
         [SerializeField]
         GameObject[] buttons;
 
@@ -21,6 +22,9 @@ namespace Self.Game
 
         enum f { fin, fout }
 
+        /// <summary>
+        /// 待て,リアルのネーム
+        /// </summary>
         const string MatName = "_Blur";
 
         void Start()
@@ -39,6 +43,11 @@ namespace Self.Game
             }
         }
 
+        /// <summary>
+        /// すごい速度で色褪せるよーん
+        /// </summary>
+        /// <param name="ff">画面のフェード、インするか、アウトするか。</param>
+        /// <returns></returns>
         IEnumerator Fade(f ff)
         {
             float alpha;
